@@ -111,6 +111,7 @@ CC BY-NC 4.0 — free for non-commercial research and educational use. See [LICE
 3. **What is the basin structure of Φ(M) = tanh(αM + βM²/k)?** How many distinct eigenforms exist for k=4? How well-separated are the basins? The capacity of the system depends on this landscape geometry.
 4. **Can the eigenform landscape provide structural zero-forgetting guarantees?** If perturbations within a basin don't cross basin boundaries, old eigenforms are preserved. Under what conditions does this hold?
 5. **What is the right balance between perturbation absorption (learning) and eigenform recovery (stability)?** Current results show the recovery may wash out learned updates, limiting accuracy.
+6. **Does the matrix substrate classify better than nearest-prototype, or just differently?** Perturbation-stability classification may be prototype matching with a different distance function. If it doesn't outperform cosine-similarity nearest-prototype on the same frozen features, the matrix dynamics are just a more expensive way to do the same thing. This is the hardest open question.
 
 ## How to Contribute
 
