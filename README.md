@@ -78,6 +78,23 @@ pytest tests/test_manytofew.py
 
 CC BY-NC 4.0 — free for non-commercial research and educational use. See [LICENSE](LICENSE).
 
+## Known Issues
+
+- **Matrix layer is dead for classification.** In `foldcore_manytofew.py`, the `classify()` method reads only the codebook. The matrix layer (RK cells, coupling, eigenform dynamics) does not contribute to classification output. Removing all 8 matrix cells produces identical classification results. The matrix layer may still be relevant for generation, but this has not been rigorously validated.
+- **Training/inference mismatch.** The codebook trains with hard assignment (nearest-prototype update) but classifies with hard or soft readout. Soft readout (softmax attention) on a hard-trained codebook fails — the energy landscape is too flat because prototypes were shaped for hard matching. This is the core structural limitation.
+- **Zero forgetting is trivial in attractive-only mode.** Prototypes are never overwritten or repelled, so old prototypes are preserved by construction. Any nearest-prototype method with append-only storage achieves this. The gradient update (which repels wrong-class prototypes) breaks zero forgetting.
+- **Readout is the bottleneck.** The codebook stores information effectively (48K prototypes, full coverage) but reads it weakly. 1-NN over high-dimensional prototypes is a weak classifier compared to learned decision boundaries. This explains most of the accuracy gap vs SOTA.
+- **Frozen feature dependence.** All reported benchmarks use frozen feature extractors (random projection for P-MNIST, frozen ResNet-18 for CIFAR-100). The system has not been tested with end-to-end learned features.
+- **Merge is untested at scale.** `merge_thresh=0.95` at `d=512` produces 0 merges in practice. The self-compression property (codebook shrinks as redundancy is absorbed) has not been demonstrated.
+
+## Open Questions
+
+1. Is this a rediscovery of dictionary learning, sparse coding, or online vector quantization? The individual components (prototype vectors, nearest-neighbor update, cosine similarity) are well-known. What, if anything, is new in the combination?
+2. Can the training rule and inference rule be made literally identical (not just similar)? The `atomic_fold.py` attempts this with softmax attention for both, but results are preliminary.
+3. Does iterative self-retrieval (generation via `r_{t+1} = reconstruct(r_t)`) produce meaningful output, or does it collapse to a fixed point?
+4. Is per-prototype confidence (`kappa` in `atomic_fold.py`) genuinely novel, or is it a mixture model with online EM?
+5. Can the birth/scale/compression lifecycle (spawn→grow→merge) be demonstrated as a formal system property on real data?
+
 ## Status
 
-Active research. The system works for continual learning with structural zero forgetting (attractive-only mode) or higher accuracy with nonzero forgetting (gradient mode). Accuracy lags gradient-based methods. The architecture is evolving.
+Active research. The architecture is evolving. Accuracy lags gradient-based continual learning methods. Contributions, critique, and analysis are welcome — especially on the open questions above.
