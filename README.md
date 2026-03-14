@@ -27,11 +27,18 @@ Two implementations:
 - Many-to-few routing: codebook vectors assign to matrix cells at spawn time
 - Dependencies: `src/rk.py` (matrix utilities)
 
-### `src/atomic_fold.py` — Experimental unified kernel (GPU, PyTorch)
+### `src/atomic_fold.py` — Hopfield-equivalent kernel (GPU, PyTorch) [DEPRECATED]
 - Single codebook with per-prototype confidence weights (kappa)
 - Softmax attention for both training updates and classification
 - Energy-gated spawning via Hopfield energy
-- No matrix layer, no routing
+- **This is mathematically identical to a modern Hopfield network** (Ramsauer et al. 2020). The logsumexp energy, softmax attention, and attractor dynamics are Hopfield's math. Kept for reference, not active development.
+
+### `src/eigenfold.py` — Matrix codebook with eigenform dynamics (CPU, pure Python) [ACTIVE]
+- Codebook elements are k×k matrices (not vectors), each seeking eigenform Φ(M) = tanh(αM + βM²/k)
+- Classification by **perturbation stability**: input is cross-applied with each element, most stable element (smallest perturbation) wins
+- Matrix interactions are **noncommutative** (M_i·M_j ≠ M_j·M_i) — this breaks the symmetry that makes vector-based systems equivalent to Hopfield
+- Fold lifecycle: spawn when no element is stable, update winner via cross-application, eigenform recovery after update
+- Dependencies: `src/rk.py` (matrix utilities)
 
 ## Benchmark Results
 
@@ -84,20 +91,26 @@ CC BY-NC 4.0 — free for non-commercial research and educational use. See [LICE
 
 ## Known Issues
 
-- **Matrix layer is dead for classification.** In `foldcore_manytofew.py`, the `classify()` method reads only the codebook. The matrix layer (RK cells, coupling, eigenform dynamics) does not contribute to classification output. Removing all 8 matrix cells produces identical classification results. The matrix layer may still be relevant for generation, but this has not been rigorously validated.
-- **Training/inference mismatch.** The codebook trains with hard assignment (nearest-prototype update) but classifies with hard or soft readout. Soft readout (softmax attention) on a hard-trained codebook fails — the energy landscape is too flat because prototypes were shaped for hard matching. This is the core structural limitation.
-- **Zero forgetting is trivial in attractive-only mode.** Prototypes are never overwritten or repelled, so old prototypes are preserved by construction. Any nearest-prototype method with append-only storage achieves this. The gradient update (which repels wrong-class prototypes) breaks zero forgetting.
-- **Readout is the bottleneck.** The codebook stores information effectively (48K prototypes, full coverage) but reads it weakly. 1-NN over high-dimensional prototypes is a weak classifier compared to learned decision boundaries. This explains most of the accuracy gap vs SOTA.
-- **Frozen feature dependence.** All reported benchmarks use frozen feature extractors (random projection for P-MNIST, frozen ResNet-18 for CIFAR-100). The system has not been tested with end-to-end learned features.
-- **Merge is untested at scale.** `merge_thresh=0.95` at `d=512` produces 0 merges in practice. The self-compression property (codebook shrinks as redundancy is absorbed) has not been demonstrated.
+### Vector codebook (`foldcore_manytofew.py`, `atomic_fold.py`)
+- **Matrix layer is dead for classification.** The `classify()` method reads only the codebook. Removing all matrix cells produces identical results.
+- **`atomic_fold.py` is a modern Hopfield network.** The softmax attention, logsumexp energy, and attractor dynamics are mathematically identical to Ramsauer et al. 2020. This was identified by external review. Any results characterize Hopfield behavior, not a new system.
+- **Zero forgetting is trivial in attractive-only mode.** Append-only storage preserves old prototypes by construction.
+- **Readout is the bottleneck.** 1-NN over prototypes is a weak classifier. The codebook stores well but reads poorly.
+
+### Matrix codebook (`eigenfold.py`) — current direction
+- **Early stage.** 100% accuracy on toy data (3 well-separated Gaussian clusters), 22% on P-MNIST 2-task (vs 10% random). The mechanism works but accuracy is low.
+- **Threshold calibration is fragile.** Spawn threshold must be tuned per dataset — too low spawns every sample, too high spawns nothing.
+- **Update dynamics need work.** Eigenform recovery may wash out learned updates. The balance between perturbation absorption (learning) and eigenform recovery (stability) is unresolved.
+- **Frozen feature dependence.** All benchmarks use frozen feature extractors.
+- **Merge not implemented.** Self-compression is theorized but not built or tested.
 
 ## Open Questions
 
-1. Is this a rediscovery of dictionary learning, sparse coding, or online vector quantization? The individual components (prototype vectors, nearest-neighbor update, cosine similarity) are well-known. What, if anything, is new in the combination?
-2. Can the training rule and inference rule be made literally identical (not just similar)? The `atomic_fold.py` attempts this with softmax attention for both, but results are preliminary.
-3. Does iterative self-retrieval (generation via `r_{t+1} = reconstruct(r_t)`) produce meaningful output, or does it collapse to a fixed point?
-4. Is per-prototype confidence (`kappa` in `atomic_fold.py`) genuinely novel, or is it a mixture model with online EM?
-5. Can the birth/scale/compression lifecycle (spawn→grow→merge) be demonstrated as a formal system property on real data?
+1. **Is EigenFold's perturbation-stability classification a known mechanism?** Classification by "which element is least perturbed by cross-application" — does this exist in the literature? Closest candidates: ART resonance (but ART uses input-template matching, not self-referential eigenform recovery).
+2. **Does noncommutative matrix interaction genuinely escape Hopfield?** Vector-based systems with symmetric pairwise interactions reduce to Hopfield. Matrix cross-application (M_i·M_j ≠ M_j·M_i) breaks this symmetry. Is the resulting system in a fundamentally different complexity class, or does it reduce to something known?
+3. **What is the basin structure of Φ(M) = tanh(αM + βM²/k)?** How many distinct eigenforms exist for k=4? How well-separated are the basins? The capacity of the system depends on this landscape geometry.
+4. **Can the eigenform landscape provide structural zero-forgetting guarantees?** If perturbations within a basin don't cross basin boundaries, old eigenforms are preserved. Under what conditions does this hold?
+5. **What is the right balance between perturbation absorption (learning) and eigenform recovery (stability)?** Current results show the recovery may wash out learned updates, limiting accuracy.
 
 ## How to Contribute
 
