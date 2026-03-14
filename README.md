@@ -1,8 +1,10 @@
 # FoldCore
 
-A codebook-based learning system that processes data in a single pass with no backpropagation, no replay buffer, and no separate training/inference phases.
+A **prototype-vector codebook** for continual learning. Maintains unit vectors on the hypersphere, classifies via nearest-prototype or weighted k-NN, and learns in a single pass with no backpropagation.
 
-**This is active research with known structural problems. We are looking for aggressive, constructive review.** If you can identify what this system actually is (or isn't), where the math breaks down, or whether any of this is genuinely new — we want to hear it. See [Known Issues](#known-issues) and [Open Questions](#open-questions).
+The core data structure is a growing list of unit vectors in R^d. The core operations are: spawn a new prototype (when input is novel), update the nearest prototype (additive attraction), merge redundant prototypes (fuse when cosine > threshold), and classify (vote across nearest prototypes). All benchmarks use frozen feature extractors — the system operates on pre-extracted embeddings, not raw pixels.
+
+**This is active research with known structural problems. We are looking for aggressive, constructive review.** Read the source code — there are four files in `src/`, all under 400 lines. If you can identify what this system actually is (or isn't), where the math breaks down, or whether any of this is genuinely new — open an issue. See [Known Issues](#known-issues) and [Open Questions](#open-questions).
 
 ## What It Does
 
