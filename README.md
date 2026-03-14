@@ -1,10 +1,10 @@
-# FluxCore
+# FoldCore
 
 A codebook-based learning system that processes data in a single pass with no backpropagation, no replay buffer, and no separate training/inference phases.
 
 ## What It Does
 
-FluxCore maintains a growing set of prototype vectors on the unit hypersphere. When input arrives:
+FoldCore maintains a growing set of prototype vectors on the unit hypersphere. When input arrives:
 
 - **Spawn**: if no existing prototype is similar enough (cosine < threshold), a new prototype is created
 - **Update**: the nearest prototype moves toward the input
@@ -17,7 +17,7 @@ Every input modifies the system. There is no read-only inference mode.
 
 Two implementations:
 
-### `src/fluxcore_manytofew.py` — Canonical kernel (CPU, pure Python)
+### `src/foldcore_manytofew.py` — Canonical kernel (CPU, pure Python)
 - Codebook layer: unit vectors in R^d, spawn/update/merge dynamics
 - Matrix layer: fixed cells with eigenform dynamics (RK), coupled. Handles generation.
 - Many-to-few routing: codebook vectors assign to matrix cells at spawn time
@@ -37,8 +37,8 @@ All results use frozen feature extractors (no end-to-end training).
 
 | Method | Avg Accuracy | Forgetting |
 |--------|-------------|------------|
-| FluxCore (attractive-only, 1-NN) | 56.7% | 0.0pp |
-| FluxCore (full gradient, 1-NN) | 84.1% | 11.4pp |
+| FoldCore (attractive-only, 1-NN) | 56.7% | 0.0pp |
+| FoldCore (full gradient, 1-NN) | 84.1% | 11.4pp |
 | Fine-tune baseline | ~52.5% | ~47pp |
 | EWC | ~95.3% | ~2pp |
 
@@ -46,21 +46,21 @@ All results use frozen feature extractors (no end-to-end training).
 
 | Method | Avg Accuracy | Forgetting |
 |--------|-------------|------------|
-| FluxCore (full gradient, k=10 weighted) | 36.6% | 12.9pp |
-| FluxCore (full gradient, 1-NN) | 33.5% | 12.6pp |
-| FluxCore (attractive-only, 1-NN) | 32.3% | 12.5pp |
+| FoldCore (full gradient, k=10 weighted) | 36.6% | 12.9pp |
+| FoldCore (full gradient, 1-NN) | 33.5% | 12.6pp |
+| FoldCore (attractive-only, 1-NN) | 32.3% | 12.5pp |
 | EWC | ~33% | ~16pp |
 | DER++ | ~51% | ~8pp |
 
 ### Notes on results
 - The attractive-only update rule produces structural zero forgetting (0.0pp) because prototypes are never overwritten. The gradient update breaks this by repelling wrong-class prototypes.
 - Accuracy gaps vs EWC/DER++ are due to nearest-prototype readout vs learned decision boundaries, not memory failure.
-- Published baselines use 60K samples/task (MNIST) and full training pipelines. FluxCore uses 6K/task with random projection.
+- Published baselines use 60K samples/task (MNIST) and full training pipelines. FoldCore uses 6K/task with random projection.
 
 ## Requirements
 
 - Python 3.8+
-- `src/fluxcore_manytofew.py`: no dependencies beyond stdlib
+- `src/foldcore_manytofew.py`: no dependencies beyond stdlib
 - `src/atomic_fold.py`: PyTorch with CUDA
 - Tests: pytest, numpy
 

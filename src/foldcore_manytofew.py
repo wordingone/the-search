@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FluxCore Many-to-Few Kernel — Canonical Implementation
+FoldCore Many-to-Few Kernel — Canonical Implementation
 
 Architecture: two decoupled layers.
 
@@ -73,7 +73,7 @@ from rk import (mzero, madd, msub, mscale, mmul, mtanh, frob,
 
 class ManyToFewKernel:
     """
-    Many-to-few FluxCore kernel. See module docstring for architecture details.
+    Many-to-few FoldCore kernel. See module docstring for architecture details.
 
     Parameters
     ----------

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-FluxCore TorchCodebook — CUDA-accelerated codebook layer.
+FoldCore TorchCodebook — CUDA-accelerated codebook layer.
 
-Same algorithm as NumpyCodebook (and the codebook layer of fluxcore_manytofew.py):
+Same algorithm as NumpyCodebook (and the codebook layer of foldcore_manytofew.py):
   - Spawn: when max cosine similarity < spawn_thresh, add normalize(r)
   - Update: additive rule — v_winner += lr * r, then normalize
   - Merge: at spawn time, fuse if |cos(v_new, v_best)| > merge_thresh

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FluxCore ManyToFewKernel test suite — Step 62.
+FoldCore ManyToFewKernel test suite — Step 62.
 
 Tier 1: Unit tests (fast, no data).
 Tier 2: Regression tests (seed=42, proj_seed=999, CSI data, deterministic).
@@ -20,7 +20,7 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from fluxcore_manytofew import ManyToFewKernel, _vec_cosine
+from foldcore_manytofew import ManyToFewKernel, _vec_cosine
 from rk import frob
 
 
