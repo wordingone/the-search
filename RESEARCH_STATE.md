@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 200. MILESTONE. 10/16 adaptive (62.5%). 2 binding frozen: LOO + primitives. 100 experiments across 4 substrates.]
+TESTING: [Step 202. Random neural nets as primitive: LOO 75->90%. Primitives can collapse to one mechanism. 102 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
