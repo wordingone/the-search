@@ -6,7 +6,13 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 178. Substrate characterized across all domains. 78 experiments. Session winding toward summary.]
+TESTING: [none — Step 180. Multi-step CA: 100% at 1-3 steps, 67% at 10 steps. k-NN stores but doesn't COMPUTE. 80 experiments.]
+
+STEP 180 DEEP FINDING:
+  k-NN perfectly memorizes 1-3 step CA evolution but can't predict 5+ steps.
+  Multi-step prediction requires RULE COMPOSITION — applying the rule iteratively.
+  k-NN matches patterns; it can't compose them. This is the COMPUTATION gap.
+  The atomic substrate needs genuine computation, not just storage + retrieval.
 
 CONSTITUTIONAL PROGRESS (updated Step 175):
   Stage 1: PASS
