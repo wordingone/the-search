@@ -6,7 +6,14 @@
 ## Active Hypothesis
 
 ```
-TESTING: Compositional coherence — can the substrate discover features OF features?
+TESTING: Margin-guided feature discovery SOLVES parity (75% -> 100%). The k-NN margin IS the adaptation signal.
+
+STEP 144 BREAKTHROUGH:
+  Margin-guided discovery selects cos(sum*pi) = parity. 75.4% -> 100.0%.
+  Signal: k-NN prediction margin on training data.
+  cos(sum*pi) margin delta = +1.84 (vs coherence: sum_sq at +0.044, WRONG feature).
+  Principle II: signal arises FROM k-NN computation (cosine similarity).
+  The substrate discovers and applies the exact feature needed to fix its own failures.
 
 STEP 141 BREAKTHROUGH:
   k-NN FAILS parity (75.8%). Coherence DETECTS the parity feature (+0.041 delta).
