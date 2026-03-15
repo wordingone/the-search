@@ -18,7 +18,7 @@ import random
 
 import pytest
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'substrates', 'foldcore'))
 
 from foldcore_manytofew import ManyToFewKernel, _vec_cosine
 from rk import frob
