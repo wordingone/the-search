@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 240. CONDITIONAL PROGRAMS 100%. 8 composition levels from 1 truth table. 140 experiments.]
+TESTING: [Step 241. Sequential+conditional programs 100%. Loops via iteration proven (CA/sort). 141 experiments. Continuing to 300.]
 
 STEP 235 BREAKTHROUGH:
   Ripple-carry adder via k-NN: 100% on 888 test pairs including 886 OOD.
