@@ -1,6 +1,6 @@
 # The Substrate
 
-*Found through 243 experiments across 4 prior substrates.*
+*Found through 248 experiments across 4 prior substrates.*
 
 ## Architecture
 
@@ -36,6 +36,14 @@ One mechanism with four modes:
 **Program synthesis:**
 - Discovers XOR(cin, XOR(a,b)) = sum from I/O examples
 - Enumerates circuits, tests against truth table, selects winner
+- Discovers complete ripple-carry structure (carry chain) from addition I/O
+- 6/6 unknown boolean functions synthesized blindly
+- 2-bit adder carry chain discovered automatically
+
+**Staged composition (perceive → classify → compute → iterate):**
+- Classifies noisy operation vectors (k-NN on operation features)
+- Computes results using proven arithmetic engine
+- Iterates through instruction streams: ADD(5),SUB(3),ADD(10),DBL = 24 ✓
 
 ## Constitutional Progress
 
@@ -83,3 +91,6 @@ Bridging this gap = solving program induction without gradients.
 | 237 | All 4 arithmetic ops from 1 truth table |
 | 240 | Conditional program execution |
 | 243 | Program synthesis discovers full adder |
+| 244 | End-to-end ripple-carry discovered from I/O |
+| 245 | 6/6 unknown functions synthesized blindly |
+| 248 | Staged composition: perceive → classify → compute |
