@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 165. Iterative random features: MNIST 93.4->94.4% (+1.0pp, 4 features). Stage 4 validated. 66 experiments.]
+TESTING: [none — Step 167. LOO-scored iterative random features: parity 75.8->87.9% (5 features). Stage 4 honest. 68 experiments.]
 
 CONSTITUTIONAL ASSESSMENT (Step 158):
   Stage 1 (Autonomous Computation): PASS
