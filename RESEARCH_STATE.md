@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 156. Substrate discovers 6/10 CA rules blindly (100% on Rule 110). 59 experiments.]
+TESTING: [none — Step 157. 7/10 CA rules perfectly discovered. 60 experiments. Time for constitutional assessment.]
 
 STEPS 144-147 ARC:
   Step 144: Margin discovers cos(sum*pi)=parity. 75.4% -> 100.0%. BREAKTHROUGH.
