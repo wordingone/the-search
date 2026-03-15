@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 137. 40 experiments mapped the boundary. Non-backprop CL = k-NN. Feature discovery is the open problem.]
+TESTING: [none — Step 138. Hebbian PCA on raw CIFAR ≈ random projection. 41 experiments. Image classification may not be the right task for the atomic substrate.]
 
 STEPS 130-136 ARC:
   Coherence-guided feature discovery: works on synthetic XOR (rank 1/4950 at d=100)
