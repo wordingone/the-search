@@ -6,7 +6,14 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 192. UNIVERSAL FSM SIMULATOR: 100% on 8/16/32-state random machines. 1 feature each. 92 experiments.]
+TESTING: [Step 193. Template ceiling quantified: LOO=9-20pp (100%), template choice=0-11pp (task-dependent). 93 experiments.]
+
+STEP 193 TEMPLATE ABLATION:
+  Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
+  XOR: cos +13.8pp, abs +13.6pp, full_menu +14.4pp, mod2 +2.0pp
+  LOO selection contributes 100% of improvement regardless of template.
+  Template choice adds 0-11pp depending on task-template alignment.
+  The right SINGLE template outperforms the diversified menu.
 
 STEP 190 RESULT:
   Task: Fibonacci mod 10, raw 2D integer input
