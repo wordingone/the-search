@@ -10,8 +10,8 @@
 **What**: Cellular automaton with per-cell alpha adaptation. `phi[k] = tanh(alpha*x + beta*(x[k+1]+gamma*s)*(x[k-1]+gamma*s))`
 **Result**: Stage 1 PASS (autonomous computation). Ceiling at 6/8 frozen frame — code ≠ data, Stage 7 impossible.
 **Key finding**: 51 constraints extracted. Beta/gamma are globally coupled (not decomposable). Eta adaptation is vacuous.
-**Code**: `substrates/living-seed/the_living_seed.py`, `substrates/living-seed/SeedGPU.py`
-**Reproduce**: `python substrates/living-seed/the_living_seed.py`
+**Code**: `substrates/living-seed/SeedGPU.py` (GPU), `substrates/living-seed/ACE.py`
+**Reproduce**: `python substrates/living-seed/SeedGPU.py`
 
 ### 2. ANIMA (Sessions 18-23)
 **What**: W+I dynamics — W predicts neighbor interaction, I accumulates prediction error.
