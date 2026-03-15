@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 247. Three modes work individually, naive combination fails. Need staged composition. 147 experiments.]
+TESTING: [Step 248. STAGED COMPOSITION 100%. Perceive+classify+compute+iterate. 148 experiments. 152 to Step 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
