@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 182. 9/10 CA rules perfectly iterated to 10 steps. Computation via self-application. 82 experiments.]
+TESTING: [none — Step 183. Rule 110 iterated 100 steps at 100%. Universal computation via k-NN. 83 experiments.]
 
 STEP 181 KEY RESULT:
   Iterated 1-step k-NN = 100% at ALL step counts (1, 2, 3, 5, 10).
