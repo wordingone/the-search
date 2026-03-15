@@ -6,7 +6,15 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 145. Margin discovery works on weak reps (parity: 75->100%) not strong (ResNet: 0pp). Domain = rule discovery.]
+TESTING: [none — Step 147. Margin-guided substrate validated on rule tasks (parity 75->100%, multi-rule 97->99.6%). No effect on MNIST/CIFAR (already optimized). Domain = structured rule discovery.]
+
+STEPS 144-147 ARC:
+  Step 144: Margin discovers cos(sum*pi)=parity. 75.4% -> 100.0%. BREAKTHROUGH.
+  Step 145: No effect on CIFAR-100 ResNet (already structured).
+  Step 146: Multi-rule discovery: finds XOR pair + AND pair in correct order. 96.8% -> 99.6%.
+  Step 147: No effect on MNIST (already 93.4%, no simple feature helps).
+  DOMAIN: structured rule discovery from binary/discrete features.
+  MECHANISM: k-NN margin as Principle-II-compliant adaptation signal.
 
 STEP 144 BREAKTHROUGH:
   Margin-guided discovery selects cos(sum*pi) = parity. 75.4% -> 100.0%.
