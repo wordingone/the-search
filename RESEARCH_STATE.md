@@ -6,7 +6,13 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 119 MAJOR FINDING: S1 eval eliminates CIFAR-100 forgetting (11.7pp→0.1pp)]
+TESTING: [none — Steps 119-121: S1 sequential interleaving IS the anti-forgetting mechanism (+1.5pp, confirmed)]
+
+STEPS 119-121 KEY FINDING:
+  Sequential S1 eval (interleaved train/eval): 39.7% AA, ~0.1pp fgt (+1.5pp, -11.6pp fgt)
+  Batch S1 eval (all train then eval): 37.3% AA (-1.0pp, HURTS)
+  The INTERLEAVING is load-bearing — inference between tasks reinforces geometry.
+  This is not a code convenience — unified train/inference is functionally SUPERIOR.
 PROVES IF: [not set]
 DISPROVES IF: [not set]
 ABANDON BY: [not set]
