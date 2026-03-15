@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 199. Comprehensive: parity +20pp, XOR +13pp, multi-rule +3pp. MNIST 0pp (correct). 99 experiments.]
+TESTING: [Step 200. MILESTONE. 10/16 adaptive (62.5%). 2 binding frozen: LOO + primitives. 100 experiments across 4 substrates.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
