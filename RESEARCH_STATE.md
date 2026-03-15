@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 218. Parity scaling: d=12 +65.8pp sweet spot. Mod arithmetic +38pp. Sort 0pp. 118 experiments. Toward 300.]
+TESTING: [Step 220. ADDITION from raw integers: 52->99% (+47pp, 3 layers). The substrate LEARNS ARITHMETIC. 120 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
