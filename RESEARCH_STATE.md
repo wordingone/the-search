@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 193. Template ceiling quantified: LOO=9-20pp (100%), template choice=0-11pp (task-dependent). 93 experiments.]
+TESTING: [Step 194. LOO ranks templates at rho=0.90. Template choice is adaptive via LOO, not frozen. 94 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
