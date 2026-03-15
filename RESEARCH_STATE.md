@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 248. STAGED COMPOSITION 100%. Perceive+classify+compute+iterate. 148 experiments. 152 to Step 300.]
+TESTING: [Step 249. 50-instruction programs 100%. Staged composition scales. 149 experiments. 151 to Step 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
