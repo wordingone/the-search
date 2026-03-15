@@ -1,6 +1,6 @@
 # The Search — Index
 
-*289 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*307 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -18,8 +18,12 @@
 | **`experiments/run_step181_iterated_knn.py`** | **Self-feeding computation — the atomic operation** | **100% on Rule 110** |
 | `experiments/run_step190_fibonacci_e2e.py` | End-to-end: discover + iterate | Strongest result (100%, no backprop) |
 | `experiments/run_step266_auto_discovery.py` | Emergent decomposition | Killed at Lipschitz boundary |
+| **`experiments/run_step296_dist_matching.py`** | **Per-class distribution matching — breaks Lipschitz ceiling** | **86.8% on a%b (vs 5% 1-NN)** |
+| `experiments/run_step300_reflection_spawn.py` | Reflection spawn — OOD via detected periodicity | 95.2% OOD on a%b |
+| `experiments/run_step305_periodic_encoding.py` | Periodic physics + absorption = 100% | Substrate confirmed |
+| `experiments/tempest_fold.py` | Tempest Fold — State(t+1) = f(State(t), D) | Two paths converge |
 
-**The gap:** principled code (Living Seed) has zero effect. Effective code (substrate_v2) is unprincipled. The atomic substrate unifies both.
+**The gap (updated):** The Lipschitz ceiling is broken (Step 296: 86.8%, Step 305: 100%). The equation is found: f = absorb. The frontier is: can the substrate discover its own physics (distance function)?
 
 ---
 
@@ -57,6 +61,16 @@ python experiments/run_step99_topk_vote.py
 | FSM simulation | `experiments/run_step192_fsm_simulator.py` | 100% on 8/16/32/64-state machines |
 | Fibonacci iteration | `experiments/run_step190_fibonacci_e2e.py` | 50 steps from raw 2D input |
 | Complete demo (all capabilities) | `experiments/run_step250_complete_substrate.py` | Everything in one script |
+
+### Non-Lipschitz Classification (Steps 291-307)
+| What | File | Result |
+|------|------|--------|
+| Per-class distribution matching | `experiments/run_step296_dist_matching.py` | 86.8% LOO on a%b (sort-not-sum readout) |
+| OOD via reflection spawn | `experiments/run_step300_reflection_spawn.py` | 95.2% OOD (detect period → extend codebook) |
+| Periodic encoding + absorption | `experiments/run_step305_periodic_encoding.py` | 100% in-dist + OOD (prescribed physics) |
+| Tempest Fold (f = absorb) | `experiments/tempest_fold.py` | State(t+1) = f(State(t), D) |
+| Tempest + phi observer | `experiments/tempest_fold_phi.py` | 86.8% — substrate was working since Step 296 |
+| Learned phi weights (308b) | — | **91.2%** — substrate discovers metric structure, exceeds frozen phi |
 
 ### Program Synthesis
 | What | File | Result |
@@ -121,11 +135,15 @@ python experiments/run_step99_topk_vote.py
 
 ## The Open Problem
 
-**Can compositional structure emerge from data without backprop?**
+**Can the substrate discover its own physics (distance function)?**
 
-k-NN discovers functions where similar inputs → similar outputs (L2-Lipschitz-continuous). For everything else, a human must design the decomposition. Transformers learn decompositions from data via gradient descent through layers. This gap is precisely characterized but unsolved.
+The equation is found: State(t+1) = f(State(t), D). f = absorb. With prescribed physics (periodic encoding), the substrate achieves 100%. With task-agnostic physics, phi readout achieves 86.8%. The Lipschitz ceiling is broken.
 
-289 experiments. The search continues.
+But the physics (distance function) was human-designed. The substrate discovers codebook geometry, not the metric. Making the metric adaptive is the frontier — the point where the frozen frame approaches zero.
+
+Two paths (The Search: 307 experiments + Tempest: first principles) converged on this equation. The substrate absorbs. The observer reads geometry. The environment provides physics. The next question: can the physics come from within?
+
+307 experiments. The search continues.
 
 ---
 

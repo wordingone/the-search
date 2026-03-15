@@ -2,7 +2,7 @@
 
 **Recursive self-improvement through monotonic frozen frame reduction.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 106 experiments across 26 sessions, three substrate architectures, 66 constraints, and 78 knowledge entries.
+This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 308 experiments across 27+ sessions, four substrate architectures, 88 constraints, and 78+ knowledge entries.
 
 The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
 
@@ -269,10 +269,11 @@ Each constraint is a closed door. The pattern of elimination IS the search.
 
 ## Open Questions
 
-1. Is there a single operation that subsumes spawn + update + classify?
-2. Can top-k readout be derived from the same dynamics that produce the codebook?
-3. What substrate satisfies S4 (representation IS computation) while matching 91.8%?
-4. Can the birth-scale-compression cycle be demonstrated empirically on real data?
+1. ~~Is there a single operation that subsumes spawn + update + classify?~~ **ANSWERED:** f = absorb. State(t+1) = f(State(t), D). (Step 305)
+2. ~~Can top-k readout be derived from the same dynamics that produce the codebook?~~ **ANSWERED:** Phi (per-class distribution matching) IS the readout. 86.8% on a%b. (Step 296)
+3. Can the substrate discover its own distance function? Step 308b: learned weights reach 91.2% (+3.7pp over frozen phi). The dynamics select for discriminative dimensions. **Partially answered — the frontier.**
+4. Can the substrate bootstrap from empty without prescribed encoding? Steps 306-307: NO (chicken-and-egg). Data provides the bootstrap. Physics discovery comes after.
+5. Does this generalize beyond periodic non-Lipschitz functions? Step 302: phi generalizes to floor(a/b). Advantage tracks non-Lipschitz density.
 
 ## Requirements
 
