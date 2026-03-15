@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 202. Random neural nets as primitive: LOO 75->90%. Primitives can collapse to one mechanism. 102 experiments.]
+TESTING: [Step 206. Dataset widening: Wine +5.6pp, FashionMNIST/Iris/BreastCancer neutral. 106 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
