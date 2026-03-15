@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 236. ADD + MUL both 100% OOD. Decomposition = OOD generalization. 136 experiments.]
+TESTING: [Step 237. ALL FOUR ARITHMETIC OPS 100% from one truth table. Add+Mul+Sub+Div. 137 experiments.]
 
 STEP 235 BREAKTHROUGH:
   Ripple-carry adder via k-NN: 100% on 888 test pairs including 886 OOD.
