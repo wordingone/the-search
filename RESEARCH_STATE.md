@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 160. Stage 4 wall confirmed: greedy feature search can't discover joint interactions (XOR needs dims 0+2 simultaneously). 61 experiments.]
+TESTING: [none — Step 162. STAGE 4 BROKEN. Random features + accuracy selection = 10/10 CA rules. 63 experiments.]
 
 CONSTITUTIONAL ASSESSMENT (Step 158):
   Stage 1 (Autonomous Computation): PASS
