@@ -1,0 +1,24 @@
+{
+  "id": "078",
+  "timestamp": "2026-03-14T12:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 105: LSH Counting readout",
+  "tags": [
+    "foldcore",
+    "lsh",
+    "readout-arc"
+  ],
+  "status": "passed",
+  "session": 26,
+  "content": {
+    "purpose": "Test locality-sensitive hashing as an alternative to cosine top-k for readout.",
+    "method": "Hash codebook vectors and inputs using random hyperplane LSH. Count per-class hash bucket collisions as votes.",
+    "result": "Functional but does not beat top-k cosine. LSH trades exact similarity for speed, which is not the current bottleneck at codebook sizes ~10K.",
+    "key_insight": "At current codebook sizes, exact cosine top-k is fast enough. LSH becomes relevant at 100K+ vectors.",
+    "source_file": "experiments/foldcore-steps/run_step105_lsh_counting.py"
+  },
+  "constraints_implied": [],
+  "references": [
+    "072"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "073",
+  "timestamp": "2026-03-11T16:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 100: Top-K on CIFAR-100 validation",
+  "tags": [
+    "foldcore",
+    "readout-arc",
+    "topk",
+    "cifar100"
+  ],
+  "status": "passed",
+  "session": 25,
+  "content": {
+    "purpose": "Validate top-k readout on harder dataset (Split-CIFAR-100, 20 tasks, frozen ResNet-18 features d=512).",
+    "method": "Same TopKFold system with spawn threshold adjusted to 0.95 for ResNet feature space.",
+    "result": "PASSES readout. top-k(5) 38.3% AA vs 1-NN 32.3% (+6.1pp). FAILS forgetting (11.6pp). Spawn threshold 0.95 needed for ResNet features.",
+    "key_insight": "Spawn threshold is feature-space dependent. Cosine range varies across embedding spaces.",
+    "source_file": "experiments/foldcore-steps/run_step100_cifar100_topk.py"
+  },
+  "constraints_implied": [
+    "fc013: Spawn threshold must be calibrated per feature space"
+  ],
+  "references": [
+    "072"
+  ]
+}

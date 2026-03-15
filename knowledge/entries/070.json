@@ -1,0 +1,25 @@
+{
+  "id": "070",
+  "timestamp": "2026-03-10T12:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 97: Differential Response readout",
+  "tags": [
+    "foldcore",
+    "readout-arc",
+    "differential-response",
+    "killed"
+  ],
+  "status": "failed",
+  "session": 24,
+  "content": {
+    "purpose": "Test collective codebook surprise (differential displacement) as a readout signal. Candidate 1 in the readout search arc.",
+    "method": "Measure attention-weighted displacement of codebook vectors as readout for classification.",
+    "result": "KILLED. Differential readout 15.0% vs 1-NN 22.7%. Codebook starved to 1-8 vectors. Attention and displacement anti-correlate: high-attention vectors are already aligned, producing small displacements. The signal is in the product, which reduces to cosine similarity.",
+    "key_insight": "Anti-correlation between attention and displacement means the differential signal carries no information beyond what cosine similarity already provides.",
+    "source_file": "experiments/foldcore-steps/run_step97_differential_response.py"
+  },
+  "constraints_implied": [
+    "fc011: Readout signal factors must not anti-correlate"
+  ],
+  "references": []
+}

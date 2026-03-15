@@ -1,0 +1,39 @@
+{
+  "id": "045",
+  "timestamp": "2026-02-25T14:30:00+00:00",
+  "type": "experiment",
+  "title": "MI gap validated as ground truth proxy (r=0.934); VERY_NARROW centroid-MI non-replication confounded",
+  "tags": [
+    "stage4",
+    "methodology",
+    "ground-truth",
+    "MI-validation",
+    "clip-bounds",
+    "positive"
+  ],
+  "status": "passed",
+  "session": 14,
+  "content": {
+    "hypothesis": "External reviewer (Kimi K2.5) raised concern that MI gap has never been validated against binary ground truth (Principle V). If VERY_NARROW [0.7,1.3] improves MI but degrades GT pass rate, Stage 4 analysis is measuring the wrong thing.",
+    "method": "10 seeds (10-19), K=[4,6,8,10] multi-K protocol, n_perm=8, n_trials=6. 7 clip bound conditions. Centroid-based MI gap measurement (not per-cell). For each condition: (1) ALIVE MI gap, (2) STILL MI gap, (3) Principle V binary (ALIVE MI > 0 on >=7/10 seeds), (4) ALIVE-vs-STILL binary (ALIVE wins >=7/10 seeds). Pearson correlation between continuous MI gap and GT pass counts.",
+    "result": "PASSED. MI gap is a valid proxy for ground truth.\n\nKey numbers:\n- Pearson r(ALIVE_MI, GT_PV_pass_count) = +0.934\n- Pearson r(ALIVE_MI, ALIVE>STILL_count) = +0.934\n- Pearson r(ALIVE_MI, ALIVE-STILL_delta) = +0.978\n- All 7 conditions pass Principle V (ALIVE MI > 0 on all 10 seeds)\n- 6/7 conditions pass ALIVE>STILL; sole failure = VERY_NARROW\n\nVERY_NARROW centroid-MI: +0.1142 (LOWEST of all conditions)\nCANONICAL centroid-MI: +0.1996\n\nCRITICAL CAVEAT: VERY_NARROW 'non-replication' of Entry 042 (d=7.583) is METHODOLOGICALLY CONFOUNDED:\n1. Different measurement: Entry 042 used per-cell cosine similarity; this script uses centroid cosine similarity. Per-cell is 3x more sensitive (Canonical: +0.6274 per-cell vs +0.1996 centroid).\n2. Different seeds: Entry 042 used [42,137,2024,999,7]; this used [10-19].\n\nThe reversal (VERY_NARROW best per-cell, worst centroid) may reflect a real distinction: tighter clip bounds improve cell-level differentiation while degrading population-level coherence. Both effects could be genuine.",
+    "metrics": {
+      "r_MI_vs_GT_PV": "+0.934",
+      "r_MI_vs_ALIVE_beats_STILL": "+0.934",
+      "r_MI_vs_delta": "+0.978",
+      "PV_pass_count": "7/7 conditions",
+      "AvS_pass_count": "6/7 conditions (VERY_NARROW fails)",
+      "CANONICAL_centroid_MI": "+0.1996",
+      "VERY_NARROW_centroid_MI": "+0.1142 (lowest)",
+      "VERY_NARROW_AvS": "6/10 seeds, p=0.31, d=0.32 (not significant)",
+      "measurement_confound": "per-cell (Entry 042) vs centroid (this script) = 3x scale difference"
+    },
+    "methodology_lesson": "Two MI gap measurement methods exist in the codebase: (1) per-cell cosine similarity (used by birthconfound, Task #14), (2) centroid cosine similarity (used by harness.py, this validation). They can give opposite rankings for the same conditions. Must standardize on one or explicitly track which is used.",
+    "implication": "MI gap is validated as a GT proxy. The reviewer's concern about Principle II tension with MI evaluation is resolved — MI gap tracks ground truth. However, the per-cell vs centroid distinction raises a new methodological question: which is the correct interpretation of 'distinguishable final states' in Principle V? Per-cell is more sensitive but may capture cell-level noise; centroid is more conservative but may miss genuine differentiation."
+  },
+  "constraints_implied": [],
+  "references": [
+    "042",
+    "044"
+  ]
+}

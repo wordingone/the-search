@@ -1,0 +1,49 @@
+{
+  "id": "028",
+  "timestamp": "2026-02-24T20:40:00.000000+00:00",
+  "type": "experiment",
+  "title": "Stage 3 Delta_rz Fails 10-Seed Validation",
+  "tags": [
+    "stage3",
+    "eta",
+    "delta_rz",
+    "validation"
+  ],
+  "status": "failed",
+  "content": {
+    "hypothesis": "Delta_rz eta adaptation (Session 6 Exp B) provides robust improvement over fixed eta when tested across 10 seeds",
+    "result": "FAIL. Training: p=0.999 (d=-0.001), Novel: p=0.688 (d=0.19). Adaptive and fixed eta are statistically identical.",
+    "details": {
+      "seeds_tested": 10,
+      "training_p_value": 0.999,
+      "training_effect_size": -0.001,
+      "novel_p_value": 0.688,
+      "novel_effect_size": 0.19,
+      "eta_distribution": "healthy (mean=0.00056, std=0.0003, no clipping)",
+      "ground_truth": "PASS",
+      "non_trivial_rates": true
+    },
+    "implications": [
+      "Session 6 Experiment B +55% generalization was seed-specific noise (3 seeds insufficient)",
+      "System is INSENSITIVE to per-cell eta variation — adaptive eta produces healthy distributions but no performance gain",
+      "Stage 3 for eta is a dead end: the scaling parameter sits on a flat landscape",
+      "The binding constraints may be STRUCTURAL (equation form, topology, beta/gamma), not scaling parameters",
+      "Frozen frame reduction via eta adaptation is technically possible but functionally meaningless"
+    ],
+    "key_insight": "Making eta adaptive is solving a non-problem. The system's performance is not limited by learning rate heterogeneity. The real frozen frame constraints are structural.",
+    "stage3_exit_criteria": {
+      "adaptive_beats_fixed_training": "FAIL (p=0.999)",
+      "adaptive_beats_fixed_novel": "FAIL (p=0.688)",
+      "ground_truth_passes": "PASS",
+      "non_trivial_rates": "PASS"
+    }
+  },
+  "session": 8,
+  "references": [
+    "017",
+    "027"
+  ],
+  "constraints_implied": [
+    "Per-cell eta adaptation does not improve performance — the system is insensitive to learning rate heterogeneity"
+  ]
+}

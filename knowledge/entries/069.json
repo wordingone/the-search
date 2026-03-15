@@ -1,0 +1,237 @@
+{
+  "id": "069",
+  "timestamp": "2026-03-02T12:00:00.000000+00:00",
+  "type": "analysis",
+  "title": "Session 23: ANIMA Frozen Frame Inventory — complete enumeration of frozen elements",
+  "tags": ["anima", "frozen-frame", "inventory", "meta-review", "session23"],
+  "status": "passed",
+  "session": 23,
+  "content": {
+    "purpose": "Compile a complete, structured inventory of every frozen element in the ANIMA W+I organism (src/anima_organism.py). No formal frozen frame inventory existed for ANIMA — frozen_frame.json covers Living Seed only (last updated Session 13). Five sessions of ANIMA work (18-22) have accumulated 51 constraints without a unified frozen frame accounting.",
+    "source_files": ["src/anima_organism.py (193 lines)", ".knowledge/entries/062.json", ".knowledge/entries/064.json", ".knowledge/entries/067.json", ".knowledge/entries/068.json"],
+    "parameters": {
+      "description": "Seven tunable scalars set at initialization. All seven are now characterized.",
+      "elements": [
+        {
+          "name": "w_lr",
+          "value": 0.0003,
+          "category": "parameter",
+          "status": "calibration",
+          "description": "World model learning rate. Interior optimum confirmed at 0.0003 (10 seeds, inverted-U: 0.0001→+0.0819, 0.0003→+0.0948, 0.01→+0.0274). 3.5× improvement from initial canonical 0.01.",
+          "constraints": ["c044", "c047", "c048", "c049", "c050"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "MI-err structural decoupling: all I-based signals show <25% variation across 100× w_lr range. Interior optimum exists in MI space but leaves no detectable gradient in prediction-error space. Stage 2 vacuous, Stage 3 w_lr path also vacuous."
+        },
+        {
+          "name": "tau",
+          "value": 0.3,
+          "category": "parameter",
+          "status": "non-binding",
+          "description": "Fast I (mem) accumulation rate (EMA). Non-binding in [0.1, 0.7] range.",
+          "constraints": ["c045"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Non-binding: performance flat across [0.1, 0.7]. No adaptive tau rule beat fixed baselines (c033). K-dependent reversal (c031) means no consistent adaptive direction."
+        },
+        {
+          "name": "tau_slow",
+          "value": 0.0,
+          "category": "parameter",
+          "status": "harmful",
+          "description": "Slow I (mem_slow) accumulation rate. Introduced in Session 22 as dual-timescale extension. Boundary-optimal at 0.0 — all tau_slow > 0 reduces MI gap.",
+          "constraints": ["c051"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Harmful: any tau_slow > 0 reduces MI gap (max -34.8% at tau_slow=0.005, d=1.19). Best value is the boundary 0.0 (no slow I). Slow I carries previous-signal residue into current processing, degrading sequence discrimination."
+        },
+        {
+          "name": "gamma",
+          "value": 3.0,
+          "category": "parameter",
+          "status": "calibration",
+          "description": "Signal coupling strength. Multiplies signal values in neighbor computation. Boundary-optimal — monotonically increasing to 3.0 (canonical upper bound).",
+          "constraints": ["c046"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Calibration at boundary: optimum is at the parameter's upper practical boundary. Adaptive gamma cannot beat best fixed value (boundary-optimal precludes interior adaptive target). No local proxy exists for global coupling (c002, c003)."
+        },
+        {
+          "name": "delta",
+          "value": 1.0,
+          "category": "parameter",
+          "status": "calibration",
+          "description": "State update blend weight. delta=1.0 → pure new state; delta=0 → pure old state. Boundary-optimal at 1.0.",
+          "constraints": ["c035", "c036"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Calibration at boundary: monotone increasing, optimum at 1.0. State-output divergence is an anti-signal (c036). No Principle-II-compliant internal signal can locate the delta optimum adaptively."
+        },
+        {
+          "name": "w_clip",
+          "value": 2.0,
+          "category": "parameter",
+          "status": "non-binding",
+          "description": "Clip bound for W world model weights. Applied after each update: w[i][k] = clip(w[i][k], -w_clip, w_clip).",
+          "constraints": ["c025"],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Non-binding: structurally active (weights clip at boundary) but performance-insensitive across meaningful range. Parameter activity does not imply binding (c026)."
+        },
+        {
+          "name": "noise",
+          "value": 0.005,
+          "category": "parameter",
+          "status": "cosmetic",
+          "description": "Gaussian state noise magnitude, applied per-step to each cell-dimension.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "reason_not_adaptive": "Cosmetic: prevents deterministic collapse but performance-insensitive to exact value. No systematic sweep needed."
+        }
+      ]
+    },
+    "structural": {
+      "description": "Hardcoded architectural choices that define what the organism computes, not just how strongly. Most are untested — no binding sweep has targeted them.",
+      "elements": [
+        {
+          "name": "ring_topology",
+          "value": "kp=(k+1)%D, km=(k-1)%D",
+          "category": "topological",
+          "status": "untested",
+          "description": "Each dimension k interacts only with its immediate neighbors k+1 and k-1 (modulo D, wrapping). This is the sole connectivity structure — no long-range interactions.",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Stage 5 target (topology adaptation). Untested whether alternative topologies (fully-connected, random, small-world) produce better sequence discrimination. Ring chosen by initial design."
+        },
+        {
+          "name": "cell_count",
+          "value": 6,
+          "category": "structural",
+          "status": "untested",
+          "description": "Number of cells NC=6. Each cell maintains its own x[NC][D], w[NC][D], mem[NC][D], mem_slow[NC][D] state. Centroid is mean across NC cells.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "notes": "Cannot adapt from within current architecture. Would require architectural restructuring (spawning/merging cells). Not a Stage 3/4 target."
+        },
+        {
+          "name": "dimension",
+          "value": 12,
+          "category": "structural",
+          "status": "untested",
+          "description": "State space dimensionality D=12. All arrays are NC×D. Signal is D-length. Centroid is D-length.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "notes": "Cannot adapt from within current architecture. Tied to signal format and harness interface. Not a Stage 3/4 target."
+        },
+        {
+          "name": "tanh_nonlinearity",
+          "value": "tanh(clamp(x, -20, 20))",
+          "category": "functional",
+          "status": "untested",
+          "description": "Activation applied in two places: (1) err-to-mem accumulation: _tanh(err), (2) state update: phi = _tanh(pre_act). Clamping at ±20 prevents overflow.",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Stage 6 target (functional form adaptation). Alternative activations (sigmoid, ReLU-like, linear) untested. Tanh chosen for biological plausibility and boundedness."
+        },
+        {
+          "name": "additive_state_composition",
+          "value": "pre_act = xs[i][k] + w_drive + i_drive + i_slow_drive",
+          "category": "functional",
+          "status": "untested",
+          "description": "State pre-activation is strictly additive: self-state + W term + fast-I term + slow-I term. No multiplicative gating or attention between components.",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Multiplicative/gating alternatives untested. Session 21 noted I_slow/I_fast ratio <1.5% variation — suggests additive vs multiplicative coupling may not matter for slow I specifically, but untested for core composition."
+        },
+        {
+          "name": "ema_mem_accumulation",
+          "value": "mem[i][k] = (1-tau)*mem[i][k] + tau*tanh(err)",
+          "category": "functional",
+          "status": "untested",
+          "description": "Exponential moving average form for I accumulation. Bounded by tanh(err) ∈ (-1,1). Forgetting rate = (1-tau).",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Alternative accumulation forms (sum, max, gated) untested. EMA form chosen for stability. Stage 6 target — if functional form becomes adaptive, accumulation rule is a candidate."
+        },
+        {
+          "name": "prediction_error_formulation",
+          "value": "err = actual - w_pred = neighbor_sig - w[i][k]*neighbor",
+          "category": "functional",
+          "status": "untested",
+          "description": "Prediction error is linear subtraction: signal-modulated neighbor interaction minus W-predicted baseline. W acts as a one-weight linear predictor per cell-dimension.",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Linear predictor chosen for simplicity. Nonlinear predictors or different error formulations untested. This determines what I accumulates — a Stage 6/7 adaptation candidate."
+        },
+        {
+          "name": "signal_coupling_additive",
+          "value": "neighbor_sig = (xs[i][kp] + gamma*s_kp) * (xs[i][km] + gamma*s_km)",
+          "category": "functional",
+          "status": "untested",
+          "description": "Signal enters via additive offset to neighbor state values before multiplication. Gamma scales how strongly signal perturbs neighborhood.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "notes": "Gamma is calibration (c046). The structural form (additive vs multiplicative signal coupling) untested but gamma constraint covers the scaling. Alternative coupling forms would be architectural changes."
+        },
+        {
+          "name": "w_update_rule",
+          "value": "dw = w_lr * tanh(err); w[i][k] += dw",
+          "category": "functional",
+          "status": "untested",
+          "description": "W world model update is gradient-like: bounded by tanh, scaled by w_lr, additive. W clip applied after update.",
+          "constraints": [],
+          "adaptive_candidate": true,
+          "notes": "Stage 7 target — if update rule becomes adaptive data, W's own update rule is a candidate. Currently hardcoded in Python. No self-representation mechanism."
+        },
+        {
+          "name": "centroid_mean",
+          "value": "mean across NC cells",
+          "category": "structural",
+          "status": "untested",
+          "description": "Centroid computed as simple arithmetic mean of all NC cell states for each dimension k.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "notes": "Alternative aggregations (weighted mean, max-pool, attention) untested. Centroid is harness interface — changing would require harness modification."
+        },
+        {
+          "name": "state_update_blend",
+          "value": "v = (1-delta)*xs[i][k] + delta*phi",
+          "category": "functional",
+          "status": "calibration",
+          "description": "Linear blend between old state and new activation phi. At delta=1.0 (canonical), this reduces to v = phi — pure replacement. The blend form is retained for generality.",
+          "constraints": ["c035"],
+          "adaptive_candidate": false,
+          "notes": "delta=1.0 canonical (boundary-optimal). Blend is structurally present but functionally inactive at canonical settings."
+        },
+        {
+          "name": "initial_conditions",
+          "value": "x ~ N(0, 0.5), w ~ N(0, 0.1), mem = 0, mem_slow = 0",
+          "category": "structural",
+          "status": "untested",
+          "description": "Cell state initialized from N(0,0.5), world model weights from N(0,0.1), memory initialized to zero.",
+          "constraints": [],
+          "adaptive_candidate": false,
+          "notes": "Initial conditions vary by seed (random.seed(seed)). Ground truth test requires robustness across seeds (3+ independent initializations). Not an adaptation target — varied by design."
+        }
+      ]
+    },
+    "frozen_frame_count": {
+      "parameters_total": 7,
+      "parameters_characterized": 7,
+      "parameters_binding_or_calibration": 3,
+      "parameters_non_binding": 2,
+      "parameters_harmful": 1,
+      "parameters_cosmetic": 1,
+      "structural_total": 12,
+      "structural_untested": 9,
+      "structural_calibration": 1,
+      "structural_not_adaptive_candidate": 7,
+      "structural_adaptive_candidate": 5
+    },
+    "architecture_ceiling_analysis": {
+      "stage3_status": "Architecture ceiling for Stage 3. All 7 parameters characterized. None is both binding AND adaptable from within via Principle-II-compliant signal. Stage 2 vacuous (c048). Stage 3 all paths exhausted: w_lr vacuous (c049), tau_slow harmful (c051).",
+      "stage4_status": "No Stage 4 structural binding sweeps completed on ANIMA. Ring topology, NC, D, tanh form, additive composition all untested. These are the next frozen frame reduction targets.",
+      "stage5_status": "Topology (ring) untested. Stage 5 target pending Stage 4 completion.",
+      "stage6_status": "Functional forms (tanh, EMA, prediction error formulation, W update rule) all untested. Stage 6 targets pending.",
+      "stage7_status": "No self-representation mechanism. W update rule and I update rule hardcoded in Python. Stage 7 requires hypernetwork H within I (c038). Forward viability check: PASSED (entry 064 — hypernetwork H within I is the path).",
+      "frozen_frame_minimum": "Cannot determine precise minimum without Stage 4+ sweeps. Current characterization: 7/7 parameters frozen (all calibration/non-binding/harmful — no adaptive reduction achieved). Structural elements largely untested. Architecture ceiling at Stage 3 for parameter space; structural exploration not yet begun."
+    },
+    "verdict": "19 total frozen elements enumerated: 7 parameters (all characterized) + 12 structural (1 calibration, 9 untested, 2 not adaptable by design). Of 7 parameters: 3 are calibration-only (w_lr interior, gamma boundary, delta boundary), 2 are non-binding (tau, w_clip), 1 is harmful (tau_slow), 1 is cosmetic (noise). No parameter yields a genuine adaptive reduction. The ANIMA frozen frame minimum under current characterization is unknown — Stage 4+ structural sweeps have not been conducted. The next productive experiments are structural binding sweeps on untested elements: ring topology (Stage 5 candidate), tanh nonlinearity (Stage 6 candidate), additive composition (Stage 6 candidate), and the W/I update rules (Stage 7 targets). The Stage 3 architecture ceiling is confirmed. The path forward is Stage 4 structural characterization."
+  },
+  "constraints_implied": [],
+  "references": ["044", "045", "046", "047", "048", "049", "050", "051", "062", "067", "068"]
+}

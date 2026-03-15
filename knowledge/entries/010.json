@@ -1,0 +1,29 @@
+{
+  "id": "010",
+  "timestamp": "2026-02-24T17:39:07.928034+00:00",
+  "type": "experiment",
+  "title": "Per-Cell Beta/Gamma Decomposition",
+  "tags": [
+    "stage2",
+    "stage4",
+    "per-cell"
+  ],
+  "status": "failed",
+  "content": {
+    "hypothesis": "Making beta/gamma per-cell arrays (like alpha) enables local adaptation",
+    "method": "Convert beta, gamma from global scalars to per-cell arrays beta[i,k], gamma[i,k]. Adapt via resp_z like alpha",
+    "result": "ALIVE-all (per-cell bg) MI = 0.092 vs ALIVE-alpha-only MI = 0.210. 53% MI loss",
+    "metrics": {
+      "MI_loss": "53%",
+      "ALIVE_all": 0.092,
+      "ALIVE_alpha_only": 0.21
+    },
+    "root_cause": "Beta/gamma are structurally global coupling parameters. Per-cell decomposition destroys the coupling mechanism itself"
+  },
+  "constraints_implied": [
+    "Per-cell decomposition of global coupling parameters destroys performance (53% MI loss)",
+    "Beta/gamma coupling is fundamentally global, not locally decomposable"
+  ],
+  "session": 5,
+  "references": []
+}

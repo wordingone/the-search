@@ -1,0 +1,37 @@
+{
+  "id": "062",
+  "timestamp": "2026-03-02T20:00:00.000000+00:00",
+  "type": "decision",
+  "title": "ANIMA Stage 2 declared vacuous under Amendment 1",
+  "tags": [
+    "anima",
+    "stage2",
+    "w_lr",
+    "amendment",
+    "session19"
+  ],
+  "status": "accepted",
+  "session": 19,
+  "content": {
+    "decision": "ANIMA Stage 2 (Self-Generated Adaptation Signal) declared vacuously passed under Amendment 1.",
+    "amendment1_criteria": {
+      "criterion_1_multiple_approaches": "Three approaches tested: (1) gradient-based w_lr adaptation — signal too weak (~1e-8/step), (2) reactive phase-dependent w_lr — 5 configurations at 10 seeds, best d=+0.031, (3) I-state variance theoretically ruled out (non-monotonic mapping, c005 analog). All with adequate statistical power (10 seeds, multi-K).",
+      "criterion_2_mechanism_works": "w_lr modulates non-degenerately. Reactive rule produces 3.5× w_lr variation (0.00028 to 0.00100). The parameter moves, the adaptation is real, the distributions are non-trivial.",
+      "criterion_3_no_performance_difference": "Best adaptive config (base=0.0003, scale=3) achieves d=+0.031, p=0.863 vs best fixed w_lr=0.0003. Functionally identical.",
+      "criterion_4_theoretical_explanation": "Per-step signals cannot capture sequence-level w_lr optimality. The MI gap depends on how well the FINAL state distinguishes FULL sequences (K × 60 + settling + final = ~1000 steps). No per-step signal can detect whether the current w_lr is optimal for this sequence-level property. The signal encodes phase presence (signal vs settling), not W-I quality balance. This is the ANIMA analog of c036."
+    },
+    "comparison_to_living_seed_stage3": {
+      "living_seed": "Stage 3 vacuous because eta landscape is FLAT — parameter non-binding, nothing to optimize.",
+      "anima": "Stage 2 vacuous because w_lr landscape has INVERTED-U (interior optimum at 0.0003) but no Principle-II-compliant signal can detect position on the curve. The problem is timescale mismatch, not landscape shape.",
+      "implication": "ANIMA's Stage 2 vacuousness is more informative than Living Seed's Stage 3 — it identifies a specific architectural limitation (per-step vs sequence-level timescale gap) rather than just parameter insensitivity."
+    },
+    "frozen_frame_status": "w_lr becomes 'adaptive (vacuous)'. Calibrated from 0.01 to 0.0003 (3.5× MI gap improvement). The frozen frame shrinks by one element. Tau remains frozen (non-binding). Gamma remains frozen (boundary-optimal, calibration-only).",
+    "parameters_tested": ["w_lr (interior optimum — vacuous)", "tau (non-binding — consistent with c032)", "gamma (boundary-optimal — calibration only)"],
+    "signals_tested": ["mean_abs_err (reactive)", "err_ema (gradient)", "I-state variance (theoretical rejection)"],
+    "signals_rejected_without_test": ["i_w_divergence (c036 analog — measures wrong property)", "w_growth (activity ≠ binding, c026)", "I-state variance (non-monotonic w_lr mapping, c005 analog)"]
+  },
+  "constraints_implied": [
+    "c048: ANIMA Stage 2 vacuous. No Principle-II-compliant per-step signal can detect optimal w_lr. The W-I tension creates an inverted-U at the sequence level, but the information about position on that curve does not exist at the per-step timescale."
+  ],
+  "references": ["059", "060", "061"]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "076",
+  "timestamp": "2026-03-13T12:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 103: Resonance dynamics -- convergence failure",
+  "tags": [
+    "foldcore",
+    "resonance",
+    "killed"
+  ],
+  "status": "failed",
+  "session": 26,
+  "content": {
+    "purpose": "Test resonance dynamics: energy-gradient dynamics over dense codebooks.",
+    "method": "Iterate energy-gradient descent from input toward codebook attractors.",
+    "result": "KILLED. Energy-gradient dynamics converge to centroid blur, not class attractors. More iterations = worse (-34pp at 20 iterations).",
+    "key_insight": "Iterative dynamics over dense, overlapping codebook regions average across class boundaries.",
+    "source_file": "experiments/foldcore-steps/run_step103_resonance.py"
+  },
+  "constraints_implied": [],
+  "references": [
+    "072"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "011",
+  "timestamp": "2026-02-24T17:39:07.928034+00:00",
+  "type": "decision",
+  "title": "Accept Beta/Gamma as Frozen, Advance to Stage 3",
+  "tags": [
+    "stage2",
+    "stage3",
+    "strategy"
+  ],
+  "status": "active",
+  "content": {
+    "choice": "Accept beta/gamma as irreducible frozen frame elements, focus Stage 3 on alpha adaptation rate",
+    "alternatives": [
+      "Continue searching for beta/gamma local proxy",
+      "Pivot to entirely different architecture",
+      "Pursue topology adaptation (Stage 5)"
+    ],
+    "rationale": "Three approaches exhausted: (1) analytical proxy gradient failed, (2) local proxy search failed (7 tested), (3) per-cell decomposition failed (53% loss). Finite-diff MI works but violates Principle II",
+    "reversible": true
+  },
+  "references": [
+    "006",
+    "008",
+    "009",
+    "010"
+  ],
+  "session": 5,
+  "constraints_implied": []
+}

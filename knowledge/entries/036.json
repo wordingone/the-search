@@ -1,0 +1,22 @@
+{
+  "id": "036",
+  "timestamp": "2026-02-25T04:27:03.322962+00:00",
+  "type": "discovery",
+  "title": "delta_correlation signal eliminated: one-way design is anti-signal",
+  "tags": [
+    "stage3",
+    "delta_correlation",
+    "negative"
+  ],
+  "status": "active",
+  "session": 11,
+  "content": {
+    "finding": "delta_correlation one-way design (only decrease eta when correlation degrades) systematically suppresses eta because successful adaptation changes error-push correlation, which the signal misinterprets as degradation. More alpha_meta = more damage. The signal is anti-correlated with desired behavior.",
+    "evidence": "All 3 alpha_meta values show negative improvement: -0.0034 (0.01), -0.0149 (0.05), -0.0231 (0.1). Monotonically worse with stronger coupling.",
+    "implication": "One-way adaptation designs that only reduce eta are dangerous - they cannot distinguish between correlation changes from successful adaptation vs genuine degradation."
+  },
+  "constraints_implied": [
+    "One-way eta reduction based on error-push correlation is an anti-signal for this system"
+  ],
+  "references": []
+}

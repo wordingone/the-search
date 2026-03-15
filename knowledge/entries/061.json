@@ -1,0 +1,50 @@
+{
+  "id": "061",
+  "timestamp": "2026-03-02T19:55:00.000000+00:00",
+  "type": "experiment",
+  "title": "ANIMA Stage 2: Reactive w_lr adaptation fails (5 configs, 10 seeds)",
+  "tags": [
+    "anima",
+    "stage2",
+    "w_lr",
+    "negative",
+    "10-seed",
+    "session19"
+  ],
+  "status": "failed",
+  "session": 19,
+  "content": {
+    "purpose": "Test whether reactive phase-dependent w_lr adaptation beats best fixed w_lr=0.0003. Rule: w_lr_eff = w_lr_base / (1 + err_scale * prev_mean_abs_err). High err → low w_lr (preserve err for I), low err → high w_lr (W consolidates).",
+    "methodology": {
+      "approach": "Reactive: w_lr_eff computed directly from previous step's mean |err|. No accumulation needed — direct mapping each step.",
+      "baseline": "Fixed w_lr=0.0003 (best fixed, alive_gap=+0.0948)",
+      "configs_tested": [
+        {"w_lr_base": 0.001, "err_scale": 3.0},
+        {"w_lr_base": 0.001, "err_scale": 10.0},
+        {"w_lr_base": 0.001, "err_scale": 30.0},
+        {"w_lr_base": 0.0003, "err_scale": 3.0},
+        {"w_lr_base": 0.0003, "err_scale": 10.0}
+      ],
+      "protocol": "10 seeds, K=[4,6,8,10], n_perm=8, n_trials=6",
+      "principle_ii": "Compliant — prev_mean_abs_err is computed from err, the same variable used to update W and I"
+    },
+    "results": {
+      "fixed_baseline": {"mean": 0.0948, "std": 0.0372},
+      "configs": {
+        "base=0.001_scale=3": {"adaptive_mean": 0.0756, "d_stat": -0.511, "p_val": 0.011, "w_lr_eff_mean": 0.00091, "result": "FAIL"},
+        "base=0.001_scale=10": {"adaptive_mean": 0.0831, "d_stat": -0.307, "p_val": 0.136, "w_lr_eff_mean": 0.00081, "result": "FAIL"},
+        "base=0.001_scale=30": {"adaptive_mean": 0.0890, "d_stat": -0.149, "p_val": 0.407, "w_lr_eff_mean": 0.00071, "result": "FAIL"},
+        "base=0.0003_scale=3": {"adaptive_mean": 0.0960, "d_stat": 0.031, "p_val": 0.863, "w_lr_eff_mean": 0.00028, "result": "FAIL"},
+        "base=0.0003_scale=10": {"adaptive_mean": 0.0830, "d_stat": -0.311, "p_val": 0.118, "w_lr_eff_mean": 0.00025, "result": "FAIL"}
+      },
+      "best_config": "base=0.0003_scale=3 (d=+0.031, essentially tied with fixed)",
+      "pattern": "When w_lr_base > optimum: all negative d (hurts). When w_lr_base = optimum: d≈0 (ties). Mechanism modulates w_lr 3.5× range but modulation encodes phase presence, not W-I quality balance."
+    },
+    "root_cause": "prev_mean_abs_err is nearly constant (~0.04) regardless of w_lr. The modulation is driven by signal presence vs absence (phase), not by W's learning quality. The signal oscillates between 'signal present → w_lr drops' and 'settling → w_lr rises' without encoding information about whether the current w_lr is optimal for MI gap. This is the ANIMA analog of c036: the signal measures the wrong property (phase, not sequence-level signal fidelity).",
+    "files_created": ["src/anima_organism_adaptive.py", "src/run_anima_stage2.py"]
+  },
+  "constraints_implied": [
+    "c047: Per-step adaptation signals (mean_abs_err, gradient EMA) cannot capture sequence-level w_lr optimality in ANIMA. The MI gap is determined over full K-signal sequences (~1000 steps); per-step signals encode phase presence, not optimal w_lr direction. This is the ANIMA analog of c036 (per-step vs sequence-level timescale gap)."
+  ],
+  "references": ["059", "060"]
+}

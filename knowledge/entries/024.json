@@ -1,0 +1,44 @@
+{
+  "id": "024",
+  "timestamp": "2026-02-24T18:02:13.626754+00:00",
+  "type": "discovery",
+  "title": "Three Hypotheses for Per-Cell Beta/Gamma Failure",
+  "tags": [
+    "stage2",
+    "beta",
+    "gamma",
+    "per-cell"
+  ],
+  "status": "active",
+  "content": {
+    "finding": "Three competing explanations for why per-cell decomposition of beta/gamma destroys performance (53% MI loss)",
+    "evidence": "Entry 010 experiment result: ALIVE-all (per-cell beta/gamma) MI = 0.092 vs ALIVE-alpha-only MI = 0.210",
+    "hypotheses": [
+      {
+        "name": "(a) Architecturally Wrong",
+        "description": "Beta/gamma ARE fundamentally global coupling parameters. Per-cell decomposition destroys the coupling mechanism itself. No fix exists within current architecture.",
+        "implication": "Accept beta/gamma as frozen, advance to Stage 3+"
+      },
+      {
+        "name": "(b) Noisy Signal",
+        "description": "Per-cell beta/gamma are viable but require better adaptation signal. Current resp_z is too noisy at per-cell level for coupling parameters.",
+        "implication": "Search for better local proxy or use smoothed/filtered signals"
+      },
+      {
+        "name": "(c) Wrong Coupling Form",
+        "description": "Per-cell works but current coupling equation phi = tanh(alpha*x + beta*(neighbors)) requires global beta/gamma by construction. Different coupling form might enable per-cell.",
+        "implication": "Stage 4 structural change: modify coupling equation itself"
+      }
+    ],
+    "implications": [
+      "If (a): frozen frame floor >0 for current architecture, Stage 4+ required",
+      "If (b): more Stage 2 work needed, search space exists",
+      "If (c): Stage 4 structural modification could eliminate frozen frame floor"
+    ]
+  },
+  "session": 7,
+  "references": [
+    "010"
+  ],
+  "constraints_implied": []
+}

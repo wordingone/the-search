@@ -1,0 +1,26 @@
+{
+  "id": "072",
+  "timestamp": "2026-03-11T12:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 99: Top-K Class Vote -- THE RESULT",
+  "tags": [
+    "foldcore",
+    "readout-arc",
+    "topk",
+    "breakthrough"
+  ],
+  "status": "passed",
+  "session": 24,
+  "content": {
+    "purpose": "Test top-k cosine class vote as readout. Candidate 3.",
+    "method": "For each class c, sum the top-k cosine similarities between the input and codebook vectors labeled c. Classify by argmax over classes.",
+    "result": "PASSES. top-k(3) 91.8% AA vs 1-NN 86.8% (+5.0pp). 0.0pp forgetting. 8597 vectors. Runtime ~20 seconds. 30 lines of code, no backprop.",
+    "key_insight": "Aggregating local class evidence via top-k closes 5pp of the accuracy gap vs EWC. The codebook stores well; this readout finally reads well. First S1-compliant substrate.",
+    "source_file": "experiments/foldcore-steps/run_step99_topk_vote.py"
+  },
+  "constraints_implied": [],
+  "references": [
+    "070",
+    "071"
+  ]
+}

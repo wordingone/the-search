@@ -1,0 +1,81 @@
+{
+  "id": "043",
+  "timestamp": "2026-02-25T10:00:00+00:00",
+  "type": "analysis",
+  "title": "Task 17 Follow-Up: Theoretical Analysis of State Parameter Adaptation (eps, tau, delta)",
+  "tags": [
+    "stage4",
+    "state-parameters",
+    "intrinsic-signals",
+    "principle-ii",
+    "c006-assessment"
+  ],
+  "status": "active",
+  "session": 13,
+  "content": {
+    "objective": "Provide Principle II-compliant intrinsic signals for eps/tau/delta per-cell adaptation, assess c006/c007 risks, and account for frozen frame impact",
+    "summary": "All three state parameters (eps, tau, delta) are BINDING (d > 0.5 from Task #19). This analysis designs intrinsic signals for each, confirming Principle II compliance and demonstrating that c006/c007 do NOT apply (they block global coupling, not local state mechanisms).",
+    
+    "parameter_1_epsilon": {
+      "current_role": "Inter-cell attention pull strength (line 223-225)",
+      "binding_strength": "d=-0.663 (strong)",
+      "proposed_signal": "pull_effectiveness = correlation(pull_magnitude, delta_resp_z)",
+      "logic": "High correlation → pulling helps MI, keep/increase eps[i]. Low/negative correlation → pulling harms, decrease eps[i].",
+      "principle_ii": "PASSES - signal arises from internal pull computation and resp_z tracking, no external measurement",
+      "c006_c007_risk": "LOW - eps is additive LOCAL correction (post-computation), not multiplicative GLOBAL coupling in core equation. Per-cell eps ENABLES specialization.",
+      "frozen_frame": "Eliminated: global eps. Introduced: eps[NC], eps_clip_lo, eps_clip_hi, eps_meta, eps_signal_weight. Net: +4",
+      "priority": "TIER 1 (highest) - strongest signal clarity, best balance of binding + simplicity"
+    },
+    
+    "parameter_2_delta": {
+      "current_role": "State mixing ratio memory vs computation (line 227)",
+      "binding_strength": "d=-0.502 (medium, at threshold)",
+      "proposed_signal": "plasticity_rate = sum(|alpha_change|)/n_steps per cell",
+      "logic": "High plasticity → cell adapting fast, increase delta to let computation dominate. Low plasticity → alpha stable, decrease delta for memory.",
+      "principle_ii": "PASSES - signal derives from alpha dynamics (internal), no external fitness measurement",
+      "c006_c007_risk": "LOW - delta is LOCAL state mixing, not GLOBAL coupling. No coupling term to destroy. c006 specific to beta/gamma in core equation.",
+      "frozen_frame": "Eliminated: global delta. Introduced: delta[NC], delta_clip_lo, delta_clip_hi, delta_meta, plasticity_window. Net: +4",
+      "priority": "TIER 2 (medium) - simpler signal, lower implementation cost, good fallback"
+    },
+    
+    "parameter_3_tau": {
+      "current_role": "Attention softmax temperature (line 201-205)",
+      "binding_strength": "d=-0.851 (STRONGEST absolute effect)",
+      "proposed_signal": "attention_entropy = -sum(attn_weights * log(attn_weights))",
+      "logic": "High entropy (diffuse attention) → increase tau to sharpen. Low entropy (sharp) → decrease tau to explore.",
+      "principle_ii": "PASSES - entropy computed from internal attention weights, no external measurement",
+      "c006_c007_risk": "LOW - attention already per-cell, tau controls individual cell's softmax sharpness, not any shared coupling",
+      "frozen_frame": "Eliminated: global tau. Introduced: tau[NC], tau_clip_lo, tau_clip_hi, tau_meta, entropy_target. Net: +4",
+      "priority": "TIER 3 (lower) - strongest effect but most complex implementation, try last"
+    },
+    
+    "c006_c007_assessment": {
+      "context": "c006/c007 block per-cell decomposition of beta/gamma (global multiplicative coupling in core equation)",
+      "generalization_test": "Do c006/c007 apply to eps, tau, delta?",
+      "eps_result": "NO - eps is additive LOCAL correction, not multiplicative GLOBAL coupling. Per-cell eps enables specialization.",
+      "delta_result": "NO - delta is LOCAL state mixing, no coupling term. c006 specific to core equation coupling.",
+      "tau_result": "NO - attention already per-cell computed. Per-cell tau changes individual cell focus, not shared coupling.",
+      "key_insight": "c006/c007 are SPECIFIC constraints on global coupling in core equation. They do NOT generalize to local or post-computation parameters. This is a critical distinction that validates per-cell state parameter adaptation."
+    },
+    
+    "priority_ranking": {
+      "tier_1_epsilon": "d=-0.663, HIGH signal clarity, MEDIUM complexity, Tier 1 for Phase 2",
+      "tier_2_delta": "d=-0.502, MEDIUM clarity, LOW complexity, fallback to Tier 1",
+      "tier_3_tau": "d=-0.851 (strongest), MEDIUM clarity, HIGH complexity, try after Tier 1-2"
+    },
+    
+    "implications": [
+      "Stage 4 NOT vacuous - binding constraints found in state dynamics layer",
+      "Principle II satisfiable - all signals arise from internal computation",
+      "Frozen frame CAN shrink via state parameter adaptation",
+      "c006/c007 specificity enables safe per-cell decomposition of local mechanisms"
+    ]
+  },
+  "references": [
+    "task-19",
+    "entry-042",
+    "entry-041",
+    "c006",
+    "c007"
+  ]
+}

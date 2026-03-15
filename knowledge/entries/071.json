@@ -1,0 +1,25 @@
+{
+  "id": "071",
+  "timestamp": "2026-03-10T14:00:00.000000+00:00",
+  "type": "experiment",
+  "title": "Step 98: Neighborhood Coherence readout",
+  "tags": [
+    "foldcore",
+    "readout-arc",
+    "coherence",
+    "killed"
+  ],
+  "status": "failed",
+  "session": 24,
+  "content": {
+    "purpose": "Test coherence-weighted similarity as readout. Candidate 2.",
+    "method": "Weight each codebook vector vote by the coherence of its neighborhood (how many nearest neighbors share its class label).",
+    "result": "KILLED. Coherence readout 85.3% vs 1-NN 86.9%. 0/27 wins across all conditions. Coherence is a static vector property that penalizes boundary vectors (the informative ones).",
+    "key_insight": "Static vector properties (coherence, density) penalize the most informative boundary prototypes. Readout must be input-conditional.",
+    "source_file": "experiments/foldcore-steps/run_step98_coherence_readout.py"
+  },
+  "constraints_implied": [
+    "fc012: Readout must be input-conditional"
+  ],
+  "references": []
+}

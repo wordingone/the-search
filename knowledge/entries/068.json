@@ -1,0 +1,76 @@
+{
+  "id": "068",
+  "timestamp": "2026-03-02T21:50:00.000000+00:00",
+  "type": "experiment",
+  "title": "Session 22: Additive dual-timescale I hurts MI gap — tau_slow boundary-optimal at 0.0",
+  "tags": [
+    "anima",
+    "stage3",
+    "dual-timescale-I",
+    "tau_slow",
+    "binding-sweep",
+    "negative-result",
+    "session22"
+  ],
+  "status": "passed",
+  "session": 22,
+  "content": {
+    "purpose": "Implement dual-timescale I (mem_slow) as a real organism dynamics element in anima_organism.py, then sweep tau_slow to determine if it is a binding parameter. This is the Session 21 forward path: tau_slow as alternative Stage 3 target.",
+    "implementation": {
+      "mechanism": "mem_slow accumulates tanh(err) with tau_slow EMA rate, parallel to existing mem (tau=0.3). Feedback: i_slow_drive = mem_slow[i][k] * xs[i][k], additive to pre_act alongside i_drive. Principle II compliant: signal from organism's own prediction error, feeds back into state.",
+      "backward_compat": "tau_slow=0.0 (default): mem_slow stays zero, i_slow_drive=0.0, dynamics bit-for-bit identical to original. Verified by Jude (review) and Eli (noise=0 comparison).",
+      "file": "src/anima_organism.py (193 lines, +21 from original 172)"
+    },
+    "revalidation": {
+      "tau_slow_0": "alive_gap = +0.1299 (canonical +0.1256, delta=+0.0043, within ±0.005 tolerance). PASS.",
+      "tau_slow_005": "alive_gap = +0.0847 (>0, ground truth passes but 35% below baseline). PASS but degraded."
+    },
+    "sweep_results": {
+      "protocol": "10 seeds × K=[4,6,8,10] × n_perm=8 × n_trials=6. 280 total conditions.",
+      "seeds": [42, 137, 2024, 999, 7, 314, 1618, 2718, 1414, 577],
+      "tau_slow_values": [0.0, 0.001, 0.003, 0.005, 0.01, 0.03, 0.1],
+      "summary_table": {
+        "0.000": {"mean": 0.1299, "std": 0.0410},
+        "0.001": {"mean": 0.1067, "std": 0.0483},
+        "0.003": {"mean": 0.1010, "std": 0.0401},
+        "0.005": {"mean": 0.0847, "std": 0.0352},
+        "0.010": {"mean": 0.0966, "std": 0.0435},
+        "0.030": {"mean": 0.1093, "std": 0.0457},
+        "0.100": {"mean": 0.1186, "std": 0.0520}
+      },
+      "shape": "Non-monotone trough at tau_slow=0.005 (-34.8% from baseline). Partial recovery at higher tau_slow but never reaches baseline. No tau_slow > 0 improves over baseline.",
+      "effect_size": {
+        "baseline_vs_trough": "d = +1.19 (0.0 vs 0.005, significant)",
+        "baseline_vs_best_nonzero": "d = -0.24 (0.0 vs 0.1, modest harm)"
+      },
+      "binding_verdict": "tau_slow is binding in the NEGATIVE direction only. Adding slow I drive reduces MI gap. 35% variation exceeds 10% binding threshold, but effect is purely harmful. Boundary-optimal at 0.0 (no slow I)."
+    },
+    "physical_interpretation": {
+      "trough_at_005": "tau_slow=0.005 → ~200-step integration window. Signal presentation is 90 steps (60+30 settle). At K=4, one cycle is 420 steps. tau_slow=0.005 integrates across half a cycle — maximally confusing current-signal processing with previous-signal residue. This is the maximally misleading timescale.",
+      "recovery_at_high_tau_slow": "At tau_slow=0.1 (~10-step window), mem_slow tracks current signal coherently with mem (tau=0.3). Less harmful because it's partially redundant rather than desynchronized. Still adds unnecessary magnitude to pre_act.",
+      "why_additive_hurts": "i_slow_drive adds bias to pre_act that the fast I already handles optimally. The slow accumulator carries information from PREVIOUS signals into current-signal processing, reducing sequence discrimination. The fast I (tau=0.3) is the right timescale; adding a second timescale degrades the balance."
+    },
+    "constraint_implied": "c051: Additive dual-timescale I (mem_slow feeding state via i_slow_drive parallel to i_drive) reduces MI gap for all tau_slow > 0. Boundary-optimal at tau_slow=0.0. The fast I (tau=0.3) is sufficient; slow I adds misleading temporal blurring.",
+    "stage3_status": {
+      "all_params_characterized": {
+        "w_lr": "Calibration (interior optimum 0.0003, not adaptable from within) — c044, c047-c050",
+        "tau": "Non-binding [0.1, 0.7] — c045",
+        "tau_slow": "Harmful, boundary-optimal at 0.0 — THIS ENTRY",
+        "gamma": "Calibration (boundary-optimal at 3.0) — c046",
+        "delta": "Calibration (boundary-optimal at 1.0) — c035",
+        "w_clip": "Non-binding — c025 analog",
+        "noise": "Cosmetic"
+      },
+      "verdict": "No ANIMA parameter is both binding and adaptable from within. This is an architecture ceiling for Stage 3. The W+I organism's dynamics are a fixed-point system where the fast I channel (tau=0.3) captures all available sequence information. All other degrees of freedom are irrelevant, calibration-only, or harmful.",
+      "forward_path_options": [
+        "Declare ANIMA Stage 3 vacuously passed under Amendment 1 (all params tested, mechanism works, no adaptive target exists)",
+        "Try multiplicative/gating coupling instead of additive — but Session 21 showed I_slow/I_fast ratio is <1.5% variation, making this unlikely to help",
+        "Declare architecture ceiling for ANIMA at Stage 2+3 vacuous, advance to Stage 4 structural adaptation or new substrate"
+      ]
+    }
+  },
+  "constraints_implied": [
+    "c051: Additive dual-timescale I reduces MI gap for all tau_slow > 0. Boundary-optimal at tau_slow=0.0. Fast I (tau=0.3) is sufficient; slow I adds misleading temporal blurring that degrades sequence discrimination."
+  ],
+  "references": ["044", "045", "046", "047", "048", "049", "050", "067"]
+}
