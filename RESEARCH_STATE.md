@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: Margin-guided feature discovery SOLVES parity (75% -> 100%). The k-NN margin IS the adaptation signal.
+TESTING: [none — Step 145. Margin discovery works on weak reps (parity: 75->100%) not strong (ResNet: 0pp). Domain = rule discovery.]
 
 STEP 144 BREAKTHROUGH:
   Margin-guided discovery selects cos(sum*pi) = parity. 75.4% -> 100.0%.
