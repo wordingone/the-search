@@ -6,7 +6,24 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 231. OOD ceiling universal. In-dist: arithmetic +47pp, logic 100%, n-gram 99%. OOD: 0pp help. 131 experiments.]
+TESTING: [Step 232. OOD structural to k-NN (encoding-independent). In-dist mastered. 132 experiments.]
+
+COMPREHENSIVE DOMAIN COVERAGE (Steps 97-232):
+  MASTERED (in-distribution, 95%+):
+    Arithmetic: add +47pp, mul +27pp, sub +36pp, max +49pp
+    Logic: parity +20pp, XOR +13pp, modus ponens 100%
+    Modular: add mod 5 +38pp, mul mod 7 +32pp
+    CA: 9/10 rules perfect, Rule 110 100 steps
+    FSM: 8/16/32 states perfect
+    Sequences: reversal +22pp, n-gram +13pp
+    Fibonacci: 50 steps iterated
+    Image: P-MNIST 95.4%, Wine +5.6pp
+
+  CEILING (out-of-distribution):
+    Addition OOD: 0-36%. Binary encoding: 0%.
+    Sparse logic: 0pp substrate help on unseen states.
+    The substrate MEMORIZES and INTERPOLATES. It does NOT EXTRAPOLATE.
+    Crossing this requires abstract rule induction, not better features.
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
