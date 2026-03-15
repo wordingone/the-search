@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 279. COURSE CORRECTION: Steps 273-278 were manual decomposition, not emergent. Redirect to auto-discovery. 180 exps.]
+TESTING: [Step 280. GCD from I/O: 79% (pattern) vs 100% (designed). The 21pp gap = pattern vs algorithm. 181 exps.]
 
 REVIEWER CORRECTION (Step 279):
   Steps 235-278 proved k-NN is Turing-complete via MANUAL decomposition.
