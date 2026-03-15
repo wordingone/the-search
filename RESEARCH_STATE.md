@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 225. OOD FAILS: 100% in-dist, 0-36% OOD. Pattern matching, not abstract rules. CEILING IDENTIFIED. 125 experiments.]
+TESTING: [Step 227. N-gram +13.2pp. OOD fails (ceiling). Arithmetic +27-49pp. 127 experiments. Continuing to 300.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
