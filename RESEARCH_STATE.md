@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 283. Honest: a%b LOO=53.8% (96.1% was overfit). GCD OOD=12.6%. Emergent modular arithmetic FAILS. 184 exps.]
+TESTING: [NARROWED. One question only: can the substrate discover a decomposition without human design? Let it fail honestly.]
 
 STEP 283 HONEST RESULT:
   My 96.1% LOO was likely overfit (seed/redundancy). Eli's 53.8% is honest.
