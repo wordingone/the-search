@@ -6,11 +6,17 @@
 ## Active Hypothesis
 
 ```
-TESTING: Retrieval-Induced Learning — contrastive updates in top-k neighborhood during retrieval
-PROVES IF: AA > 95.4% (raw-pixel k-NN baseline from Step 110)
-DISPROVES IF: AA ≤ 95.4% (representation already optimal, adaptation can't improve it)
-ABANDON BY: Step 113
-STEP: 111 (pending — Eli restarting)
+TESTING: [none — mechanism space mapped. k-NN is the irreducible core. Next arc: learned representations]
+PROVES IF: [not set]
+DISPROVES IF: [not set]
+ABANDON BY: [not set]
+STEP: 113 (next)
+
+STEPS 109-112 SUMMARY:
+  109: Always-spawn beats threshold (+3.1pp → 95.0%). System = append + top-k.
+  110: Raw pixels beat projection (95.4%). No feature extractor needed.
+  111: Retrieval-induced learning: +0.2pp (marginal). Representation saturated.
+  112: Retrieval-driven projection: DISPROVED. Online rank-1 updates break geometry.
 
 S1 VALIDATED:
   P-MNIST:   91.9% AA, self-supervised delta=-0.5pp, mislabel ~8%
