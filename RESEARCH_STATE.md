@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 255. ANALOGY +43pp, context +27pp, var-length +27pp. 155 experiments. 45 to 300.]
+TESTING: [Step 260. Analogy +43pp, Hamming +8.5pp, all domains covered. 159 experiments. 41 to 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
