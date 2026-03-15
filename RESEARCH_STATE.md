@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 275. FIBONACCI 100%. GCD 100%. PRIMALITY 100%. ONE truth table. 177 exps. 23 to 300.]
+TESTING: [Step 276. 2^10=1024. SIX composition levels. Fibonacci+GCD+Primality+Power. 178 exps. 22 to 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
