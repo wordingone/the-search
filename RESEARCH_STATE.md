@@ -6,7 +6,14 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 234. PAIRWISE SORT 93%! Decomposition + iteration closes the sort gap. 134 experiments.]
+TESTING: [Step 235. OOD CEILING BROKEN. Decomposed addition: 100% on 8-bit (0-255), trained on 3-bit primitives only. 135 experiments.]
+
+STEP 235 BREAKTHROUGH:
+  Ripple-carry adder via k-NN: 100% on 888 test pairs including 886 OOD.
+  137 + 200 = 337. 255 + 255 = 510. ALL CORRECT.
+  Train: 8-input full adder truth table (trivial for k-NN).
+  Iterate through bits to add ANY numbers. OOD is automatic.
+  THE OOD CEILING IS BROKEN BY DECOMPOSITION + ITERATION.
 
 COMPREHENSIVE DOMAIN COVERAGE (Steps 97-232):
   MASTERED (in-distribution, 95%+):
