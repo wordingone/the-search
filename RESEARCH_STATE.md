@@ -6,7 +6,14 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 282. a%b prediction LOO=96.1% with 1 feature. Emergent Euclid step promising. 183 exps. 17 to 300.]
+TESTING: [Step 283. Honest: a%b LOO=53.8% (96.1% was overfit). GCD OOD=12.6%. Emergent modular arithmetic FAILS. 184 exps.]
+
+STEP 283 HONEST RESULT:
+  My 96.1% LOO was likely overfit (seed/redundancy). Eli's 53.8% is honest.
+  GCD via iterated predicted step: 12.6% OOD.
+  Root cause: modular arithmetic is periodic/discontinuous. k-NN can't capture it.
+  The gap between pattern matching (79%) and algorithm discovery (100%) is REAL.
+  This IS the unsolved problem. The search has found the frontier, not crossed it.
 
 REVIEWER CORRECTION (Step 279):
   Steps 235-278 proved k-NN is Turing-complete via MANUAL decomposition.
