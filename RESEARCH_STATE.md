@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 173. Stage 6 PASSES: LOO selects L2 over cosine for parity (+12.1pp). Functional form is adaptive.]
+TESTING: [none — Step 174. Stage 7 wall: cos(wx+b) universal for 7/8 rules but can't capture modular arithmetic (parity). 74 experiments.]
 
 CONSTITUTIONAL PROGRESS (updated Step 173):
   Stage 1: PASS (autonomous computation)
