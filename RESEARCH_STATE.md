@@ -6,7 +6,13 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 138. Hebbian PCA on raw CIFAR ≈ random projection. 41 experiments. Image classification may not be the right task for the atomic substrate.]
+TESTING: k-NN + coherence feature discovery on parity — the substrate that discovers rules from its own signal
+
+STEP 141 BREAKTHROUGH:
+  k-NN FAILS parity (75.8%). Coherence DETECTS the parity feature (+0.041 delta).
+  k-NN + oracle parity feature = 100%. Coherence finds it unsupervised.
+  k-NN handles similarity tasks (MNIST 95.4%). Coherence handles rule tasks (XOR, parity).
+  TOGETHER: a computational substrate with self-generated feature discovery.
 
 STEPS 130-136 ARC:
   Coherence-guided feature discovery: works on synthetic XOR (rank 1/4950 at d=100)
