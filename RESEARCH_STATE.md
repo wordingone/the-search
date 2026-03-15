@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 228. Logic 100%, n-gram 99%, arithmetic 94-100%. OOD ceiling. 128 experiments.]
+TESTING: [Step 231. OOD ceiling universal. In-dist: arithmetic +47pp, logic 100%, n-gram 99%. OOD: 0pp help. 131 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
