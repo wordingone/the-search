@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 260. Analogy +43pp, Hamming +8.5pp, all domains covered. 159 experiments. 41 to 300.]
+TESTING: [Step 261. Decomposition SELECTION works (per-bit 100% vs direct 0%). 160 experiments. 40 to 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
