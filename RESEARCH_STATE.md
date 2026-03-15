@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 212. Sequence reversal +22pp. Modular arithmetic +38pp. Wine +5.6pp. 112 experiments. Widening datasets.]
+TESTING: [Step 215. Reversal +22pp, Sort/Copy/Shift 0pp. Position transforms yes, value comparisons no. 115 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
