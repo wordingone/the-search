@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 243. PROGRAM SYNTHESIS discovers full adder from I/O. XOR(cin,XOR(a,b))=sum found. 143 experiments.]
+TESTING: [Step 244. END-TO-END: ripple-carry adder discovered from addition I/O. Decomposition IS discoverable. 144 experiments.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
