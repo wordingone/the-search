@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 233. Iterated sort 39%. Iteration needs perfect 1-step. Scale limit identified. 133 experiments.]
+TESTING: [Step 234. PAIRWISE SORT 93%! Decomposition + iteration closes the sort gap. 134 experiments.]
 
 COMPREHENSIVE DOMAIN COVERAGE (Steps 97-232):
   MASTERED (in-distribution, 95%+):
