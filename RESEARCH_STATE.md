@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 162. STAGE 4 BROKEN. Random features + accuracy selection = 10/10 CA rules. 63 experiments.]
+TESTING: [none — Step 164. Stage 4 BROKEN + validated: 10/10 CA rules, +0.7pp on real MNIST, scales to d=100. 65 experiments.]
 
 CONSTITUTIONAL ASSESSMENT (Step 158):
   Stage 1 (Autonomous Computation): PASS
