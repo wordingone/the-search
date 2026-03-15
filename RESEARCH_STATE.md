@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [NARROWED. One question only: can the substrate discover a decomposition without human design? Let it fail honestly.]
+TESTING: [Step 285. Full-coverage one-hot GCD=100% (lookup table). Depth: can substrate discover WHEN to iterate? 186 exps.]
 
 STEP 283 HONEST RESULT:
   My 96.1% LOO was likely overfit (seed/redundancy). Eli's 53.8% is honest.
