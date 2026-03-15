@@ -1,6 +1,6 @@
 # The Search — Index
 
-*307 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*313 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -70,7 +70,12 @@ python experiments/run_step99_topk_vote.py
 | Periodic encoding + absorption | `experiments/run_step305_periodic_encoding.py` | 100% in-dist + OOD (prescribed physics) |
 | Tempest Fold (f = absorb) | `experiments/tempest_fold.py` | State(t+1) = f(State(t), D) |
 | Tempest + phi observer | `experiments/tempest_fold_phi.py` | 86.8% — substrate was working since Step 296 |
-| Learned phi weights (308b) | — | **91.2%** — substrate discovers metric structure, exceeds frozen phi |
+| Learned phi weights (308b) | `experiments/run_step308_phi_weighted.py` | 91.2% in-dist — substrate finds k=0 importance. OOD: 17% (memorization). |
+| OOD test for learned w (309) | `experiments/run_step309_ood_test.py` | **KILLED** — learned w is memorization (17.3% OOD = chance) |
+| Raw distances + w (310) | `experiments/run_step310_raw_dist_w.py` | **KILLED** (14.5%) — substrate finds b-grouping (R²=0.858) but not class |
+| Recursive absorption (311) | `experiments/run_step311_recursive_absorb.py` | **KILLED** — residuals diverge, depth hurts |
+| Self-scoped partition (312) | `experiments/run_step312_scoped_match.py` | **KILLED** — 56.5% b-match too noisy for phi |
+| Loop turn 2: prescribed weights (313) | `experiments/run_step313_loop_turn2.py` | **+0.5pp** — substrate's k=0 discovery prescribed as exp(-k) → 87.2% |
 
 ### Program Synthesis
 | What | File | Result |

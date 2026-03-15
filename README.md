@@ -2,7 +2,7 @@
 
 **Recursive self-improvement through monotonic frozen frame reduction.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 308 experiments across 27+ sessions, four substrate architectures, 88 constraints, and 78+ knowledge entries.
+This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 313 experiments across 27+ sessions, four substrate architectures, 88 constraints, and 78+ knowledge entries.
 
 The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
 
@@ -16,8 +16,9 @@ We seek the compressed form: a single equation that collapses the fractured stac
 
 ---
 
-## The Result So Far
+## The Results So Far
 
+### Continual Learning (Lipschitz functions)
 **91.8% average accuracy, 0.0pp forgetting, 30 lines, no backprop.**
 
 A competitive-learning codebook that solves Permuted-MNIST (10 sequential tasks) in 20 seconds with structural zero forgetting. No gradient descent, no replay buffer, no regularization. 8,597 prototype vectors on the unit hypersphere, classified by top-k cosine vote.
@@ -77,6 +78,35 @@ class TopKFold:
 
 python experiments/foldcore-steps/run_step99_topk_vote.py        # 10-task P-MNIST
 python experiments/foldcore-steps/run_step99_topk_vote.py 5      # 5-task P-MNIST (faster)
+```
+
+### Non-Lipschitz Classification (Steps 291-313)
+**87.2% on a%b where 1-NN gets 5%. No backprop, no gradient, no learned representation.**
+
+Per-class sorted distance distributions (phi) break the Lipschitz ceiling — the limit of what k-NN can classify. The function a%b is non-Lipschitz (adjacent inputs have different classes), yet phi captures the periodic class structure through distance distribution shape rather than point proximity.
+
+```
+a%b classification, (a,b) in 1..20, LOO:
+
+  1-NN:                5.0%   (Lipschitz ceiling)
+  Top-K sum:          12.5%
+  Phi (sort, K=5):    86.8%   <-- +81.8pp from readout change alone
+  Phi + exp(-k):      87.2%   <-- substrate-discovered weights prescribed back
+  Reflection spawn:   95.2%   (OOD, a in 21..50, with designed mechanism)
+  Periodic encoding: 100.0%   (prescribed physics matching function structure)
+```
+
+Key insight: same-class inputs have **identical** per-class distance distributions even though they're spatially far apart. The fold already computes these distances — phi just sorts them instead of summing.
+
+**Honest limits:**
+- 87.2% is in-distribution. OOD without reflection spawn: 18% (chance).
+- Reflection spawn (95.2%) requires three designed mechanisms, not one operation.
+- The substrate's genuine discovery: k=0 (nearest class-member distance) is most diagnostic. This contributes +0.5pp when prescribed as fixed physics. Everything else is human-designed.
+- The encoding IS the physics. Periodic encoding gives 100% because it encodes the answer. The substrate can't discover its own encoding (Steps 306-312, all killed).
+
+```bash
+python experiments/run_step296_dist_matching.py     # Phi breakthrough (86.8%)
+python experiments/run_step313_loop_turn2.py        # Loop turn 2 (87.2%)
 ```
 
 ---
@@ -165,6 +195,16 @@ All results use frozen feature extractors (random projection for MNIST, frozen R
 
 ---
 
+## The Discovery-Prescription Loop (Steps 308-313)
+
+The substrate and the designer improve each other in a loop:
+1. Human designed phi (sort instead of sum) → 86.8%
+2. Substrate discovered k=0 importance (nearest class-member is most diagnostic) → 91.2% in-dist
+3. Human prescribed the discovery as fixed weights (exp(-k)) → 87.2% (generalizes, unlike learned 91.2%)
+4. Next turn: substrate operates within new prescribed weights → discovers next level → ...
+
+The substrate's genuine contribution is +0.5pp that generalizes across functions. Small but real — and it's the loop's first turn. The intelligence is in the loop between human and substrate, not in either alone.
+
 ## What Failed and Why It Matters
 
 ### The eigenform arc (17 experiments) -- CLOSED
@@ -184,6 +224,14 @@ Every failure traces to a separation that should not exist:
 4. **System / State** -- the algorithm is external to the codebook
 
 The atomic equation is what you get when all four separations collapse.
+
+### The Lipschitz wall (Steps 291-295) -- THEOREM
+
+NN chain iteration is provably lossy for non-Lipschitz functions in Euclidean space. Each step crosses class boundaries with probability p. Accuracy degrades as ~(1-p)^K. Five experiments confirmed from five angles: soft blending (291), AMR (293), LVQ (294), basin sculpting (295). One-step NN is strictly better than any chain.
+
+### Autonomous metric discovery (Steps 306-312) -- KILLED
+
+The substrate discovers b-grouping (R²=0.858) and k=0 feature importance (+0.5pp). It cannot discover per-class distance matching (phi) from raw features. 7 experiments killed: phi-absorb bootstrap corruption (306-307), raw distance learning (310), recursive residuals (311), self-scoped partition (312). The encoding IS the physics — the substrate operates within it, not above it.
 
 ---
 
@@ -271,9 +319,10 @@ Each constraint is a closed door. The pattern of elimination IS the search.
 
 1. ~~Is there a single operation that subsumes spawn + update + classify?~~ **ANSWERED:** f = absorb. State(t+1) = f(State(t), D). (Step 305)
 2. ~~Can top-k readout be derived from the same dynamics that produce the codebook?~~ **ANSWERED:** Phi (per-class distribution matching) IS the readout. 86.8% on a%b. (Step 296)
-3. Can the substrate discover its own distance function? Step 308b: learned weights reach 91.2% (+3.7pp over frozen phi). The dynamics select for discriminative dimensions. **Partially answered — the frontier.**
-4. Can the substrate bootstrap from empty without prescribed encoding? Steps 306-307: NO (chicken-and-egg). Data provides the bootstrap. Physics discovery comes after.
+3. Can the substrate discover its own distance function? Step 308b: learned weights reach 91.2% but OOD = 17% (memorization). Steps 309-312 all killed. The substrate discovers b-grouping (R²=0.858) and k=0 importance (+0.5pp when prescribed), but cannot discover phi from raw features. **The discovery-prescription loop is the mechanism, not autonomous discovery.**
+4. Can the substrate bootstrap from empty without prescribed encoding? Steps 306-307: NO (chicken-and-egg). Data provides the bootstrap. The environment provides the base encoding.
 5. Does this generalize beyond periodic non-Lipschitz functions? Step 302: phi generalizes to floor(a/b). Advantage tracks non-Lipschitz density.
+6. **NEW:** Is the equation State(t+1) = f(State(t), D) the atomic operation? Step 305 confirms with periodic encoding. Tempest (first principles) arrived at the same equation independently. The equation IS f = absorb. The encoding IS the physics. The observer IS external.
 
 ## Requirements
 
