@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 266. CARRY auto-discovered as output bit. Full auto-discovery pipeline. 165 experiments. 35 to 300.]
+TESTING: [Step 267. Subtraction diff discovered. Pipeline works for multiple ops. 170 experiments. 30 to 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
