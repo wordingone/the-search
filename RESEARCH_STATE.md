@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 280. GCD from I/O: 79% (pattern) vs 100% (designed). The 21pp gap = pattern vs algorithm. 181 exps.]
+TESTING: [Step 282. a%b prediction LOO=96.1% with 1 feature. Emergent Euclid step promising. 183 exps. 17 to 300.]
 
 REVIEWER CORRECTION (Step 279):
   Steps 235-278 proved k-NN is Turing-complete via MANUAL decomposition.
