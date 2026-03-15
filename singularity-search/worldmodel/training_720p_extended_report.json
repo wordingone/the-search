@@ -1,0 +1,53 @@
+{
+  "experiment": "Extended 720p Training",
+  "version": "0.10.2",
+  "date": "2026-02-05",
+  "status": "COMPLETED",
+  
+  "training_config": {
+    "start_iteration": 500,
+    "end_iteration": 5000,
+    "total_new_iterations": 4500,
+    "dataset": "webvid",
+    "resolution": "720p",
+    "batch_size": 1,
+    "use_fsq": true,
+    "use_perceptual": true,
+    "perceptual_weight": 0.1
+  },
+  
+  "results": {
+    "final_clip_iqa": 0.6074,
+    "clip_iqa_trend": "stable (no degradation)",
+    "quality_vs_baseline": "+5.8% vs 64x64 baseline (0.574)"
+  },
+  
+  "resources": {
+    "total_time_minutes": 99,
+    "avg_speed_ms_per_iter": 1320,
+    "expected_speed_ms_per_iter": 720,
+    "slowdown_factor": "1.8x (due to duplicate process conflict early)",
+    "gpu_utilization_avg": "95-100%",
+    "gpu_memory_used_mb": 23668,
+    "gpu_memory_total_mb": 24564,
+    "gpu_model": "RTX 4090"
+  },
+  
+  "checkpoints": {
+    "directory": "checkpoints/genesis_720_extended",
+    "count": 9,
+    "size_each_mb": 788,
+    "total_size_gb": 7.1
+  },
+  
+  "issues_encountered": {
+    "duplicate_process": "Two identical training jobs launched, caused 3.5x slowdown until detected and killed",
+    "resolution": "Added anti-pattern to CLAUDE.md and MEMORY.md"
+  },
+  
+  "next_steps": [
+    "#18 - 720p horizon stability test",
+    "#19 - VBench full evaluation at 720p", 
+    "#20 - Final documentation update"
+  ]
+}

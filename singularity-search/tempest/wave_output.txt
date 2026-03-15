@@ -1,0 +1,16 @@
+Seed: 0x8D613BC7
+Cycle 0: 1s=16449, density=0.5020, amp_avg=116.7, vel_avg_abs=36.9, amp_range=0-255, vel_range=-127-127, layers=488-543
+  First 64 state: 0000011000001000010011100100100100110011011001000101011000101000
+  First 16 amplitude: 23 14 10 5 24 182 230 9 22 4 23 7 237 1 1 24
+  First 16 velocity: 14 -16 4 2 -5 44 -47 -19 1 -8 10 10 40 2 -7 -7
+Cycle 10: 1s=15744, density=0.4805, amp_avg=123.6, vel_avg_abs=34.5, amp_range=0-255, vel_range=-127-124, layers=464-536
+Cycle 50: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 100: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 250: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 500: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 1000: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 2000: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+Cycle 5000: 1s=0, density=0.0000, amp_avg=0.0, vel_avg_abs=13.8, amp_range=0-0, vel_range=-94-0, layers=0-0
+  First 64 state: 0000000000000000000000000000000000000000000000000000000000000000
+  First 16 amplitude: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  First 16 velocity: -25 -14 -4 -7 -23 -15 -16 -19 -19 0 -5 -2 -8 -26 -8 -4

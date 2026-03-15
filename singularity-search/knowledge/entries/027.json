@@ -1,0 +1,34 @@
+{
+  "id": "027",
+  "timestamp": "2026-02-24T20:25:00.000000+00:00",
+  "type": "discovery",
+  "title": "Candidate #2 Fails Statistical Validation (Retraction of 026)",
+  "tags": [
+    "stage2",
+    "search",
+    "validation",
+    "retraction"
+  ],
+  "status": "active",
+  "content": {
+    "finding": "Candidate #2 (Session 7 breakthrough) fails statistical validation with 10 seeds. Training: p=0.295 (d=0.35), Novel: p=0.972 (d=0.02). The +7.6% training / +37.6% novel gains were seed-specific, not generalizable.",
+    "evidence": "10-seed paired t-test: seeds [42,137,2024,7,314,1618,2718,3141,9999,31337]. Deltas range -0.063 to +0.186. Seeds 42, 2024, 314, 9999 show NEGATIVE deltas (Candidate #2 worse than canonical).",
+    "implications": [
+      "Session 7 breakthrough was seed-specific noise",
+      "5-seed validation is insufficient — need 10+ seeds minimum",
+      "Training-generalization tradeoff question remains OPEN",
+      "Parameter optimization may face flat landscape dominated by seed variance",
+      "Entry 026 retracted"
+    ],
+    "key_insight": "The plasticity rule parameter space may be dominated by seed-to-seed variance rather than parameter effects. Cohen's d=0.02 for novel signals means effectively zero effect size. Robust validation requires N>=10 seeds.",
+    "retracts": "026"
+  },
+  "session": 8,
+  "references": [
+    "026",
+    "025"
+  ],
+  "constraints_implied": [
+    "5-seed validation is insufficient for detecting parameter effects in this system"
+  ]
+}

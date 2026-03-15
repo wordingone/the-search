@@ -1,0 +1,37 @@
+{
+  "id": "021",
+  "timestamp": "2026-02-24T18:01:08.204688+00:00",
+  "type": "architecture",
+  "title": "Constraint Checker (constraint_checker.py)",
+  "tags": [
+    "architecture",
+    "validation",
+    "constraints"
+  ],
+  "status": "active",
+  "content": {
+    "component": "src/constraint_checker.py",
+    "description": "Validates rule configurations against experimentally-derived constraints",
+    "role": "Filters invalid rule candidates in search loop to prevent repeating known failures",
+    "key_features": [
+      "Loads constraints from .knowledge/constraints.json",
+      "check_rule(config) -> List[Violation]: returns all violated constraints",
+      "is_valid(config) -> bool: quick pass/fail",
+      "Enforces c003, c004, c006, c007, c008, c009",
+      "Violation class with formatted output"
+    ],
+    "dependencies": [
+      ".knowledge/constraints.json"
+    ]
+  },
+  "session": 7,
+  "references": [
+    "c003",
+    "c004",
+    "c006",
+    "c007",
+    "c008",
+    "c009"
+  ],
+  "constraints_implied": []
+}

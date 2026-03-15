@@ -1,0 +1,97 @@
+{
+  "config": {
+    "dim": 64,
+    "hidden_dim": 256,
+    "num_layers": 4,
+    "num_steps": 500,
+    "bits": 8
+  },
+  "summary": {
+    "gelu": {
+      "fp32_final_loss": 0.7013131260871888,
+      "q8_final_loss": 0.7242725968360901,
+      "q8_fp32_ratio": 1.0327378310651685,
+      "diverged": false,
+      "bounded": false,
+      "typical_act_min": -0.16997118443250656,
+      "typical_act_max": 2.2364481568336485
+    },
+    "relu": {
+      "fp32_final_loss": 0.7257396578788757,
+      "q8_final_loss": 0.7330508887767792,
+      "q8_fp32_ratio": 1.0100741784158036,
+      "diverged": false,
+      "bounded": false,
+      "typical_act_min": 0.0,
+      "typical_act_max": 2.2330798387527464
+    },
+    "sigmoid": {
+      "fp32_final_loss": 0.9114250421524048,
+      "q8_final_loss": 0.9233730971813202,
+      "q8_fp32_ratio": 1.01310920193655,
+      "diverged": false,
+      "bounded": true,
+      "typical_act_min": 0.09211698248982429,
+      "typical_act_max": 0.9077136814594269
+    },
+    "tanh": {
+      "fp32_final_loss": 0.6674023270606995,
+      "q8_final_loss": 0.6836468428373337,
+      "q8_fp32_ratio": 1.0243399146445031,
+      "diverged": false,
+      "bounded": true,
+      "typical_act_min": -0.9743402898311615,
+      "typical_act_max": 0.9739030539989472
+    },
+    "hardtanh": {
+      "fp32_final_loss": 0.667069748044014,
+      "q8_final_loss": 0.683847826719284,
+      "q8_fp32_ratio": 1.025151910459066,
+      "diverged": false,
+      "bounded": true,
+      "typical_act_min": -1.0,
+      "typical_act_max": 1.0
+    }
+  },
+  "evaluation": {
+    "passed": false,
+    "bounded_results": [
+      {
+        "activation": "sigmoid",
+        "ratio": 1.01310920193655,
+        "diverged": false,
+        "pass": true
+      },
+      {
+        "activation": "tanh",
+        "ratio": 1.0243399146445031,
+        "diverged": false,
+        "pass": true
+      },
+      {
+        "activation": "hardtanh",
+        "ratio": 1.025151910459066,
+        "diverged": false,
+        "pass": true
+      }
+    ],
+    "unbounded_results": [
+      {
+        "activation": "gelu",
+        "ratio": 1.0327378310651685,
+        "diverged": false,
+        "fails_as_expected": false
+      },
+      {
+        "activation": "relu",
+        "ratio": 1.0100741784158036,
+        "diverged": false,
+        "fails_as_expected": false
+      }
+    ],
+    "bounded_pass": true,
+    "unbounded_fail_as_expected": false,
+    "threshold": 2.0,
+    "interpretation": "MIXED: bounded_pass=True, unbounded_fail=False"
+  }
+}

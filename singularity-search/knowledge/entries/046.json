@@ -1,0 +1,40 @@
+{
+  "id": "046",
+  "timestamp": "2026-02-25T10:00:00+00:00",
+  "type": "experiment",
+  "title": "State parameters (tau, eps, delta) confirmed BINDING at multi-K resolution",
+  "tags": [
+    "stage4",
+    "state-params",
+    "tau",
+    "eps",
+    "delta",
+    "binding",
+    "positive"
+  ],
+  "status": "passed",
+  "session": 14,
+  "content": {
+    "hypothesis": "Entry 043 claimed state parameter binding (d-values for eps, tau, delta) but those values were fabricated by a researcher agent. Actual multi-K experiments needed to determine if tau, eps, delta are binding structural parameters for Stage 4.",
+    "method": "Multi-K sweep K=[4,6,8,10], 5 paired seeds [42,137,2024,999,7], n_perm=4, n_trials=3 (reduced for speed). Per-cell MI measurement. Each param swept across 5 values while others held at canonical. Script: src/stage4_state_param_multik.py",
+    "result": "ALL THREE BINDING at multi-K resolution.\n\nDelta (canonical=0.35):\n- delta=0.1: d=-3.122, p=0.000 (strong degradation)\n- delta=0.2: d=-1.384, p=0.002 (degradation)\n- delta=0.5: d=+0.580, p=0.195 (borderline improvement)\n- delta=0.7: d=+0.738, p=0.099 (borderline improvement)\nPattern: Monotonic. Lower mixing rate hurts significantly. Higher might help but not significant.\n\nEps (canonical=0.15):\n- eps=0.05: d=-3.092, p=0.000 (strong degradation)\n- eps=0.0: d=-0.630, p=0.159 (borderline)\n- eps=0.3: d=+0.426, p=0.340\n- eps=0.5: d=+0.674, p=0.131\nPattern: Non-monotonic. eps=0.05 is WORSE than eps=0.0 (weak coupling actively harmful). Higher eps trends toward improvement but nothing significant.\n\nTau (canonical=0.3):\n- tau=0.2: d=+1.202, p=0.007 (SIGNIFICANT IMPROVEMENT)\n- tau=0.1: d=-0.823, p=0.066 (borderline degradation)\n- tau=0.5: d=+0.758, p=0.090 (borderline improvement)\nPattern: Inverted-U. tau=0.2 is optimal. Canonical tau=0.3 is suboptimal.",
+    "metrics": {
+      "canonical_baseline_multiK": "+0.6668, CV=7.3%",
+      "delta_0.1": "d=-3.122, p=0.000 (strongest degradation)",
+      "delta_0.7": "d=+0.738, p=0.099 (borderline improvement)",
+      "eps_0.05": "d=-3.092, p=0.000 (strong degradation, worse than eps=0)",
+      "eps_0.5": "d=+0.674, p=0.131 (borderline improvement)",
+      "tau_0.2": "d=+1.202, p=0.007 (SIGNIFICANT IMPROVEMENT over canonical)",
+      "tau_0.1": "d=-0.823, p=0.066 (degradation)",
+      "protocol_note": "Reduced n_perm=4, n_trials=3 (half standard protocol). CV=7.3% vs expected 5.1%."
+    },
+    "methodology_lesson": "IMPORTANT CAVEAT: All significant findings are calibration (better fixed values), not adaptive opportunities. delta and eps show significant DEGRADATION in one direction only. tau=0.2 is a better fixed value than canonical tau=0.3. Finding suboptimal canonical defaults is necessary groundwork but is NOT sufficient for Stage 4 — Principle II requires self-generated adaptation signals, not designer-chosen optimal values.",
+    "implication": "tau=0.2 is the strongest Stage 4 candidate: genuine improvement (d=+1.202, p=0.007), inverted-U landscape (non-trivial optimum), and tau controls attention temperature (structurally interpretable). Next step: design a self-generated signal that drives tau toward its optimal value per-cell.",
+    "supersedes": "043"
+  },
+  "constraints_implied": [],
+  "references": [
+    "042",
+    "043"
+  ]
+}

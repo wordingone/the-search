@@ -1,0 +1,64 @@
+{
+  "id": "066",
+  "timestamp": "2026-03-02T22:30:00.000000+00:00",
+  "type": "analysis",
+  "title": "Stage 3 forward plan: dual-timescale I with cycle-boundary adaptation (revised after adversarial review)",
+  "tags": [
+    "anima",
+    "stage3",
+    "forward-plan",
+    "dual-timescale-I",
+    "timescale-barrier",
+    "7plus2",
+    "session20"
+  ],
+  "status": "proposed",
+  "session": 20,
+  "content": {
+    "purpose": "Forward plan for ANIMA Stage 3, revised after adversarial review. Synthesized from constraint taxonomy (48 constraints), 7+2 Framework mapping, Stage 2 vacuousness root cause, and analytical derivation of signal properties.",
+    "central_problem": "Stage 3 requires self-generated adaptation signal for w_lr. The timescale barrier (c048) means no per-step signal works. Analytical derivation shows across-K err variance is monotonically decreasing in w_lr (not peaked at interior optimum). The interior optimum may exist only in MI space, not in prediction-error space.",
+    "architecture_decision": {
+      "chosen": "Dual-timescale I (augment existing I with slow component)",
+      "rejected": "T-as-Phi (new state variable with own dynamics)",
+      "rationale": "Stage 3 makes adaptation rate adaptive — does not add new variables. T-as-Phi would add a new frozen frame element without eliminating two, violating Principle IV. T-as-Phi belongs to Stage 4+. Dual-timescale I maps to 7+2 calcium [Ca2+]i: two timescales of the same variable (fast entry, slow clearance)."
+    },
+    "primary_approach": {
+      "name": "Dual-timescale I with cycle-boundary adaptation (Approach A revised)",
+      "mechanism": "Add mem_slow alongside existing mem in anima_organism.py. I_fast (tau=0.3) tracks per-step err. I_slow (tau_slow=0.001-0.01) accumulates across ~100-1000 steps. At cycle boundary (end of K-signal permutation), I_slow state drives w_lr adaptation.",
+      "seven_plus_two_mapping": "I_fast = fast calcium entry (err detection). I_slow = slow calcium clearance (amplitude x duration integral). Cycle boundary trigger = callback, not a new T variable. T-as-Phi deferred to Stage 4+.",
+      "principle_II_compliance": "I_slow driven by same err variable as I_fast and W. No external evaluator. Adaptation signal is byproduct of computation.",
+      "avoids_constraints": "Not per-step (avoids c048). Fires at cycle boundaries only. No new frozen frame element added."
+    },
+    "analytical_findings": {
+      "err_variance_monotonic": "Across-K err variance is monotonically DECREASING in w_lr. High w_lr = steep err decay within signal windows = high across-K variance. Low w_lr = flat err = low variance. Does NOT peak at interior optimum 0.0003.",
+      "ratio_hypothesis_weakened": "I_slow/I_fast_mean ratio does NOT cleanly peak at interior optimum. Both low w_lr (large I_slow from persistence, moderate I_fast) and high w_lr (moderate I_slow, small I_fast) produce high ratios. Ratio is U-shaped or monotonic, not peaked.",
+      "structural_decoupling": "The interior optimum may exist in MI space (sequence distinguishability) but NOT in err space (prediction error). MI gap measures a global property; err measures a local property. The relationship is non-monotonic in MI but potentially monotonic in err.",
+      "equilibrium_hypothesis": "A monotonic signal may still have a natural fixed point near the optimum if there are countervailing boundary forces: at very high w_lr, W oscillates/diverges (err explodes, downward pressure); at very low w_lr, err is pure noise (I accumulates garbage, upward pressure). The equilibrium between these pressures may naturally sit near the optimum. KEY OPEN QUESTION for Phase 1."
+    },
+    "fallback_approaches": {
+      "B_I_curvature": {
+        "name": "I trajectory curvature (single-variable, no T)",
+        "signal": "norm(mem_end - mem_start) / sequence_length",
+        "risk": "1D cycle-level signal. Likely monotonic — same limitation as ratio."
+      },
+      "C_W_velocity": {
+        "name": "W convergence rate",
+        "signal": "mean(|w_end_cycle_N - w_end_cycle_N-1|)",
+        "risk": "c026 lesson: parameter activity does not imply optimal performance."
+      }
+    },
+    "phase_gate": {
+      "phase_1_analytical_then_empirical": "Session 21. (a) Derive I_slow(w_lr) and I_fast_mean(w_lr) shapes analytically — confirm monotonicity. (b) Derive whether adaptation dynamics d(w_lr) = f(I_slow, I_fast) has a natural equilibrium (boundary forces creating fixed point). (c) 2-seed empirical characterization at w_lr = [0.0001, 0.0003, 0.001, 0.003, 0.01]: measure I_slow, I_fast_mean, I_curvature, W_velocity. (d) Normalize by cycle length for K-confound.",
+      "phase_2_binding": "5-seed paired diagnostic. Does adaptive w_lr converge to values near 0.0003? Non-trivial, non-degenerate behavior?",
+      "phase_3_validation": "10-seed multi-K paired design. Dual-I-adaptive vs fixed w_lr=0.0003."
+    },
+    "open_questions": [
+      "Does the adaptation dynamics d(w_lr) = f(I_slow, I_fast) have a natural equilibrium near 0.0003 due to boundary forces (W divergence at high w_lr, noise-dominated err at low w_lr)?",
+      "Is the w_lr interior optimum structurally invisible from within err-space? If so, is w_lr a calibration parameter at ALL stages — not an adaptation target?",
+      "If w_lr is not adaptable, which frozen frame element should Stage 3 target instead? (gamma, tau, structural constant?)"
+    ],
+    "vacuousness_criterion": "If Phase 1 shows (a) all internal signals are monotonic in w_lr with no peaked structure, AND (b) no natural equilibrium exists in the adaptation dynamics, Stage 3 for w_lr is structurally vacuous. The inverted-U landscape has no intrinsic gradient detectable from within. This would be a significant theoretical result: the MI-err structural decoupling."
+  },
+  "constraints_implied": [],
+  "references": ["059", "062", "064", "065"]
+}

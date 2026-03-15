@@ -1,0 +1,79 @@
+{
+  "target_params": 8964,
+  "tolerance": 0.01,
+  "timestamp": "2026-01-11T17:02:34.622991",
+  "models": {
+    "Transformer": {
+      "params": 8964,
+      "reasoning": {
+        "sequence": 0.88,
+        "pattern": 1.0,
+        "conditional": 0.88,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.76,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.94,
+      "physics_avg": 0.94,
+      "overall": 0.94
+    },
+    "ANIMA-Zero": {
+      "params": 8964,
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 1.0,
+        "conditional": 0.82,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 1.0,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.955,
+      "physics_avg": 1.0,
+      "overall": 0.9775
+    },
+    "ANIMA-One": {
+      "params": 8964,
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 0.98,
+        "conditional": 0.94,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.9,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.98,
+      "physics_avg": 0.975,
+      "overall": 0.9775
+    },
+    "ANIMA-Two": {
+      "params": 8964,
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 0.96,
+        "conditional": 0.82,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.92,
+        "goal": 0.96,
+        "momentum": 0.98
+      },
+      "reasoning_avg": 0.945,
+      "physics_avg": 0.965,
+      "overall": 0.955
+    }
+  }
+}

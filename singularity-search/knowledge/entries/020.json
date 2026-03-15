@@ -1,0 +1,28 @@
+{
+  "id": "020",
+  "timestamp": "2026-02-24T18:00:57.578321+00:00",
+  "type": "architecture",
+  "title": "Search Space Definition (search_space.py)",
+  "tags": [
+    "architecture",
+    "search",
+    "stage3"
+  ],
+  "status": "active",
+  "content": {
+    "component": "src/search_space.py",
+    "description": "Defines the space of possible plasticity rules and sampling/mutation operations",
+    "role": "Encodes parameter bounds and valid rule configurations for evolutionary search",
+    "key_features": [
+      "PARAM_BOUNDS: canonical values + search ranges for eta, symmetry_break, amplify, drift, threshold, clip",
+      "canonical_rule(): returns baseline configuration",
+      "random_rule(): samples valid random configuration",
+      "mutate_rule(): applies constrained mutations",
+      "Encodes c008/c009: avoids self-referential eta methods"
+    ],
+    "dependencies": []
+  },
+  "session": 7,
+  "references": [],
+  "constraints_implied": []
+}

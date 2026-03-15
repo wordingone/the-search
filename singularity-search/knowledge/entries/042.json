@@ -1,0 +1,40 @@
+{
+  "id": "042",
+  "timestamp": "2026-02-25T09:15:00+00:00",
+  "type": "experiment",
+  "title": "Stage 4 Phase 1: Clip bounds BINDING (multi-K exact-spec validation)",
+  "tags": [
+    "stage4",
+    "clip-bounds",
+    "positive",
+    "validation",
+    "methodology",
+    "architecture-review"
+  ],
+  "status": "passed",
+  "session": 13,
+  "content": {
+    "hypothesis": "Entry 039 (single-K K=6 diagnostic) concluded clip bounds are non-binding. This was methodologically limited by CV≈14.8%. Using multi-K averaging K=[4,6,8,10] which achieves CV≈5.1% (3x reduction), the same clip bounds conditions should be reanalyzed to test if binding effects are revealed.",
+    "method": "Multi-K reanalysis of Task #14 clip bounds sweep. Average MI gaps across K=[4,6,8,10], paired seeds same as original. Same conditions: CANONICAL [0.3,1.8], VERY_NARROW [0.7,1.3], NARROW_TIGHT [0.5,1.6], NARROW_LO [0.5,1.8], WIDE_LO [0.1,1.8], ASYMM_LO [0.05,1.8], ASYMM_HI [0.3,2.8], WIDE_HI [0.3,2.8].",
+    "result": "PASSED. Binding effects CONFIRMED at multi-K resolution.\n\nKey numbers:\n- Canonical [0.3, 1.8]: mean MI gap = +0.6274, CV=5.1%\n- VERY_NARROW [0.7, 1.3]: d=7.583, p=0.000 (highly significant)\n- NARROW_TIGHT [0.5, 1.6]: d=2.841, p=0.001 (significant)\n- NARROW_LO [0.5, 1.8]: d=1.253, p=0.091 (borderline)\n- All other conditions: d<0.5, p>0.1 (non-binding)\n\nConclusion: Clip bounds ARE BINDING when tested with adequate power (multi-K CV=5.1%). The single-K conclusion (p=0.096, non-binding) was a methodological false negative due to high variance.",
+    "metrics": {
+      "canonical_0.3_1.8_multiK": "baseline +0.6274 CV=5.1%",
+      "VERY_NARROW_0.7_1.3": "d=7.583, p=0.000 — BINDING (strongest effect)",
+      "NARROW_TIGHT_0.5_1.6": "d=2.841, p=0.001 — BINDING (clear effect)",
+      "NARROW_LO_0.5_1.8": "d=1.253, p=0.091 — borderline",
+      "MI_gap_range_multiK": "25.3% improvement with VERY_NARROW vs canonical",
+      "cv_improvement": "14.8% (single-K) → 5.1% (multi-K) = 3x variance reduction"
+    },
+    "methodology_lesson": "The earlier Task #14 conclusion was undermined by single-K variance (CV=14.8%). At n=5 paired seeds, d=0.610 is in the noisy zone (insufficient to overcome natural sampling variance). Multi-K averaging moves the signal into the clear zone (d=7.583, p=0.000). This is NOT a contradiction; it's a power issue.",
+    "implication": "Stage 4 Phase 2 must test CLIP BOUNDS as a PRIMARY binding target, not a secondary candidate. VERY_NARROW [0.7,1.3] has the strongest effect size of any plasticity parameter tested to date (d=7.583, exceeds tau d=-0.851). This should take priority over state parameters for Phase 2.",
+    "frozen_frame_accounting": "Clip bounds become per-cell adaptive: alpha_clip_lo[NC], alpha_clip_hi[NC]. New frozen elements: clip_signal (how to drive adaptation), clip_meta (meta-rate). Net change: +2 frozen elements (justified as necessary infrastructure).",
+    "priority_ranking": "Stage 4 Phase 2 priority (updated):\n1. TIER 0 (PRIMARY): Clip bounds VERY_NARROW [0.7,1.3] — d=7.583, strongest binding\n2. TIER 1: State param eps — d=-0.663, secondary binding\n3. TIER 2: State param delta — d=-0.502\n4. TIER 3: State param tau — d=-0.851 (strongest absolute but harder signal design)"
+  },
+  "constraints_implied": [
+    "Single-K diagnostics insufficient; multi-K protocol required (K=[4,6,8,10] averaging achieves CV≈5.1% vs K=6-only CV≈14.8%)"
+  ],
+  "references": [
+    "039",
+    "041"
+  ]
+}

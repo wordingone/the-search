@@ -1,0 +1,256 @@
+{
+  "timestamp": "2026-01-11 12:32:35",
+  "entity": "Anima",
+  "theory": "Intelligence Emergence S = (V, tau, F, phi)",
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "name": "State Separation",
+      "passed": "True",
+      "steps_completed": 250,
+      "survived": true,
+      "total_cycles": 4,
+      "final_phase": 0.08588176570456785,
+      "world_norm": 0.6747702956199646,
+      "internal_norm": 0.7049201726913452,
+      "world_memory_norm": 0.42790499329566956,
+      "internal_memory_norm": 1.4456429481506348,
+      "avg_prediction_error": 0.41979722440242767,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.2904341220855713,
+      "details": {
+        "corr_wi": 0.4954444547883841,
+        "corr_wp": 0.05389380510240316,
+        "corr_ip": 0.21736783582411873,
+        "var_w": 0.027367041149735455,
+        "var_i": 0.009408994498097309,
+        "var_p": 3.3096192430873366
+      }
+    },
+    {
+      "name": "Consolidation",
+      "passed": true,
+      "steps_completed": 500,
+      "survived": true,
+      "total_cycles": 16,
+      "final_phase": 0.6063787086157624,
+      "world_norm": 0.5827413201332092,
+      "internal_norm": 0.920182466506958,
+      "world_memory_norm": 1.1113131046295166,
+      "internal_memory_norm": 1.674597144126892,
+      "avg_prediction_error": 0.3858691255748272,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.260145902633667,
+      "details": {
+        "cycle_events": [
+          {
+            "step": 31,
+            "cycle": 1,
+            "world_mem_norm": 0.08269653469324112,
+            "internal_mem_norm": 0.869348406791687
+          },
+          {
+            "step": 62,
+            "cycle": 2,
+            "world_mem_norm": 0.1664457768201828,
+            "internal_mem_norm": 1.1377570629119873
+          },
+          {
+            "step": 93,
+            "cycle": 3,
+            "world_mem_norm": 0.27402931451797485,
+            "internal_mem_norm": 1.3766705989837646
+          },
+          {
+            "step": 124,
+            "cycle": 4,
+            "world_mem_norm": 0.3635041415691376,
+            "internal_mem_norm": 1.6822667121887207
+          },
+          {
+            "step": 155,
+            "cycle": 5,
+            "world_mem_norm": 0.4504554569721222,
+            "internal_mem_norm": 1.6234431266784668
+          },
+          {
+            "step": 186,
+            "cycle": 6,
+            "world_mem_norm": 0.5349135398864746,
+            "internal_mem_norm": 1.7098568677902222
+          },
+          {
+            "step": 217,
+            "cycle": 7,
+            "world_mem_norm": 0.6135547161102295,
+            "internal_mem_norm": 1.7457501888275146
+          },
+          {
+            "step": 248,
+            "cycle": 8,
+            "world_mem_norm": 0.6940091848373413,
+            "internal_mem_norm": 1.7361087799072266
+          },
+          {
+            "step": 279,
+            "cycle": 9,
+            "world_mem_norm": 0.7609244585037231,
+            "internal_mem_norm": 1.934983730316162
+          },
+          {
+            "step": 310,
+            "cycle": 10,
+            "world_mem_norm": 0.8338074684143066,
+            "internal_mem_norm": 1.9070017337799072
+          }
+        ]
+      }
+    },
+    {
+      "name": "Coherence",
+      "passed": true,
+      "steps_completed": 1000,
+      "survived": true,
+      "total_cycles": 16,
+      "final_phase": 0.8759447205661468,
+      "world_norm": 0.7166295647621155,
+      "internal_norm": 0.6700115203857422,
+      "world_memory_norm": 1.3385788202285767,
+      "internal_memory_norm": 1.7087974548339844,
+      "avg_prediction_error": 0.5174249514937401,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.5716378688812256,
+      "details": {
+        "max_world_norm": 1.134090781211853,
+        "max_internal_norm": 1.1247857809066772
+      }
+    },
+    {
+      "name": "Perturbation",
+      "passed": "True",
+      "steps_completed": 1000,
+      "survived": true,
+      "total_cycles": 16,
+      "final_phase": 0.6861718261091575,
+      "world_norm": 0.7108842730522156,
+      "internal_norm": 0.8115831613540649,
+      "world_memory_norm": 1.2592554092407227,
+      "internal_memory_norm": 1.6023764610290527,
+      "avg_prediction_error": 0.43304783388972284,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.5221517086029053,
+      "details": {
+        "avg_error_before": 0.39486798232793807,
+        "avg_error_after": 0.40653152254223823
+      }
+    },
+    {
+      "name": "Observables",
+      "passed": true,
+      "steps_completed": 250,
+      "survived": true,
+      "total_cycles": 4,
+      "final_phase": 0.021427672874152925,
+      "world_norm": 0.8842267990112305,
+      "internal_norm": 0.7434757947921753,
+      "world_memory_norm": 0.4400787353515625,
+      "internal_memory_norm": 1.6218458414077759,
+      "avg_prediction_error": 0.4659983146190643,
+      "energy": 0.7499999999999998,
+      "death_cause": null,
+      "runtime_seconds": 0.12709426879882812,
+      "details": {
+        "sample_status": {
+          "alive": "True",
+          "step": "1",
+          "world_state_norm": "0.300005704164505",
+          "internal_state_norm": "0.39567050337791443",
+          "phase": "0.10062750957906247",
+          "cycle": "0",
+          "cycle_completed": "False",
+          "prediction_error": "0.41805562376976013",
+          "action": "tensor([[ 0.0805, -0.0403,  0.0597, -0.0705]])",
+          "activity_rate": "0.06275095790624619",
+          "energy": "0.999"
+        }
+      }
+    },
+    {
+      "name": "Energy Modes",
+      "passed": true,
+      "steps_completed": 500,
+      "survived": true,
+      "total_cycles": 0,
+      "final_phase": 0,
+      "world_norm": 0,
+      "internal_norm": 0,
+      "world_memory_norm": 0,
+      "internal_memory_norm": 0,
+      "avg_prediction_error": 0,
+      "energy": 0.49999999999999956,
+      "death_cause": null,
+      "runtime_seconds": 0.5677227973937988,
+      "details": {
+        "no_energy": {
+          "survived": true,
+          "steps": 500,
+          "energy": null,
+          "death_cause": null
+        },
+        "with_energy": {
+          "survived": true,
+          "steps": 500,
+          "energy": 0.49999999999999956,
+          "death_cause": null
+        }
+      }
+    },
+    {
+      "name": "Action Generation",
+      "passed": "True",
+      "steps_completed": 250,
+      "survived": true,
+      "total_cycles": 4,
+      "final_phase": 0.13173118643086462,
+      "world_norm": 0.9022035002708435,
+      "internal_norm": 0.7826377749443054,
+      "world_memory_norm": 0.37856900691986084,
+      "internal_memory_norm": 1.5860397815704346,
+      "avg_prediction_error": 0.38755871102213857,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.13479256629943848,
+      "details": {
+        "action_dim_ok": true,
+        "variation_ok": "True",
+        "correlation": 0.05994010097154375
+      }
+    },
+    {
+      "name": "Cross-Type Coupling",
+      "passed": "True",
+      "steps_completed": 250,
+      "survived": true,
+      "total_cycles": 4,
+      "final_phase": 0.030822797451134143,
+      "world_norm": 0.8396362662315369,
+      "internal_norm": 0.8277517557144165,
+      "world_memory_norm": 0.33849477767944336,
+      "internal_memory_norm": 1.561368465423584,
+      "avg_prediction_error": 0.34934125855565074,
+      "energy": null,
+      "death_cause": null,
+      "runtime_seconds": 0.13395094871520996,
+      "details": {
+        "s_w": 0.038854103617968185,
+        "e_i": 0.019134394181669952,
+        "i_a": 0.0166957400620801
+      }
+    }
+  ]
+}

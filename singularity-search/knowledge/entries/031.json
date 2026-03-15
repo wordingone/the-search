@@ -1,0 +1,44 @@
+{
+  "id": "031",
+  "timestamp": "2026-02-24T21:30:00.000000+00:00",
+  "type": "discovery",
+  "title": "Variance Reduction: 2× Signal Exposure Cuts CV from 29% to 20%",
+  "tags": [
+    "methodology",
+    "validation",
+    "protocol"
+  ],
+  "status": "active",
+  "content": {
+    "finding": "Of three variance reduction approaches tested, only longer signal exposure (n_perm=8, n_trials=6, doubling both) reduces CV meaningfully: 29.2% → 19.6% (1.79× improvement). Within-seed paired design INCREASES variance (CV=91.9%), and adding K values INCREASES variance (CV=48.2%).",
+    "evidence": "Tested on canonical baseline across 10 seeds. (1) Paired design: difference of two noisy measurements has double variance, CV=91.9%. (2) 2× exposure: n_perm=8, n_trials=6, CV=19.6%. (3) Extended K=[3,4,6,8,10,12]: K=3,12 add noise without averaging benefit, CV=48.2%.",
+    "approaches_tested": {
+      "within_seed_paired": {"cv": 91.9, "reduction_factor": 0.32, "verdict": "DO NOT USE"},
+      "longer_exposure": {"cv": 19.6, "reduction_factor": 1.79, "protocol": "n_perm=8, n_trials=6", "verdict": "ADOPT"},
+      "more_k_values": {"cv": 48.2, "reduction_factor": 0.73, "verdict": "DO NOT USE"}
+    },
+    "implications": [
+      "Future experiments should use n_perm=8, n_trials=6 (4× runtime cost)",
+      "With CV=20%, minimum detectable effect drops from ~8% to ~5%",
+      "This does NOT rescue Candidate #2 or delta_rz (effect sizes ~0-2%)",
+      "Still need ~50 seeds for effects <5%, but 10-seed experiments can now detect 5%+ effects"
+    ],
+    "key_insight": "Variance reduction through longer exposure is the only viable path. Paired designs fail because both conditions share the same noise sources. Extended K values fail because extreme K adds more noise than averaging removes.",
+    "new_protocol": {
+      "n_perm": 8,
+      "n_trials": 6,
+      "expected_cv": 20,
+      "runtime_multiplier": 4,
+      "minimum_detectable_effect_10_seeds": "~5%"
+    }
+  },
+  "session": 8,
+  "references": [
+    "030"
+  ],
+  "constraints_implied": [
+    "Future experiments must use n_perm=8, n_trials=6 (2× exposure) to achieve CV≈20%",
+    "Within-seed paired design increases variance — do not use",
+    "Adding extreme K values (K=3,12) increases variance — stick to K=[4,6,8,10]"
+  ]
+}

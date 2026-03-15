@@ -1,0 +1,62 @@
+{
+  "id": "058",
+  "timestamp": "2026-03-02T17:45:00.000000+00:00",
+  "type": "experiment",
+  "title": "ANIMA Stage 1 Ground Truth Test: MI Gap > 0 Confirmed",
+  "tags": [
+    "anima",
+    "stage1",
+    "ground-truth",
+    "mi-gap",
+    "session18"
+  ],
+  "status": "active",
+  "session": 18,
+  "content": {
+    "purpose": "Test whether ANIMA W+I dynamics produce MI gap > 0 under standard protocol, confirming the architecture computes on this task class.",
+    "methodology": {
+      "organism": "AnimaOrganism (src/anima_organism.py)",
+      "protocol": "Standard harness protocol: 10 seeds, K=[4,6,8,10], n_perm=8, n_trials=6, delta=1.0",
+      "seeds": [42, 137, 256, 512, 1024, 2024, 7777, 31337, 99991, 111111],
+      "conditions": {
+        "STILL": "alive=False — I (mem) stays at zero, no accumulation (control)",
+        "ALIVE": "alive=True — I accumulates prediction error via tau=0.3 leaky integrator"
+      },
+      "parameters": {
+        "w_lr": 0.01,
+        "tau": 0.3,
+        "gamma": 0.9,
+        "w_clip": 2.0,
+        "noise": 0.005,
+        "delta": 1.0
+      },
+      "dynamics": "Per cell (i,k): neighbor=x[k+1]*x[k-1] (ring topology). W predicts neighbor interaction. Signal couples via gamma. err=actual-w_pred. W learns: w += w_lr*tanh(err). I accumulates (alive only): mem = (1-tau)*mem + tau*tanh(err). State: x_new = tanh(x + w*neighbor + mem*x)."
+    },
+    "results": {
+      "still_gap": -0.0006,
+      "still_std": 0.0156,
+      "alive_gap": 0.0274,
+      "alive_std": 0.0393,
+      "gap_delta": 0.028,
+      "d_statistic": 0.8405,
+      "ground_truth_pass": true,
+      "n_datapoints": 40
+    },
+    "interpretation": {
+      "ground_truth": "PASS — alive_gap > 0 means ANIMA produces sequence-distinguishable final states",
+      "effect_size": "d=0.84 is medium effect. Living Seed achieves d~20+ at canonical params, but ANIMA is uncalibrated prototype with zero parameter tuning. The critical result is gap > 0, not gap magnitude.",
+      "still_near_zero": "STILL gap ≈ 0 (expected) — without I accumulation, no sequence memory, final states are indistinguishable",
+      "alive_positive": "ALIVE gap +0.0274 — I accumulation creates sequence-dependent final states as predicted by W⊕I⊕T theory",
+      "mechanism_confirmed": "Prediction error accumulation in I creates irreversible state history. Different signal orderings produce different I trajectories, producing different final centroids."
+    },
+    "implications": {
+      "architecture_viable": "ANIMA computes on this task class. Substrate transition from Living Seed is viable.",
+      "calibration_needed": "d=0.84 vs Living Seed d~20+ suggests room for parameter optimization in Session 19",
+      "stage2_ready": "Stage 1 passed → Stage 2 (W-conditioned adaptation) can proceed in Session 19"
+    },
+    "files_created": [
+      "src/anima_organism.py",
+      "src/run_anima_stage1.py"
+    ]
+  }
+}

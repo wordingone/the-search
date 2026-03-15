@@ -1,0 +1,76 @@
+{
+  "ANIMA-Zero": {
+    "params": 24967,
+    "reasoning": {
+      "sequence": 0.9599999785423279,
+      "pattern": 0.875,
+      "conditional": 0.8574999570846558,
+      "analogy": 0.75
+    },
+    "physics": {
+      "projectile": 0.9774999618530273,
+      "collision": 0.5199999809265137,
+      "goal": 0.7599999904632568,
+      "momentum": 0.9325000047683716
+    },
+    "reasoning_avg": 0.8606249839067459,
+    "physics_avg": 0.7974999845027924,
+    "overall": 0.8290624842047691
+  },
+  "ANIMA-One": {
+    "params": 24816,
+    "reasoning": {
+      "sequence": 0.9874999523162842,
+      "pattern": 0.9024999737739563,
+      "conditional": 0.8324999809265137,
+      "analogy": 0.9350000023841858
+    },
+    "physics": {
+      "projectile": 0.9624999761581421,
+      "collision": 0.4599999785423279,
+      "goal": 0.9300000071525574,
+      "momentum": 0.8125
+    },
+    "reasoning_avg": 0.914374977350235,
+    "physics_avg": 0.7912499904632568,
+    "overall": 0.8528124839067459
+  },
+  "ANIMA-Two": {
+    "params": 24561,
+    "reasoning": {
+      "sequence": 1.0,
+      "pattern": 0.8899999856948853,
+      "conditional": 0.8949999809265137,
+      "analogy": 0.7649999856948853
+    },
+    "physics": {
+      "projectile": 1.0,
+      "collision": 0.47999998927116394,
+      "goal": 0.7999999523162842,
+      "momentum": 0.9624999761581421
+    },
+    "reasoning_avg": 0.887499988079071,
+    "physics_avg": 0.8106249794363976,
+    "overall": 0.8490624837577343
+  },
+  "Transformer": {
+    "params": 24388,
+    "reasoning": {
+      "sequence": 1.0,
+      "pattern": 0.8624999523162842,
+      "conditional": 0.9274999499320984,
+      "analogy": 0.7849999666213989
+    },
+    "physics": {
+      "projectile": 1.0,
+      "collision": 0.5999999642372131,
+      "goal": 0.8499999642372131,
+      "momentum": 0.9149999618530273
+    },
+    "reasoning_avg": 0.8937499672174454,
+    "physics_avg": 0.8412499725818634,
+    "overall": 0.8674999698996544
+  },
+  "target_params": 25000,
+  "tolerance": 0.05
+}

@@ -1,0 +1,20 @@
+{
+  "id": "040",
+  "timestamp": "2026-02-25T10:30:00+00:00",
+  "type": "discovery",
+  "title": "Multi-K averaging methodology: 3x variance reduction",
+  "tags": [
+    "methodology",
+    "validation",
+    "protocol"
+  ],
+  "status": "active",
+  "session": 13,
+  "content": {
+    "finding": "Single-K diagnostics (K=6 only) have CV≈14.8%. Multi-K averaging across K=[4,6,8,10] achieves CV≈5.1%, a 3x variance reduction.",
+    "impact": "This methodological upgrade enables detection of binding effects that are invisible to single-K diagnostics.",
+    "example": "Clip bounds appeared non-binding at K=6 (NARROW_TIGHT d=0.610, p=0.096, CV=14.8%) but are clearly binding at multi-K (VERY_NARROW d=7.583, p=0.000, CV=5.1%).",
+    "implication": "All Phase 1 diagnostics must use multi-K protocol going forward to avoid false negatives.",
+    "protocol": "For each condition: evaluate at K in [4,6,8,10], compute MI gap per K, average across K values to reduce noise."
+  }
+}

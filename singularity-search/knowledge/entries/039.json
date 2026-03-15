@@ -1,0 +1,57 @@
+{
+  "id": "039",
+  "timestamp": "2026-02-25T08:30:00+00:00",
+  "type": "experiment",
+  "title": "Stage 4 Phase 1: Clip bounds non-binding (5-seed paired diagnostic)",
+  "tags": [
+    "stage4",
+    "clip-bounds",
+    "negative",
+    "validation",
+    "architecture-review"
+  ],
+  "status": "failed",
+  "session": 13,
+  "content": {
+    "hypothesis": "alpha_clip_lo (0.3) and alpha_clip_hi (1.8) are binding structural parameters — varying them produces measurable MI gap differences, making them viable Stage 4 adaptive targets. Clip bounds define the reachable state space for alpha, with 15% lower-bound saturation confirming the lower bound is structurally active.",
+    "method": "5 paired seeds, K=6, n_perm=8, n_trials=6. Conditions: CANONICAL [0.3,1.8], WIDE_LO [0.1,1.8], NARROW_LO [0.5,1.8], NARROW_TIGHT [0.5,1.6], WIDE_HI [0.3,2.8], ASYMM_LO [0.05,1.8], ASYMM_HI [0.3,2.8]. Paired seeds across conditions to avoid confounding seed variance (c024).",
+    "result": "FAILED. Kill criterion met — all p >= 0.096. MI gap range across all conditions = only 5.8% of canonical. No condition significantly outperforms canonical.\n\nKey numbers:\n- Canonical [0.3, 1.8]: mean MI gap = +0.6274, CV=14.8%\n- ASYMM_LO [0.05, 1.8]: p=0.096, d=0.744 — closest to signal, still misses significance\n- ASYMM_HI [0.3, 2.8]: p=0.802, d=0.112 — pure null\n- NARROW_TIGHT [0.5, 1.6]: p=0.096 (estimated), d=0.610, mean=+0.6636 — all 5 seeds above canonical\n\nSaturation paradox: lower clip (0.3) is hit by 15.1% of alpha updates — it IS structurally active. Yet MI is insensitive to its value. Being active is not the same as being binding.",
+    "metrics": {
+      "canonical_0.3_1.8": "baseline +0.6274 CV=14.8%",
+      "ASYMM_LO_0.05_1.8": "p=0.096, d=0.744 — closest candidate, not significant",
+      "ASYMM_HI_0.3_2.8": "p=0.802, d=0.112 — pure null",
+      "NARROW_TIGHT_0.5_1.6": "all 5 seeds above canonical, d=0.610, p=0.096 (borderline)",
+      "MI_gap_range": "5.8% of canonical across all conditions",
+      "saturation_lower": "15.1% of alpha updates hit lower bound",
+      "saturation_upper": "0.3% of alpha updates hit upper bound"
+    },
+    "root_cause": "Clip bounds define the reachable state space but the system's actual operating range is well within the bounds for most conditions. The lower bound's 15.1% saturation rate does not translate to binding constraint — the system can achieve equivalent MI with different bounds because alpha values near the boundary are not computationally critical for mutual information. The paradox: parameter activity (hitting the bound) ≠ parameter binding (performance depends on value).",
+    "implication": "Architecture review trigger has fired. All plasticity rule structural parameters are now confirmed non-binding:\n- eta: vacuous (Stage 3, 7 sessions, c011)\n- threshold: non-binding (Stage 4, c023)\n- alpha_clip_lo/hi: non-binding (Stage 4, this entry)\n- Branch weights (amplify_mult, drift_mult, symmetry_break_mult): scaling (Stage 6)\n- beta/gamma: permanently blocked (c001-c007)\n\nTwo paths for team-lead ruling:\n1. Amendment 1 path: run adaptive clip bounds to satisfy Criterion 2, then declare Stage 4 vacuous\n2. Stage 6 path: skip topology (Stage 5) and functional form adaptation (Stage 6 = functional form becomes adaptive)\n\nBORDERLINE FINDING: NARROW_TIGHT [0.5, 1.6] shows consistent direction (all 5 seeds above canonical, d=0.610) but p=0.096 at n=5, CV=14.8%. This could be genuine (+5.8% MI) or the same noise pattern as threshold's false positive. Team-lead must rule on whether to validate with 10-seed test or dismiss.",
+    "narrow_tight_analysis": {
+      "condition": "NARROW_TIGHT [0.5, 1.6]",
+      "n_seeds": 5,
+      "direction": "all 5 seeds above canonical",
+      "cohen_d": 0.610,
+      "p_value": 0.096,
+      "cv": "14.8%",
+      "interpretation_A": "Genuine: narrower range reduces alpha noise, forcing cells to work harder within a tighter range, improving discrimination. +5.8% improvement would be meaningful.",
+      "interpretation_B": "Noise: threshold's ASYM_HI appeared to show +20% at n=3 (p<0.05) and was pure noise at n=10. NARROW_TIGHT shows smaller effect at n=5 — may collapse at n=10. Key difference: CV=14.8% here vs 37% for threshold, so 5-seed result is more reliable.",
+      "recommendation": "Flag for team-lead decision. The CV=14.8% makes this more credible than the threshold false positive, but it is still subthreshold. A targeted 10-seed test (~30 min) would resolve it definitively."
+    }
+  },
+  "constraints_implied": [
+    "alpha_clip_lo/hi are non-binding — structurally active (15% saturation) but performance-insensitive across meaningful range",
+    "Parameter activity (hitting bounds) does not imply parameter binding (performance depends on value)"
+  ],
+  "references": [
+    "038",
+    "031",
+    "030",
+    "037"
+  ],
+  "addendum": {
+    "date": "2026-02-25T09:15:00+00:00",
+    "note": "REVISED: This entry's conclusion (clip bounds non-binding) was based on single-K K=6 diagnostics with CV≈14.8%. Multi-K reanalysis (K=[4,6,8,10], CV≈5.1%) reveals clip bounds ARE BINDING (d=7.583, p=0.000 for VERY_NARROW [0.7,1.3]). The original conclusion was a methodological false negative due to high variance. See entry 042 for multi-K validation and entry 041 for methodology discovery c027.",
+    "impact": "Stage 4 prioritization inverted: clip bounds should be PRIMARY Phase 2 target (d=7.583), not secondary."
+  }
+}

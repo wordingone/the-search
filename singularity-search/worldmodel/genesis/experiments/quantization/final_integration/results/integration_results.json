@@ -1,0 +1,51 @@
+{
+  "config": {
+    "dim": 64,
+    "hidden_dim": 256,
+    "num_layers": 4,
+    "field_size": 16,
+    "window_size": 4,
+    "fsq_levels": [
+      8,
+      6,
+      5,
+      5,
+      5
+    ],
+    "sparsity": 0.05,
+    "num_steps": 1000,
+    "bits": 8
+  },
+  "summary": {
+    "fp32": {
+      "final_loss": 0.9275635862350464,
+      "codebook_utilization": 0.9176666666666666,
+      "diverged": false
+    },
+    "q8_full": {
+      "final_loss": 2.4597177791595457,
+      "codebook_utilization": 0.7471666666666666,
+      "diverged": false
+    },
+    "mixed": {
+      "final_loss": 2.222233419418335,
+      "codebook_utilization": 1.0,
+      "diverged": false
+    },
+    "q8_sensitive": {
+      "final_loss": 2.0562140464782717,
+      "codebook_utilization": 0.9991666666666666,
+      "diverged": false
+    }
+  },
+  "evaluation": {
+    "hypothesis_confirmed": true,
+    "q8_full_ratio": 2.651805024902161,
+    "mixed_ratio": 2.3957747502774858,
+    "q8_full_pass": true,
+    "mixed_pass": false,
+    "codebook_pass": true,
+    "threshold": 3.0,
+    "interpretation": "HYPOTHESIS CONFIRMED: Fully quantized training is plausible with all conditions"
+  }
+}

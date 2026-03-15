@@ -1,0 +1,49 @@
+{
+  "id": "054",
+  "timestamp": "2026-03-02T04:14:54.984347+00:00",
+  "type": "experiment",
+  "title": "Adaptive delta Phase 2: divergence signal drives toward 0.16, not 1.0 -- delta=1.0 confirmed calibration-only",
+  "tags": [
+    "stage4",
+    "delta",
+    "adaptive",
+    "phase2",
+    "10-seed",
+    "session16"
+  ],
+  "status": "failed",
+  "session": 16,
+  "content": {
+    "hypothesis": "Entry 052 established delta=1.0 optimal (+6%, d=+1.289, p=0.000). The divergence signal (norm(p[k]-xs[k])) is Principle-II-compliant: arises from the same computation that updates state. If adaptive delta converges toward 1.0, it confirms an adaptive mechanism exists even if calibration is already at the optimum.",
+    "method": "Four conditions: fixed_0.35 (baseline), fixed_1.0 (calibration result), adaptive_full (starts 0.35, adapts toward divergence), adaptive_reversed (starts 1.0, adapts). Signal: state-output divergence per cell, squashed via tanh, leaky integrator (lr=0.01). Protocol: 10 seeds [42,137,2024,999,7,10,11,12,13,14], K=[4,6,8,10], n_perm=4, n_trials=3. Script: src/stage4_adaptive_delta.py.",
+    "result": "CALIBRATION CONFIRMED; ADAPTIVE MECHANISM FAILS.\n\nfixed_1.0: mean=+0.6895 vs fixed_0.35: mean=+0.6501; d=+1.289, p=0.0000 (+6.0%) -- Entry 052 REPLICATES.\n\nadaptive_full: mean=+0.6033, d=-1.968, p=0.0000 (-7.2% vs fixed_0.35). WORSE than baseline.\nadaptive_reversed: mean=+0.5949, d=-1.857, p=0.0000 (-8.5% vs fixed_0.35). ALSO WORSE than baseline.\n\nDELTA CONVERGENCE -- CRITICAL FINDING:\n- adaptive_full: init=0.35 -> final mean=0.1616 (+/-0.0104). Drove DOWN toward 0.16.\n- adaptive_reversed: init=1.0 -> final mean=0.1607 (+/-0.0107). ALSO converged to 0.16.\n\nBoth conditions converge to ~0.16 regardless of initialization. The divergence signal is an ANTI-SIGNAL for optimal delta -- it drives the system in the wrong direction.\n\nvs fixed_1.0: adaptive_full d=-2.414, p=0.0000; adaptive_reversed d=-2.554, p=0.0000. Adaptive conditions are significantly WORSE than the calibrated optimum.",
+    "metrics": {
+      "fixed_0.35_mean": "+0.6501",
+      "fixed_0.35_std": "0.0502",
+      "fixed_1.0_mean": "+0.6895",
+      "fixed_1.0_std": "0.0359",
+      "fixed_1.0_d_vs_canon": "+1.289",
+      "fixed_1.0_p": "0.0000",
+      "adaptive_full_mean": "+0.6033",
+      "adaptive_full_d_vs_canon": "-1.968",
+      "adaptive_full_p": "0.0000",
+      "adaptive_full_final_delta": "0.1616+/-0.0104",
+      "adaptive_reversed_mean": "+0.5949",
+      "adaptive_reversed_d_vs_canon": "-1.857",
+      "adaptive_reversed_p": "0.0000",
+      "adaptive_reversed_final_delta": "0.1607+/-0.0107",
+      "adaptive_full_vs_fixed1_d": "-2.414",
+      "adaptive_full_vs_fixed1_p": "0.0000",
+      "runtime_s": "190.4"
+    },
+    "root_cause": "The divergence signal measures the wrong property of the computation. The distinction: it is not that the signal is weak -- it is that the signal measures per-step state change magnitude, while delta performance depends on per-sequence signal fidelity. These are uncorrelated.\n\nDelta=1.0 is optimal because full replacement maximizes each signal's influence on the final state. With low delta, older signals bleed through and blur the system's ability to distinguish signal sequences -- it is a sequence-level fidelity problem.\n\nThe divergence signal norm(p[k]-xs[k]) measures something else entirely: how far the current computation wants to move from current state, per step. At equilibrium this settles to ~0.16 -- the natural scale of per-step state changes in this system -- regardless of what mixing rate would be optimal for MI. tanh(0.16)=0.16, so the leaky integrator finds a fixed point at delta=0.16. Both initializations converge there because it is a property of the computation's dynamics, not of the optimal mixing rate.",
+    "implication": "1. delta=1.0 is a calibration choice, not an adaptive target. No Principle-II-compliant adaptive mechanism discovered.\n2. The divergence signal is an ANTI-SIGNAL -- an informative negative result.\n3. The Living Seed is confirmed as a memoryless signal processor: pure replacement is optimal and is not discoverable by self-generated adaptation.\n4. Stage 4 closes: all structural parameters exhaustively characterized. No adaptive opportunity exists.\n5. Fixed delta=1.0 (no blending) outperforms all adaptive conditions. Update canonical. Do not attempt adaptive delta."
+  },
+  "constraints_implied": [
+    "c036: State-output divergence is an anti-signal for delta adaptation. Divergence measures per-step state change magnitude; delta performance depends on per-sequence signal fidelity. These are uncorrelated. Converges to ~0.16 regardless of initialization, significantly worse than fixed delta=1.0 (d=-2.4, p=0.0000). Never retry divergence-based adaptive delta."
+  ],
+  "references": [
+    "052",
+    "035"
+  ]
+}

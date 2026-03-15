@@ -1,0 +1,56 @@
+{
+  "id": "032",
+  "timestamp": "2026-02-24T21:55:00.000000+00:00",
+  "type": "experiment",
+  "title": "Local Evolutionary Search Confirms Flat Landscape Within Noise Floor",
+  "tags": [
+    "stage2",
+    "search",
+    "validation",
+    "noise-floor"
+  ],
+  "status": "active",
+  "content": {
+    "hypothesis": "Local evolutionary search around Candidate #2 neighborhood can find rules that genuinely outperform canonical",
+    "result": "NEGATIVE. Best-of-60 evaluations produced +0.2463 on 3 seeds, consistent with selection bias on noise (expected best-of-60 with CV=29%: ~0.266). Novel gap remained at canonical level (+0.08-0.09), confirming no genuine improvement.",
+    "details": {
+      "search_config": {
+        "population": 12,
+        "generations": 5,
+        "total_evaluations": 60,
+        "eval_seeds": [42, 137, 2024],
+        "eval_mode": "full",
+        "mutation_sigma": 0.1
+      },
+      "progression": {
+        "gen1_best": 0.2261,
+        "gen2_best": 0.2261,
+        "gen3_best": 0.2261,
+        "gen4_best": 0.2410,
+        "gen5_best": 0.2463
+      },
+      "mean_fitness_trend": [0.1677, 0.1725, 0.1817, 0.1896, "TBD"],
+      "diversity_trend": [0.1162, 0.1074, 0.0887, 0.0762, "TBD"],
+      "novel_gap": 0.0889,
+      "canonical_3seed_mean": 0.1684,
+      "expected_best_of_60_noise": "~0.266 (2σ above mean with CV=29%)"
+    },
+    "implications": [
+      "Evolutionary search with 3-seed eval selects for seed-specific noise, not genuine improvement",
+      "The parameter landscape IS flat within the resolution of 3-seed evaluation",
+      "Best-of-N selection bias fully explains the observed 'improvement' (+0.2463 vs expected ~0.266)",
+      "Novel gap at canonical level (~0.08-0.09) confirms training gains are seed-specific",
+      "Future evolutionary search MUST use the improved protocol (n_perm=8, n_trials=6, 10+ seeds)"
+    ],
+    "key_insight": "Evolutionary search converged to the noise ceiling, not a genuine optimum. This is consistent with a flat landscape and confirms that 3-seed evaluation cannot distinguish between rules in this parameter regime."
+  },
+  "session": 8,
+  "references": [
+    "027",
+    "030"
+  ],
+  "constraints_implied": [
+    "Evolutionary search with 3-seed eval is unable to find genuine improvements — selects for noise",
+    "Future search must use 10+ seeds with 2× exposure protocol"
+  ]
+}

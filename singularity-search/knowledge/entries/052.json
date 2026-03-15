@@ -1,0 +1,41 @@
+{
+  "id": "052",
+  "timestamp": "2026-03-01T16:00:00+00:00",
+  "type": "experiment",
+  "title": "Eps/delta 10-seed validation: eps mostly non-binding; delta monotonically improves to 1.0 (calibration, not adaptive)",
+  "tags": [
+    "stage4",
+    "eps",
+    "delta",
+    "10-seed",
+    "calibration",
+    "binding"
+  ],
+  "status": "passed",
+  "session": 15,
+  "content": {
+    "hypothesis": "Entry 046 (5 seeds) found eps=0.05 d=-3.092 and delta=0.1 d=-3.122 (degradation), plus borderline improvements at eps=0.5 d=+0.674 and delta=0.7 d=+0.738. Same 5-seed protocol that produced the tau false positive. Validate at 10 seeds.",
+    "method": "Part 1: All 8 eps/delta conditions from Entry 046 at 10 seeds [42,137,2024,999,7,10,11,12,13,14]. Multi-K [4,6,8,10], n_perm=4, n_trials=3. Script: src/stage4_epsdelta_10seed.py.\nPart 2: Extended delta sweep [0.35,0.5,0.7,0.8,0.85,0.9,0.95,1.0] at 10 seeds. Script: src/stage4_delta_sweep.py.",
+    "result": "EPS FINDINGS:\n- eps=0.05: d=-0.461, p=0.145 (was d=-3.092 at 5 seeds - ANOTHER 5-seed false positive)\n- eps=0.0: d=-0.757, p=0.017 (significant - zero coupling is worse)\n- eps=0.3: d=+0.009, p=0.978 (dead null)\n- eps=0.5: d=+0.425, p=0.179 (not significant)\nEps is non-binding around canonical value. eps=0.0 confirms coupling helps, but the landscape is flat near 0.15.\n\nDELTA FINDINGS:\n- delta=0.1: d=-2.899, p=0.000 (-25.9% - strong degradation SURVIVES)\n- delta=0.2: d=-1.190, p=0.0002 (-5.9%)\n- delta=0.5: d=+0.698, p=0.027 (+2.5% - significant)\n- delta=0.7: d=+0.914, p=0.004 (+4.9% - significant)\n- delta=0.8: d=+0.612, p=0.053 (+4.0%)\n- delta=0.9: d=+0.717, p=0.023 (+4.3%)\n- delta=0.95: d=+0.934, p=0.003 (+5.3%)\n- delta=1.0: d=+1.289, p=0.000 (+6.0% - 9/10 seeds agree)\n\nDelta is MONOTONICALLY IMPROVING: higher delta = better MI gap. Best at delta=1.0 (boundary). This means canonical delta=0.35 is suboptimal by 6%.\n\ndelta=1.0 eliminates state blending: v = p[k] (pure replacement). The system performs best with no state memory in the update equation.\n\nThis is CALIBRATION, not a Stage 4 adaptive target. The optimum is at the boundary (1.0) - adaptive delta cannot beat it because there's nowhere higher to go.",
+    "metrics": {
+      "eps_0.05_10seed": "d=-0.461, p=0.145 (5-seed false positive, was d=-3.092)",
+      "eps_0.0_10seed": "d=-0.757, p=0.017 (zero coupling is worse)",
+      "eps_0.5_10seed": "d=+0.425, p=0.179 (not significant)",
+      "delta_0.7_10seed": "d=+0.914, p=0.004 (+4.9%)",
+      "delta_1.0_10seed": "d=+1.289, p=0.000 (+6.0%, 9/10 seeds)",
+      "canonical_baseline": "+0.6501 (delta=0.35)",
+      "delta_1.0_mean": "+0.6895",
+      "improvement_pct": "+6.0%"
+    },
+    "root_cause": "eps=0.05 false positive: same mechanism as tau (Entry 050). 5-seed multi-K still insufficient for small effects (d<1.5). The eps degradation effect at 5 seeds (d=-3.092) was inflated by 6x.\n\nDelta monotonic improvement: delta=0.35 forces the system to retain 65% of old state each step. This state persistence is actively unhelpful - the system computes better when each step's output replaces state entirely. Alpha still carries adaptation memory (it's updated independently), so state blending in xs is redundant.",
+    "implication": "1. Canonical delta should be updated from 0.35 to 1.0 (+6.0% improvement)\n2. Delta is not a Stage 4 adaptive target - optimum at boundary, no room for adaptive advantage\n3. eps is non-binding around canonical (flat landscape near 0.15)\n4. eps=0.05 d=-3.092 is the THIRD 5-seed false positive (after tau d=+1.202 and now eps)\n5. Constraint c010 (5-seed insufficient) confirmed yet again\n6. With delta=1.0, the state update simplifies: xs_new = phi + eps*coupling + noise (no blending)"
+  },
+  "constraints_implied": [
+    "c034: Eps is non-binding in [0.05, 0.5] range. Entry 046 eps=0.05 d=-3.092 is a 5-seed false positive (10-seed: d=-0.461, p=0.145). No eps value significantly beats canonical.",
+    "c035: Delta optimal at boundary (1.0). Improvement is monotonic: higher delta = better MI. Canonical delta=0.35 is suboptimal by 6%. This is calibration, not an adaptive opportunity - optimum at boundary means adaptive delta cannot beat best fixed value."
+  ],
+  "references": [
+    "046",
+    "050"
+  ]
+}

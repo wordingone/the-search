@@ -1,0 +1,200 @@
+{
+  "V1-Base": {
+    "reasoning": {
+      "Sequence": 0.0,
+      "Pattern": 0.03,
+      "Conditional": 0.0,
+      "Analogy": 0.0
+    },
+    "physics": {
+      "Projectile": 0.09568080105249738,
+      "Collision": 1.0,
+      "Goal": "0.53126913",
+      "Momentum": 0.45120099425315857
+    },
+    "reasoning_avg": 0.0075,
+    "physics_avg": 0.5195377320991572,
+    "overall": 0.2635188660495786,
+    "params": 103520
+  },
+  "V1-Mortal": {
+    "reasoning": {
+      "Sequence": 0.03,
+      "Pattern": 0.06,
+      "Conditional": 0.07,
+      "Analogy": 0.1
+    },
+    "physics": {
+      "Projectile": 0.029077269054665802,
+      "Collision": 1.0,
+      "Goal": 0.047454497814178466,
+      "Momentum": 0.42423819422721865
+    },
+    "reasoning_avg": 0.065,
+    "physics_avg": 0.37519249027401574,
+    "overall": 0.22009624513700787,
+    "params": 103520
+  },
+  "V1-Metamorphic": {
+    "reasoning": {
+      "Sequence": 0.09,
+      "Pattern": 0.04,
+      "Conditional": 0.12,
+      "Analogy": 0.13
+    },
+    "physics": {
+      "Projectile": 0.02656020805705812,
+      "Collision": 0.68,
+      "Goal": "0.3678764",
+      "Momentum": "0.54052985"
+    },
+    "reasoning_avg": 0.095,
+    "physics_avg": 0.4037416164216132,
+    "overall": 0.2493708082108066,
+    "params": 103520
+  },
+  "V1-Collective": {
+    "reasoning": {
+      "Sequence": 0.1,
+      "Pattern": 0.06,
+      "Conditional": 0.05,
+      "Analogy": 0.07
+    },
+    "physics": {
+      "Projectile": 0.13925116538808674,
+      "Collision": 1.0,
+      "Goal": "0.64268947",
+      "Momentum": 0.3122356629371643
+    },
+    "reasoning_avg": 0.07,
+    "physics_avg": 0.5235440737004229,
+    "overall": 0.2967720368502115,
+    "params": 103520
+  },
+  "V1-Neuroplastic": {
+    "reasoning": {
+      "Sequence": 0.11,
+      "Pattern": 0.08,
+      "Conditional": 0.02,
+      "Analogy": 0.1
+    },
+    "physics": {
+      "Projectile": 0.04100114639376887,
+      "Collision": 1.0,
+      "Goal": 0.23701899766921997,
+      "Momentum": "0.5568953"
+    },
+    "reasoning_avg": 0.0775,
+    "physics_avg": 0.4587288649275285,
+    "overall": 0.26811443246376426,
+    "params": 106242
+  },
+  "V2-Core": {
+    "reasoning": {
+      "Sequence": 0.08,
+      "Pattern": 0.04,
+      "Conditional": 0.07,
+      "Analogy": 0.04
+    },
+    "physics": {
+      "Projectile": 0.387667756118914,
+      "Collision": 1.0,
+      "Goal": 0.24797170281410216,
+      "Momentum": 0.3510087013244629
+    },
+    "reasoning_avg": 0.0575,
+    "physics_avg": 0.4966620400643698,
+    "overall": 0.27708102003218493,
+    "params": 98385
+  },
+  "V2-Adaptive": {
+    "reasoning": {
+      "Sequence": 0.11,
+      "Pattern": 0.04,
+      "Conditional": 0.06,
+      "Analogy": 0.05
+    },
+    "physics": {
+      "Projectile": 0.02583611016373549,
+      "Collision": 0.96,
+      "Goal": 0.121388179063797,
+      "Momentum": 0.3756375467777252
+    },
+    "reasoning_avg": 0.065,
+    "physics_avg": 0.3707154590013144,
+    "overall": 0.2178577295006572,
+    "params": 101931
+  },
+  "V2-Resonant": {
+    "reasoning": {
+      "Sequence": 0.08,
+      "Pattern": 0.05,
+      "Conditional": 0.06,
+      "Analogy": 0.09
+    },
+    "physics": {
+      "Projectile": 0.16501130729315341,
+      "Collision": 0.96,
+      "Goal": 0.14367125749588014,
+      "Momentum": 0.48739388942718503
+    },
+    "reasoning_avg": 0.07,
+    "physics_avg": 0.4390191135540546,
+    "overall": 0.2545095567770273,
+    "params": 108817
+  },
+  "V2-Phoenix": {
+    "reasoning": {
+      "Sequence": 0.04,
+      "Pattern": 0.1,
+      "Conditional": 0.05,
+      "Analogy": 0.08
+    },
+    "physics": {
+      "Projectile": 0.06333222148704369,
+      "Collision": 0.9,
+      "Goal": "0.43366557",
+      "Momentum": "0.507574"
+    },
+    "reasoning_avg": 0.0675,
+    "physics_avg": 0.4761429542250629,
+    "overall": 0.27182147711253146,
+    "params": 110865
+  },
+  "V2-Pressured": {
+    "reasoning": {
+      "Sequence": 0.03,
+      "Pattern": 0.07,
+      "Conditional": 0.07,
+      "Analogy": 0.06
+    },
+    "physics": {
+      "Projectile": 0.2626022008850529,
+      "Collision": 1.0,
+      "Goal": 0.10330493807792664,
+      "Momentum": "0.5023737"
+    },
+    "reasoning_avg": 0.0575,
+    "physics_avg": 0.4670702085841287,
+    "overall": 0.26228510429206436,
+    "params": 102609
+  },
+  "Transformer": {
+    "reasoning": {
+      "Sequence": 0.09,
+      "Pattern": 0.04,
+      "Conditional": 0.05,
+      "Analogy": 0.08
+    },
+    "physics": {
+      "Projectile": 0.09369962505531193,
+      "Collision": 0.7,
+      "Goal": "0.19580139",
+      "Momentum": 0.13606827855110168
+    },
+    "reasoning_avg": 0.065,
+    "physics_avg": 0.2813923239510056,
+    "overall": 0.1731961619755028,
+    "params": 103144
+  }
+}

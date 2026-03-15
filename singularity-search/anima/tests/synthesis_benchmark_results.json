@@ -1,0 +1,91 @@
+{
+  "target_params": 8964,
+  "timestamp": "2026-01-11T17:35:20.037478",
+  "models": {
+    "Transformer": {
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 1.0,
+        "conditional": 0.9,
+        "analogy": 0.98
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.7,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.97,
+      "physics_avg": 0.925,
+      "overall": 0.9475
+    },
+    "ANIMA-Zero": {
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 1.0,
+        "conditional": 0.84,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.94,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.96,
+      "physics_avg": 0.985,
+      "overall": 0.9724999999999999
+    },
+    "ANIMA-One": {
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 0.92,
+        "conditional": 0.76,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.92,
+        "goal": 1.0,
+        "momentum": 0.96
+      },
+      "reasoning_avg": 0.9199999999999999,
+      "physics_avg": 0.97,
+      "overall": 0.945
+    },
+    "ANIMA-Two": {
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 1.0,
+        "conditional": 0.72,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 1.0,
+        "goal": 1.0,
+        "momentum": 0.98
+      },
+      "reasoning_avg": 0.9299999999999999,
+      "physics_avg": 0.995,
+      "overall": 0.9624999999999999
+    },
+    "ANIMA-Synthesis": {
+      "reasoning": {
+        "sequence": 1.0,
+        "pattern": 0.98,
+        "conditional": 0.66,
+        "analogy": 1.0
+      },
+      "physics": {
+        "projectile": 1.0,
+        "collision": 0.96,
+        "goal": 1.0,
+        "momentum": 1.0
+      },
+      "reasoning_avg": 0.91,
+      "physics_avg": 0.99,
+      "overall": 0.95
+    }
+  }
+}
