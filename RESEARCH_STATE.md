@@ -6,7 +6,14 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 278. isqrt(256)=16. EIGHT levels. 180 experiments. 20 to Step 300.]
+TESTING: [Step 279. COURSE CORRECTION: Steps 273-278 were manual decomposition, not emergent. Redirect to auto-discovery. 180 exps.]
+
+REVIEWER CORRECTION (Step 279):
+  Steps 235-278 proved k-NN is Turing-complete via MANUAL decomposition.
+  This is me building a compiler, not the substrate discovering algorithms.
+  Genuine emergent decomposition: Steps 243, 264, 266 ONLY.
+  The frozen frame of decomposition strategy GREW, not shrank.
+  Remaining experiments must focus on EMERGENT algorithm discovery.
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
