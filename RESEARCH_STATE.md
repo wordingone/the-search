@@ -6,7 +6,17 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 174. Stage 7 wall: cos(wx+b) universal for 7/8 rules but can't capture modular arithmetic (parity). 74 experiments.]
+TESTING: [none — Step 175. Stage 7 PARTIALLY BROKEN: multi-template + LOO iteration reaches 98.4% on parity (76.2% base). 75 experiments.]
+
+CONSTITUTIONAL PROGRESS (updated Step 175):
+  Stage 1: PASS
+  Stage 2: PASS (LOO/margin from cosine)
+  Stage 3: VACUOUS
+  Stage 4: PASS (random features selected by LOO)
+  Stage 5: VACUOUS (subsumed by Stage 4)
+  Stage 6: PASS (metric selection by LOO)
+  Stage 7: PARTIALLY PASSED — multi-template selection works (cos→abs), 98.4% on parity
+  Stage 8: The only frozen element is the LOO scoring function itself
 
 CONSTITUTIONAL PROGRESS (updated Step 173):
   Stage 1: PASS (autonomous computation)
