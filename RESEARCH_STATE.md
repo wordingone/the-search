@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 149. Margin-guided substrate works for single-task rule discovery. Fails at continual multi-task rule discovery (cross-task interference in feature selection).]
+TESTING: [none — Step 155. Self-improving substrate validated: parity, multi-rule, noise robust, CA Rule 110. 58 experiments.]
 
 STEPS 144-147 ARC:
   Step 144: Margin discovers cos(sum*pi)=parity. 75.4% -> 100.0%. BREAKTHROUGH.
