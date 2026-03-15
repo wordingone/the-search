@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [none — Step 188. End-to-end partial: 1-step 61%, iterated 9%. LOO overfits. Need more features. 88 experiments.]
+TESTING: [none — Step 189. 9 features: 1-step 98%, 20-step 50%. Feature discovery IS learning representation. 89 experiments.]
 
 STEP 181 KEY RESULT:
   Iterated 1-step k-NN = 100% at ALL step counts (1, 2, 3, 5, 10).
