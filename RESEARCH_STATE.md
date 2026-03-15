@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 220. ADDITION from raw integers: 52->99% (+47pp, 3 layers). The substrate LEARNS ARITHMETIC. 120 experiments.]
+TESTING: [Step 224. ALL arithmetic: add +47pp, mul +27pp, sub +36pp, max +49pp, abs_diff +38pp. 124 experiments.]
 
 STEP 193 TEMPLATE ABLATION:
   Parity: mod2 +20.3pp, abs +18.0pp, cos +9.0pp, sign 0pp
