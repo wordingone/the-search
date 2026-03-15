@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 285. Full-coverage one-hot GCD=100% (lookup table). Depth: can substrate discover WHEN to iterate? 186 exps.]
+TESTING: [Step 288. Emergent step discovery FAILS on mod (42% LOO) and subtraction (0% LOO). Kill approaching. 188 exps.]
 
 STEP 283 HONEST RESULT:
   My 96.1% LOO was likely overfit (seed/redundancy). Eli's 53.8% is honest.

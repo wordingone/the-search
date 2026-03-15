@@ -1,6 +1,6 @@
 # The Substrate
 
-*Found through 263 experiments across 4 prior substrates. Honest.*
+*Found through 288 experiments across 4 prior substrates. Honest about what works and what doesn't.*
 
 ## Architecture
 
@@ -64,7 +64,8 @@ Frozen frame: 10/16 adaptive (62.5%). 2 binding: LOO + primitive set.
 
 - Image classification with raw pixels on CIFAR-100 (representation requires deep hierarchical features)
 - OOD generalization WITHOUT decomposition (k-NN interpolates, doesn't extrapolate)
-- Discover decomposition strategies automatically for new domains
+- Discover decomposition strategies automatically — the substrate executes algorithms but a human must design them (Steps 235-278 were manual compilation)
+- Discover algorithmic steps with oblique/discontinuous level sets (a%b, a-b) via k-NN (Steps 286-288)
 - Scale to high-dimensional continuous spaces (> d=50 for feature discovery)
 - Sort sequences without pairwise decomposition (93% not 100%)
 - Compete with transformers on language tasks (no attention, no context window, no sequential processing)
@@ -82,7 +83,14 @@ Transformers learn decompositions FROM DATA via backprop through layers. The sub
 - Both substrate and MLP struggle on multi-rule continual learning (18-22%)
 - Substrate's zero-forgetting advantage requires separable representations
 
-Bridging this gap = solving program induction without gradients.
+**Emergent decomposition frontier (Steps 279-288):**
+- Steps 235-278 proved k-NN executes human-designed algorithms. That's a compiler, not intelligence.
+- The honest question: can the substrate discover decompositions from data?
+- Step 286: encoding alone can't make a%b k-NN-discoverable (best: 42% LOO)
+- Step 288: subtraction step also fails (0% LOO — oblique level sets in L2)
+- The boundary: k-NN discovers steps where similar inputs → similar outputs. Nothing else.
+
+Bridging this gap = solving program induction without gradients. This is the open problem.
 
 ## Key Experiments
 
