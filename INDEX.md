@@ -4,6 +4,25 @@
 
 ---
 
+## North Stars
+
+*The 8 most significant files. Each is a different angle on the same problem. The system that unifies them IS the substrate.*
+
+| File | What it represents | Status |
+|------|-------------------|--------|
+| `substrates/living-seed/the_living_seed.py` | Purest Principle II (adaptation = computation) | Vacuous — zero effect |
+| `substrates/foldcore/foldcore_manytofew.py` | Jun's thesis (spawn/grow/merge = birth/scale/compression) | Baseline, never best |
+| `tempest/tempest.rs` | Physics-first computation | Dead by cycle 50 |
+| `substrates/topk-fold/self_improving_substrate.py` | S1 unified process() | Close — feature loop still external |
+| `substrates/topk-fold/substrate_v2.py` | LOO signal that works (+20pp parity) | Effective but unprincipled |
+| `experiments/run_step181_iterated_knn.py` | Self-feeding computation (Stage 7 spirit) | 100% on Rule 110 |
+| `experiments/run_step190_fibonacci_e2e.py` | End-to-end: discover + iterate | Strongest result (100%, no backprop) |
+| `experiments/run_step266_auto_discovery.py` | Emergent decomposition | Killed at Lipschitz boundary |
+
+**The gap:** principled code (Living Seed) has zero effect. Effective code (substrate_v2) is unprincipled. The atomic substrate unifies both.
+
+---
+
 ## Quick Start
 
 **Want to see the strongest result?**
