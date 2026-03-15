@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [DONE — Step 190. END-TO-END: 100% at 50 steps Fibonacci with 5 discovered features. The atomic substrate is demonstrated.]
+TESTING: [Step 191. Scaling: mod 10 (84%), mod 50 (16%). Substrate works in moderate state space regime. 91 experiments.]
 
 STEP 190 RESULT:
   Task: Fibonacci mod 10, raw 2D integer input
