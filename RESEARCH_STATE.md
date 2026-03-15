@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 267. Subtraction diff discovered. Pipeline works for multiple ops. 170 experiments. 30 to 300.]
+TESTING: [Step 272. Number theory 0pp (honest boundary). Pipeline works for discrete rules, not deep math. 174 exps. 26 to 300.]
 
 THE SEARCH STATE AT STEP 242:
   PROVEN: store + decompose + iterate = universal computer
