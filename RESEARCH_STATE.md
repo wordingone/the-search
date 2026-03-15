@@ -6,7 +6,7 @@
 ## Active Hypothesis
 
 ```
-TESTING: [Step 191. Scaling: mod 10 (84%), mod 50 (16%). Substrate works in moderate state space regime. 91 experiments.]
+TESTING: [Step 192. UNIVERSAL FSM SIMULATOR: 100% on 8/16/32-state random machines. 1 feature each. 92 experiments.]
 
 STEP 190 RESULT:
   Task: Fibonacci mod 10, raw 2D integer input
