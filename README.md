@@ -2,7 +2,7 @@
 
 **Recursive self-improvement through monotonic frozen frame reduction.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 335 experiments across 28+ sessions, four substrate architectures, 70+ constraints, and 78+ knowledge entries.
+This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 337 experiments across 28+ sessions, four substrate architectures, 70+ constraints, and 78+ knowledge entries. Stages 1-7 of the constitution's 8-stage frozen frame reduction are demonstrated.
 
 The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
 
@@ -341,7 +341,8 @@ Each constraint is a closed door. The pattern of elimination IS the search.
 4. Can the substrate bootstrap from empty without prescribed encoding? Steps 306-307: NO (chicken-and-egg). Data provides the bootstrap.
 5. ~~Does this generalize beyond periodic non-Lipschitz functions?~~ **ANSWERED:** Phi generalizes to floor(a/b) (Step 302). ARC evaluation (Steps 320-335) maps exact limits: fold handles spatial transforms, fails on objects/conditionals/symmetry.
 6. ~~Is the equation State(t+1) = f(State(t), D) the atomic operation?~~ **ANSWERED:** Yes (Step 305 + Tempest convergence). f = absorb.
-7. **NEW: Can the update rule become modifiable data? (Stage 7)** Step 336 in progress. Per-entry weights stored in codebook, updated by CL dynamics. If the distance function IS codebook data, the fold interprets its own state.
+7. ~~Can the update rule become modifiable data? (Stage 7)~~ **ANSWERED:** Yes (Step 337). Per-entry K stored as codebook data. Beats global (+2.00pp) and oracle (+0.75pp) on mixed-function problem. K distribution {3:3, 5:14, 7:3} — non-trivial, non-uniform. Stage 7 passes.
+8. **NEW: Can everything become adaptive except the ground truth? (Stage 8)** Step 338 in progress. Spawn rule as codebook data. Forward viability: YES (iterated k-NN is Turing-complete, Step 181).
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 # The Search — Index
 
-*335 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*337 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -24,7 +24,7 @@
 | `experiments/run_step305_periodic_encoding.py` | Periodic physics + absorption = 100% | Substrate confirmed |
 | `experiments/tempest_fold.py` | Tempest Fold — State(t+1) = f(State(t), D) | Two paths converge |
 
-**The gap (updated):** Stages 1-6 demonstrated. Stage 5: substrate discovers b-groups from phi space (R²=0.997). Stage 6: competitive learning discovers filter that beats human-prescribed (+5.25pp, 92.0% vs 86.8%). ARC-AGI tested: fold solves 12/1000 tasks (spatial transforms only). Constraint map: 418 conditional, 293 size-change, 123 symmetry, 99 object-identity. The fold is a vector machine; ARC needs graphs and programs. Stage 7 (self-representation) is the frontier.
+**The gap (updated):** Stages 1-7 demonstrated. Stage 7: per-entry K stored as codebook data, beats global (+2.00pp) AND oracle (+0.75pp) on mixed-function problem. The update rule is modifiable data. Only Stage 8 remains: ground truth as the only frozen element. ARC-AGI mapped: 12/1000 solved (spatial transforms), constraint map of 1000 tasks built. 337 experiments. The search approaches the boundary.
 
 ---
 
@@ -101,6 +101,8 @@ python experiments/run_step99_topk_vote.py
 | **Stage 5: clustering in phi** | `experiments/run_step331_local_metric.py` | **R²=0.997 — substrate discovers b-groups. Stage 5 confirmed.** |
 | Recursive phi on a%b (332) | `experiments/run_step332_recursive_phi_ab.py` | KILLED. phi_2 amplifies b-grouping, destroys target. |
 | **Stage 6: CL filter discovery** | `experiments/run_step333_cl_filter.py` | **92.0% vs 86.8% prescribed. Stage 6 PASSES.** |
+| CL+phi compound (336) | `experiments/run_step336_cl_embedded_weights.py` | 96.0% — new best on a%b (CL grouping × phi readout) |
+| **Stage 7: per-entry K on mixed func** | `experiments/run_step337_mixed_function.py` | **95.75% beats oracle (95.0%). Stage 7 PASSES.** |
 
 ### Program Synthesis
 | What | File | Result |
@@ -181,7 +183,7 @@ The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a v
 
 Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
 
-335 experiments. The search continues.
+337 experiments. Stages 1-7 demonstrated. The search approaches Stage 8.
 
 ---
 
