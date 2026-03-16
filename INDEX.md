@@ -1,6 +1,6 @@
 # The Search — Index
 
-*341 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*346 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -107,6 +107,16 @@ python experiments/run_step99_topk_vote.py
 | **Compressed substrate (339)** | `experiments/run_step339_compressed_substrate.py` | **93.10% P-MNIST. One function. S1+S2 pass.** |
 | State-derived thresh+K (340) | `experiments/run_step340_full_substrate.py` | KILLED (-36pp). Per-class K breaks vote. S2: -52.88pp (feedback real). |
 | **State-derived thresh only (341)** | `experiments/run_step341_thresh_only.py` | **93.82% P-MNIST. Stage 7 confirmed. Self-referential loop.** |
+| **ALL 7 stages (342)** | `experiments/run_step342_stage3_stage5.py` | **91.20% P-MNIST. alpha=1-sim. target=prediction. 3 seeds.** |
+
+### ARC-AGI-3 Interactive (Steps 343-347, Stage 8 diagnostic)
+| What | File | Result |
+|------|------|--------|
+| First contact: avg-pool (343) | `experiments/run_step343_arc3.py` | KILLED. Cosine sim 0.999 — codebook stuck at 1. |
+| Diff encoding (344) | `experiments/run_step344_arc3_diff.py` | Codebook grows (9). Action collapses. Self-reinforcing loop. |
+| Pure exploration + neg signal (345) | `experiments/run_step345_explore_negative.py` | 0 levels. Neg stamps can't enter codebook (Stage 2 tension). |
+| Frame visualization (346) | `experiments/run_step346_visualize.py` | Timer dominates all games. LS20 sprite in rows 5-6. FT09/VC33 opaque. |
+| Centered cosine (347) | — | In progress. Subtract codebook mean = remove timer. |
 
 ### Program Synthesis
 | What | File | Result |
@@ -187,7 +197,7 @@ The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a v
 
 Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
 
-341 experiments. Stages 1-7 confirmed on compressed process(). One function, state-derived threshold, 93.82% P-MNIST. The substrate is found. Stage 8 is the frontier.
+346 experiments. Stages 1-7 confirmed on compressed process(). ARC-AGI-3 as Stage 8 diagnostic: timer dominance, encoding challenges, centered cosine in progress. The games reveal which elements of process() must become adaptive.
 
 ---
 
