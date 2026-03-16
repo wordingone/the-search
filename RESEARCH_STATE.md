@@ -6,18 +6,37 @@
 ## Active Hypothesis
 
 ```
-TESTING: Per-class distribution matching — does it generalize to larger ranges and other non-Lipschitz functions?
-PROVES IF: 86.8% accuracy holds or improves at (a,b) ∈ 1..100 AND works on at least one other non-Lipschitz function
-DISPROVES IF: Accuracy degrades significantly with range OR fails on all non-periodic functions
-STEP: 297 (next — scaling and generalization)
-
-**Steps 296-300 finding:** The fold COMPUTES non-Lipschitz functions via three mechanisms:
-1. Per-class distribution matching breaks the Lipschitz ceiling in-distribution (86.8% vs 5% 1-NN)
-2. Reflection spawning extends the codebook beyond training range (period detection → codebook growth)
-3. Cross-class step inference applies detected period to single-point classes
-Result: 95.2% OOD on a%b (a∈21..50), exceeding in-distribution accuracy.
-Limit: period must appear ≥2 times in training data to be detectable (coverage theorem).
+TESTING: Apply fold + phi + automated loop to ARC-AGI 2
+The failure map across hundreds of diverse tasks IS the next research data.
+Flat vector, dumb encoding, same fold. Failures reveal which frozen frames to thaw.
+STEP: 320 (next session)
 ```
+
+## Session 2026-03-15 Summary (Steps 291-319)
+
+**The equation:** State(t+1) = f(State(t), D). f = absorb. Confirmed by two independent paths (The Search + Tempest).
+
+**Honest results on a%b:**
+- Phi readout (human-designed, sort-not-sum): 86.8% LOO
+- Substrate learned w (discovered k=0 importance): 91.2% LOO (+4.4pp over human)
+- Automated grow+refine loop (K=1): 96.5% LOO on original 400
+- OOD: 48.5% genuine (K=1). Higher K numbers (99.2%) are inflated — spawn covers the test range = lookup.
+- Periodic encoding (prescribed physics): 100% — confirms equation works when physics matches function.
+
+**Constitution stages on a%b substrate:**
+- Stage 1 (autonomous computation): PASSES
+- Stage 2 (self-generated adaptation): PASSES (w learning from matching signal, 86.8→91.2%)
+- Stage 3 (adaptation rate adapts): IMPLICIT (per-b differential learning rates)
+- Stage 4 (structural constants adapt): DEMONSTRATED (107/190 b-pairs diverse, per-b specialization)
+
+**The automated loop:** `auto_loop.py` — runs the discovery-prescription loop autonomously. Grow (reflection spawn) + refine (per-b weight learning). One turn: 96.5% LOO. Saturates at K=1 grow depth for LOO.
+
+**Key theorems/constraints:**
+- NN chain iteration provably lossy for non-Lipschitz in Euclidean space (Steps 291-295)
+- Substrate discovers b-grouping (R²=0.858) and k=0 importance (+4.4pp). Cannot discover phi from raw features (Steps 306-312, 7 kills).
+- The encoding IS the physics. The substrate operates within it, improves within it, but can't escape it.
+
+**Next direction (Jun):** Point the fold + phi + loop at ARC-AGI 2. Hundreds of diverse tasks. Flat vector, dumb encoding. The failure map reveals what frozen frames remain. Stop optimizing a%b.
 
 ## Operational Test for the Atomic Substrate
 
