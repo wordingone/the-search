@@ -2,7 +2,7 @@
 
 **Recursive self-improvement through monotonic frozen frame reduction.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 337 experiments across 28+ sessions, four substrate architectures, 70+ constraints, and 78+ knowledge entries. Stages 1-7 of the constitution's 8-stage frozen frame reduction are demonstrated.
+This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 338 experiments across 28+ sessions, four substrate architectures, 70+ constraints, and 78+ knowledge entries. Stages 1-4 demonstrated; Stages 5-7 challenged by S2 (Deletion Test) failure — the system has separable parts. The compression phase begins.
 
 The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
 

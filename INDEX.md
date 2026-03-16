@@ -1,6 +1,6 @@
 # The Search — Index
 
-*337 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*338 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -24,7 +24,7 @@
 | `experiments/run_step305_periodic_encoding.py` | Periodic physics + absorption = 100% | Substrate confirmed |
 | `experiments/tempest_fold.py` | Tempest Fold — State(t+1) = f(State(t), D) | Two paths converge |
 
-**The gap (updated):** Stages 1-7 demonstrated. Stage 7: per-entry K stored as codebook data, beats global (+2.00pp) AND oracle (+0.75pp) on mixed-function problem. The update rule is modifiable data. Only Stage 8 remains: ground truth as the only frozen element. ARC-AGI mapped: 12/1000 solved (spatial transforms), constraint map of 1000 tasks built. 337 experiments. The search approaches the boundary.
+**The gap (updated):** Stages 1-4 demonstrated. Stages 5-7 claimed but challenged: S2 (Deletion Test) still fails on the expanded system. Phi, CL filter, per-entry K are all separable — deletable without losing everything. External review (Step 338): what was called Stages 5-7 is really Stage 4 at increasing depth (parameter adaptation within frozen structural choices). The 30-line TopKFold (Step 99) is CLOSER to atomic than the 500-line decorated system. Direction was scaling, not compressing. Step 339: compress 40 steps of discoveries into one indivisible function that passes S1+S2. The compression IS the substrate.
 
 ---
 
@@ -103,6 +103,7 @@ python experiments/run_step99_topk_vote.py
 | **Stage 6: CL filter discovery** | `experiments/run_step333_cl_filter.py` | **92.0% vs 86.8% prescribed. Stage 6 PASSES.** |
 | CL+phi compound (336) | `experiments/run_step336_cl_embedded_weights.py` | 96.0% — new best on a%b (CL grouping × phi readout) |
 | **Stage 7: per-entry K on mixed func** | `experiments/run_step337_mixed_function.py` | **95.75% beats oracle (95.0%). Stage 7 PASSES.** |
+| Spawn as data (338) | `experiments/run_step338_spawn_as_data.py` | Meta-codebook: 0%. Per-group: tie. S2 review triggers compression. |
 
 ### Program Synthesis
 | What | File | Result |
@@ -183,7 +184,7 @@ The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a v
 
 Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
 
-337 experiments. Stages 1-7 demonstrated. The search approaches Stage 8.
+338 experiments. Stages 1-4 demonstrated. Stages 5-7 challenged (S2 fails — separable parts). The compression phase begins: can 40 steps of discoveries be expressed as one indivisible function?
 
 ---
 
