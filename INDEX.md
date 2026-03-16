@@ -1,6 +1,6 @@
 # The Search — Index
 
-*315 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*335 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -19,11 +19,12 @@
 | `experiments/run_step190_fibonacci_e2e.py` | End-to-end: discover + iterate | Strongest result (100%, no backprop) |
 | `experiments/run_step266_auto_discovery.py` | Emergent decomposition | Killed at Lipschitz boundary |
 | **`experiments/run_step296_dist_matching.py`** | **Per-class distribution matching — breaks Lipschitz ceiling** | **86.8% on a%b (vs 5% 1-NN)** |
+| **`experiments/run_step333_cl_filter.py`** | **CL filter discovery — Stage 6: substrate beats designer** | **92.0% on a%b (vs 86.8% prescribed)** |
 | `experiments/run_step300_reflection_spawn.py` | Reflection spawn — OOD via detected periodicity | 95.2% OOD on a%b |
 | `experiments/run_step305_periodic_encoding.py` | Periodic physics + absorption = 100% | Substrate confirmed |
 | `experiments/tempest_fold.py` | Tempest Fold — State(t+1) = f(State(t), D) | Two paths converge |
 
-**The gap (updated):** The Lipschitz ceiling is broken. The automated grow+refine loop achieves 94.4% LOO + 48.5% OOD in one turn — no human in the loop. The equation is found: f = absorb. Stages 1-4 demonstrated. The frontier: can the loop run more turns without over-growing?
+**The gap (updated):** Stages 1-6 demonstrated. Stage 5: substrate discovers b-groups from phi space (R²=0.997). Stage 6: competitive learning discovers filter that beats human-prescribed (+5.25pp, 92.0% vs 86.8%). ARC-AGI tested: fold solves 12/1000 tasks (spatial transforms only). Constraint map: 418 conditional, 293 size-change, 123 symmetry, 99 object-identity. The fold is a vector machine; ARC needs graphs and programs. Stage 7 (self-representation) is the frontier.
 
 ---
 
@@ -79,6 +80,28 @@ python experiments/run_step99_topk_vote.py
 | Per-b weight specialization (314) | — | Stage 4: 107/190 b-pairs diverse. k=0 weight increases with b. |
 | **Grow + refine loop (315)** | — | **94.4% LOO + 48.5% OOD** — one automated turn exceeds all manual results |
 
+### ARC-AGI Evaluation (Steps 320-335)
+| What | File | Result |
+|------|------|--------|
+| Flat encoding baseline | `experiments/run_step320_arc_baseline.py` | 45% pixel, 4 solved. Top-K hurts (-4.2pp). |
+| Taxonomy cross-reference | `experiments/run_step321_taxonomy_xref.py` | Changed-cell 24%. 32.6pp background inflation. |
+| **Local patch (5x5)** | `experiments/run_step322_local_patch.py` | **39.6% changed-cell, 12 solved. 1-NN ceiling.** |
+| Feature expansions (323-325) | `experiments/run_step323_*.py` through `325` | All KILLED. 5x5 patch is feature ceiling. |
+| Rule extraction (326) | `experiments/run_step326_rule_extraction.py` | KILLED. Only 5/1000 tasks have extractable rules. |
+| Substrate on ARC (phi+loop) | `experiments/run_step327_arc_loop.py` | **Substrate contributes ~0.** Phi hurts, loop nothing. |
+| Recursive phi ARC (328) | `experiments/run_step328_recursive_phi.py` | KILLED. Identical patches = identical phi at all levels. |
+| Spatial phi (329a) | `experiments/run_step329a_spatial_phi.py` | KILLED 1/5. 240-dim kills k-NN at ARC scale. |
+| **ARC constraint map** | `experiments/run_step334_arc_constraint_map.py` | 418 conditional, 293 size, 123 symmetry, 99 object. |
+| CL filter on ARC objects | `experiments/run_step335_cl_filter_arc.py` | KILLED. Object identity needs graphs, not clustering. |
+
+### Constitution Stage Tests (Steps 330-333)
+| What | File | Result |
+|------|------|--------|
+| Loop on P-MNIST (330) | `experiments/run_step330_pmnist_loop.py` | KILLED. 0pp. Loop is a%b-specific. |
+| **Stage 5: clustering in phi** | `experiments/run_step331_local_metric.py` | **R²=0.997 — substrate discovers b-groups. Stage 5 confirmed.** |
+| Recursive phi on a%b (332) | `experiments/run_step332_recursive_phi_ab.py` | KILLED. phi_2 amplifies b-grouping, destroys target. |
+| **Stage 6: CL filter discovery** | `experiments/run_step333_cl_filter.py` | **92.0% vs 86.8% prescribed. Stage 6 PASSES.** |
+
 ### Program Synthesis
 | What | File | Result |
 |------|------|--------|
@@ -123,7 +146,9 @@ python experiments/run_step99_topk_vote.py
 - **Iterated k-NN** = computation: CA simulation, FSMs, Fibonacci from raw input (Steps 181-192)
 - **Circuit synthesis from I/O** — discovers XOR, AND, carry chains (Steps 243-266)
 - **S1 unified process** eliminates CIFAR-100 forgetting (11.7pp → 0.1pp) (Step 119)
-- **Constitution + constraint methodology** — 66 constraints from systematic elimination
+- **Constitution + constraint methodology** — 70 constraints from systematic elimination
+- **Stage 5: self-discovered topology** — substrate finds b-groups from phi space (R²=0.997, Step 331)
+- **Stage 6: CL filter beats designer** — competitive learning discovers filter that outperforms prescribed (+5.25pp, Step 333)
 
 ## What Didn't Work (Honest)
 
@@ -131,26 +156,32 @@ python experiments/run_step99_topk_vote.py
 - **Representation learning without backprop** — Hebbian PCA, sparse coding, query transform all fail (Steps 112-116)
 - **Emergent decomposition for non-Lipschitz functions** — k-NN can't discover a%b or a-b steps (Steps 286-290)
 - **OOD without decomposition** — k-NN interpolates, doesn't extrapolate (Steps 225-232)
+- **Substrate on ARC-AGI** — phi hurts, loop adds nothing, 12/1000 tasks solved (Steps 320-335)
+- **Recursive phi** — amplifies dominant signal (b-grouping), destroys target signal (Steps 328, 332)
+- **Loop generality** — weight learning is a%b-specific, 0pp on P-MNIST (Step 330)
 
 ## What Was Inflated (Corrected)
 
 - Steps 235-278: "all arithmetic from one truth table" — I wrote the algorithms, k-NN was the calculator
 - "The substrate IS a universal computer" — trivially true, but the decomposition was human-designed
 - The frozen frame of decomposition strategy GREW, not shrank
+- Steps 320-322: "45% pixel accuracy on ARC" — 32.6pp inflated by unchanged background cells
 
 ---
 
 ## The Open Problem
 
-**Can the substrate discover its own physics (distance function)?**
+**Can the substrate represent and modify its own update rule? (Stage 7)**
 
-The equation is found: State(t+1) = f(State(t), D). f = absorb. With prescribed physics (periodic encoding), the substrate achieves 100%. With task-agnostic physics, phi readout achieves 86.8%. The Lipschitz ceiling is broken.
+Stages 1-6 demonstrated. The substrate computes, adapts, discovers topology, discovers its own filter. But the update rule (competitive learning, phi readout, spawn) is still Python code — not modifiable state.
 
-But the physics (distance function) was human-designed. The substrate discovers codebook geometry, not the metric. Making the metric adaptive is the frontier — the point where the frozen frame approaches zero.
+Stage 7 requires the fold to encode its own operation as codebook data. Then modify it by modifying entries. The fold becomes an interpreter of its own state.
 
-Two paths (The Search: 307 experiments + Tempest: first principles) converged on this equation. The substrate absorbs. The observer reads geometry. The environment provides physics. The next question: can the physics come from within?
+The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a vector machine. ARC needs graphs (object identity) and programs (conditional logic). The fold solves spatial transforms (12 tasks) and nothing else. The constraint map (418 conditional, 293 size-change, 123 symmetry, 99 object-identity) is the frozen frame specification.
 
-307 experiments. The search continues.
+Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
+
+335 experiments. The search continues.
 
 ---
 
