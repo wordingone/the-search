@@ -1,6 +1,6 @@
 # The Search — Index
 
-*346 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
+*353 experiments searching for the atomic substrate. Everything is here, organized by what you need.*
 
 ---
 
@@ -116,7 +116,13 @@ python experiments/run_step99_topk_vote.py
 | Diff encoding (344) | `experiments/run_step344_arc3_diff.py` | Codebook grows (9). Action collapses. Self-reinforcing loop. |
 | Pure exploration + neg signal (345) | `experiments/run_step345_explore_negative.py` | 0 levels. Neg stamps can't enter codebook (Stage 2 tension). |
 | Frame visualization (346) | `experiments/run_step346_visualize.py` | Timer dominates all games. LS20 sprite in rows 5-6. FT09/VC33 opaque. |
-| Centered cosine (347) | — | In progress. Subtract codebook mean = remove timer. |
+| Centered cosine (347) | `experiments/run_step347_centered_cosine.py` | Timer removed. ACTION2/3/4 still identical in diff. |
+| Centered absolute (348) | `experiments/run_step348_centered_absolute.py` | Cold-start wall. Force-seed needed. |
+| Effect filter (349) | `experiments/run_step349_effect_filter.py` | ACTION2=85% effective. Action collapse persists. |
+| 16x16 resolution (350) | `experiments/run_step350_resolution.py` | ALL 4 actions visible. 8x8 was hiding game. Game is 2D. |
+| Novelty-seeking (351) | `experiments/run_step351_novelty.py` | 1493 unique states. Goal not reached. Timer wall. |
+| Progressive deepening (352) | `experiments/run_step352_progressive.py` | Exploit degenerates (argmax = popularity). 0 levels. |
+| **Pure novelty 50K (353)** | `experiments/run_step353_pure_novelty.py` | **LEVEL 1 COMPLETED at step 26218. First game level solved.** |
 
 ### Program Synthesis
 | What | File | Result |
@@ -197,7 +203,7 @@ The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a v
 
 Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
 
-346 experiments. Stages 1-7 confirmed on compressed process(). ARC-AGI-3 as Stage 8 diagnostic: timer dominance, encoding challenges, centered cosine in progress. The games reveal which elements of process() must become adaptive.
+353 experiments. Stages 1-7 confirmed. process() completed ARC-AGI-3 Level 1 via pure novelty-seeking (Step 353). The substrate plays games from scratch with no reward signal. Compression and Stage 8 are the frontier.
 
 ---
 
