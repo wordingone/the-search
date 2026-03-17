@@ -1,253 +1,78 @@
 # The Search
 
-**Recursive self-improvement through monotonic frozen frame reduction.**
+**416 experiments searching for a point inside six walls.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 414 experiments across 30+ sessions, four substrate architectures, 40+ constraints. **Stages 1-7 confirmed on a compressed 22-line `process()` function. Stage 8: the substrate discovers its own resolution from raw 64x64 input via sequential trial. 3/3 ARC-AGI-3 preview games with level completions.**
+This repository documents an ongoing search for a substrate that satisfies all six rules of recursive self-improvement simultaneously. Phase 1 (416 experiments) mapped the feasible region through systematic elimination. Phase 2 (current) builds new substrates from scratch -- not codebooks, not vectors, not extensions of what came before.
 
-The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
-
----
-
-## The Thesis
-
-Every technology follows birth, then scale, then compression. Vacuum tubes became transistors became ICs. The current AI stack (transformers, KV cache, frozen weights, bolted-on tools) is late-scale. The compression is coming.
-
-We seek the compressed form: a single equation that collapses the fractured stack into one indivisible operation. Not a better neural network -- the thing that replaces neural networks.
+The search follows a [constitution](CONSTITUTION.md): six simultaneous rules (R1-R6) that define the feasible region, plus 20 universal constraints extracted from experimental failure.
 
 ---
 
-## The Results So Far
+## What Phase 1 Found (Honest)
 
-### The Compressed Substrate (Steps 339-342)
-**One function. 22 lines. Stages 1-7 of the constitution confirmed simultaneously.**
+416 experiments across four substrate architectures (Living Seed, ANIMA, FoldCore, TopK-Fold) produced:
 
-`process(x, label=None)` -- one function that absorbs input, predicts, and updates its own state. No separate training/inference modes (S1). No separable components (S2). Adaptation arises from computation itself (Stage 2). The adaptation rate is distance-dependent (Stage 3). The spawn threshold is state-derived (Stage 7). 91.20% on Permuted-MNIST, 0.00pp forgetting, verified across 3 random seeds (0.07pp variance).
+**The constraint map.** 20 universal constraints (U1-U20), 9 intent constraints (I1-I9), 21 substrate-specific constraints (S1-S21). See [CONSTRAINTS.md](CONSTRAINTS.md). Each constraint is extracted from experimental failure. Together they define what the next substrate must be.
 
-### ARC-AGI-3 Interactive Games (Steps 343-414)
-**process() plays games from scratch. No reward signal. No training data. 3/3 games with level completions.**
+**The constitution.** Six rules (R1-R6) that must hold simultaneously. Not stages to climb -- walls of a feasible region. A substrate either satisfies all six or it doesn't. See [CONSTITUTION.md](CONSTITUTION.md).
 
-The compressed substrate -- with novelty-seeking exploration (argmin class vote) and persistent codebook -- completed levels on all three ARC-AGI-3 preview games:
-- **LS20** (movement game): Level 1 completed. 16x16 avgpool + centered cosine.
-- **FT09** (click game): Level 1 completed at step 82. 69-class click-region encoding.
-- **VC33** (timing game): Level 1 completed at step 283. 3-zone encoding.
+**An honest assessment of process().** The 22-line `process()` function is LVQ (Kohonen 1988) + Growing Neural Gas (Fritzke 1995). It satisfies R1, R2 (partial), R5, R6. It fails R3 (cosine, top-K, attract, spawn are hardcoded Python the system can't modify) and R4 (no self-testing mechanism). The "stage progression" was self-assessed and circularly validated. The ARC-AGI-3 results are biased random walk, not intelligence.
 
-**Stage 8 encoding arc (Steps 377-414):** 38 experiments mapping the encoding boundary at raw 64x64. Key findings:
-- The substrate works VIA noise (cosine saturation = the Goldilocks zone for exploration)
-- F.normalize AND centered encoding are both load-bearing (the substrate is irreducible)
-- Step 414: the substrate discovers its own resolution from raw 64x64 through sequential trial + gameplay feedback
-- The Search IS the substrate (process() = Levin search in codebook space, fixed point)
+**What process() does achieve:** 91.20% on Permuted-MNIST with 0.00pp forgetting. Level 1 on 3/3 ARC-AGI-3 preview games via novelty-seeking exploration. These are real results, honestly described: competitive learning with cosine similarity, operating in a narrow Goldilocks zone of cosine saturation that produces stochastic coverage.
 
-### Continual Learning (Step 99 -> Step 342)
+---
 
-The compressed substrate achieves 91.20% on Permuted-MNIST with 0.00pp forgetting. Historical TopKFold (Step 99) scored 91.8% with two separate functions. The compressed process() (Step 342) merges them into one function and adds self-derived adaptation, while maintaining comparable accuracy.
+## The Six Rules
 
-<details>
-<summary>Historical: TopKFold code (Step 99, superseded by process())</summary>
+All must hold simultaneously. See [CONSTITUTION.md](CONSTITUTION.md) for full text.
 
-The original two-function system: `step()` for learning, `eval_batch()` for inference. 91.8% AA. Superseded by compressed `process()` which merges both into one function (Steps 339-342).
+| Rule | Requirement | Phase 1 Status |
+|------|------------|----------------|
+| R1 | Computes without external objectives | process() passes |
+| R2 | Adaptation arises from computation | Partial (attract depends on class vote) |
+| R3 | Every modifiable aspect IS modified by the system | **FAILS** (operations hardcoded) |
+| R4 | Modification tested against prior state | **FAILS** (no self-testing) |
+| R5 | One fixed ground truth test | Passes |
+| R6 | No part deletable without losing all capability | Passes |
 
-Code: `experiments/foldcore-steps/run_step99_topk_vote.py`
-</details>
+R3 is the binding constraint. The operations (cosine similarity, top-K voting, attract/spawn rule) are Python code the system cannot see, inspect, or modify.
 
-### Running it
+---
+
+## Phase 2: New Substrates (Current)
+
+Phase 2 builds systems that satisfy R1-R6 from scratch. Not process() with additions. New data structures, new matching operations, new self-modification mechanisms.
+
+### Candidates tested so far
+
+| Substrate | Data Structure | R1-R6 | Discrimination | LS20 Levels | Key Finding |
+|-----------|---------------|-------|---------------|-------------|-------------|
+| SelfRef | Codebook (vectors) | 6/6 | 94% (d=32) | 0 | Chain adds self-reference. Still cosine. cb saturates at 126. |
+| SRW | Weight matrices | 6/6 (claimed) | 39% (d=256) | 0 | Weights self-cancel. Action projection decoupled. |
+| TapeMachine | Integer tape | 6/6 | 35% | -- | Hash has zero local continuity (U20). |
+| ExprSubstrate | Expression tree | 6/6 | ~0% collapse | 0 | Scoring function degenerate. Random splits miss signal dims. |
+
+**Key discovery (U20):** The substrate must be locally continuous in its input-action mapping. Similar inputs must produce similar actions. Hash-based addressing violates this. Random tree splits violate this. Cosine satisfies it by construction. Any non-vector substrate must provide its own local continuity mechanism.
+
+### Active direction
+
+Expression tree with temporal-consistency scoring. The tree's splits define regions. Score = temporal smoothness (consecutive observations get same action) x action coverage (all actions used). This rewards signal-aligned splits without external reward. Testing in progress.
+
+---
+
+## Running It
 
 ```bash
-# Requires: torch, torchvision, numpy
-# Downloads MNIST on first run
+# Phase 1: the LVQ baseline
+pip install torch torchvision numpy
+python experiments/run_step250_complete_substrate.py    # Complete demo (~30s)
+python experiments/foldcore-steps/run_step99_topk_vote.py  # P-MNIST benchmark
 
-python experiments/foldcore-steps/run_step99_topk_vote.py        # 10-task P-MNIST
-python experiments/foldcore-steps/run_step99_topk_vote.py 5      # 5-task P-MNIST (faster)
+# Phase 2: new substrates
+python substrates/selfref/test_selfref.py              # Self-referential codebook
+python substrates/tape/test_tape.py                     # Integer tape machine
+python substrates/expr/test_expr.py                     # Expression tree
 ```
-
-### Non-Lipschitz Classification (Steps 291-333)
-**92.0% on a%b — the substrate discovered a better filter than the human designer.**
-
-Stage 6: competitive learning discovers spatial-proximity grouping that outperforms prescribed same-b filtering by +5.25pp (92.0% vs 86.8%). The discovered groups have 26.3% b-purity — they are NOT b-groups but a genuinely different, better grouping.
-
-The human contribution: per-class sorted distance distributions (phi) break the Lipschitz ceiling. The substrate's contribution: discovered filter (Stage 6) + learned weights (Stage 2) that together exceed all prescribed approaches.
-
-```
-a%b classification, (a,b) in 1..20, LOO:
-
-  1-NN:                5.0%   (Lipschitz ceiling)
-  Top-K sum:          12.5%
-  Phi (sort, K=5):    86.8%   <-- human-designed readout
-  Phi + learned w:    91.2%   <-- Stage 2: substrate discovered k=0 importance
-  CL filter (Step 333):92.0%  <-- Stage 6: substrate discovered better filter than human
-  Phi + exp(-k):      87.2%   <-- substrate's discovery prescribed as fixed physics
-  Reflection spawn:   95.2%   (OOD, a in 21..50, with designed mechanism)
-  Periodic encoding: 100.0%   (prescribed physics matching function structure)
-```
-
-Key insight: same-class inputs have **identical** per-class distance distributions even though they're spatially far apart. The fold already computes these distances — phi just sorts them instead of summing.
-
-**Honest limits:**
-- 91.2% is in-distribution only. OOD: 17.3% (the learned weights don't transfer across distribution shift).
-- 87.2% (prescribed exp(-k)) generalizes across functions but is smaller (+0.5pp vs +4.4pp).
-- Reflection spawn (95.2% OOD) requires three designed mechanisms.
-- The substrate discovers b-grouping (R²=0.858) and k=0 importance (+4.4pp). It cannot discover phi itself (Steps 306-312, all killed).
-- The encoding IS the physics. The substrate operates within prescribed physics, improving it by +4.4pp.
-
-```
-Step 315 automated loop (grow + refine, 1 turn):
-
-  Baseline:           86.8%  LOO,  16.7% OOD
-  After grow+refine:  94.4%  LOO,  48.5% OOD   <-- automated, no human in the loop
-```
-
-```bash
-python experiments/auto_loop.py                     # The automated loop (88.0%)
-python experiments/run_step308_phi_weighted.py      # Substrate's 91.2% (learned w)
-python experiments/run_step296_dist_matching.py     # Human's 86.8% (phi baseline)
-```
-
----
-
-## The Journey: Three Substrates
-
-### Substrate 1: The Living Seed (Sessions 1-17)
-
-The original architecture. A 1D ring of 6 cells, each with 12 dimensions. Core equation:
-
-```
-phi[k] = tanh(alpha*x[k] + beta*(x[k+1] + gamma*s[k+1])*(x[k-1] + gamma*s[k-1]))
-```
-
-17 sessions of rigorous stage progression through the constitution's framework:
-- **Stage 1 (passed):** Autonomous computation. Ground truth test passes on 3+ seeds.
-- **Stage 2 (alpha adaptive):** Per-cell alpha becomes governed by self-generated signal.
-- **Stage 3 (vacuous):** 7 sessions, 5 approaches tested. Eta (learning rate) can be made adaptive but produces zero measurable effect. Declared vacuously passed under [Amendment 1](CONSTITUTION.md).
-- **Stage 4 (partial):** Delta binding confirmed (+6%). Beta/gamma globally coupled (cannot decompose). All other parameters non-binding.
-
-**Architecture ceiling declared (Session 17):** Frozen frame minimum 6/8. The equation is hardcoded Python -- no mechanism for self-representation (Stage 7). Substrate cannot proceed. This is a scientific result: the Living Seed's ceiling is exactly 6/8 frozen elements.
-
-**Code:** `substrates/living-seed/`
-
-### Substrate 2: ANIMA (Sessions 18-23)
-
-World-model organism designed to satisfy Stage 7's forward viability check: an internal world model W whose update rule can in principle become self-modifiable data.
-
-- **Stage 2 (vacuous):** w_lr has an interior optimum at 0.0003 (3.5x MI gap improvement), but no Principle-II-compliant internal signal can detect it. MI-error structural decoupling confirmed across 100x w_lr range.
-- **Stage 3 (architecture ceiling):** All 7 parameters characterized. None is both binding AND adaptable from within. Dual-timescale I, W_velocity, and additive slow I all exhausted.
-
-**Architecture ceiling declared (Session 23):** Complete parameter characterization confirms no adaptive path forward through parameter space. Stage 4 structural sweeps not yet conducted.
-
-**Code:** `substrates/anima/`
-
-### Substrate 3: FoldCore / TopK (Sessions 24-26, Steps 37-106)
-
-The codebook system. Born from the architecture autopsy that stripped the Living Seed down to its load-bearing components: competitive learning on the unit hypersphere.
-
-The readout arc (Steps 97-105) systematically tested 7 readout mechanisms. Each failure extracted a constraint:
-
-| Step | Readout | Result | Constraint Extracted |
-|------|---------|--------|---------------------|
-| 97 | Differential response | KILLED (15%) | Anti-correlated readout factors fail |
-| 98 | Neighborhood coherence | KILLED (85.3%) | Readout must be input-conditional |
-| 99 | **Top-k class vote** | **PASSED (91.8%)** | -- |
-| 100 | Top-k on CIFAR-100 | Passed readout (38.3%) | Spawn threshold is feature-space dependent |
-| 101 | Spawn-only ablation | Passed | Forgetting is class competition, not drift |
-| 102 | Self-routing gates | KILLED | Sum-all aggregation drowns signal |
-| 103 | Resonance dynamics | KILLED | Iterative dynamics blur, don't sharpen |
-| 104 | Centroid accumulation | KILLED (30%) | Sparse storage is load-bearing |
-| 105 | LSH counting | Functional | Irrelevant at current codebook sizes |
-
-**Code:** `substrates/foldcore/`, `substrates/topk-fold/`
-
----
-
-## Benchmark Results
-
-All results use frozen feature extractors (random projection for MNIST, frozen ResNet-18 for CIFAR-100).
-
-### Permuted-MNIST (10 sequential tasks, d=384)
-
-| Method | Avg Accuracy | Forgetting | Notes |
-|--------|-------------|------------|-------|
-| **TopKFold (k=3, cosine spawn)** | **91.8%** | **0.0pp** | **This work. 30 lines, no backprop.** |
-| TopKFold (k=1 / 1-NN, cosine spawn) | 86.8% | 0.0pp | Same codebook, weaker readout |
-| FoldCore (attractive-only, 1-NN) | 56.7% | 0.0pp | Original fold, energy-based spawning |
-| EWC | ~95.3% | ~2pp | Backprop, quadratic regularization |
-| Fine-tune baseline | ~52.5% | ~47pp | |
-
-### Split-CIFAR-100 (20 tasks, d=512, frozen ResNet-18)
-
-| Method | Avg Accuracy | Forgetting | Notes |
-|--------|-------------|------------|-------|
-| TopKFold (k=10, cosine spawn) | 38.3% | -- | +6.1pp over 1-NN |
-| FoldCore (1-NN) | 33.5% | 12.6pp | |
-| EWC | ~33% | ~16pp | |
-| DER++ | ~51% | ~8pp | Replay buffer |
-
-### What the numbers mean
-
-- **Zero forgetting is structural.** Attractive-only updates and append-only spawning preserve old prototypes by construction.
-- **The accuracy gap vs EWC/DER++** comes from nearest-prototype readout vs learned decision boundaries, not from memory failure.
-- **Top-k vote closes 5pp of that gap** by aggregating local class evidence instead of relying on a single champion vector.
-
----
-
-## The Discovery-Prescription Loop (Steps 308-313)
-
-The substrate and the designer improve each other in a loop:
-1. Human designed phi (sort instead of sum) → 86.8%
-2. Substrate discovered k=0 importance (nearest class-member is most diagnostic) → 91.2% in-dist
-3. Human prescribed the discovery as fixed weights (exp(-k)) → 87.2% (generalizes, unlike learned 91.2%)
-4. Next turn: substrate operates within new prescribed weights → discovers next level → ...
-
-The substrate's genuine contribution is +0.5pp that generalizes across functions. Small but real — and it's the loop's first turn. The intelligence is in the loop between human and substrate, not in either alone.
-
-## What Failed and Why It Matters
-
-### The eigenform arc (17 experiments) -- CLOSED
-
-Tanh eigenform composition produces genuine algebra (31 eigenforms at k=4, Steiner triple kernel, non-associative non-commutative idempotent magma). But it failed every applied test: 22.2% AA on P-MNIST vs 46.2% baseline. External review (DeepSeek): "Proves it's an expensive distance function."
-
-### The matrix layer -- DEAD
-
-Architecture autopsy: `classify()` never reads matrix state. Removing 8 matrix cells, projection, coupling, autonomy, surprise, and 11 hyperparameters produces identical classification. Two disconnected systems pretending to be one.
-
-### The four separations
-
-Every failure traces to a separation that should not exist:
-1. **Training / Inference** -- the fold trains with hard assignment but classifies differently
-2. **Storage / Readout** -- the codebook stores perfectly but reads weakly
-3. **Memory / Generation** -- codebook and matrix don't interact
-4. **System / State** -- the algorithm is external to the codebook
-
-The atomic equation is what you get when all four separations collapse.
-
-### The Lipschitz wall (Steps 291-295) -- THEOREM
-
-NN chain iteration is provably lossy for non-Lipschitz functions in Euclidean space. Each step crosses class boundaries with probability p. Accuracy degrades as ~(1-p)^K. Five experiments confirmed from five angles: soft blending (291), AMR (293), LVQ (294), basin sculpting (295). One-step NN is strictly better than any chain.
-
-### Autonomous metric discovery (Steps 306-312) -- KILLED, then RECOVERED (Step 333)
-
-The substrate discovers b-grouping (R²=0.858) and k=0 feature importance (+0.5pp). It cannot discover phi from raw features (Steps 306-312, 7 kills). But Step 333 showed it CAN discover a better filter via competitive learning dynamics: 92.0% with CL-discovered spatial-proximity filter vs 86.8% with prescribed same-b filter. The encoding IS the physics — but the FILTER is discoverable.
-
-### ARC-AGI puzzle evaluation (Steps 320-335) -- CEILING MAPPED
-
-*Rule induction on 1000 static grid-transform tasks.* The fold solves exactly 12 (spatial transforms). Substrate mechanisms (phi, loop) contribute ~0. Constraint map: 418 conditional, 293 size-change, 123 symmetry, 99 object-identity. The fold is a vector machine; ARC puzzles need graphs and programs.
-
-### ARC-AGI-3 interactive games (Steps 343-362) -- 2/3 GAMES SOLVED
-
-*Fundamentally different from ARC puzzles: agent dropped into unknown environment, learns by acting.* process() as an RL agent with novelty-seeking exploration. No reward signal, no game-specific code. LS20 Level 1 at step 9,480 (movement). FT09 Level 1 at step 82 (clicks). VC33 unsolved (timing/reaction game). The substrate explores via argmin class vote + persistent codebook across lives. Each game reveals a different Stage 8 frozen frame: encoding resolution (LS20), action representation (FT09/VC33), visual opacity (FT09).
-
----
-
-## The Atomic Substrate Tests
-
-The next substrate must pass these structural tests:
-
-**S1 -- Single Function:** One function `process(state, input) -> (output, new_state)` where the same code path handles training and inference. No `if training:` branches.
-
-**S2 -- Deletion Test:** You cannot delete any part of the code without losing ALL capabilities simultaneously.
-
-**S3 -- State Completeness:** The state contains ALL information needed to reproduce behavior. No external algorithm, no hyperparameters, no code.
-
-**S4 -- Generation Test:** The same operation handles learning, inference, AND generation.
-
-A substrate passes if it satisfies S1+S2. S3+S4 are aspirational (full collapse).
 
 ---
 
@@ -255,95 +80,83 @@ A substrate passes if it satisfies S1+S2. S3+S4 are aspirational (full collapse)
 
 ```
 the-search/
-  CONSTITUTION.md        -- The 5 principles + 8 stages (the theoretical framework)
-  RESEARCH_STATE.md      -- Live state: current hypothesis, constraints, candidates
-  README.md              -- This file
-
-  knowledge/             -- Unified knowledge base (78 entries, 66 constraints)
-    entries/             -- ALL entries: SS sessions 1-23 + FoldCore steps 37-106
-    constraints.json     -- ALL constraints merged (SS c001-c051 + FoldCore fc001-fc015)
-    frozen_frame.json    -- Frozen frame state (Living Seed)
-    compile.py           -- Knowledge base integrity checker
-
-  paper/                 -- Paper compiler (generates from knowledge/)
-    compile_paper.py     -- Renders paper.html from all 78 entries
+  CONSTITUTION.md        -- 5 principles + 6 rules (R1-R6). The feasible region.
+  CONSTRAINTS.md         -- U1-U20, I1-I9, S1-S21. The experimental record.
+  RESEARCH_STATE.md      -- Full experiment log and honest assessment.
+  INDEX.md               -- File-by-file index of all experiments.
 
   substrates/            -- All substrate implementations
-    living-seed/         -- Stage 1-4 (Sessions 1-17)
-    anima/               -- ANIMA organism (Sessions 18-23)
-    foldcore/            -- Codebook system (manytofew, torch, rk)
-    eigenfold/           -- Matrix codebook [CLOSED]
-    topk-fold/           -- The 91.8% system
+    living-seed/         -- Phase 1: Living Seed (Sessions 1-17) [CLOSED]
+    anima/               -- Phase 1: ANIMA (Sessions 18-23) [CLOSED]
+    foldcore/            -- Phase 1: Codebook baseline
+    eigenfold/           -- Phase 1: Matrix codebook [CLOSED]
+    topk-fold/           -- Phase 1: The 91.8% system (LVQ + top-K)
+    selfref/             -- Phase 2: Self-referential codebook chain
+    tape/                -- Phase 2: Integer tape machine
+    expr/                -- Phase 2: Self-modifying expression tree
 
-  experiments/           -- All runnable experiment scripts
-    ss-sessions/         -- SS session scripts (Living Seed + ANIMA stages)
-    foldcore-steps/      -- FoldCore steps 97-106
-    benchmarks/          -- Standalone benchmarks
+  experiments/           -- 416 experiment scripts (Phase 1)
 
+  knowledge/             -- Structured knowledge base (78 entries, 70+ constraints)
+  paper/                 -- Paper compiler
   research/              -- Framework documentation
-    FRAMEWORK.md         -- Research framework (thesis, mechanisms, what works)
-    EXPERIMENT_LOG.md    -- Full experiment history (96 steps)
-    EQUATION_CANDIDATES.md -- Candidate equations for the atomic foundation
-    WHAT_THE_FAILURES_TEACH.md -- Four separations analysis
-    JUNS_INTENT.md       -- Founder's intent extracted from source conversations
-
-  tempest/               -- Tempest substrate (Rust, wave dynamics)
+  tempest/               -- Tempest substrate (Rust, historical)
   tests/                 -- Unit tests
 ```
 
 ## The Constitution
 
-The [constitution](CONSTITUTION.md) defines five architecture-independent principles:
+The [constitution](CONSTITUTION.md) defines five architecture-independent principles and six rules:
 
-1. **Computation must exist without external objectives** -- remove all loss functions; does it still compute?
-2. **Adaptation must arise from computation, not beside it** -- the signal that drives modification must be a byproduct of the computation itself
-3. **Each modification must be tested against what came before** -- improvement on trained tasks with degradation on novel tasks is overfitting
-4. **The frozen frame must shrink monotonically** -- at each stage, at least one frozen element becomes adaptive
-5. **There must be one ground truth the system cannot modify** -- prevents trivial "improvement" by redefining improvement
+1. **Computation must exist without external objectives** (R1)
+2. **Adaptation must arise from computation, not beside it** (R2)
+3. **Each modification must be tested against what came before** (R4)
+4. **The frozen frame must be minimal** (R3 + R6)
+5. **There must be one ground truth the system cannot modify** (R5)
 
-Eight stages of frozen frame reduction from full external control (Stage 1) to ground truth as the only frozen element (Stage 8). Two amendments: vacuous stages (Amendment 1, Session 12) and forward viability checks (Amendment 2, Session 15).
+The rules are simultaneous constraints, not sequential stages. The Phase 1 "stage progression" (Stages 1-8) was superseded by the R1-R6 feasibility framing after external review exposed systematic inflation.
 
-## Constraints from 335 Experiments
+## Constraints from 416 Experiments
 
-70+ constraints define what does NOT work. Key categories:
+20 universal constraints define what ANY substrate must satisfy:
 
-- **Non-binding parameters:** Most parameters don't affect performance (massive degeneracy)
-- **Anti-signals:** Some adaptation signals drive in the wrong direction (c020, c022, c036)
-- **Timescale mismatch:** Per-step signals cannot capture sequence-level properties (c036, c047, c048)
-- **Architectural ceilings:** Living Seed 6/8, ANIMA Stage 3 ceiling
-- **Readout constraints:** Must be input-conditional, sparse (top-k), no anti-correlated factors
-- **ARC constraints:** Phi needs class-correlated distance structure (C23). k-NN in >40 dims needs >>500 entries (C24). Iteration amplifies dominant structure, destroys subordinate (C27-C28)
+- **U1-U4:** Structural (read+write one operation, one data structure, zero forgetting, minimal)
+- **U5-U8:** Selection (sparse over global, Lipschitz boundary, no iteration, hard over soft)
+- **U9-U13:** Dynamics (curriculum must match solution, dense memory kills, discrimination ≠ navigation, structured noise, additions hurt)
+- **U14-U16:** Self-reference (substrate IS its search, robust to perturbation, encode differences)
+- **U17-U20:** Capacity (fixed memory exhausts, shared channels contaminate, dynamics ≠ features, local continuity required)
 
 Each constraint is a closed door. The pattern of elimination IS the search.
 
-## Open Questions
+---
 
-1. ~~Is there a single operation that subsumes spawn + update + classify?~~ **ANSWERED:** f = absorb. State(t+1) = f(State(t), D). (Step 305)
-2. ~~Can top-k readout be derived from the same dynamics that produce the codebook?~~ **ANSWERED:** Phi (per-class distribution matching) IS the readout. 86.8% on a%b. (Step 296)
-3. ~~Can the substrate discover its own distance function?~~ **PARTIALLY ANSWERED:** Stage 6 (Step 333): CL discovers filter that beats prescribed (+5.25pp). The substrate can't discover phi from raw features, but CAN discover the filter that makes phi optimal. The encoding IS the physics; the filter is discoverable.
-4. Can the substrate bootstrap from empty without prescribed encoding? Steps 306-307: NO (chicken-and-egg). Data provides the bootstrap.
-5. ~~Does this generalize beyond periodic non-Lipschitz functions?~~ **ANSWERED:** Phi generalizes to floor(a/b) (Step 302). ARC evaluation (Steps 320-335) maps exact limits: fold handles spatial transforms, fails on objects/conditionals/symmetry.
-6. ~~Is the equation State(t+1) = f(State(t), D) the atomic operation?~~ **ANSWERED:** Yes (Step 305 + Tempest convergence). f = absorb.
-7. ~~Can the update rule become modifiable data? (Stage 7)~~ **ANSWERED:** Yes (Step 337). Per-entry K stored as codebook data. Beats global (+2.00pp) and oracle (+0.75pp) on mixed-function problem. K distribution {3:3, 5:14, 7:3} — non-trivial, non-uniform. Stage 7 passes.
-8. **NEW: Can everything become adaptive except the ground truth? (Stage 8)** Step 338 in progress. Spawn rule as codebook data. Forward viability: YES (iterated k-NN is Turing-complete, Step 181).
+## What Failed and Why It Matters
+
+- **The Living Seed** (Sessions 1-17): architecture ceiling at 6/8 frozen elements. The equation is hardcoded Python.
+- **ANIMA** (Sessions 18-23): all parameters either non-binding or non-adaptable. Stage 3 ceiling.
+- **Eigenform arc** (17 experiments): algebraically interesting, zero applied capability.
+- **The decomposition arc** (Steps 235-278): human-designed algorithms executed by k-NN. Manual compilation, not discovery.
+- **35 encoding experiments** (Steps 377-412): all failed. Cosine saturation at high-D is the Goldilocks zone, not a bug to fix.
+- **Step 417** (REPEL/FREEZE flags): LVQ with a state machine. The frozen frame grew. Direction killed by founder.
+
+Each failure extracted constraints. The constraint map IS the specification for the next substrate.
+
+---
 
 ## Requirements
 
 - Python 3.8+
-- Experiments: `torch`, `torchvision`, `numpy`
-- `substrates/foldcore/foldcore_manytofew.py`: no dependencies beyond stdlib
-- Tests: `pytest`, `numpy`
-- Paper compiler: `markdown` (optional, fallback rendering without it)
+- `torch`, `torchvision`, `numpy`
+- Tests: `pytest`
 
 ## License
 
-CC BY-NC 4.0 -- free for non-commercial research and educational use. See [LICENSE](LICENSE).
+CC BY-NC 4.0. See [LICENSE](LICENSE).
 
 ## Contributing
 
-The most valuable contribution is blunt analysis. Run the code, read the math, tell us what's wrong or what this actually is. Open an issue or submit a PR.
+Run the code. Read [CONSTRAINTS.md](CONSTRAINTS.md). Tell us what's wrong. Open an issue or PR.
 
 ---
 
-*The destination defines the path. Each step either shrinks the frozen frame or it is not a step.*
-
+*The constraints define the region. The substrate is inside it or it doesn't exist.*

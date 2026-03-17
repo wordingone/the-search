@@ -155,9 +155,12 @@ python experiments/run_step99_topk_vote.py
 | ANIMA (W+I dynamics) | `substrates/anima/` | Closed — Stage 2 vacuous |
 | FoldCore (codebook) | `substrates/foldcore/` | Frozen — baseline system |
 | Eigenform (matrix dynamics) | `substrates/eigenfold/` | Closed — all applied tests failed |
-| TopK Fold (self-improving) | `substrates/topk-fold/` | Current — the found substrate |
+| TopK Fold (self-improving) | `substrates/topk-fold/` | Phase 1 — LVQ baseline (91.20% P-MNIST) |
 | WorldModel (genesis) | `substrates/worldmodel/` | Historical |
 | Tempest (Rust, physics) | `tempest/` | Historical — informed the thesis |
+| **SelfRef (chain)** | `substrates/selfref/` | **Phase 2 — 6/6 R1-R6. Still cosine. cb saturates.** |
+| **TapeMachine (integers)** | `substrates/tape/` | **Phase 2 — 6/6 R1-R6. No vectors. Fails U20 (no local continuity).** |
+| **ExprSubstrate (tree)** | `substrates/expr/` | **Phase 2 — 6/6 R1-R6. No vectors. Natural feature selection. Scoring WIP.** |
 
 ---
 
@@ -191,19 +194,17 @@ python experiments/run_step99_topk_vote.py
 
 ---
 
-## The Open Problem
+## The Open Problem (Phase 2)
 
-**Can the substrate represent and modify its own update rule? (Stage 7)**
+**Find a point inside all six walls (R1-R6) that can also DO something.**
 
-Stages 1-6 demonstrated. The substrate computes, adapts, discovers topology, discovers its own filter. But the update rule (competitive learning, phi readout, spawn) is still Python code — not modifiable state.
+Phase 1 proved: process() (LVQ) satisfies R1, R2 (partial), R5, R6 but fails R3 (operations hardcoded) and R4 (no self-testing). The "stage progression" was self-assessed and inflated.
 
-Stage 7 requires the fold to encode its own operation as codebook data. Then modify it by modifying entries. The fold becomes an interpreter of its own state.
+Phase 2 has produced three substrates that satisfy R1-R6 structurally (SelfRef, TapeMachine, ExprSubstrate). None can match LVQ's behavioral performance (91% P-MNIST, Level 1 on LS20). The gap: R1-R6 structural compliance does not imply useful computation.
 
-The ARC evaluation (Steps 320-335) mapped exactly where the fold fails: it's a vector machine. ARC needs graphs (object identity) and programs (conditional logic). The fold solves spatial transforms (12 tasks) and nothing else. The constraint map (418 conditional, 293 size-change, 123 symmetry, 99 object-identity) is the frozen frame specification.
+**The binding constraint discovered in Phase 2: U20 (local continuity).** The substrate must be locally continuous in its input-action mapping. Similar inputs must produce similar outputs. Cosine similarity provides this for free. Non-vector substrates (tape, tree) do not have it and must create it.
 
-Key finding from this arc: iteration amplifies dominant structure and destroys subordinate structure (Steps 291b, 295, 328, 332). One pass with the RIGHT FILTER is optimal. The filter IS the frozen frame. Stage 6 showed the substrate can discover its own filter via competitive learning (+5.25pp). Stage 7 requires the substrate to discover its own update rule.
-
-376 experiments. Stages 1-7 confirmed. **3/3 ARC-AGI-3 preview games solved** (LS20 movement + FT09 click + VC33 zone-timing). Scaling law: O(branching × path). Encoding experiments done (raw wins). Multi-level domination in progress (Step 376). 35 constraints (C1-C35).
+The constraint map (U1-U20 + I1-I9) IS the specification for the next substrate.
 
 ---
 

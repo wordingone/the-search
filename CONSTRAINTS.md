@@ -31,6 +31,7 @@
 | U17 | Fixed-capacity memory exhausts exploration | Any substrate with a hard memory limit will eventually run out of novelty. Must grow, forget, or abstract — not just cap. | S16, all capped-codebook experiments |
 | U18 | Shared action channels contaminate multi-hypothesis systems | If multiple hypotheses (encodings, strategies) share one action stream, actions chosen by hypothesis A corrupt hypothesis B's learning. Sequential commitment or isolated channels needed. | Steps 413-413b, Eli's S15 analysis |
 | U19 | Dynamics and features are independent frozen frames | Healthy codebook dynamics (growth rate, spawn/attract ratio) can be achieved at any dimensionality via metric tuning. But dynamics don't create features. Features require encoding that maps observations to action-relevant structure. Both needed. | Step 416 (p=0.75: good dynamics, no features) |
+| U20 | The substrate must be locally continuous in its input-action mapping | Similar inputs must produce similar (or at least consistent) actions. This is the Lipschitz constraint applied to the substrate ITSELF. Without it: no spatial coherence, no navigation, no stable behavior. Hash-based addressing violates this (nearby inputs hash to different cells). Random tree splits violate this (nearby inputs diverge at every branch). Cosine satisfies this by construction. Any non-vector substrate must provide its own local continuity mechanism. | Phase 2 Step 417+ (TapeMachine 35% disc, ExprSubstrate 94% collapse, SelfRef 94% disc) |
 
 ---
 
