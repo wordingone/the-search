@@ -121,13 +121,6 @@ The deletion test (S2 from operational tests). If you can remove a component and
 4. **The reviewer's test:** Can an external reviewer reproduce the claimed capability from the code alone, without reading the constitution or the narrative? If not, the capability is in the narrative, not the code.
 5. **Distinguish exploration from intelligence.** Stochastic coverage that eventually stumbles onto success is not intelligence. State this honestly in every result.
 
----
-
-## Legacy: The Stages (historical, superseded by Rules)
-
-*The following stages were used in Phase 1 (Steps 1-416). They are preserved for historical reference but are superseded by the simultaneous Rules R1-R6 above. The stages created a false sequential framework that enabled circular self-assessment.*
-
-Stages 1-8 as originally defined are documented in the git history of this file.
 
 ---
 
@@ -157,38 +150,9 @@ The team lead (Opus) serves as the constructive adversarial — challenging assu
 
 ---
 
-## Amendments
+## Phase 1 Record
 
-### Amendment 1: Vacuous Stages (Session 12)
-
-**Modifies:** Operational Discipline — "Do not skip stages."
-
-**Evidence:** Sessions 6–11 (seven sessions) tested Stage 3 (eta adaptation) through five independent approaches: self-referential eta (Session 6, failed — bang-bang oscillation), delta_rz second-order signal (Session 6 partial, Session 8 failed — p=0.999 training, p=0.688 novel on 10 seeds), derivative tower analysis (Session 8 — collapses at order 1, autocorrelation 0.11), delta_stability (Session 11 — improvement +0.0068, within noise floor), delta_correlation (Session 11 — anti-signal, eliminated). Constraint c011 states directly: "the system is insensitive to learning rate heterogeneity." The mechanism works — eta becomes adaptive with healthy, non-trivial, non-degenerate distributions — but produces zero measurable performance difference. The theoretical explanation: eta is a scaling parameter on a flat performance landscape; the binding constraints are structural (beta/gamma globality, equation form).
-
-**The problem:** The original rule prevents skipping stages to avoid unvalidated assumptions. But it does not account for stages that are empirically vacuous — where the frozen element can be made adaptive but doing so produces no effect. In this case, the rule creates a deadlock: you cannot pass Stage 3 (because "beats fixed" is undefined on a flat landscape), and you cannot proceed to Stage 4 (because you have not passed Stage 3). The unvalidated assumptions the rule was designed to prevent do not exist; the assumptions have been exhaustively validated as empty.
-
-**Amendment:** A stage may be declared **vacuously passed** if ALL of the following hold:
-
-1. Multiple independent approaches have been tested with adequate statistical power.
-2. The mechanism works — the frozen element can be made adaptive and produces non-trivial, non-degenerate behavior.
-3. No measurable performance difference exists between adaptive and frozen versions, confirmed at the project's current statistical resolution.
-4. A theoretical explanation exists for why the element is not a binding constraint.
-
-A vacuously passed stage marks the element as "adaptive (vacuous)" in the frozen frame. The frozen frame still shrinks. The stage is flagged as requiring revalidation if later stages reveal a conditional dependency.
-
----
-
-### Amendment 2: Forward Viability Check (Session 15)
-
-**Modifies:** Operational Discipline — stage completion criteria.
-
-**Evidence:** Sessions 13–16 characterized all Stage 4 structural parameters. Delta is binding (+6%) but calibration-only at boundary. Beta/gamma are architecturally impossible (c002–c007). All other parameters non-binding. The Living Seed achieves frozen frame 6/8 — but Stage 7 requires the system to represent and modify its own update rule as first-class data. The Living Seed's equation is hardcoded in Python. No self-representation mechanism exists, and none can be added within the current architecture without introducing a fundamentally different substrate.
-
-**The problem:** Without a forward viability check, a project can spend unlimited sessions optimizing within an architecture that cannot in principle reach the later stages. The constitution's monotonic reduction rule (Principle IV) prevents detecting this — each stage appears locally passable while the endpoint is structurally unreachable.
-
-**Amendment:** Before any stage is declared passed — vacuously or otherwise — a **forward viability check** must be completed: verify the current substrate can in principle satisfy Stage 7 (self-representation of update rule as modifiable data). If not, halt stage progression and declare an **architecture ceiling** — the frozen frame minimum achievable by the current substrate. This is a scientific result, not a failure.
-
-An architecture ceiling triggers substrate transition: document the ceiling, extract the constraint set as design requirements for the next substrate, and begin the next architecture.
+416 experiments across two substrates (Living Seed, LVQ/Codebook) mapped the feasible region's walls. See CONSTRAINTS.md for the complete extraction. See git history for the original sequential stages framework (superseded by R1-R6 above).
 
 ---
 
