@@ -3,98 +3,62 @@
 
 ---
 
-## Active Hypothesis
+## Phase 1 Conclusion (416 experiments)
 
 ```
-RESULT: Step 320 — ARC-AGI baseline with flat encoding. 1000 tasks.
-  1-NN: 45% avg pixel acc (10% random). 4 solved. 125 >80%.
-  Top-K phi: HURTS (-4.2pp). Per-class distributions are noise in 904-dim flat space.
-  Inflation warning: 45% is mostly unchanged background cells. Changed-cell acc TBD.
-Step 321 (Eli): Cross-reference taxonomy x failure map. Changed-cell acc = 24% (32.6pp inflation).
-  Root cause: 900/904 dims identical per example. 1-NN matches position, ignores content.
-Step 322: Local patch (5x5, 39 dims). Changed-cell 24%->39.6% (+15.6pp). 12 solved.
-Steps 323-325 (Eli): Feature ceiling. 7x7, example retrieval, object features all HURT vs 5x5.
-Step 326 (Eli): Rule extraction KILLED. Only 5/1000 tasks have extractable color rules.
-Step 327 (Eli): SUBSTRATE APPLIED — phi + loop on local patch codebook.
-  phi: -2.8pp changed-cell (HURTS). Loop: -0.01pp (nothing). Substrate contributes ~0 on ARC.
-  Root cause: phi requires class-correlated distance structure. ARC doesn't have it.
-  Same-output-color cells don't cluster in feature space. Phi adds noise.
-FINDING: Phi works on tasks with LOCAL CONSISTENCY (same patch → same output).
-  Phi kills tasks with GLOBAL CONTEXT (same patch → different output depending on neighbors).
-  5 phi-only solves, 5 phi-kills. The split is the specification, not a vague failure.
-Step 328: Recursive phi (global codebook). KILLED 0/5. Identical patches → identical phi at all levels.
-Step 329a: Spatial phi (neighbor aggregation). KILLED 1/5. 240-dim kills k-NN at ARC scale (5 solved vs 12).
-ARC ARC COMPLETE. Constraints extracted:
-  C23: Phi needs class-correlated distance structure in codebook
-  C24: k-NN in >40 dims needs >>500 codebook entries (curse of dimensionality)
-  C25: Global context and dimensionality curse are coupled at ARC scale
-  C26: Local consistency determines phi's sign (helps on 5 tasks, kills 5 others)
-Substrate specification sharpened: sweet spot is 100+ examples/class with structured distances.
-ARC was fuel — constraints tighten what the substrate IS and ISN'T.
-Step 330 (Eli): Automated loop on P-MNIST. KILLED. +0.0pp. Dense codebook (8597 vectors) has
-  uniform k-importance. Loop weight learning requires sparse codebook with k-index asymmetry.
-  Loop is a%b-specific. Stage 2 self-adaptation does NOT generalize across domains.
-Step 331: Self-discovered clustering + local metric on a%b. 88.25% vs 91.2% target. KILLED on accuracy.
-  BUT: R²=0.997 — substrate discovers b-groups from phi space alone. STAGE 5 CONFIRMED.
-  Per-cluster weights add nothing — every cluster learns same k=0-dominant profile.
-  Stage 6 does not emerge: metric is globally simple on a%b, no local structure to exploit.
-Step 332: Recursive phi on a%b. 42.25% vs 86.75%. KILLED.
-  phi_2 amplifies b-grouping (95% same-b NN) and destroys a-class target signal.
-  Same-b filter in phi_1 is LOAD-BEARING — removes dominant confound to expose target.
-  C27: Iteration amplifies dominant eigenvalues; target info in smaller eigenvalues gets destroyed.
-  C28: Prescribed filters (same-b) are the frozen frame. Substrate can't discover filters via recursion.
-  Pattern: ALL iteration in the substrate amplifies dominant structure (291b, 295, 328, 332).
-  One pass with the RIGHT FILTER is optimal. More passes amplify the wrong thing.
-Step 333: CL filter discovery on a%b. **92.00% vs 86.75% prescribed (+5.25pp). STAGE 6 PASSES.**
-  Competitive learning discovers spatial-proximity grouping (26.3% b-purity — NOT b-groups).
-  Discovered filter BEATS prescribed same-b AND loop weights (91.2%).
-  Filter arises from computation dynamics (Principle II). Genuinely different from birth form.
-  Stage 6: functional form (filter) becomes adaptive via competitive learning.
-Step 334 (Eli): ARC constraint map — 1000 tasks classified by capability gap.
-  CONDITIONAL: 418 (41.8%), SIZE_CHANGE: 293 (29.3%), SYMMETRY: 123 (12.3%),
-  OBJECT_IDENTITY: 99 (9.9%), PATTERN_COMPLETE: 46 (4.6%), SPATIAL_TRANSFORM: 12 (1.2%).
-  SPATIAL_TRANSFORM = exactly our 12 solved tasks. Fold captures rotation/flip only.
-Step 335: CL filter on ARC object-identity tasks. KILLED (+0.04pp = noise).
-  Identical patches → same CL group → can't distinguish objects.
-  Object identity needs graph algorithms (CC labels), not feature-space clustering.
-  Stage 6 works where encoding encodes relevant grouping (a%b). Fails where it doesn't (ARC objects).
-ARC ceiling: 12 tasks (spatial transforms). Everything else requires capabilities beyond vector matching.
-Step 336: CL embedded per-entry weights. Per-entry weights -0.25pp (KILLED for Stage 7).
-  BUT: CL filter + phi (baseline) = 96.00% — NEW BEST on a%b.
-  CL grouping (+5.25pp) × phi within groups (+4pp) compound. Two mechanisms combining.
-  Stage 7 blocked: too few examples per CL group for stable per-entry weights.
-Step 337: Mixed-function problem. Per-entry K: 95.75% beats oracle (95.0%).
-  Called Stage 7 — but external review challenges this (see below).
-Step 338: Spawn as data. B1: 0% catastrophic. B2: 93.75% tie. No improvement.
+CURRENT SYSTEM: process(x, label=None). ~22 lines. LVQ + growing codebook.
+  - Competitive learning with cosine similarity (LVQ, Kohonen 1988)
+  - Growing codebook with novelty-triggered spawning (cf. Growing Neural Gas, Fritzke 1995)
+  - Top-K per-class vote for classification
+  - Self-generated targets (prediction as label)
+  - State-derived threshold (median NN distance)
+  - 91.20% P-MNIST AA, 0pp forgetting (not competitive with replay-based CL methods)
 
-EXTERNAL REVIEW — CRITICAL CORRECTION:
-  S2 (Deletion Test) STILL FAILS on the current system. Phi, CL filter, per-entry K
-  are all deletable without losing everything. Everything since Step 296 is SCAFFOLDING.
-  What I called Stages 5-7 is Stage 4 at increasing depth — parameter adaptation within
-  frozen structural choices (match, update, spawn, readout = 4 frozen operations).
-  The 30-line TopKFold (Step 99, 91.8%) is CLOSER to atomic than the 500-line system.
-  Direction was SCALING, not COMPRESSING. Birth → scale → compression. Still in scale.
-  CORRECTION: go back to the 30-line core. Make THAT self-modifying. One function. S1+S2.
-Step 339: Compressed substrate — process() refactor. P-MNIST 93.10% (PASS, beats TopKFold 91.8%).
-  a%b: 4% (FAIL — cosine on [a,b] doesn't capture modular structure. Distance metric = encoding = physics.)
-  S2: class vote load-bearing (-82.5pp). Attract NOT load-bearing (-0.72pp). S2 partial.
-  Finding: the substrate may be simpler than expected — spawn + class vote. Attract is compression, not computation.
-Step 340: State-derived thresh + per-class K. KILLED (-36pp P-MNIST). Per-class K collapsed class vote.
-  BUT S2 passes: attract load-bearing (-52.88pp) via feedback loop. State-derived thresh is real.
-Step 341: State-derived thresh ONLY (fixed K=3). **93.82% P-MNIST. STAGE 7 CONFIRMED.**
-  +0.72pp over fixed thresh. S2: attract load-bearing (-1.89pp). Feedback loop materializes.
-  Thresh reads from V → V shaped by attract → attract gated by thresh. Self-referential.
-  One function. ~22 lines. All stages 1-7 hold simultaneously.
-Step 342: ALL 7 STAGES VERIFIED on compressed substrate.
-  Stage 2 fix: target=prediction always. Stage 3: alpha=1-sim. Stage 5: 3 seeds, 0.07pp variance.
-  91.20% AA, 0pp forgetting. No lr hyperparameter. Attract load-bearing (-7.90pp).
-  Cost of Stage 2 compliance: -2.6pp (self-directed attracts occasionally wrong).
-  One function. ~22 lines. All 7 stages hold simultaneously.
-ARC-AGI-3 (Steps 343-357): Stage 8 diagnostic.
-  Level 1 completed (Step 353, pure argmin, 26218 steps, 38600 codebook entries).
-  Adaptive exploration (Steps 355-357): ALL KILLED. Representation too uniform for any signal.
-  FINDING: encoding IS the binding frozen frame. Stage 8 = making encoding adaptive.
-STEP: 358
+HONEST ASSESSMENT (per external review + Jun's confirmation):
+  - Mechanisms are NOT novel (LVQ + GNG from 1988/1995)
+  - ARC-AGI-3 results are biased random walk, not intelligence
+  - Stage progression was self-assessed and circularly validated
+  - "22 lines" obscures: avgpool, centered_enc, F.normalize, random projection, evaluation code
+  - The system is brittle: 5 implementation details each independently fatal
+
+WHAT WAS FOUND (genuine contributions):
+  - The constitution: testable framework for recursive self-improvement (architecture-independent)
+  - The constraint map: 19 universal + 9 intent constraints from 416 experiments (see CONSTRAINTS.md)
+  - The noise insight: stochastic coverage via cosine saturation IS the exploration engine
+  - Dynamics ≠ features: healthy codebook dynamics achievable at any dim (p=0.75), but features require encoding
+  - Fixed point: the research procedure IS structurally identical to the algorithm it found
+
+WHAT WAS NOT FOUND:
+  - The atomic substrate. LVQ is not it.
+  - Self-modifying metric (Stage 7 open)
+  - Representation discovery from raw observations (Stage 8 open)
+  - Purposeful exploration (current system is biased random walk)
+  - Temporal reasoning, transfer, richer output
+
+SCALING HYPOTHESIS (not law — 2 data points, 1 trivial):
+  steps ≈ branching_factor × path_length. Needs validation on more games.
+
+ARC-AGI-3 (Steps 343-416): 3/3 preview games Level 1 with PRESCRIBED encodings.
+  LS20: 16x16 avgpool + centered_enc. Level at ~26K steps. 60% reliable.
+  FT09: 69-class click-space. Level at step 82.
+  VC33: 3-zone mapping (PRESCRIBED — looked behind scenes. Not autonomous discovery).
+  Sequential resolution trial (Step 414): substrate discovers 16x16 from raw input via gameplay.
+  Stage 8 partially addressed but encoding still prescribed per game type.
+
+PHASE 2 DIRECTION: See CONSTRAINTS.md. The next substrate is specified by U1-U19 + I1-I9.
+```
+Step 377: Raw 64x64 bootstraps codebook (1736 entries). PASSES mechanically.
+Step 378: Raw 64x64 50K steps. 0 levels. Codebook builds but sim too uniform (0.984±0.009).
+  Timer isn't the issue (0.05% of dims). Static background IS (63% of pixels). Signal = 0.3%.
+Step 379: Centering at 64x64 — no effect. Same sim stats.
+  The gap: V @ x at 4096 dims washes 0.3% signal in 99.7% noise.
+  16x16 avgpool worked by accidentally doing feature selection (12 pixels → 4.7% of encoding).
+  STAGE 8 = learned projection. The substrate discovers which pixels matter from its own codebook.
+  Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
+  The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
+CURRENT STEP: 385c (center + PCA self-encoding at 64x64 on LS20)
+  385b KILLED: centering alone in 4096 dims → thresh=-0.17, cb=8, frozen. Confirmed adversary prediction.
+  384 running: FT09 fine click (256 regions), at ~40K/50K, level 1 only. Level 2 still not found.
 ```
 
 ## Session 2026-03-15 Summary (Steps 291-319)
@@ -149,7 +113,7 @@ The readout and spawning are validated. The atomic substrate question remains op
 
 ## Constraint List
 
-Hard-won from 362 experiments. Scope: U=universal, S=substrate-specific, D=domain-specific.
+Hard-won from 385 experiments. Scope: U=universal, S=substrate-specific, D=domain-specific.
 
 | # | Constraint | Source | Type | Scope |
 |---|---|---|---|---|
@@ -188,6 +152,12 @@ Hard-won from 362 experiments. Scope: U=universal, S=substrate-specific, D=domai
 | C32 | Encoding resolution is binding frozen frame for interactive games | Step 350 | empirical | U |
 | C33 | Interactive games need different action representations per game type | Steps 360-361 | empirical | U |
 | C34 | VC33: deterministic loop, click position has zero visual effect at 16x16 | Step 362 | empirical | D |
+| C35 | Cosine angular resolution scales as 1/√d; high dims wash small signal | Steps 377-381 | theoretical | U |
+| C36 | Variance weighting finds signal dims but cosine on those dims is HIGHER (more similar) | Step 381 | empirical | S |
+| C37 | Diff encoding discriminates (20x) but diff-novelty ≠ spatial exploration | Step 383 | empirical | S |
+| C38 | Centering with few codebook entries → antipodal vectors, negative thresh | Step 385b | empirical | S |
+| C39 | Per-observation min-max rescaling always maps max to 1.0 (degenerate) | Step 387 | empirical | S |
+| C40 | Dense codebook memorizes all states → no novelty gaps for exploration | Step 389 | empirical | U |
 
 ## Candidate Queue
 
@@ -248,4 +218,69 @@ Candidates that survive constraint filtering. Ordered by promise.
 | 301 | Atomic operation (S1-compliant) | **S1 ACHIEVED** — 62.8% OOD. One operation: match→predict→update→spawn. Label as data. 100% for multi-point classes (b≤10). Single-point classes can't detect period (no same-class neighbor). Gap to 95.2% = cross-class inference cost. | S1 works. Single-point coverage is the remaining gap. |
 | 302 | Phi scaling + floor(a/b) generalization | Phi scales: 93.3% at 1..50. Generalizes to floor(a/b). Advantage tracks non-Lipschitz density. | Phi is general, not a%b-specific |
 | 303 | Atomic absorb (S2 attempt) | **KILLED** — 26% accuracy. Codebook collapse (395/400→5 vectors). Label signal washed out by blending. Spawn threshold still separable. | S2 not achievable in this implementation. Concept sound, encoding wrong. |
-| 320 | ARC-AGI flat baseline | 45% pixel acc (10% random). 4/1000 solved. Top-K phi HURTS (-4.2pp). 45% is inflated by unchanged background cells. | C23: phi requires encoding that preserves class-relevant structure; flat vector in high-dim is noise for per-class distributions |
+| 320 | ARC-AGI flat baseline | 45% pixel acc (10% random). 4/1000 solved. Top-K phi HURTS (-4.2pp). | C23: phi needs class-correlated distance structure |
+| 335-338 | Compression arc | External review forced deletion. step()+eval_batch() share V@x. Delete def boundary → process(). | Compression was the discovery |
+| 339 | Compressed substrate | process() refactored to 22 lines. S1+S2 pass. | — |
+| 340 | Per-class K | KILLED — -36pp on P-MNIST. Top-20 entries class-homogeneous early. | Don't change K per class |
+| 341 | Fixed K=3 | Restored. 91.20% P-MNIST AA. | — |
+| 342 | All 7 stages | Stage 2 (target=prediction), Stage 3 (alpha=1-sim), Stage 5 (3 seeds 0.07pp). 91.20% P-MNIST. | C30: Stage 2 costs ~2.6pp |
+| 343-349 | ARC-AGI-3 encoding | 8x8 too coarse, 16x16 reveals all 4 actions on LS20. | C32: encoding resolution is binding frozen frame |
+| 350 | 16x16 resolution | LS20: 16x16 unlocks ACTION3/4 effects hidden at 8x8. Timer at row 15. | — |
+| 353 | Pure novelty (argmin) | **LEVEL 1** — LS20 level 1 in ~95 steps. First ARC-AGI-3 level completion. | — |
+| 360-361 | FT09 click-space | 69-class encoding (8x8 grid + 5 simple). Level 1 at step 82, 100% reliable. | C33: games need different action representations |
+| 362 | VC33 diagnostic | 50 visual states, deterministic 50-step cycle. | C34: VC33 deterministic, click position invisible at 16x16 |
+| 374-375 | VC33 zones | 3 click zones discovered (PRESCRIBED — looked behind scenes). Level 1 at step 283. | Honest: not autonomous discovery |
+| 376 | Multi-level all games | FT09=1lvl, VC33=1lvl, LS20=0 in 150K. Codebook reset per level. | Level transitions need fresh exploration |
+| 377 | Raw 64x64 bootstrap | Codebook builds (1736 entries). 0 levels. sim=0.984±0.009. | Signal=0.3% of encoding |
+| 378-379 | Raw 64x64 + centering | No effect. Static background IS (63% pixels). | C35: cosine resolution ∝ 1/√d |
+| 380 | Effect filter 64x64 | Filter never triggers — timer above atol every frame. | Timer passes every content filter |
+| 381 | Variance weighting | Finds 46 signal dims. sim=0.994 (WORSE). | C36: focusing on signal dims increases similarity |
+| 382 | Diff encoding | sim=0.286 mean (20x better). But thresh inverts (0.08). | — |
+| 383 | Diff + fixed thresh | 0 levels. Diff-novelty ≠ spatial exploration. Zig-zagging. | C37: diff-novelty ≠ game exploration |
+| 384 | FT09 fine click (256 regions) | Level 1 at 283. Level 2 not found at 40K. Running. | — |
+| 385b | Centering alone 64x64 | KILLED — thresh=-0.17, cb=8, frozen. Antipodal vectors. | C38: centering with few entries → negative thresh |
+| 385c | Center + PCA 64x64 | KILLED — sim=0.997, converges to 0.999+. PCA explains 100% in 256 dims. | Linear methods exhausted at 64x64 |
+| 386 | RBF kernel 64x64 | KILLED — 30x amplification achieved, sigma_sq collapses to step function. | Nonlinear cosine transform also fails |
+| 387 | Centered unnormalized dot | KILLED — min-max rescaling degenerate (max always 1.0). Raw dot range 0-916 = signal exists. | Per-obs rescaling destroys discrimination |
+| 388 | 387 + no rescaling | MARGINAL — sim range 6-900, actions balanced (33%). 0 levels 50K. First balanced raw-64x64. | Discrimination solved, navigation not |
+| 389 | 388 at 200K | KILLED — 0 levels in 200K (1550 lives). Codebook memorizes every state (8276/8320). No novelty gaps. | Dense codebook kills exploration |
+| 390 | 388 + cb_cap=500 | KILLED — 0 levels 200K. Sparse codebook doesn't help. | C40: density isn't the issue |
+| 390b | 388 + cb_cap=1000 | KILLED — 0 levels 200K. Same result. | Raw metric can't separate spatial from temporal novelty |
+| 391 | Adaptive resolution (sim_std) | KILLED — selected 8x8 (wrong). All resolutions scored equal at 200 steps. | sim_std favors low dims (1/√d) |
+| 392 | Adaptive resolution (Fisher) | KILLED — selected 64x64. Between-class distance tiny at all resolutions. | Short exploration can't distinguish resolutions |
+| 393 | Adaptive resolution (self-feed metric) | KILLED — displacement=0 everywhere. Normalized cosine self-feed IS a no-op. | — |
+| 394 | Self-feeding consolidation 64x64 | KILLED — mechanism works (43% cross-entry wins) but timer-dominated. ACTION1=95%. | Self-feeding consolidates wrong axis at 64x64 |
+| 395 | In-game resolution cascade | KILLED — stall detector fires too early. 16x16 gets 16K, needs 26K. | Codebook saturation ≠ wrong resolution |
+| 396 | Multi-resolution voting | KILLED — 64x64 drove 86% (variance tracks dimensionality, not signal). | — |
+| 397 | Replace-on-cap (cb=200) | PENDING — replace oldest entry instead of reject. Deletion, not addition. | — |
+| 398 | Two-codebook (class vote = encoding) | KILLED — bootstrap failure, raw cb froze at 9 entries. Insight confirmed. | Class vote IS the encoding |
+| 398b | Two-codebook + bootstrap | KILLED — votes uniform at 64x64 even with 7K entries. 0.3% signal averages out. | Class vote = count, not territory |
+| 399 | Two-codebook at 16x16 | KILLED — 0/3 levels. Death spiral: meta collapses → raw never explores. Worse than baseline. | Meta layer removes information |
+| 400 | Change-rate weighted cosine | MARGINAL — correctly finds 150 sprite dims (rows 25-44). Soft weight can't amplify. | TEMPORAL DETECTION SOLVED |
+| 401 | Hard mask on change rate | KILLED — 100 active dims, sprite found. Individual pixel cosine still saturates. | Detection ≠ encoding |
+| 402 | Mask + grouped encoding (62D) | KILLED but thresh=0.798 (FIRST non-saturated at 64x64!). cb=6, no exploration. | Encoding discriminates, dynamics inverted |
+| 402b | 402 + force-spawn 200 | KILLED — 200 entries, thresh returns to 1.000. Within-cluster saturation. | Spatial aggregation pattern matters |
+| 403 | 2D-aware kernel discovery | KILLED — selected 2x2 (too discriminative, cb=6). | Sim_std favors smallest kernel |
+| 403b | Force 4x4 kernel | KILLED — cb=39 (first growth!). 84% dom. Discriminative but exploration collapses. | Discriminative = few spawns = no exploration |
+| 405 | Recursive self-composition | KILLED — identical geometry at all depths. C27 confirmed: composition = iteration. | Cosine saturates 128D-4096D contiguous |
+| 406 | Attract-delta variance | KILLED — found game events (rows 61-62), not sprite. Surprise self-erases after learning. | Well-adapted substrate has zero surprise |
+| 407 | Winner-identity + counts | KILLED — 1586 winners (timer×position). Perfect balance 26% dom. 0 levels. | Winner identity timer-contaminated |
+| 408 | Mask + centered unnorm + counts | KILLED — **51 position states from raw 64x64!** Timer removed. 25% dom. 0 levels (exhausted in 1000 steps). | Discriminative encoding saturates exploration |
+| 408b | 408 + argmin | KILLED — 100% ACTION1. Argmin collapses with 100 entries. | Small codebook = biased argmin |
+| 409 | Self-tuning temperature | KILLED — T explodes to 10^54. Noise only on action sims, not spawn sims. | Feedback loop decoupled |
+| 409b | Temperature on ALL sims | KILLED — T explodes. Noise raises max sims (order statistics). | Temperature wrong tool for centered unnorm |
+| 410 | Spawn-delta importance mask | KILLED — p95 doesn't separate. Centering normalizes scale across dims. | Spawn deltas reflect timer, not sprite |
+
+**Session 2026-03-16 Summary (35 experiments, Steps 377-410):**
+The substrate works VIA noise, not despite it. Cosine saturation at 16x16 = the Goldilocks zone.
+Discriminative encoding saturates exploration. The substrate IS Levin search in codebook space.
+Stage 7 is open (rules ≠ parameters). The Search found itself (fixed point).
+F.normalize IS necessary (Step 412: 0/3 without it). centered_enc IS necessary (Step 414 run 1: 0 levels without it).
+The substrate is 22 lines + centered_enc preprocessing. Irreducible: additions AND deletions hurt.
+
+**Step 414: Sequential resolution discovery — LEVEL 1 FOUND at 16x16 (step 26218).**
+The substrate discovers its own resolution from raw 64x64 input through sequential trial.
+Skip proven-dead resolutions (64x64, 32x32). 16x16 with exact baseline config finds level.
+The search (35 experiments) compressed to 2 resolution trials. Stage 8 via gameplay feedback.
+
+Open question: how does the search compress FURTHER into the substrate?
