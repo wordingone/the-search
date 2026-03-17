@@ -273,3 +273,71 @@ Best case (all runs confirm kills + gauge symmetry): 2 M, 11 I, 0 U. R3: PASS.
 | 3 | Mean threshold | Gauge symmetry confirmed. #13 is behavioral 0U. | Median forced. #13 → I. |
 | 4 | Content-based action | #8 overturned → U. | #8 confirmed → I. |
 | 5 | lr = 1 - sim² | #9 weakened (formula family is U, not specific formula). | #9 strengthened (1-sim uniquely forced). |
+
+---
+
+## Empirical Results (Rounds A-B, 2026-03-17)
+
+### CRITICAL CORRECTION: Wrong Baseline
+
+The theoretical reclassification above was built on a false identification. The substrate that navigated LS20 Level 1 at step 26218 (Step 414) is **process_novelty()** from `experiments/run_step353_pure_novelty.py` — NOT SelfRef, NOT MinimalLVQ.
+
+process_novelty() uses: argmin class scoring, fixed spawn_thresh, fixed lr=0.015, labels, top-K scoring, centered_enc. It is a DIFFERENT LVQ variant with MORE frozen elements than SelfRef, not fewer.
+
+The theoretical constraint-killing logic (L1 killed by U7, growth forced by U22, etc.) still holds. But the conclusion "frozen frame near zero" was wrong — it was analyzing the wrong substrate.
+
+### Round A: MinimalLVQ (depth 1) baseline — ALL FAIL
+
+| Run | Variant | unique | levels | cb | dom |
+|-----|---------|--------|--------|----|-----|
+| 0 | MinimalLVQ baseline | 254 | 0 | 30 | 54% |
+| 1 | L1 norm | 94 | 0 | 4 | 100% |
+| 2 | fixed lr=0.5 | 211 | 0 | 4 | 98% |
+| 3 | mean threshold | 254 | 0 | 30 | 54% |
+| 4 | content action | 137 | 0 | 32 | 98% |
+| 5 | lr=1-sim² | 317 | 0 | 54 | 29% |
+
+**Run 0 fails.** MinimalLVQ at depth 1 does NOT navigate. The chain is load-bearing.
+**Run 3 = Run 0 exactly.** Gauge symmetry confirmed: mean ≡ median in behavior.
+**Run 5 is BEST.** lr=1-sim² gives strictly better dynamics than 1-sim (unique +25%, cb +80%, dom 29% vs 54%).
+**Runs 1, 2, 4 catastrophic.** L1, fixed lr, content action confirmed kills.
+
+### Round B: SelfRef (depth 2) baseline — ALL FAIL
+
+| Run | Variant | unique | levels | cb | dom |
+|-----|---------|--------|--------|----|-----|
+| 0b | SelfRef baseline | 1125 | 0 | 164 | 40% |
+| 1b | L1 norm depth 2 | 1385 | 0 | 185 | 95% |
+| 2b | fixed lr=0.5 depth 2 | 209 | 0 | 5 | 67% |
+| 4b | content action depth 2 | 136 | 0 | 268 | 98% |
+| 5b | lr=1-sim² depth 2 | 1791 | 0 | 653 | 33% |
+| 6b | depth 1 + random attract | 3115 | 0 | 3538 | 32% |
+
+**Run 0b fails.** SelfRef does NOT navigate LS20. Neither depth 1 nor depth 2 navigates with SelfRef's dynamics.
+**Run 1b surprise:** L1 at depth 2 has MORE unique states than L2 baseline (1385 vs 1125). The chain rescued L1. L2 normalization may NOT be forced at depth 2.
+**Run 5b strictly best again.** lr=1-sim² dominates at depth 2 (unique 1791 vs 1125, cb 653 vs 164).
+**Run 6b surprise:** Random attract gives 3x more exploration than chain-directed (3115 vs 1125) but 20x larger codebook (3538 vs 164).
+
+### What Rounds A-B proved
+
+1. **Adaptive lr is forced** — fixed lr=0.5 collapses to cb=4-5 at both depths. Confirmed.
+2. **Content-based action mapping fails** — dom=98% at both depths. Confirmed.
+3. **1-sim² > 1-sim** — strictly better at both depths. The U4 "minimal operations" argument for 1-sim is WRONG.
+4. **Gauge symmetry holds** — mean = median in behavior. Confirmed.
+5. **L2 normalization may NOT be forced at depth 2** — L1 at depth 2 gives more unique states. OVERTURNS theoretical prediction.
+6. **Neither SelfRef nor MinimalLVQ navigates** — the constraint analysis requires process_novelty() as baseline.
+
+### Round C: process_novelty() baseline — PENDING
+
+6 runs replacing each frozen hyperparameter in process_novelty() with a V-derived approximation. This is the experiment that actually tests whether the feasible region is empty. Sent to Eli, awaiting results.
+
+### Updated Status of Theoretical Reclassifications
+
+| Element | Theoretical | Round A | Round B | Status |
+|---------|-------------|---------|---------|--------|
+| #3 F.normalize | F → I | L1 killed (cb=4) | L1 SURVIVED (1385>1125) | **INCONCLUSIVE** — depth matters |
+| #6 Chain depth | depth 1 forced | depth 1 FAILS | depth 2 also fails | **OVERTURNED** — neither navigates |
+| #8 % n_actions | F → I | content kills (98% dom) | content kills (98% dom) | **CONFIRMED** (both depths) |
+| #9 lr = 1-sim | F → I | 1-sim² BETTER | 1-sim² BETTER | **OVERTURNED** — 1-sim not uniquely forced |
+| #13 thresh formula | narrow U | gauge confirmed | — | **CONFIRMED** (mean = median) |
+| Fixed lr kill | N/A | cb=4 | cb=5 | **CONFIRMED** (both depths) |
