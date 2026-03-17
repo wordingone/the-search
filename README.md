@@ -2,7 +2,7 @@
 
 **Recursive self-improvement through monotonic frozen frame reduction.**
 
-This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 362 experiments across 28+ sessions, four substrate architectures, 70+ constraints, and 78+ knowledge entries. **Stages 1-7 confirmed on a compressed 22-line `process()` function. Stage 8 diagnostic underway on ARC-AGI-3 (2/3 games with level completions).**
+This repository documents an ongoing search for the atomic substrate -- a single operation where memory, learning, inference, and perception are the same thing. It spans 414 experiments across 30+ sessions, four substrate architectures, 40+ constraints. **Stages 1-7 confirmed on a compressed 22-line `process()` function. Stage 8: the substrate discovers its own resolution from raw 64x64 input via sequential trial. 3/3 ARC-AGI-3 preview games with level completions.**
 
 The search follows a [constitution](CONSTITUTION.md): five principles and eight stages that define the path to recursive self-improvement architecture-independently, with empirical tests at each step.
 
@@ -23,15 +23,19 @@ We seek the compressed form: a single equation that collapses the fractured stac
 
 `process(x, label=None)` -- one function that absorbs input, predicts, and updates its own state. No separate training/inference modes (S1). No separable components (S2). Adaptation arises from computation itself (Stage 2). The adaptation rate is distance-dependent (Stage 3). The spawn threshold is state-derived (Stage 7). 91.20% on Permuted-MNIST, 0.00pp forgetting, verified across 3 random seeds (0.07pp variance).
 
-### ARC-AGI-3 Interactive Games (Steps 343-362)
-**process() plays games from scratch. No reward signal. No training data. 2/3 games with level completions.**
+### ARC-AGI-3 Interactive Games (Steps 343-414)
+**process() plays games from scratch. No reward signal. No training data. 3/3 games with level completions.**
 
-The compressed substrate -- with novelty-seeking exploration (argmin class vote) and persistent codebook -- completed levels on two ARC-AGI-3 preview games:
-- **LS20** (movement game): Level 1 completed at step 9,480 via progressive state-space exploration
-- **FT09** (click game): Level 1 completed at step 82 with near-zero visual feedback (13 frame changes)
-- **VC33** (timing game): Unsolved -- deterministic 50-frame cycle, click position has no effect
+The compressed substrate -- with novelty-seeking exploration (argmin class vote) and persistent codebook -- completed levels on all three ARC-AGI-3 preview games:
+- **LS20** (movement game): Level 1 completed. 16x16 avgpool + centered cosine.
+- **FT09** (click game): Level 1 completed at step 82. 69-class click-region encoding.
+- **VC33** (timing game): Level 1 completed at step 283. 3-zone encoding.
 
-Major AI labs score near zero on ARC-AGI-3. The substrate completed levels using one 22-line function with no reward shaping, no planning module, and no game-specific code.
+**Stage 8 encoding arc (Steps 377-414):** 38 experiments mapping the encoding boundary at raw 64x64. Key findings:
+- The substrate works VIA noise (cosine saturation = the Goldilocks zone for exploration)
+- F.normalize AND centered encoding are both load-bearing (the substrate is irreducible)
+- Step 414: the substrate discovers its own resolution from raw 64x64 through sequential trial + gameplay feedback
+- The Search IS the substrate (process() = Levin search in codebook space, fixed point)
 
 ### Continual Learning (Step 99 -> Step 342)
 
