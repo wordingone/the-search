@@ -40,13 +40,13 @@ Self-improvement is only improvement if it is measured against the previous vers
 
 **The test:** After any self-modification, compare performance to the system before the modification. The battery must include tasks the system was not modified to solve. Improvement on trained tasks with degradation on novel tasks is overfitting, not improvement.
 
-### IV. The Frozen Frame Must Shrink Monotonically
+### IV. The Frozen Frame Must Be Minimal
 
-At each stage of development, at least one element of the frozen frame must become adaptive state governed by the system's own dynamics. The frozen frame must never grow.
+Every element of the system is either adaptive (governed by the system's own dynamics) or justified as irreducible (removing it kills the system per R6). No element may be frozen "for now" with intent to make it adaptive later.
 
-**The test:** Enumerate every frozen element before and after a stage of development. The list must be strictly shorter after. If a new frozen element was introduced, it must be accompanied by the elimination of at least two existing frozen elements.
+**The test:** Enumerate every frozen element. For each, either (a) demonstrate that the system modifies it, or (b) demonstrate that removing it destroys all capability. Any element that is neither modified nor irreducible is unjustified complexity.
 
-**Why monotonic:** Non-monotonic reduction allows indefinite postponement. "We'll make this adaptive later" is how frozen frames become permanent. Enforcing monotonicity prevents the debt from accumulating.
+*Revised from "monotonic shrinking" (Phase 1). Monotonicity implies a trajectory. The rules framing (R1-R6) is a feasibility region, not a path. The system is either minimal or it isn't.*
 
 ### V. There Must Be One Ground Truth The System Cannot Modify
 
@@ -130,17 +130,17 @@ The deletion test (S2 from operational tests). If you can remove a component and
 
 **One variable per experiment.** If you change two things and performance improves, you do not know which change helped.
 
-**Do not skip stages.** Each stage depends on the previous stage's mechanisms. A system that jumps from Stage 2 to Stage 5 has three layers of unvalidated assumptions. When it fails, you will not know which assumption broke.
+**Verify all six rules simultaneously.** R1-R6 are not sequential. A system that satisfies R1 and R2 but not R3 has not "passed two stages" — it has failed the constitution.
 
 ---
 
 ## The One Guarantee
 
-If you follow this constitution — testing at every step, shrinking the frozen frame monotonically, maintaining the ground truth — you will either reach recursive self-improvement or you will find the exact point where it becomes impossible.
+If you follow this constitution — testing all rules simultaneously, maintaining the ground truth, refusing to inflate — you will either find a point inside all six walls or you will prove the feasible region is empty. Both are fundamental results.
 
 ---
 
-*The destination defines the path. Each step either shrinks the frozen frame or it is not a step.*
+*The constraints define the region. The substrate is inside it or it doesn't exist.*
 
 ---
 
