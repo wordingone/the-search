@@ -144,6 +144,20 @@ All committed and pushed to github.com/wordingone/the-search.
 
 **Score: 2 M, 3 I, 1 narrow U.** The encoding's frozen frame is nearly zero.
 
+## Iteration 15 (2026-03-18 ~05:17 UTC)
+
+**Step 421: ReadIsWrite tau=0.01 on P-MNIST 10-task CL.**
+**91.90% avg, 0.04pp max forgetting. BEATS BASELINE (91.2%, 0pp).**
+
+The 3.4pp gap was NOT from R2 — it was from tau. At tau=0.01 (near-hard attention):
+- +4.1pp over tau=0.1 (87.8% → 91.9%)
+- 10x less forgetting (0.4pp → 0.04pp)
+- +0.7pp over process_novelty baseline (91.2% → 91.9%)
+
+**Iteration 11 analysis WRONG.** The R2 tradeoff is not 3.4pp. At sharp temperature, R2 IMPROVES accuracy. The softmax tail distributes tiny updates to all entries → prevents forgetting. The concentrated peak specializes the closest entry → sharp classification. Best of both worlds.
+
+ReadIsWrite at tau=0.01 is the first Phase 2 substrate to beat the baseline on P-MNIST CL while satisfying R2 by construction.
+
 ## Iteration 7 (2026-03-18 ~03:49 UTC)
 
 **The Question:** Does the hybrid (distributed + argmin) improve CLASSIFICATION over either parent?
