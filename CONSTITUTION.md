@@ -73,6 +73,8 @@ A system that can modify all of its own evaluation criteria can trivially "impro
 
 Remove all external loss functions, reward signals, and evaluation metrics. The system still produces distinguishable outputs for distinguishable inputs.
 
+*Clarification (post-audit, 2026-03-18):* R1 governs the system's DYNAMICS — its update rules and computation must operate without external signal. R5 governs EVALUATION — the fixed ground truth test that measures whether the system works. External labels may be used in the R5 evaluation protocol without violating R1, provided the system's dynamics do not require them. When reporting results, both supervised (external labels) and R1-compliant (self-generated labels) numbers should be stated. See Step 432 for the comparison.
+
 ### R2: Adaptation arises from the computation itself (Principle II)
 
 The mechanism that drives change IS the mechanism that processes input. They are the same operation, not two operations that happen to coexist.

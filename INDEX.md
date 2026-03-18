@@ -36,7 +36,7 @@ python experiments/run_step250_complete_substrate.py
 ```
 Runs in ~30 seconds. Demonstrates: OOD addition (137+200=337), feature discovery, circuit synthesis, program execution — all from one 8-entry truth table.
 
-**Want continual learning without backprop?**
+**Want continual learning without multi-layer gradient propagation?**
 ```bash
 python experiments/run_step99_topk_vote.py
 ```

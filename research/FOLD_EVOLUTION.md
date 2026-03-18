@@ -1,5 +1,7 @@
 # The Fold Evolution — From Codebook to Atomic Foundation
 
+> **HISTORICAL — Written 2026-03-14 as a planning document. Many claims (e.g., "a transformer is what you get when you freeze the codebook," "without precedent") were aspirational and were never demonstrated. Superseded by the honest rewrite of CONSTITUTION.md and CONSTRAINTS.md. See those files for current status. Retained for historical context only.**
+
 *From Leo, 2026-03-14. Reviewed against JUNS_INTENT.md. Informed by four parallel research tracks, gradient derivation (Eli, Step 71), and benchmark results through Step 71.*
 
 ---
