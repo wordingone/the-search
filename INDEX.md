@@ -40,7 +40,7 @@ Runs in ~30 seconds. Demonstrates: OOD addition (137+200=337), feature discovery
 ```bash
 python experiments/run_step99_topk_vote.py
 ```
-95.4% on Permuted-MNIST, 0.0pp forgetting, 30 lines of core code.
+94.48% on Permuted-MNIST, 0.0pp forgetting (softmax voting, Step 425). Prior: 91.20% with top-K.
 
 ---
 
@@ -49,7 +49,7 @@ python experiments/run_step99_topk_vote.py
 ### Continual Learning
 | What | File | Result |
 |------|------|--------|
-| Top-K class vote (headline result) | `experiments/run_step99_topk_vote.py` | 95.4% P-MNIST, 0pp forgetting |
+| Top-K class vote (headline result) | `experiments/foldcore-steps/run_step99_topk_vote.py` | 91.8% P-MNIST, 0pp forgetting (pure k-NN: 95.4% with all 60K stored) |
 | All readout experiments (Steps 97-105) | `experiments/foldcore-steps/run_step97_*` through `run_step105_*` | Differential, coherence, gates — all tested |
 | Feature discovery for classification | `substrates/topk-fold/self_improving_substrate.py` | Parity +20pp, XOR +13pp, analogy +43pp |
 

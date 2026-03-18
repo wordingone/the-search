@@ -155,21 +155,13 @@ The team lead (Opus) serves as the constructive adversarial — challenging assu
 
 ## Phase 1 Record
 
-416 experiments across two substrates (Living Seed, LVQ/Codebook) mapped the feasible region's walls. See CONSTRAINTS.md for the complete extraction. See git history for the original sequential stages framework (superseded by R1-R6 above).
+Experiments across four substrate architectures (Living Seed, ANIMA, FoldCore, TopK-Fold) mapped the feasible region's walls. See CONSTRAINTS.md for the complete extraction. See git history for the original sequential stages framework (superseded by R1-R6 above).
 
 ---
 
-## Experiment Log
+## Key Files
 
-See `CHANGELOG.md` for the full chronological record of experimental sessions, results, and open questions. All team sessions, key findings, and negative results are documented there. Update it after each session.
-
-### Current Status
-
-**Read `.knowledge/state.md` for full project state** — constraints, experiment results, decisions, discoveries. That file is the single source of truth, compiled from structured entries.
-
-### Key Files
-
-- `.knowledge/state.md` — **Read this first every session.** Compressed project knowledge (constraints, experiments, decisions)
-- `src/the_living_seed.py` — Canonical Stage 1 CPU implementation
-- `src/SeedGPU (3).py` — Latest GPU version
-- `CHANGELOG.md` — Chronological experiment history (human-readable narrative)
+- `CONSTRAINTS.md` — U1-U24, I1-I9, S1-S21. The experimental record.
+- `RESEARCH_STATE.md` — Full experiment log and honest assessment.
+- `R3_AUDIT.md` — Frozen frame audits for all substrates.
+- `INDEX.md` — File-by-file index of all experiments.

@@ -24,7 +24,7 @@ HONEST ASSESSMENT (per external review + Jun's confirmation):
 
 WHAT WAS FOUND (genuine contributions):
   - The constitution: testable framework for recursive self-improvement (architecture-independent)
-  - The constraint map: 19 universal + 9 intent constraints from 416 experiments (see CONSTRAINTS.md)
+  - The constraint map: 24 universal + 9 intent constraints from experiments (see CONSTRAINTS.md)
   - The noise insight: stochastic coverage via cosine saturation IS the exploration engine
   - Dynamics ≠ features: healthy codebook dynamics achievable at any dim (p=0.75), but features require encoding
   - Fixed point: the research procedure IS structurally identical to the algorithm it found
@@ -46,7 +46,7 @@ ARC-AGI-3 (Steps 343-416): 3/3 preview games Level 1 with PRESCRIBED encodings.
   Sequential resolution trial (Step 414): substrate discovers 16x16 from raw input via gameplay.
   Stage 8 partially addressed but encoding still prescribed per game type.
 
-PHASE 2 DIRECTION: See CONSTRAINTS.md. The next substrate is specified by U1-U19 + I1-I9.
+PHASE 2 DIRECTION: See CONSTRAINTS.md. The next substrate is specified by U1-U24 + I1-I9.
 ```
 Step 377: Raw 64x64 bootstraps codebook (1736 entries). PASSES mechanically.
 Step 378: Raw 64x64 50K steps. 0 levels. Codebook builds but sim too uniform (0.984±0.009).

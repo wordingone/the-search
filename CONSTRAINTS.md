@@ -1,4 +1,4 @@
-# Constraints — Comprehensive Extraction from 414 Experiments
+# Constraints — Comprehensive Extraction from Experiments
 
 *Every constraint below is extracted from experimental failure. Classification:*
 - **U (Universal)**: Required by ANY substrate for recursive self-improvement

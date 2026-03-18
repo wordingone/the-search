@@ -1,6 +1,8 @@
 # The Substrate
 
-*Found through 288 experiments across 4 prior substrates. Honest about what works and what doesn't.*
+*Found through experiments across 4 prior substrates. Honest about what works and what doesn't.*
+
+> **Note:** This document describes the Phase 1 substrate architecture. The "stage progression" described below was superseded by R1-R6 simultaneous rules after external review exposed systematic inflation. See [CONSTITUTION.md](CONSTITUTION.md) for the current framing. Stage passes listed below are self-assessed and should not be treated as externally validated.
 
 ## Architecture
 
@@ -18,7 +20,7 @@ One mechanism with four modes:
 ## What It Does
 
 **In-distribution (pattern matching):**
-- P-MNIST: 95.4% AA, 0.0pp forgetting (raw pixels)
+- P-MNIST: 94.48% AA, 0.0pp forgetting (softmax voting, Step 425; prior: 91.20% with top-K)
 - Parity: 75% → 97% (+20pp via discovered features)
 - XOR: 86% → 99% (+13pp)
 - Addition mod 5: 62% → 100% (+38pp)
