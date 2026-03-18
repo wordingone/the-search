@@ -179,6 +179,14 @@ Anti-inflation rule 4: PASS. External reviewer can reproduce from code alone.
 - Forgetting: 0.02pp vs 0.40pp
 - Navigation: 3335 vs 3248 unique (tie)
 
+## Iteration 19: ReadIsWrite R3 Audit
+
+**Score: 3 M, 8 I, 2 U** (vs process_novelty: 3-4 M, 5 I, 5-7 U)
+
+Fewer frozen elements AND better performance. R2 by construction converts 3-5 elements from U to I: softmax, reconstruction, error, outer(weights, error) form one irreducible chain. Remove any → R2 fails → system dead.
+
+The 2 remaining U: tau (temperature) and spawn threshold. Both potentially V-derivable.
+
 ## Iteration 7 (2026-03-18 ~03:49 UTC)
 
 **The Question:** Does the hybrid (distributed + argmin) improve CLASSIFICATION over either parent?
