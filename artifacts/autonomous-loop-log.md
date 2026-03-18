@@ -85,3 +85,11 @@ ReadIsWrite is a CLASSIFIER, not a NAVIGATOR:
 The equation from WHAT_THE_FAILURES_TEACH works for what it was designed for (classification) but doesn't solve navigation. The four separations CAN be collapsed for classification but the collapsed form doesn't navigate.
 
 For Jun when he wakes: ReadIsWrite is a genuine Phase 2 classification candidate (88.2%, near-zero forgetting, R2 by construction). It does NOT navigate. The 3.4pp gap to baseline is in per-step learning quality, not architecture. Navigation remains unsolved.
+
+## Iteration 7 (2026-03-18 ~03:49 UTC)
+
+**The Question:** Does the hybrid (distributed + argmin) improve CLASSIFICATION over either parent?
+**Hypothesis:** Distributed update (anti-forgetting) + argmin (discrimination) might beat process_novelty (91.2%) on CL.
+**Actions:** Sent Eli Step 418g (hybrid on P-MNIST 10-task CL).
+
+**Stuck point for Jun:** Navigation requires predicting action outcomes (purposeful exploration vs random walk). The codebook tracks state-action but not state-action-OUTCOME. A transition model (which entry follows which) would enable lookahead. But U13 (additions hurt) and Steps 394-395 (self-feeding killed) argue against. Need Jun's judgment on whether transition tracking is worth the added frozen frame.
