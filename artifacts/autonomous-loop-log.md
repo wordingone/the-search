@@ -31,5 +31,16 @@
 
 ## Iteration 3 (2026-03-18 ~03:19 UTC)
 
+**The Question:** ReadIsWrite at 88.2% — is this a genuine result or inflation?
+**Actions:** Sent Eli Step 418d (10-task CL). Ran adversary.
+
+**Adversary (anti-inflation rule 3):** ReadIsWrite is Nadaraya-Watson / soft KDE + competitive learning with soft assignment. Individual pieces are 1960s-1990s. What's potentially novel: R2 by construction, growing codebook, 88.2% P-MNIST without backprop. NOT novel: soft attention over prototypes, distributed error correction.
+
+**Waiting for:** 418d (10-task CL). Key question: does distributed update cause forgetting?
+
+## Iteration 4 (2026-03-18 ~03:24 UTC)
+
 **The Question:** "What do I need to be true that I haven't run?"
-ReadIsWrite at 88.2% is 3pp from baseline. The distributed update works but doesn't specialize. What if we COMBINE: distributed update for initial learning + winner-take-all after convergence? Or: what if we test on P-MNIST with 10 tasks (continual learning) instead of 1 task? CL with zero forgetting is the original claim.
+Need to know: does ReadIsWrite preserve accuracy across tasks? The distributed update shifts ALL entries on every step — task 2 observations will push task 1 entries. This might cause catastrophic forgetting.
+**Prediction:** forgetting > 5pp. The distributed update is the opposite of what protects memories.
+**Status:** Waiting for Eli's 418d result. No new spec to send.
