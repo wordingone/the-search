@@ -72,9 +72,19 @@ Phase 2 builds systems that satisfy R1-R6 from scratch. Not process() with addit
 
 **Step 428 (the navigation wall):** Action-score convergence is the mechanism. Top-K sum scores converge as codebook grows → all actions equally familiar → random walk from ~5K steps onward. The substrate is a directed explorer for ~5K steps, then pure noise.
 
-### Active direction
+### Active direction: The Mirror Side (Phase 2b)
 
-The navigation wall (Step 428) specifies the next attack: prevent action-score convergence. Options under test: score normalization by class count, entry decay, per-entry quality metrics.
+The codebook family is fully mapped: 435 experiments, 26 universal constraints, every scoring modification killed (U25). The next substrate is not a codebook variant. It's the **temporal dual** — a self-modifying dynamical system where computation IS the trajectory, not a lookup over stored items.
+
+| Property | Codebook (mapped) | Mirror side (exploring) |
+|---|---|---|
+| Paradigm | Store-vote | Transform-be |
+| Memory | Explicit items | Implicit structure |
+| Time | Invisible | Intrinsic |
+| Action | From scoring | From dynamics |
+| Death mode | Score convergence (U25) | Trajectory collapse (U7/U22) |
+
+Step 437: first contact with a self-modifying reservoir. Clean failure — W unbounded, trajectory saturated. Failure mode is the temporal analog of removing F.normalize from the codebook. Step 437b (spectral-controlled) testing.
 
 ---
 
