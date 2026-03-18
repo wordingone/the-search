@@ -336,3 +336,8 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | 437d | + velocity readout | RUNNING | — | Tests: is computation in dynamics (delta_h) not position (h)? |
 | 437d | Velocity readout | 9.3% | 33% | Diverse actions but random — no useful computation under R1 |
 | 438 | Growing reservoir (d=16→496) | — | 32% | Rank-1 collapse: trajectory in 1-2D subspace of 496D. U7 confirmed universal (Hebb amplifies dominant eigenvector). Growth adds axes the trajectory ignores. |
+| 439 | Anti-Hebbian decorrelation | — | 38% | rank=1. Anti-Hebb attenuated (h=0.11) but didn't decorrelate. Structural collapse. |
+
+**Mirror-side conclusion (6 experiments):** The Hebbian reservoir under spectral control converges to rank-1 trajectory regardless of: growth (438), perturbation (437c), anti-Hebb (439), readout (437d). W's 65K parameters have 1 effective degree of freedom. The codebook's 4K entries have 4K independent degrees of freedom. The reservoir has more parameters but fewer DOF.
+
+**The key insight:** Fixing the reservoir's problems (competitive update, sparse Hebb, independent dimensions) converges toward the codebook. The reservoir and codebook are duals — the mirror reflects back. The true substrate may be at the INTERSECTION where spatial (codebook) and temporal (reservoir) merge, not at either pole.
