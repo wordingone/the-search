@@ -315,3 +315,22 @@ Autonomous loop: 23 iterations, 18 experiments overnight. Two headline results:
 | 433 | Cross-domain survival | **0.0pp contamination.** P-MNIST survives LS20 exposure. But LS20 suppressed (unique=262 vs 3300+). One-directional. | Finding 9 — unique contribution. Codebook partitions by domain geometry. |
 | 434 | Random walk baseline | Random walk: 40% at 50K. Substrate: 60% at 26K. ~2x faster. Step tracking needed (434b). | Finding 3 — substrate IS faster than random, but modestly. |
 | 435 | EWC + replay comparison | **EWC=9.8%, Replay=10.3%.** Both at chance under single-pass. Substrate: 94.48%. | Finding 2 — substrate wins under single-pass constraint. Multi-epoch would favor gradient methods. |
+
+## Phase 2b: The Mirror Side — Self-Modifying Reservoir (Steps 437+)
+
+The codebook family is fully mapped. Phase 2b explores the temporal dual: self-modifying dynamical systems where computation IS the trajectory, not a lookup over stored items.
+
+| Property | Codebook (mapped) | Mirror side (exploring) |
+|---|---|---|
+| Paradigm | Store-vote | Transform-be |
+| Memory | Explicit items | Implicit structure |
+| Time | Invisible | Intrinsic |
+| Action | From scoring | From dynamics |
+| Death mode | Score convergence (U25) | Trajectory collapse (U7/U22) |
+
+| Step | Variant | P-MNIST | LS20 dom | Death mode |
+|---|---|---|---|---|
+| 437 | Minimal reservoir (no controls) | 10.3% | 59% | W unbounded → h saturated. Deaf to input. |
+| 437b | + spectral radius control | 9.6% | 95% | Hears input, doesn't compute. No self-generated objective. |
+| 437c | + median perturbation | 8.0% | 88% | Constant noise (median fires 50% by construction). WORSE. |
+| 437d | + velocity readout | RUNNING | — | Tests: is computation in dynamics (delta_h) not position (h)? |
