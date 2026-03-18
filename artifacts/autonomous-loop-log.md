@@ -52,3 +52,11 @@ ReadIsWrite summary:
 - R1-R6: 6/6 (R2 by construction)
 - Navigation: FAILS (Gram explosion, Step 418a)
 - Prior art: Nadaraya-Watson + soft competitive learning (anti-inflation rule 3)
+
+## Iteration 5 (2026-03-18 ~03:36 UTC)
+
+**The Question:** Can ReadIsWrite navigate if spawn doesn't use the Gram matrix?
+**Hypothesis:** Error-based spawn (||error|| > running median) decouples spawn from Gram saturation. Spawn rate should be ~50% (by definition of median), not 99%.
+**Kill criteria:** spawn>90% OR unique<200 OR dom>80% → KILL
+**Actions:** Sent Eli Step 418e (error-based spawn on LS20, 10K steps)
+**Key measurement:** Does spawn rate DECREASE over time? (self-limiting growth)
