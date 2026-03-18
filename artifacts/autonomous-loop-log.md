@@ -128,6 +128,22 @@ All committed and pushed to github.com/wordingone/the-search.
 **Updated encoding compilation:**
 - E4 (Centering): **NOT FORCED at 16x16.** Raw encoding gives comparable exploration (3106 vs 3312 unique). Only critical at higher dimensions where cosine saturates without DC removal.
 
+## Iteration 13 (2026-03-18 ~04:51 UTC)
+
+**Step 420:** Mean vs max pooling. Mean=3386 unique, Max=521. 85% diff. **Mean pooling FORCED.** Max preserves brightest pixel (timer) → collapse.
+
+**ENCODING COMPILATION COMPLETE:**
+| Element | Status |
+|---------|--------|
+| Resolution | M (discoverable) |
+| Flattening | I (forced by matmul) |
+| F.normalize | I (forced by U7+U20) |
+| Centering | narrow U (5.5% diff at 16x16) |
+| Pooling | I (forced = mean, 85% diff) |
+| Action repr | M (discoverable) |
+
+**Score: 2 M, 3 I, 1 narrow U.** The encoding's frozen frame is nearly zero.
+
 ## Iteration 7 (2026-03-18 ~03:49 UTC)
 
 **The Question:** Does the hybrid (distributed + argmin) improve CLASSIFICATION over either parent?
