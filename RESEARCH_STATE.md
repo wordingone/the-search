@@ -334,3 +334,5 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | 437b | + spectral radius control | 9.6% | 95% | Hears input, doesn't compute. No self-generated objective. |
 | 437c | + median perturbation | 8.0% | 88% | Constant noise (median fires 50% by construction). WORSE. |
 | 437d | + velocity readout | RUNNING | — | Tests: is computation in dynamics (delta_h) not position (h)? |
+| 437d | Velocity readout | 9.3% | 33% | Diverse actions but random — no useful computation under R1 |
+| 438 | Growing reservoir (d=16→496) | — | 32% | Rank-1 collapse: trajectory in 1-2D subspace of 496D. U7 confirmed universal (Hebb amplifies dominant eigenvector). Growth adds axes the trajectory ignores. |
