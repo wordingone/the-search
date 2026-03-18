@@ -341,3 +341,5 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 **Mirror-side conclusion (6 experiments):** The Hebbian reservoir under spectral control converges to rank-1 trajectory regardless of: growth (438), perturbation (437c), anti-Hebb (439), readout (437d). W's 65K parameters have 1 effective degree of freedom. The codebook's 4K entries have 4K independent degrees of freedom. The reservoir has more parameters but fewer DOF.
 
 **The key insight:** Fixing the reservoir's problems (competitive update, sparse Hebb, independent dimensions) converges toward the codebook. The reservoir and codebook are duals — the mirror reflects back. The true substrate may be at the INTERSECTION where spatial (codebook) and temporal (reservoir) merge, not at either pole.
+| 441 | Sparse reservoir (10% W) | — | 43% | rank=251 (SOLVED). But unique=221 — rank ≠ useful computation. Sparsity prevents eigenvector collapse but doesn't produce exploration. |
+| 442 | **Graph substrate** (10K) | — | **25%** | **unique=3379 (MATCHES codebook). dom=25% (perfectly uniform).** First non-codebook to reach codebook-level exploration. 30K/3-seed run pending. |
