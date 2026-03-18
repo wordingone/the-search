@@ -301,5 +301,8 @@ Autonomous loop: 23 iterations, 18 experiments overnight. Two headline results:
 |---|---|---|---|
 | 425 | Softmax voting (tau=0.01) | **94.48%** — +3.3pp over baseline. 0.00pp forgetting. 10 tasks confirmed. | Scoring mechanism > update rule |
 | 421 | ReadIsWrite (tau=0.01) | 91.84% — R2 by construction. Distributed update costs 2.6pp. | U23: distributed updates destabilize |
-| 426 | Softmax on LS20 nav | RUNNING — does improved scoring help navigation? | — |
-| 427 | ReadIsWrite on LS20 nav | QUEUED — does smaller frozen frame navigate? | — |
+| 426 | Softmax on LS20 nav | **KILLED** — 0/3 seeds. dom collapsed to 41-45%. Softmax concentration hurts exploration. | U24 confirmed empirically |
+| 427 | ReadIsWrite on LS20 nav | Deferred — 426 killed, deprioritized for diagnostic | — |
+| 428 | Score diagnostic | **THE WALL** — gap 0.0745→0.0005 (150x). All actions converge to score 3.0. Random walk from ~5K steps. | Action-score convergence IS the navigation wall |
+| 429 | Normalized scoring | **KILLED** — gap preserved (0.78) but dom=100%. Division inverts argmin bias. | Convergence and exploration bias are COUPLED in top-K |
+| 430 | Fractional normalization | RUNNING — p in [0.25, 0.5, 0.75]. Does a sweet spot exist? | — |
