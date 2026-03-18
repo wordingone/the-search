@@ -341,3 +341,67 @@ The theoretical constraint-killing logic (L1 killed by U7, growth forced by U22,
 | #9 lr = 1-sim | F → I | 1-sim² BETTER | 1-sim² BETTER | **OVERTURNED** — 1-sim not uniquely forced |
 | #13 thresh formula | narrow U | gauge confirmed | — | **CONFIRMED** (mean = median) |
 | Fixed lr kill | N/A | cb=4 | cb=5 | **CONFIRMED** (both depths) |
+
+### Round C: Step 417 Constraint Validation — IN PROGRESS
+
+Script: `experiments/run_step417_constraint_validation.py` (7 variants of process_novelty() with Jun's incremental Gram optimization). Baseline running on CUDA, ~2 hours projected.
+
+**Critical reframing (Jun):** Step 353 found Level 1 through stochastic coverage at ~26K steps. 63 experiments after it tried to make navigation purposeful. All failed or degraded. The measurement is STEP COUNT to Level 1, not binary pass/fail. Variant < 26K = added directional signal. Variant = 26K = neutral. Variant > 26K = degraded.
+
+---
+
+## Encoding Compilation (Session 2026-03-17c)
+
+The R3 audit counted frozen elements in the SUBSTRATE. But the most load-bearing frozen element is the ENCODING pipeline — it determines 300x difference in step count.
+
+Evidence:
+- LS20 + 16x16 avgpool: Level 1 at ~26K steps (random walk)
+- FT09 + 69-class click-space: Level 1 at step 82 (purposeful)
+- VC33 + 3-zone encoding: Level 1 at step 283 (purposeful)
+- Same substrate (process_novelty), same argmin, same codebook. 300x difference from encoding alone.
+
+### Encoding Frozen Elements
+
+| # | Element | Class | How Determined |
+|---|---------|-------|----------------|
+| E1 | Resolution (16×16 vs others) | **M** | Step 414: sequential dedication 64→32→16→8. Game selects 16x16 by navigation success. Discoverable through interaction. |
+| E2 | Flattening (2D → 1D) | **I** | Forced by substrate's matmul (V @ x requires 1D vectors). |
+| E3 | F.normalize | **I** | Same as substrate #3. Forced by U7 + U20. |
+| E4 | Centering (subtract V.mean()) | **M/U** | VALUE is V-derived (M). DECISION to center is frozen (U). Without centering: codebook freezes at cb=8 (Step 385b). Discoverable: substrate can detect codebook freeze in <100 steps and select centering by self-monitoring codebook health. |
+| E5 | Pooling type (mean vs max) | **narrow U** | Mean pooling and max pooling both viable. Not tested head-to-head. Discoverable by same self-monitoring protocol as E4. |
+| E6 | Action representation | **M** | Step 361: click-space discovered for FT09. Step 375: zone-mapping for VC33. Game-specific but discoverable through sequential elimination of action encodings. |
+
+### Encoding Compilation Summary
+
+**Score: 2 I, 2 M (discovered), 1 M/U (discoverable), 1 narrow U**
+
+The encoding's frozen frame is smaller than expected because most elements are DISCOVERABLE through interaction:
+- Resolution: discovered by playing at each scale (Step 414)
+- Centering: discoverable by monitoring codebook health (cb growth, thresh stability)
+- Action representation: discoverable by trying action encodings sequentially
+
+### The Meta-Protocol
+
+After compiling both substrate and encoding, the irreducible frozen frame is:
+
+**Substrate:** 0-3 genuine U (depending on Round C results). Most elements forced by constraint map.
+**Encoding:** 1 narrow U (pooling type). Rest discoverable.
+**Meta-protocol:** "Try encodings, monitor codebook health (V-derived), keep what works." This protocol is frozen — one loop, one health metric, one selection rule.
+
+The meta-protocol IS the frozen frame floor. The substrate and encoding can both reach near-zero U through constraint forcing and self-monitoring discovery. What remains frozen is the decision procedure for encoding selection itself.
+
+### Key Insight
+
+The feasible region question was asking about the substrate. The actual frontier is the encoding. The substrate is nearly compiled (most elements forced). The encoding is nearly compilable (most elements discoverable). The remaining frozen element is the meta-protocol for discovery — which is small (monitor your own state, try alternatives, keep what works) and might itself be derivable from the constitution's principles.
+
+---
+
+## Session 2026-03-17c Corrections Log
+
+Three critical corrections during this session, each sharpening the analysis:
+
+1. **Wrong baseline (SelfRef → process_novelty()):** SelfRef doesn't navigate. process_novelty() does. The substrates share LVQ family but differ in argmin/labels/centering/top-K.
+
+2. **Wrong understanding of process_novelty():** Initially thought it used fixed hyperparameters (spawn_thresh=0.95, lr=0.015). Eli's code review revealed it uses V-derived threshold (Gram median) and 1-sim adaptive lr — same as SelfRef. The difference is argmin class scoring, labels, centering, top-K, seeding.
+
+3. **Wrong location of frozen frame:** R3 audit counted substrate elements. The 300x speedup lives in the encoding, not the substrate. Step 414 proved encoding elements are discoverable through interaction. The frozen frame floor is the meta-protocol, not any individual element.

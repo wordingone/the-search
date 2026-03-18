@@ -223,7 +223,9 @@ Phase 1 proved: process() (LVQ) satisfies R1, R2 (partial), R5, R6 but fails R3 
 
 **Benchmark gate:** P-MNIST >25% in 5K steps OR LS20 Level 1 in 50K steps. No Phase 2 substrate passes. SelfRef is the only active candidate.
 
-The constraint map (U1-U20 + I1-I9) IS the specification for the next substrate.
+The constraint map (U1-U22 + I1-I9) IS the specification for the next substrate.
+
+**Session 2026-03-17c findings:** The constraint map was compiled against both substrate and encoding frozen elements. Result: most substrate elements are forced (alternatives killed by U-constraints). Most encoding elements are discoverable through interaction (Step 414 proved resolution discovery; centering discoverable via codebook health monitoring). The frozen frame floor is the meta-protocol for encoding discovery, not any individual element. See `R3_AUDIT.md` Encoding Compilation section.
 
 ---
 
