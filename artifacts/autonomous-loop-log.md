@@ -93,3 +93,13 @@ For Jun when he wakes: ReadIsWrite is a genuine Phase 2 classification candidate
 **Actions:** Sent Eli Step 418g (hybrid on P-MNIST 10-task CL).
 
 **Stuck point for Jun:** Navigation requires predicting action outcomes (purposeful exploration vs random walk). The codebook tracks state-action but not state-action-OUTCOME. A transition model (which entry follows which) would enable lookahead. But U13 (additions hurt) and Steps 394-395 (self-feeding killed) argue against. Need Jun's judgment on whether transition tracking is worth the added frozen frame.
+
+## Iteration 7 result + Iteration 8
+
+**418g result:** 0.0% — KILL. My error: argmin is always wrong for classification (picks least familiar = wrong class). argmin ≠ argmax. Exploration and exploitation are literally opposite operations.
+
+**The real finding:** The search has TWO benchmarks (P-MNIST classification, LS20 navigation) that require OPPOSITE action selection (argmax vs argmin). No single action mechanism passes both. ReadIsWrite with softmax vote passes classification. ReadIsWrite with argmin passes navigation exploration. Neither passes both.
+
+This is not a substrate limitation — it's a benchmark design tension. The constitution says: "Level 1 in 50K OR P-MNIST >25%." The OR is doing important work.
+
+**Loop status:** 8 experiments in ~1 hour. 1 Phase 2 candidate (ReadIsWrite classifier: 88.2%, 0.4pp forget). 1 near-miss hybrid (418f: matches process_novelty exploration with half codebook). Navigation remains random walk for all substrates. Stuck on purposeful exploration — needs Jun.
