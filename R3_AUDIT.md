@@ -446,9 +446,46 @@ Three critical corrections during this session, each sharpening the analysis:
 | E3 | F.normalize (encoding) | **I** | Same as P4. |
 | E4 | Flattening (2D → 1D) | **I** | Forced by matmul. |
 
+### I-Element Alternative Elimination (post-audit Finding 4)
+
+*External audit (2026-03-18) critiqued I-classifications as "too generous" — requiring demonstration that ALL alternatives fail, not just that removing the current implementation kills the system. This section enumerates alternatives for each I element and cites the constraints or experiments that rule them out.*
+
+**P4: F.normalize (L2 normalization) — I (forced)**
+- No normalization: U7 (dominant feature amplification destroys minority features). Step 412: 0/3 without it.
+- L1 normalization: Round A Run 1 (cb=4, killed at depth 1). Round B Run 1b: survived at depth 2 (1385>1125 unique). **Depth-dependent — I at depth 1, inconclusive at depth 2.**
+- Per-dim standardization: R2 (requires separate statistics system) + U4 (adds running mean/var state).
+- Rank normalization: U20 (discontinuous — nearby inputs can rank differently).
+- Softmax: U7 (amplifies largest dimension, same failure mode as no normalization).
+- Whitening/PCA: R2 (separate evaluator) + U4 (massive covariance state).
+- **Conclusion: L2 is forced at depth 1 (all alternatives killed). At depth 2, L1 survives — reclassify to I-provisional.**
+
+**P5: matmul (V @ x) — I (forced)**
+- L1 distance: U20 holds (L1 preserves local continuity). But: cosine saturation IS the Goldilocks zone (Steps 377-412). L1 doesn't saturate the same way → dynamics differ fundamentally. Round B Run 1b tested L1 at depth 2: different dynamics, didn't navigate.
+- RBF kernel: Step 386 (sigma collapses to step function). Killed.
+- Hamming distance: U20 violation (binary thresholding is discontinuous).
+- Dot product (unnormalized): Step 388 (discrimination works, 0 levels at 200K). Killed for navigation.
+- **Conclusion: matmul with L2-normalized vectors (cosine similarity) is the unique combination providing local continuity (U20) + Goldilocks dynamics. Alternatives tested and killed. I confirmed.**
+
+**P12: F.normalize after attract — I (consequence of P4)**
+- If P4 is forced (L2 normalization on input), then entries must stay on the unit sphere after attract modifies them. Without re-normalization, entries drift off-sphere → magnitude accumulates → high-magnitude entries dominate matmul (U7).
+- **Conclusion: logically forced by P4. Not independently testable.**
+
+**P13: torch.cat (spawn = append) — I (forced by U17 + U22 + U4)**
+- No growth: U17 (fixed capacity exhausts exploration) + U22 (growth prevents convergence — TemporalPrediction family killed by convergence).
+- Replace worst: Still fixed capacity → U17.
+- Split winner: U4 (requires split parameters) + U13 (added mechanism).
+- Hierarchical growth: U4 + U13 (massive added structure).
+- **Conclusion: growth is forced (U17+U22). Append is the simplest growth operation (U4). I confirmed.**
+
+**P14: Attract direction (x - V[w]) — I (unique)**
+- (V[w] - x): Moves entry AWAY from input → increases matching error. Anti-learning.
+- Random direction: No systematic error reduction.
+- Gradient of other loss: R1 (requires external objective).
+- **Conclusion: (x - V[w]) is the unique direction reducing ||x - V[w]||². I confirmed.**
+
 ### Score
 
-**Substrate: 3-4 M, 5 I, 5-6 U.**
+**Substrate: 3-4 M, 5 I (4 confirmed, 1 provisional), 5-6 U.**
 **Encoding: 1-2 M, 2 I, 0-1 U.**
 **Total system: 4-6 M, 7 I, 5-7 U.**
 

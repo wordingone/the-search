@@ -38,6 +38,27 @@
 | U24 | Exploration (argmin) and exploitation (argmax) are opposite operations | argmin class scoring picks the least familiar action class → novelty-seeking exploration. argmax picks the most familiar → correct classification. No single action mechanism serves both. A substrate that explores via argmin gets 0% classification accuracy. A substrate that classifies via argmax doesn't explore. The benchmark gate (P-MNIST >25% OR LS20 Level 1) uses OR precisely because one substrate cannot pass both with the same action selection. ReadIsWrite with softmax vote: 88.2% P-MNIST, 0 navigation. ReadIsWrite with argmin: 3248 unique exploration, 0% classification. | Step 418g: 0% accuracy with argmin on P-MNIST. 418b-d: 88% with softmax vote. 418e-f: exploration with argmin/reconstruction. |
 | U25 | Score convergence and exploration bias are coupled in argmin/top-K systems | Argmin picks the lowest-scoring class. With raw scores, large classes score high → argmin avoids → explores. ANY normalization (count^p for p>0) penalizes large classes → their scores drop → argmin picks them → positive feedback → one class dominates. The transition is binary (p=0 vs p>0), not gradual. No scoring formula fixes the navigation wall. Navigation speed is determined by encoding quality (FT09: 82 steps with right encoding vs LS20: 26K with generic encoding, 300x). | Steps 426-430: softmax hurts (426), full norm inverts (429), fractional norm (p=0.25/0.5/0.75) all collapse to dom=100% (430). 60 prior action experiments (354-416) also failed. |
 
+### Universality Assessment (post-audit Finding 5)
+
+*External audit (2026-03-18) identified that all U-constraints were extracted from codebook-family architectures. Constraints below are assessed for multi-architecture support.*
+
+**Strong U (supported by 2+ architecturally distinct substrates):**
+U5, U7, U8 (codebook + temporal prediction), U10 (codebook + tape), U11 (codebook at multiple resolutions), U20 (codebook + tape + expression tree), U22 (codebook + temporal prediction — both killed by convergence)
+
+**Moderate U (information-theoretic or mathematical argument, not just empirical):**
+U1, U2, U3, U4, U14, U15, U16 — these follow from first principles (R1-R6 requirements, information theory) rather than single-architecture evidence
+
+**Provisional U (tested on codebook family only — may be S-class):**
+- U9 (curriculum): Tested only on codebook. Curriculum learning in neural networks shows different patterns.
+- U12 (structured noise): The Goldilocks zone may be cosine-specific, not universal.
+- U13 (additions hurt): Tested by adding to a codebook. In other architectures, additions (residual connections, skip connections) help.
+- U17 (fixed memory): True for codebooks. A system that compresses or abstracts might not exhaust.
+- U19 (dynamics ≠ features): Tested on codebook at different dimensionalities. Other architectures couple these differently.
+- U23 (distributed updates): Tested on codebook Gram structure. Transformers use distributed attention updates successfully.
+- U25 (score/bias coupling): Specific to argmin/top-K systems.
+
+*Provisional constraints should be confirmed on non-codebook architectures before being used to narrow the feasible region. Overconstrained specification risks declaring the region empty when it's the constraints that are wrong.*
+
 ---
 
 ## Intent Constraints (what capability is NEEDED, mapped from ARC-AGI-3's design intent)
