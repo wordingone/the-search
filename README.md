@@ -53,38 +53,39 @@ R3 is the binding constraint. The operations (cosine similarity, top-K voting, a
 
 Phase 2 builds systems that satisfy R1-R6 from scratch. Not process() with additions. New data structures, new matching operations, new self-modification mechanisms.
 
-### Candidates tested
+### Architecture families tested
 
-| Substrate | Data Structure | R3 Audit (U) | Status | Key Finding |
-|-----------|---------------|-------------|--------|-------------|
-| SelfRef | Codebook (vectors) | 10 U | Active | Best discrimination (94%), 0 levels. Cosine frozen (R3). |
-| TapeMachine | Integer tape | 10 U | **KILLED** | Hash violates U20 (no local continuity). 35% disc. |
-| ExprSubstrate | Expression tree | 8 U | **KILLED** | U21: scoring rewards noise diversity, not signal. |
-| TemporalPrediction | Prediction matrix | 4 U | **KILLED** | U22: LMS converges → W freezes → exploration dies. |
+**Three families explored. 445 total experiments.**
 
-### Key Phase 2 discoveries
+| Family | Experiments | Data Structure | Best Result | Status |
+|--------|------------|---------------|-------------|--------|
+| Codebook (LVQ) | 435 | Vector prototypes | 94.48% P-MNIST (supervised), LS20 Level 1 at ~26K | **MAPPED** — 26 constraints extracted |
+| Reservoir (ESN) | 7 | Recurrent trajectory | Rank-1 collapse (dense), rank=251 (sparse), no navigation | Characterized — rank solved, computation absent |
+| **Graph** | **5** | **Nodes + edges** | **LS20 Level 1 at 25738 (3/10 at 50K)** | **NAVIGATES — first non-codebook navigation** |
 
-**U20 (local continuity):** The substrate must map similar inputs to similar outputs. Cosine provides this for free. Hash and random splits violate it.
+Phase 2a substrates (SelfRef, TapeMachine, ExprSubstrate, TemporalPrediction): all killed. See [CONSTRAINTS.md](CONSTRAINTS.md).
 
-**U22 (convergence kills exploration):** Fixed-size prediction state converges when pred_err → 0. Growth (codebook spawning) prevents convergence. This is why LVQ navigates but temporal prediction doesn't.
+### Key discoveries
 
-**U24 (argmin ≠ argmax):** Exploration (argmin = least familiar) and classification (argmax = most familiar) are opposite operations. No single action mechanism serves both. Softmax voting improved classification +3.3pp but made navigation *worse* (Step 426).
+**Step 428 (navigation wall):** Action-score convergence makes the codebook a pure random walk after ~5K steps. No scoring modification fixes this (U25, Steps 426-430).
 
-**Step 428 (the navigation wall):** Action-score convergence is the mechanism. Top-K sum scores converge as codebook grows → all actions equally familiar → random walk from ~5K steps onward. The substrate is a directed explorer for ~5K steps, then pure noise.
+**Step 432 (label dependency):** Classification is entirely supervised. Self-labels = 9.8% (below chance). The entire 94.48% depends on external labels. Navigation is R1-compliant (actions are self-generated).
 
-### Active direction: The Mirror Side (Phase 2b)
+**Step 433 (cross-domain survival):** P-MNIST → LS20 → P-MNIST with 0.0pp contamination. The codebook naturally partitions by domain geometry. Unique contribution — no other CL system tested this way.
 
-The codebook family is fully mapped: 435 experiments, 26 universal constraints, every scoring modification killed (U25). The next substrate is not a codebook variant. It's the **temporal dual** — a self-modifying dynamical system where computation IS the trajectory, not a lookup over stored items.
+**Step 442b (graph substrate navigates):** A growing graph with nodes (observation landmarks) and edges (transition counts) navigated LS20 Level 1 — the first non-codebook architecture to pass the benchmark gate. Action from edge structure (least-visited transition), not similarity scoring. dom=25% perfectly uniform by construction. U25 dissolved.
 
-| Property | Codebook (mapped) | Mirror side (exploring) |
-|---|---|---|
-| Paradigm | Store-vote | Transform-be |
-| Memory | Explicit items | Implicit structure |
-| Time | Invisible | Intrinsic |
-| Action | From scoring | From dynamics |
-| Death mode | Score convergence (U25) | Trajectory collapse (U7/U22) |
+**Step 445 (graph reliability):** 3/10 at 50K vs codebook 6/10. The graph explores systematically but lacks the codebook's bimodal distribution (no fast lucky seeds). Different mechanism, comparable timescale.
 
-Step 437: first contact with a self-modifying reservoir. Clean failure — W unbounded, trajectory saturated. Failure mode is the temporal analog of removing F.normalize from the codebook. Step 437b (spectral-controlled) testing.
+### Active direction (Phase 2b)
+
+Three parallel tracks:
+
+1. **Graph substrate without codebook DNA** — Current graph uses cosine nodes (identified as codebook loophole). Next: quantization-based or LSH-based node matching. The relational structure (edges) is the genuine contribution; the spatial mechanism needs to be non-codebook.
+
+2. **Reservoir family** — Sparse reservoir solved rank-1 collapse (rank=251). The open question: how to get a self-modifying recurrent network to produce useful computation under R1 (no external objective). 7 experiments, hundreds more needed.
+
+3. **Impossibility direction** — 445 experiments of failed attempts to satisfy R1-R6 simultaneously. Is there a mathematical proof that the feasible region is empty? U24 + U25 + U26 prove partial incompatibilities. Formalizing these into a theorem would be a genuine theoretical contribution.
 
 ---
 
@@ -146,7 +147,7 @@ The rules are simultaneous constraints, not sequential stages. The Phase 1 "stag
 
 ## Constraints from Experiments
 
-26 universal constraints (7 provisional) define what ANY substrate must satisfy:
+26 universal constraints (7 provisional, see [universality assessment](CONSTRAINTS.md)) define what ANY substrate must satisfy:
 
 - **U1-U4:** Structural (read+write one operation, one data structure, zero forgetting, minimal)
 - **U5-U8:** Selection (sparse over global, Lipschitz boundary, no iteration, hard over soft)
