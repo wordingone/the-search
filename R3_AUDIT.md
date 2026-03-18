@@ -405,3 +405,60 @@ Three critical corrections during this session, each sharpening the analysis:
 2. **Wrong understanding of process_novelty():** Initially thought it used fixed hyperparameters (spawn_thresh=0.95, lr=0.015). Eli's code review revealed it uses V-derived threshold (Gram median) and 1-sim adaptive lr — same as SelfRef. The difference is argmin class scoring, labels, centering, top-K, seeding.
 
 3. **Wrong location of frozen frame:** R3 audit counted substrate elements. The 300x speedup lives in the encoding, not the substrate. Step 414 proved encoding elements are discoverable through interaction. The frozen frame floor is the meta-protocol, not any individual element.
+
+---
+
+## process_novelty() R3 Audit (the substrate that navigates)
+
+*Added 2026-03-18, autonomous loop iteration 1. This audit covers the ACTUAL navigating substrate from experiments/run_step353_pure_novelty.py — the substrate that found LS20 Level 1 at step 26218.*
+
+### Substrate Elements
+
+| # | Element | Class | Justification |
+|---|---------|-------|---------------|
+| P1 | V (codebook entries) | **M** | Modified by attract (alpha * (x - V[w])) every non-spawn step |
+| P2 | V.shape[0] (codebook size) | **M** | Grows via spawn. ~80% spawn rate on LS20. |
+| P3 | labels (per-entry action class) | **M** | New entries inherit the predicted class label. Labels are part of state. |
+| P4 | F.normalize (input) | **I** | Forced by U7 (dominant feature amplification) + U20 (local continuity). All alternatives killed. See SelfRef #3 analysis. |
+| P5 | matmul (V @ x) | **I** | Reading state. Remove → can't match → dead. |
+| P6 | Top-K class scoring (k=3) | **U** | k=3 is a hyperparameter. k=1 untested on process_novelty(). k=all is soft attention (tested in Step 418, different dynamics). The VALUE of k is U; the MECHANISM (per-class similarity aggregation) may be forced. |
+| P7 | argmin (least familiar class) | **U** | Novelty-seeking action selection. Alternative: argmax (exploit, not explore — kills navigation by repeating familiar actions). Alternative: random (no signal). argmin is the only selection rule that systematically explores. But: is SYSTEMATIC exploration necessary, or does stochastic coverage suffice? If stochastic coverage suffices, argmin is replaceable by any balanced random selection. 23 experiments (354-376) show argmin ≈ random walk at same speed. Element is U but may be non-load-bearing. |
+| P8 | Class-restricted spawn check | **U** | `sims[target_mask].max() < self.thresh` — spawn only checked within PREDICTED class, not globally. This means inputs that are globally similar but class-novel still spawn. Drives the 80% spawn rate. Alternative: global spawn check (sims.max() < thresh) — SelfRef uses this, grows much slower (cb=164 at 50K vs process_novelty ~20K). The class restriction is what makes process_novelty() different from SelfRef. U — system doesn't choose. |
+| P9 | Class-restricted attract | **U** | Winner is argmax within target class, not global argmax. This means a closer entry in another class is ignored. Alternative: global attract (SelfRef). The class restriction couples attract to the action label. U — system doesn't choose. |
+| P10 | thresh = median(max(G)) | **M** | V-derived. Gram median of max inter-entry similarities. Computed from V every step. VALUE is M. FORMULA is narrow U (median vs mean — gauge symmetry confirmed in Round A: identical behavior). |
+| P11 | lr = 1 - sim | **M** | V-derived. Learning rate computed from the similarity of the winner to the input. Adaptive. VALUE is M. FORMULA: 1-sim is the simplest parameter-free formula using already-computed sim (U4). Round A showed 1-sim² is strictly better — formula is narrow U within the power family. |
+| P12 | F.normalize after attract | **I** | Consequence of P4. Maintains sphere invariant. See SelfRef #11 analysis. |
+| P13 | torch.cat (spawn = append) | **I** | Forced by U17 (fixed capacity exhausts) + U22 (growth prevents convergence) + U4 (simplest growth). See SelfRef #12 analysis. |
+| P14 | Attract direction (x - V[w]) | **I** | Only direction that reduces matching error. See SelfRef #15. |
+| P15 | Seeding protocol (4 force_add) | **U** | Forces one entry per action class before novelty mode. Cold-start workaround. Without it: first few steps have no class diversity, argmin is degenerate. Alternative: random initial actions. The VALUE (n_actions entries) is game-derived. The DECISION to seed is frozen. |
+| P16 | label = prediction (self-labeling) | **M/U** | When no external label, the substrate labels new entries with its own prediction. The VALUE is M (derived from argmin scoring). The DECISION to self-label is frozen but natural — only alternative is random labeling (adds noise) or no labeling (breaks class structure). |
+
+### Encoding Elements (included per anti-inflation rule 7)
+
+| # | Element | Class | Justification |
+|---|---------|-------|---------------|
+| E1 | avgpool16 (16×16) | **M** | Resolution discoverable via sequential dedication (Step 414). |
+| E2 | centered_enc (subtract V.mean()) | **M/U** | Value V-derived. Decision discoverable via codebook health monitoring. |
+| E3 | F.normalize (encoding) | **I** | Same as P4. |
+| E4 | Flattening (2D → 1D) | **I** | Forced by matmul. |
+
+### Score
+
+**Substrate: 3-4 M, 5 I, 5-6 U.**
+**Encoding: 1-2 M, 2 I, 0-1 U.**
+**Total system: 4-6 M, 7 I, 5-7 U.**
+
+### Comparison to SelfRef
+
+| | SelfRef | process_novelty() |
+|---|---|---|
+| Original U count | 10 | 5-7 |
+| Navigates LS20? | No | Yes (26K steps) |
+| Class structure | No (index-based action) | Yes (argmin class scoring) |
+| Thresh | V-derived (same) | V-derived (same) |
+| lr | 1-sim (same) | 1-sim (same) |
+| Growth rate | cb=164 at 50K | cb=~20K at 26K |
+
+**Key difference:** process_novelty() has class structure (P6-P9, P15-P16) which SelfRef doesn't. The class structure drives higher growth (class-restricted spawn check ≈ 80% spawn) and novelty-seeking action selection (argmin). These are the 4-5 U elements that SelfRef lacks — and they're what makes navigation work.
+
+**The tension:** The class elements (P6-P9) are what enable navigation but are also the largest source of U. Removing them gives SelfRef, which doesn't navigate. The frozen frame and navigation capability are coupled through the class structure.
