@@ -147,6 +147,21 @@ LVQ + growing codebook. Well-characterized in the literature. Our
 contribution is not the architecture --- it's the constraint map
 extracted from systematic testing.
 
+\subsubsection{2.5 Continual learning and catastrophic
+forgetting}\label{continual-learning-and-catastrophic-forgetting}
+
+McCloskey \& Cohen (1989) identified catastrophic forgetting --- neural
+networks lose previous knowledge when learning new tasks. The continual
+learning literature (survey: van de Ven \& Tolias, 2024,
+arXiv:2403.05175) identifies six main approaches: replay, parameter
+regularization, functional regularization, optimization-based,
+context-dependent processing, and template-based classification. All
+assume a neural network with backpropagation (violates R1/R2). Our chain
+benchmark (Section 5.4) tests forgetting WITHOUT any mitigation
+mechanism --- the substrate must naturally resist forgetting through its
+dynamics alone (U3: zero forgetting by construction, not by
+regularization).
+
 \subsection{3. Formal Framework}\label{formal-framework}
 
 \subsubsection{3.1 Primitives}\label{primitives}
@@ -794,6 +809,45 @@ Classification: \textbf{R1-compliant classification is unsolved.} Step
 classification task are fundamentally incompatible with all tested
 architectures. These numbers are supervised baselines confirming the
 mapping quality, not evidence of self-organized classification.
+
+\subsubsection{5.4 The Chain Benchmark
+(planned)}\label{the-chain-benchmark-planned}
+
+The experiments in Sections 5.1-5.3 test single benchmarks in isolation.
+The real test is the \textbf{chain}: a sequence of heterogeneous
+benchmarks with one continuous state and no reset.
+
+\begin{verbatim}
+CIFAR-100 → Atari → ARC-AGI-3 → CIFAR-100
+\end{verbatim}
+
+Each benchmark tests a different capability that specialized systems
+win: - \textbf{CIFAR-100}: classification (DNNs/LLMs win). 100 classes,
+32×32 RGB images. R1 prohibits external labels --- the substrate must
+classify by its own dynamics. - \textbf{Atari}: navigation/control (RL
+wins). Reward-driven sequential decision-making. R1 prohibits external
+reward --- the substrate must navigate by exploration. -
+\textbf{ARC-AGI-3}: reasoning (humans win). Interactive games requiring
+perception, action, and adaptation. Tested in Sections 5.1-5.3.
+
+\textbf{What the chain tests that single benchmarks don't:} 1.
+\textbf{U3 under task switching:} Does the growth-only state (nodes,
+edges) from CIFAR-100 survive ARC-AGI-3? Or does ARC-AGI-3's state
+contaminate CIFAR-100's representations? 2. \textbf{R4 across
+benchmarks:} After ARC-AGI-3 modifies the state, does CIFAR-100
+performance degrade? R4 requires that modifications are tested against
+prior capability. 3. \textbf{U11 in sequence:} The substrate must
+classify (argmax-like) AND navigate (argmin-like) with one state, one
+mechanism. The chain forces both in sequence, not in parallel.
+
+\textbf{Protocol:} 5-minute checkpoint intervals. At each checkpoint,
+ALL benchmarks are probed regardless of which is active --- measuring
+cross-benchmark interference in real time.
+
+\textbf{Status:} Infrastructure under development. No chain results yet.
+The constraint map (Sections 3.2-3.5) was derived from ARC-AGI-3
+experiments only. Chain experiments may confirm, extend, or contradict
+existing constraints.
 
 \subsection{6. Degrees of Freedom}\label{degrees-of-freedom}
 

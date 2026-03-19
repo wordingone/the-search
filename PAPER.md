@@ -32,6 +32,9 @@ Maturana & Varela (1972) define autopoietic systems as networks that produce the
 ### 2.4 Growing neural gas and self-organizing maps
 Fritzke (1995) GNG, Kohonen (1988) SOM/LVQ. The codebook substrate is LVQ + growing codebook. Well-characterized in the literature. Our contribution is not the architecture — it's the constraint map extracted from systematic testing.
 
+### 2.5 Continual learning and catastrophic forgetting
+McCloskey & Cohen (1989) identified catastrophic forgetting — neural networks lose previous knowledge when learning new tasks. The continual learning literature (survey: van de Ven & Tolias, 2024, arXiv:2403.05175) identifies six main approaches: replay, parameter regularization, functional regularization, optimization-based, context-dependent processing, and template-based classification. All assume a neural network with backpropagation (violates R1/R2). Our chain benchmark (Section 5.4) tests forgetting WITHOUT any mitigation mechanism — the substrate must naturally resist forgetting through its dynamics alone (U3: zero forgetting by construction, not by regularization).
+
 ## 3. Formal Framework
 
 ### 3.1 Primitives
@@ -290,6 +293,28 @@ Relationship to Section 4: Edge counts grow (U17 formally satisfied) but each ma
 - centered_enc is load-bearing in 2 families (codebook, LSH) for different failure modes — confirmed universal (U16).
 - Graph + edge-count argmin is the constant across all winning navigation configurations. No family has won without it.
 - Classification: **R1-compliant classification is unsolved.** Step 432 (codebook) achieves 94.48% and Step 444b (graph) achieves 93.34% — but both receive ground-truth labels on every training step (supervised NNC). Without external labels, accuracy drops to chance (~10%). The R1 constraint (no external objective) and the classification task are fundamentally incompatible with all tested architectures. These numbers are supervised baselines confirming the mapping quality, not evidence of self-organized classification.
+
+### 5.4 The Chain Benchmark (planned)
+
+The experiments in Sections 5.1-5.3 test single benchmarks in isolation. The real test is the **chain**: a sequence of heterogeneous benchmarks with one continuous state and no reset.
+
+```
+CIFAR-100 → Atari → ARC-AGI-3 → CIFAR-100
+```
+
+Each benchmark tests a different capability that specialized systems win:
+- **CIFAR-100**: classification (DNNs/LLMs win). 100 classes, 32×32 RGB images. R1 prohibits external labels — the substrate must classify by its own dynamics.
+- **Atari**: navigation/control (RL wins). Reward-driven sequential decision-making. R1 prohibits external reward — the substrate must navigate by exploration.
+- **ARC-AGI-3**: reasoning (humans win). Interactive games requiring perception, action, and adaptation. Tested in Sections 5.1-5.3.
+
+**What the chain tests that single benchmarks don't:**
+1. **U3 under task switching:** Does the growth-only state (nodes, edges) from CIFAR-100 survive ARC-AGI-3? Or does ARC-AGI-3's state contaminate CIFAR-100's representations?
+2. **R4 across benchmarks:** After ARC-AGI-3 modifies the state, does CIFAR-100 performance degrade? R4 requires that modifications are tested against prior capability.
+3. **U11 in sequence:** The substrate must classify (argmax-like) AND navigate (argmin-like) with one state, one mechanism. The chain forces both in sequence, not in parallel.
+
+**Protocol:** 5-minute checkpoint intervals. At each checkpoint, ALL benchmarks are probed regardless of which is active — measuring cross-benchmark interference in real time.
+
+**Status:** Infrastructure under development. No chain results yet. The constraint map (Sections 3.2-3.5) was derived from ARC-AGI-3 experiments only. Chain experiments may confirm, extend, or contradict existing constraints.
 
 ## 6. Degrees of Freedom
 
