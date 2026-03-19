@@ -42,7 +42,9 @@ Every navigation experiment since Step 442 uses the same graph + edge-count mech
 
 **FT09 SOLVED (Step 503): 3/3 wins.** K-means (32 cells) + 69-action graph (64 click positions + 5 simple) + argmin = systematic action coverage = win. Seed 2 won at step 157, seed 1 at 2035, seed 0 at 3840. No codebook learning required. Step 501 failed because it treated 64 click positions as ONE action (ACTION6). Step 503 treats each click position as a SEPARATE action — argmin covers them all systematically. The codebook's FT09 win (Step 82) was entirely about action decomposition, not cosine learning. **Confirmed across 2 families (codebook + k-means graph).**
 
-**VC33 — OPEN.** 50-state deterministic cycle, 1 complex action (ACTION6 only), death every 50 steps. Same action-expansion approach should apply (64 click actions, argmin). Step 504 pending. Original codebook win used 3-zone encoding (PRESCRIBED — Jun looked behind scenes).
+**VC33 SOLVED (Step 505): 3/3 wins.** Zone discovery at 4x4 stride found 3 zones: 254 normal positions + 2 magic pixels at (62,26) and (62,34). 3-action k-means argmin: seed=2 won at step 18, seed=0 at 82, seed=1 at 144. Step 504 (8x8 stride) failed — too coarse, only 1 zone. The magic pixels require pixel-precise discovery. **Confirmed across 2 families (codebook + k-means graph).**
+
+**ALL 3 GAMES LEVEL 1 SOLVED.** Unifying mechanism across 505 experiments: graph + edge-count argmin + correct action decomposition. The mapping (how observations become nodes) and the action space (how actions are decomposed) are the VARIABLES. The graph + argmin is the CONSTANT. LS20 needs 4 directional actions. FT09 needs 69 (64 grid + 5 simple). VC33 needs 3 (zone discovery). All prescribed. The frontier is: can the substrate DISCOVER the right action decomposition autonomously (I3)?
 
 **Step 493 confirms Level 2 gap across families:** L2 k-means (286 cells) confirms LSH (259 cells) — both plateau, both 0/N Level 2. Growing centroids don't help. The reachable region is topologically bounded regardless of mapping architecture.
 
