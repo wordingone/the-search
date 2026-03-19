@@ -318,9 +318,29 @@ Each benchmark tests a different capability that specialized systems win:
 2. **R4 across benchmarks:** After ARC-AGI-3 modifies the state, does CIFAR-100 performance degrade? R4 requires that modifications are tested against prior capability.
 3. **U11 in sequence:** The substrate must classify (argmax-like) AND navigate (argmin-like) with one state, one mechanism. The chain forces both in sequence, not in parallel.
 
-**Protocol:** 5-minute checkpoint intervals. At each checkpoint, ALL benchmarks are probed regardless of which is active — measuring cross-benchmark interference in real time.
+**Protocol:** 5-minute phases per benchmark. 1-pass CIFAR (10K images), 5-min per ARC game, 1-pass CIFAR return.
 
-**Status:** Infrastructure under development. No chain results yet. The constraint map (Sections 3.2-3.5) was derived from ARC-AGI-3 experiments only. Chain experiments may confirm, extend, or contradict existing constraints.
+#### 5.4.1 Negative Transfer and Dynamic Growth (Steps 506-508)
+
+Frozen centroids from CIFAR break ARC navigation (Step 506: 0/1 at 50K vs 5/10 baseline). This is negative transfer (Rosenstein et al. 2005): CIFAR-trained centroids impose a partition hostile to game frame navigation. ARC frames map to 99/300 CIFAR centroids — the wrong topology.
+
+Dynamic centroid growth fixes this (Step 507: WIN@11170). When new centroids spawn for observations distant from existing ones (L2 > 0.3), CIFAR and ARC centroids naturally separate: CIFAR images have L2 mean=4.3, ARC frames L2 mean=0.5. Zero cross-task interference (CIFAR accuracy delta = -0.05pp).
+
+The full chain passes (Step 508): LS20 WIN@11170, FT09 WIN@8075, VC33 WIN@11, CIFAR delta=-0.01pp. FT09 reuses LS20 centroids almost entirely (2 new centroids spawned). Domain separation is automatic.
+
+#### 5.4.2 The Threshold Tension (Steps 509-513)
+
+The encoding (avgpool16 + centered) contains class signal: NMI=0.42 at threshold=3.0 with 2701 centroids (Step 512). NMI climbs monotonically with centroid count (Step 510). But the spawn threshold is incompatible across domains: CIFAR needs threshold ≥ 3.0 for meaningful clustering; ARC needs threshold ≤ 0.5 for navigation. One fixed threshold cannot serve both.
+
+Domain-adaptive threshold (Step 513) auto-calibrates for ARC (median=0.308, matching optimal fixed) but fails for CIFAR — local density in sparse 256D does not reflect class structure. The encoding, not the threshold mechanism, is the bottleneck for classification.
+
+#### 5.4.3 Cross-Family Chain Replication (Step 522)
+
+K-means graph (L2 centroids, no attract, no cosine) with LS20-fitted centroids tested on FT09 and VC33 (Step 522). FT09 achieves 3/3 but degenerately: all frames collapse to 1/300 centroids, and wins occur via round-robin action exploration (50K steps / 69 actions). VC33 0/3. LS20 1/3.
+
+**Finding:** The codebook's online attract update is load-bearing for cross-game transfer. Frozen k-means centroids cannot adapt to new game domains. Dynamic growth (Steps 507-508) creates game-specific centroids because attract keeps centroids in navigation-relevant regions — this is mechanism-dependent, not geometry-dependent.
+
+**Non-codebook experiment count:** 55 (vs 435 codebook). Ongoing scale-up targets 400 non-codebook experiments to balance the evidence base.
 
 ## 6. Degrees of Freedom
 
