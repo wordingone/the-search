@@ -388,4 +388,5 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | **482** | **Global cell novelty (anti-revisitation penalty)** | — | **25%** | **6/10, different seeds.** Complementary to argmin. |
 | **483** | **Ensemble (argmin + global novelty parallel)** | — | **25%** | **6/10. Appeared to be game ceiling.** Seeds 1,2,5,6 fail for both mechanisms at 50K. |
 | **484** | **Hard seeds (1,2,5,6) at 200K** | — | **25%** | **4/4 NAVIGATE.** 6/10 was step budget artifact. Hard seeds need 35K-115K. |
-| **485** | **LSH k=12 at 120K, 10 seeds** | — | **25%** | **9/10.** Seed 3 (previously easy) now fails — hard seed set is stochastic, not fixed. The mechanism is probabilistically 10/10 given sufficient budget (5K-150K per seed). LSH k=12 + centered_enc + avgpool16 + graph + argmin is effectively 100% reliable on LS20 with enough steps. Zero codebook DNA. 485 experiments total. |
+| **485** | **LSH k=12 at 120K, 10 seeds** | — | **25%** | **9/10.** Mechanism is ~100% reliable given sufficient budget (5K-150K per seed). |
+| **486** | **Multi-level (no reset, 200K)** | — | **25%** | **Level 1: 5/5. Level 2: 0/5.** Graph contamination — Level 1 edges (200K counts) dominate argmin. Zero Level 2 signal quality. The graph can't distinguish levels. Transfer (I5) fails without reset/decay/partitioning. |
