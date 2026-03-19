@@ -168,7 +168,26 @@ limitation (``exhaustive exploration becomes computationally
 intractable'' at higher levels) aligns with our Theorem 2: without
 self-observation, exploration saturates.
 
-\subsubsection{2.6 Continual learning and catastrophic
+\subsubsection{2.6 Object-centric Bayesian game
+learning}\label{object-centric-bayesian-game-learning}
+
+Heins et al.~(2025, ``AXIOM'') combine object-centric scene
+decomposition with online Bayesian model expansion and reduction,
+learning games in \textasciitilde10K steps without backpropagation. Key
+mechanisms: (1) Slot Mixture Model segments frames into objects with
+position/color/shape --- far richer than spatial averaging; (2) online
+expansion grows mixture components when new data doesn't fit (equivalent
+to spawn-on-novelty); (3) Bayesian Model Reduction (BMR) merges
+redundant components every 500 frames --- consolidation that prevents
+centroid explosion while preserving information. AXIOM outperforms
+DreamerV3 and BBF on 10/10 games at 10K steps. Key differences from our
+framework: AXIOM uses reward signals for planning (violates R1),
+operations are fixed (violates R3), and BMR requires a prescribed merge
+criterion (frozen frame). However, BMR addresses our U3-vs-R6 tension
+directly: U3 says never delete, R6 says no redundancy, BMR resolves this
+by merging (not deleting) redundant structure.
+
+\subsubsection{2.7 Continual learning and catastrophic
 forgetting}\label{continual-learning-and-catastrophic-forgetting}
 
 McCloskey \& Cohen (1989) identified catastrophic forgetting --- neural
