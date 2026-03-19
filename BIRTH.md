@@ -150,3 +150,129 @@ R3 says "every modifiable aspect IS modified." But the constitution defines this
 ---
 
 *End of Formalization 1. Next: U3 (zero forgetting), U20 (local continuity), R6 (no deletable parts) — the growth topology.*
+
+---
+
+## Formalization 2: The Topology of Growth (U3, U17, U20, R6)
+
+Formalization 1 established that the state trajectory has no fixed point — growth (U17) prevents convergence. This section asks: what STRUCTURE does the growing state space have?
+
+### 2.1 Conditions
+
+**U3 (Zero forgetting):**
+State only grows. No element of S is ever removed.
+
+Formally: let S_t denote the state at time t, viewed as a structured set (not just a point in a space). Then S_t ⊆ S_{t+1} for all t, where ⊆ means "every component of S_t is preserved in S_{t+1}."
+
+*Clarification:* This does NOT mean the values in S are frozen — entries can be modified (attract updates change centroid positions). It means the STRUCTURE only grows: entries are added, never deleted; edges accumulate, never pruned; nodes persist. The constraint is on the structural skeleton, not on the values.
+
+*Evidence:* Codebook: entries accumulate via spawn, never deleted. LSH: cells are fixed (hash buckets), edges accumulate. k-means: centroids fixed after warmup, edges accumulate. kd-tree VIOLATES this — splits destroy nodes (Step 452, killed).
+
+**U17 (Unbounded accumulation):**
+(Already formalized in 1.1. Restated for reference.)
+
+∃ φ: S → ℝ≥0 monotonically non-decreasing along trajectories, with lim_{t→∞} φ(s_t) = ∞.
+
+**U20 (Local continuity):**
+The induced mapping π: X → N from observations to nodes preserves local structure.
+
+Formally: there exists a metric d_X on X and a metric d_N on N such that π is Lipschitz-continuous:
+
+d_N(π(x₁), π(x₂)) ≤ L · d_X(x₁, x₂)  for some constant L > 0
+
+*Stronger than continuity:* Lipschitz continuity means the mapping doesn't amplify small differences. Two observations that are close in X map to nodes that are close (or equal) in N.
+
+*Evidence:* Grid graph fails (Steps 446-447): non-continuous mapping → 0/3. LSH: sign(Hx) preserves angular locality → succeeds. k-means: nearest centroid is locally continuous by construction (Voronoi cells are connected). Reservoir fails (Step 448): hidden state history makes mapping depend on trajectory, breaking locality.
+
+*What d_X is:* For 64×64 palette frames, d_X could be L2 distance on flattened vectors, or L2 on downsampled vectors (avgpool16). The choice of d_X is part of the encoding — and the encoding is part of the frozen frame (see R3 audit). U20 says the mapping must be continuous WITH RESPECT TO SOME d_X, but doesn't specify which d_X. The choice of metric on X is a degree of freedom.
+
+**R6 (No deletable parts):**
+Every component of S is necessary. Removing any component destroys the system's capability.
+
+Formally: let G: S → {0, 1} be the ground truth test (R5). For every component c ∈ components(S_t), the restricted state S_t \ {c} fails G.
+
+*What "component" means:* This depends on the structure of S. For a graph: each node and each edge is a component. For a codebook: each entry is a component. R6 says: every node is needed, every edge is needed, every entry is needed.
+
+### 2.2 Analysis
+
+**Proposition 1: U3 + U17 + R6 imply irredundant growth.**
+
+*Proof:*
+- U3: structure only grows (no deletion).
+- U17: structure grows without bound.
+- R6: every component is needed (no redundancy).
+- Therefore: the system adds new components indefinitely, and every component ever added remains necessary.
+
+This is a strong condition. It means: the system NEVER creates a component that duplicates the function of an existing component. Every new node covers a region of X that no existing node covers. Every new edge records a transition that no existing edge records.
+
+*Implication:* The growth is an EXPLORATION of the observation space X. Each new component represents genuinely new information about X. The system is building an increasingly detailed map of X, where every detail is needed.
+
+**Proposition 2: U20 + irredundant growth imply well-separated nodes.**
+
+*Proof sketch:*
+- U20: π is Lipschitz. Nearby observations map to the same or nearby nodes.
+- Irredundant growth: no two nodes serve the same function.
+- If two nodes n₁, n₂ ∈ N cover overlapping regions of X (i.e., there exists x such that d_N(n₁, π(x)) < ε and d_N(n₂, π(x)) < ε), and π is deterministic, then one of them is redundant for that region.
+- Therefore: irredundancy requires that the Voronoi cells of the nodes partition X without unnecessary overlap.
+
+*This is exactly the spawn-on-novelty mechanism:* new nodes are created when an observation is far from all existing nodes. The "far" threshold determines the resolution.
+
+**Proposition 3: The growth rate is coupled to the observation distribution.**
+
+From irredundant growth + local continuity: new nodes are added when the system encounters observations that are far from existing nodes. The RATE of growth depends on how often the system encounters novel observations.
+
+This creates a feedback loop:
+1. The system acts (g(s) → a).
+2. The environment responds (env(x, a) → x').
+3. If x' is far from existing nodes, a new node is added (growth).
+4. The new node changes the update rule (R3 from Formalization 1).
+5. The changed rule may produce different actions, leading to different observations.
+
+The system's growth rate is NOT autonomous — it depends on the environment's response to the system's actions. This is an important structural property: the system cannot grow arbitrarily fast or in arbitrary directions. The environment gates the growth.
+
+**Proposition 4: U20 constrains the topology of the node space N.**
+
+If π: X → N is Lipschitz, then N inherits the topology of X (up to the Lipschitz constant L). Specifically:
+- If X is connected (e.g., images form a connected space), then the image π(X) ⊆ N is connected.
+- If X has dimension d (the manifold dimension of observations), then π(X) has dimension ≤ d.
+- If X has clusters (distinct game states), then N has at least as many clusters.
+
+For ARC-AGI-3: LS20 has ~260 reachable states, FT09 has 32, VC33 has 50. These are the cluster counts. U20 says: the node space must have AT LEAST this many clusters, and the mapping must respect their distances.
+
+### 2.3 Degrees of Freedom
+
+5. **The metric d_X on observation space.** U20 requires continuity but doesn't specify the metric. avgpool16 + L2 works for LS20. Raw 64×64 + L2 doesn't (Steps 388-389). The metric is part of the frozen frame — it IS part of F.
+
+6. **The resolution of the partition.** How many nodes does the system create? Too few = aliasing (multiple distinct states merge). Too many = wasted structure. R6 says no redundancy, but doesn't say how fine the partition should be. The number of nodes is determined by the interaction between the spawn threshold and the observation distribution.
+
+7. **The growth mechanism.** U3 says structure is added, U17 says it grows without bound. But HOW new components are added is not specified. Spawn-on-novelty is one mechanism (codebook). Implicit growth via edge accumulation is another (LSH, k-means graph). The constraints allow multiple mechanisms.
+
+### 2.4 Tensions
+
+**T3: U20 (local continuity) conflicts with R3 (self-modification) on the metric.**
+
+U20 requires π to be continuous with respect to some d_X. R3 requires the update rule to depend on state. If the metric d_X is part of the update rule (as it must be — the mapping π uses a distance measure), then R3 requires d_X to change as state changes.
+
+But if d_X changes, then U20's Lipschitz condition changes: a mapping that was continuous under the old metric may not be continuous under the new metric. Observations that were "close" may become "far" or vice versa.
+
+This means: R3 (self-modifying metric) + U20 (continuous mapping) require that metric changes preserve the Lipschitz property. Formally: if d_X evolves as d_X^{(t)}, then π must satisfy:
+
+d_N(π(x₁), π(x₂)) ≤ L · d_X^{(t)}(x₁, x₂)  for ALL t
+
+This is a COMPATIBILITY condition on how the metric can evolve. Not all metric evolutions are allowed — only those that keep π continuous.
+
+**Status:** This is a genuine constraint on R3. The system can change its metric, but not in ways that violate local continuity. Metric evolution must be "smooth" — it cannot suddenly make distant observations close or close observations distant. This rules out arbitrary metric self-modification. The metric can REFINE (increase resolution) but cannot REARRANGE (change which observations are considered similar).
+
+**T4: Irredundant growth + finite observation space = growth must eventually slow.**
+
+If X has finite effective dimensionality (game states are discrete), and growth is irredundant (each node covers a unique region), then the number of useful nodes is bounded by the number of distinguishable observations. Once every distinguishable observation has a node, no more growth is needed.
+
+But U17 says growth is unbounded. If node growth is bounded, then φ must measure something other than node count — edge count, or some other accumulating quantity.
+
+This is consistent with experimental evidence: k-means centroids plateau (286 cells, Step 493) but edges grow forever. The growth function φ can be edge count rather than node count.
+
+**Status:** U17 is satisfiable even with bounded node count, as long as SOME component of S grows unboundedly. Edge accumulation satisfies U17 without requiring unbounded nodes. This is a degree of freedom already identified (DoF 1 from Formalization 1).
+
+---
+
+*End of Formalization 2. Next: U1 (no separate modes) + U11 (discrimination ≠ navigation) + U24 (exploration ≠ exploitation) — the action selection constraints.*
