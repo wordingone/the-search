@@ -365,9 +365,16 @@ The feasible region for Level 1 navigation is occupied — graph + argmin + corr
 
 ## References
 
-- Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements. arXiv:cs/0309048.
-- Pathak, D. et al. (2017). Curiosity-driven Exploration by Self-Supervised Prediction. ICML.
-- Maturana, H. & Varela, F. (1972). Autopoiesis and Cognition: The Realization of the Living.
-- Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
-- Kohonen, T. (1988). Self-Organization and Associative Memory. Springer.
+- Abraham, W. C. & Robins, A. (2005). Memory retention — the synaptic stability versus plasticity dilemma. Trends in Neurosciences, 28(2), 73-78.
 - Bellemare, M. et al. (2016). Unifying Count-Based Exploration and Intrinsic Motivation. NeurIPS.
+- Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
+- Graves, A. et al. (2014). Neural Turing Machines. arXiv:1410.5401.
+- Kohonen, T. (1988). Self-Organization and Associative Memory. Springer.
+- Maturana, H. & Varela, F. (1972). Autopoiesis and Cognition: The Realization of the Living.
+- McCloskey, M. & Cohen, N. J. (1989). Catastrophic interference in connectionist networks. Psychology of Learning and Motivation, 24, 109-165.
+- Pathak, D. et al. (2017). Curiosity-driven Exploration by Self-Supervised Prediction. ICML.
+- Rosenstein, M. et al. (2005). To Transfer or Not To Transfer. NIPS Workshop on Inductive Transfer.
+- Rudakov, E., Shock, J. & Cowley, B. U. (2025). Graph-Based Exploration for ARC-AGI-3 Interactive Reasoning Tasks. arXiv:2512.24156.
+- Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements. arXiv:cs/0309048.
+- van de Ven, G. M. & Tolias, A. S. (2024). Continual Learning and Catastrophic Forgetting. arXiv:2403.05175.
+- Wang, Z. et al. (2019). Characterizing and Avoiding Negative Transfer. CVPR.
