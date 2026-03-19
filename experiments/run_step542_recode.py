@@ -147,10 +147,12 @@ def t0():
     assert 0 in sub2.ref, "node 0 should be refined"
     assert 0 not in sub2.live, "node 0 should not be live"
 
-    n_child0 = sub2._node(sub2.C[(0, 0, 1)][0].astype(np.float32) / 50)
-    n_child1 = sub2._node(sub2.C[(0, 0, 2)][0].astype(np.float32) / 50)
-    assert n_child0 != n_child1, "children should differ"
-    assert isinstance(n_child0, tuple), "child should be tuple"
+    # Verify hyperplane separates the two mean observations
+    # (synthetic nodes don't hash to 0 via _base, so test hyperplane directly)
+    x0 = (sub2.C[(0, 0, 1)][0] / 50).astype(np.float32)
+    x1 = (sub2.C[(0, 0, 2)][0] / 50).astype(np.float32)
+    assert int(sub2.ref[0] @ x0 > 0) != int(sub2.ref[0] @ x1 > 0), \
+        "hyperplane should separate children"
 
     print("T0 PASS")
 
