@@ -1,18 +1,22 @@
-# Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments
+---
+title: "Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments"
+author: "Avir Research"
+date: 2026-03-19
+---
 
 *The shared artifact. Birth writes theory. Experiment writes results. Compress edits both.*
 
----
-
 ## Abstract
 
-[To be written after the derivation is complete.]
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 505 experiments across 9 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
 
 ## 1. Introduction
 
 505 experiments across 9 architecture families (codebook/LVQ, reservoir, graph, LSH, kd-tree, cellular automata, LLM, L2 k-means, Bloom filter) tested substrates for navigation and classification in ARC-AGI-3 interactive games. All experiments used the same evaluation framework (R1-R6) and constraint map (U1-U26).
 
-The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically and derives properties of the feasible region.
+The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, and states honestly what is proven vs conjectured vs open.
+
+**The paper is valid regardless of outcome.** If a substrate satisfying all six rules is found, the feasible region is non-empty and the characterization guided the search. If no such substrate exists, the characterization identifies which constraints are mutually exclusive — also a contribution. We report whichever is true at time of writing.
 
 ## 2. Related Work
 

@@ -1,0 +1,253 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments},
+  pdfauthor={Avir Research},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Characterizing the Feasible Region for Self-Modifying Substrates
+in Interactive Environments}
+\author{Avir Research}
+\date{2026-03-19}
+
+\begin{document}
+\maketitle
+
+\emph{The shared artifact. Birth writes theory. Experiment writes
+results. Compress edits both.}
+
+\subsection{Abstract}\label{abstract}
+
+We formalize six rules (R1-R6) for recursive self-improvement as
+mathematical conditions on a state-update function
+\(f: S \times X \to S\) and derive necessary properties of any system
+satisfying all six simultaneously. From 505 experiments across 9
+architecture families on ARC-AGI-3 interactive games, we extract 26
+constraints and prove: (1) no satisfying system has a fixed point ---
+self-modification is necessary, not optional; (2) in finite
+environments, the system must process its own internal state to maintain
+irredundant growth (the self-observation requirement); (3) the feasible
+region is non-empty for Level 1 navigation but currently unoccupied for
+the full constraint set including R3 (self-modification of operations).
+Whether a substrate exists inside all six walls remains open. The
+contribution is the walls themselves.
+
+\subsection{1. Introduction}\label{introduction}
+
+505 experiments across 9 architecture families (codebook/LVQ, reservoir,
+graph, LSH, kd-tree, cellular automata, LLM, L2 k-means, Bloom filter)
+tested substrates for navigation and classification in ARC-AGI-3
+interactive games. All experiments used the same evaluation framework
+(R1-R6) and constraint map (U1-U26).
+
+The experiments carved a feasible region --- the set of systems that
+satisfy all constraints simultaneously. This paper formalizes the
+constraints mathematically, derives necessary properties of the feasible
+region, and states honestly what is proven vs conjectured vs open.
+
+\textbf{The paper is valid regardless of outcome.} If a substrate
+satisfying all six rules is found, the feasible region is non-empty and
+the characterization guided the search. If no such substrate exists, the
+characterization identifies which constraints are mutually exclusive ---
+also a contribution. We report whichever is true at time of writing.
+
+\subsection{2. Related Work}\label{related-work}
+
+\subsubsection{2.1 Self-referential
+self-improvement}\label{self-referential-self-improvement}
+
+Schmidhuber's Gödel Machine (2003) is the closest formal framework: a
+self-referential system that rewrites its own code when it can prove the
+rewrite is useful. Key differences from our framework: (1) Gödel
+machines require a utility function (external objective --- our R1
+prohibits this), (2) provable self-improvement is limited by Gödel's
+incompleteness theorem, (3) the Gödel machine framework doesn't address
+exploration saturation in finite environments.
+
+\subsubsection{2.2 Intrinsic motivation and curiosity-driven
+exploration}\label{intrinsic-motivation-and-curiosity-driven-exploration}
+
+Pathak et al.~(2017) formalize curiosity as prediction error in a
+learned feature space. Count-based exploration (Bellemare et al., 2016)
+uses state visitation counts. Both address exploration in sparse-reward
+environments. Key difference: these methods add intrinsic REWARD
+signals, which function as objectives. Our R1 requires no objectives.
+Our derivation shows self-observation is required by the constraint
+system itself, not as a reward mechanism.
+
+\subsubsection{2.3 Autopoiesis}\label{autopoiesis}
+
+Maturana \& Varela (1972) define autopoietic systems as networks that
+produce the components that produce the network. Organizationally
+closed. Related to our fixed-point conjecture (Section 4.4). Key
+difference: autopoiesis maintains structure (homeostasis); our U17
+requires unbounded growth. Our system is autopoietic + growth.
+
+\subsubsection{2.4 Growing neural gas and self-organizing
+maps}\label{growing-neural-gas-and-self-organizing-maps}
+
+Fritzke (1995) GNG, Kohonen (1988) SOM/LVQ. The codebook substrate is
+LVQ + growing codebook. Well-characterized in the literature. Our
+contribution is not the architecture --- it's the constraint map
+extracted from systematic testing.
+
+\subsection{3. Formal Framework}\label{formal-framework}
+
+\subsubsection{3.1 Primitives}\label{primitives}
+
+The substrate is a triple (f, g, F): - f\_s: X → S (state update
+parameterized by current state s) - g: S → A (action selection) - F: S →
+(X → S) (meta-rule mapping states to update rules; F IS the frozen
+frame)
+
+Dynamics: s\_\{t+1\} = F(s\_t)(x\_t), a\_t = g(s\_t).
+
+\subsubsection{3.2 Structural Rules (R1-R6) as Conditions on
+F}\label{structural-rules-r1-r6-as-conditions-on-f}
+
+{[}From BIRTH.md Formalization 1 --- to be migrated and refined with
+literature citations{]}
+
+\subsubsection{3.3 Growth Topology (U3, U17, U20,
+R6)}\label{growth-topology-u3-u17-u20-r6}
+
+{[}From BIRTH.md Formalization 2 --- to be migrated and refined{]}
+
+\subsection{4. Results}\label{results}
+
+\subsubsection{4.1 The Core Tension (R3 + U7 + U17 +
+U22)}\label{the-core-tension-r3-u7-u17-u22}
+
+The system has no fixed point (Theorem 1). Self-modification is
+necessary, not optional.
+
+{[}From BIRTH.md Formalization 1, Section 1.2-1.3{]}
+
+\subsubsection{4.2 Irredundant Growth}\label{irredundant-growth}
+
+Every new component covers unique territory (Propositions 1-4).
+
+{[}From BIRTH.md Formalization 2, Section 2.2{]}
+
+\subsubsection{4.3 The Self-Observation
+Requirement}\label{the-self-observation-requirement}
+
+\textbf{Theorem 2:} In finite environments, U17 + R6 + R1 require
+self-observation.
+
+{[}From BIRTH.md Formalization 3 --- the central result{]}
+
+\subsubsection{4.4 Fixed-Point Conjecture}\label{fixed-point-conjecture}
+
+The minimal self-observing substrate is a fixed point of F. Conjectured,
+not proven.
+
+{[}From BIRTH.md Formalization 3, Section 3.4{]}
+
+\subsection{5. Experimental Evidence}\label{experimental-evidence}
+
+\subsubsection{5.1 Navigation (505
+experiments)}\label{navigation-505-experiments}
+
+All 3 ARC-AGI-3 games solved at Level 1: - LS20: LSH or k-means, 4
+actions, argmin. 9/10 at 120K steps. - FT09: k-means, 69 actions (64
+grid + 5 simple), argmin. 3/3. (Step 503) - VC33: k-means, 3 actions
+(zone discovery), argmin. 3/3. (Step 505)
+
+Unifying mechanism: graph + edge-count argmin + correct action
+decomposition.
+
+\subsubsection{5.2 Level 2 Failure as Feasibility
+Violation}\label{level-2-failure-as-feasibility-violation}
+
+259-cell plateau (Steps 486-492). Edge counts grow (U17 formally
+satisfied) but each marginal count is functionally redundant (R6
+violated). The system exits the feasible region after exploration
+saturates.
+
+\subsubsection{5.3 Architecture Family
+Summary}\label{architecture-family-summary}
+
+{[}9 families, kill reasons, experiment counts --- from
+CONSTRAINTS.md{]}
+
+\subsection{6. Degrees of Freedom}\label{degrees-of-freedom}
+
+{[}Enumerated from birth derivation --- these become the next experiment
+phase{]}
+
+\subsection{7. Discussion}\label{discussion}
+
+{[}To be written{]}
+
+\subsection{References}\label{references}
+
+\begin{itemize}
+\tightlist
+\item
+  Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal
+  Problem Solvers Making Provably Optimal Self-Improvements.
+  arXiv:cs/0309048.
+\item
+  Pathak, D. et al.~(2017). Curiosity-driven Exploration by
+  Self-Supervised Prediction. ICML.
+\item
+  Maturana, H. \& Varela, F. (1972). Autopoiesis and Cognition: The
+  Realization of the Living.
+\item
+  Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies.
+  NeurIPS.
+\item
+  Kohonen, T. (1988). Self-Organization and Associative Memory.
+  Springer.
+\item
+  Bellemare, M. et al.~(2016). Unifying Count-Based Exploration and
+  Intrinsic Motivation. NeurIPS.
+\end{itemize}
+
+\end{document}
