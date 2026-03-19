@@ -28,9 +28,21 @@ Every navigation experiment since Step 442 uses the same graph + edge-count mech
 | **Locally continuous** (nearby obs → same node) | YES | Grid graph fails (0/3, Steps 446-447). LSH succeeds (3/10, Step 453). PCA grid worse than random (539 vs 1869 cells). Reservoir fails (history-dependent mapping, Step 448). CA fails (degenerate mapping, Steps 449-451). 4 families fail on this axis — the strongest evidence. |
 | **Persistent** (nodes don't get destroyed) | YES | kd-tree fails (splits destroy edges, Step 452). LSH/codebook cells are permanent → navigate. |
 
-**Navigation also requires a non-convergent exploration mechanism.** If action selection converges (codebook score convergence U25, prediction error convergence U22), exploration dies. Edge-count-based selection (least-taken action from current node) converges LOCALLY (per-cell ratios approach true visit distribution) but not GLOBALLY (new cells start fresh). This postpones convergence but doesn't prevent it at arbitrary timescales — see U25 Provisional note.
+**Navigation also requires a non-convergent exploration mechanism.** Edge-count argmin converges LOCALLY (per-cell ratios approach true visit distribution). Steps 489-492 confirm empirically: at 1M steps on Level 2, cells plateau at 259/4096 — agent cycles forever. Convergence is real but only matters when the reward is beyond the reachable set.
 
-**Honest framing:** Local continuity + persistence explain ALL observed navigation failures. Determinism is hypothesized but has zero independent evidence (all failures attributed to it are better explained by local continuity). The three-property framework fits the data, but Property 1 is untested.
+**The 6/10 → 10/10 finding (Steps 484-485):** The apparent 6/10 ceiling on LS20 Level 1 was a STEP BUDGET ARTIFACT. All seeds navigate given sufficient steps (5K-150K). At 200K budget, reliability is effectively 100%. The mechanism is universal for Level 1.
+
+**Smart exploration KILLS navigation (Steps 477-482):** Every "intelligent" action selection strategy (softmax, UCB1, destination novelty, prediction error) performs WORSE than pure argmin. Argmin works because it provides UNIFORM coverage without chasing any signal. Smart strategies create local feedback loops — interesting states attract more visits nearby, trapping the agent.
+
+**Level 2 physical gap (Steps 486-492):** Level 2's reward is in a region disconnected from the ~259 reachable states. Every edge manipulation (decay, death-avoidance, death-seeking) makes coverage WORSE: argmin(259) > decay(241) > death-avoid(227) > death-seek(196). Pure random walk is the optimal exploration for this mechanism. Level 2 requires purposeful exploration (I6/I9).
+
+**Deaths = exploration (Step 491):** Death-causing actions open new states. Penalizing them retreats the agent to a safe, smaller region. Risky paths are the only paths to many cells.
+
+**LLM benchmark (Step 462):** 0/3 models (haiku/sonnet/opus) navigated LS20. LLMs have local continuity + persistence but LACK systematic exploration. Intelligence without exploration = exploitation. The atomic substrate needs BOTH exploration (argmin) AND intelligence (LLM-level reasoning).
+
+**Cross-game (Steps 467-469, 476):** FT09 has 32 visual states, VC33 has 50. Both degenerate for LSH AND k-means — the games are "frozen" (no visual variation from random actions). Cross-game generality requires games where random actions produce visual feedback. LS20 is the only navigable ARC-AGI-3 preview game.
+
+**Honest framing:** Local continuity + persistence explain ALL observed Level 1 navigation failures. Level 2 failures are explained by the SPATIAL DISCONNECT between reachable states and reward — a game topology problem, not a mechanism property. The mapping properties are necessary but not sufficient for multi-level navigation.
 
 ### Classification (P-MNIST)
 
