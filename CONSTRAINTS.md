@@ -2,7 +2,7 @@
 
 *Revised 2026-03-18 session 2. Major restructure: task requirements first, honest universality reclassification.*
 
-*502 experiments across 9 architecture families (codebook 435, reservoir 20, graph 8, LSH ~30, kd-tree 1, CA 3, LLM 1, L2 k-means 6, Bloom filter 1). The constraint map was previously biased toward codebook — 26 "universal" constraints extracted primarily from one family. This revision reclassifies based on cross-family evidence.*
+*525+ experiments across 10 architecture families (codebook ~435, LSH ~55, L2 k-means ~25, reservoir ~20, graph 8, CA 3, Bloom filter 2, connected-component 1, LLM 1, kd-tree 1). Codebook experiments banned 2026-03-18 — non-codebook scale-up ongoing (target: 400). Chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100) introduced 2026-03-19, yielding cross-domain findings (negative transfer, action-scope isolation, threshold tension).*
 
 **Classification:**
 - **Task Requirement**: What the TASK demands of any substrate (derived from successes AND failures across families)
