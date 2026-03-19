@@ -2,7 +2,7 @@
 
 ## Scope
 
-FoldCore is a research prototype. It is not designed for production deployment or processing of sensitive data.
+The Search is a research prototype. It is not designed for production deployment or processing of sensitive data.
 
 ## Reporting a Vulnerability
 

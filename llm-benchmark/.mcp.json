@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "arc-game": {
+      "command": "python",
+      "args": ["B:/M/avir/infra/arc-game-mcp/server.py"],
+      "env": {}
+    }
+  }
+}

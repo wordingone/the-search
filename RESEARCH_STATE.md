@@ -120,36 +120,7 @@ The readout and spawning are validated. The atomic substrate question remains op
 
 ## Constraint List
 
-Hard-won from 385 experiments. Scope: U=universal, S=substrate-specific, D=domain-specific.
-
-| # | Constraint | Source | Type | Scope |
-|---|---|---|---|---|
-| C1 | Read and write must be one operation | Step 72 | structural | U |
-| C2 | Must not reduce to Hopfield/softmax-attention-only | Step 73 | novelty | U |
-| C3 | Must not require separate memory + generation systems | Architecture autopsy | structural | U |
-| C4 | Must not rely on matrix composition through long chains | Steps 86-96 | empirical | S |
-| C5 | Must achieve structural zero forgetting | Step 65 | requirement | U |
-| C6 | Must work on dense embeddings without per-dataset tuning | Steps 63, 66 | empirical | U |
-| C7 | Must beat 1-NN readout over same codebook | Steps 65-71 | requirement | S |
-| C8 | Current hardware, no external API | Jun | requirement | U |
-| C9 | Minimal — expressible in <100 lines | Jun | requirement | U |
-| C10 | Not a combination of known techniques | Jun | requirement | U |
-| C11 | Readout signal factors must not anti-correlate | Step 97 | empirical | S |
-| C12 | Readout must be input-conditional, not static vector property | Step 98 | empirical | U |
-| C13 | Spawn threshold must be calibrated per feature space | Step 100 | empirical | S |
-| C14 | CIFAR-100 forgetting is class-incremental interference, not codebook drift | Step 101 | empirical | S |
-| C15 | Sum-all aggregation fails; only sparse selection (top-k) preserves signal | Step 102 | empirical | U |
-| C15b | k-NN discovers Lipschitz functions only | Step 286 | theoretical | U |
-| C16 | Curriculum transfer only helps when sub-problem IS a solution step | Step 289b | empirical | U |
-| C17 | Spawn criterion needs global coverage signal, not local distance | Step 291 | empirical | S |
-| C18 | Soft blending destroys Voronoi discontinuities; hard selection preserves them | Step 291b | empirical | U |
-| C19 | AMR requires mostly-Lipschitz function | Step 293 | empirical | U |
-| C20 | Chain formation and classification resolution trade off in same codebook | Step 294 | empirical | S |
-| C21 | NN chain following adds noise for non-Lipschitz; 1-step strictly better | Step 295 | theoretical | U |
-| C22 | Distribution matching requires bidirectional neighborhoods; OOD degrades at boundary | Step 297 | empirical | S |
-| C23 | Phi needs class-correlated distance structure in codebook | Steps 320, 327 | empirical | S |
-| C24 | k-NN in >40 dims needs >>500 codebook entries (curse of dimensionality) | Steps 323-329 | empirical | U |
-| C25 | Global context and dimensionality curse are coupled | Steps 328-329 | empirical | U |
+*Phase 1 constraint table (C1-C25) superseded by [CONSTRAINTS.md](CONSTRAINTS.md) which uses the U/P/S/I/E classification with cross-family validation. See that file for the canonical constraint map.*
 | C26 | Phi's sign determined by local consistency (same patch → same output = help) | Step 327 | empirical | S |
 | C27 | Iteration amplifies dominant eigenvalues; target in smaller eigenvalues destroyed | Steps 291b-332 | theoretical | U |
 | C28 | Substrate can't discover filters via recursion (amplifies dominance) | Step 332 | empirical | S |
