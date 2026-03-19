@@ -2,7 +2,7 @@
 
 *Revised 2026-03-18 session 2. Major restructure: task requirements first, honest universality reclassification.*
 
-*455 experiments across 6 architecture families (codebook 435, reservoir 8, graph 8, LSH 4, kd-tree 1, CA 3). The constraint map was previously biased toward codebook — 26 "universal" constraints extracted primarily from one family. This revision reclassifies based on cross-family evidence.*
+*502 experiments across 9 architecture families (codebook 435, reservoir 20, graph 8, LSH ~30, kd-tree 1, CA 3, LLM 1, L2 k-means 6, Bloom filter 1). The constraint map was previously biased toward codebook — 26 "universal" constraints extracted primarily from one family. This revision reclassifies based on cross-family evidence.*
 
 **Classification:**
 - **Task Requirement**: What the TASK demands of any substrate (derived from successes AND failures across families)
@@ -38,7 +38,7 @@ Every navigation experiment since Step 442 uses the same graph + edge-count mech
 
 **LLM benchmark (Step 462) — PRELIMINARY, n=1:** 1/1 clean test (haiku on LS20) failed — action collapse (100% ACTION1, 97 steps). 2 tainted results excluded: sonnet cheated (read codebase, uninterpretable), opus tested on FT09 (a game broken for all mechanisms). Insufficient sample for strong claims. HYPOTHESIS: LLMs lack systematic exploration mechanism. Needs repeat with proper isolation before treating as confirmed finding.
 
-**Cross-game — OPEN PROBLEM (Steps 467-469, 476, 495-499):** FT09 and VC33 expose capabilities that LS20 doesn't test. K-means maps FT09 (32 cells) and VC33 (50 cells) perfectly — the MAPPING works. **FT09 is I3-gated:** Step 499 confirmed ACTION6 is complex (requires x,y click coordinates). 5/6 actions produce deterministic transitions; ACTION6 with argmax(frame) click = self-loop. Zero reward without spatial click exploration. Codebook's 69-class encoding solved this by exploring 69 click REGIONS. The substrate must discover that click POSITION matters (I3: action space discovery). **VC33 needs diagnostic:** 1 action, 50 states, likely I4-gated (timing). Uncharacterized with k-means graph.
+**Cross-game — OPEN PROBLEM (Steps 467-469, 476, 495-502):** FT09 and VC33 expose capabilities that LS20 doesn't test. K-means maps FT09 (32 cells) and VC33 (50 cells) perfectly — the MAPPING works. **Both games have ZERO reward from any tested strategy.** Step 499: ACTION6 is complex (x,y click). Steps 501-502: click POSITION doesn't matter — same 32 cells in FT09 regardless of where clicked, same 50-state cycle in VC33 regardless of click. The I3 (spatial click) hypothesis is WRONG. Both games are opaque — the win mechanism is unknown. Tested and failed: argmin, random walk, grid-click (8x8), death penalty, extended budget (200K). The codebook's original 69-class FT09 success (Step 82) was with a PRESCRIBED encoding — we don't actually know what mechanism produced the win. **VC33 is a deterministic 50-state cycle** — death every 50 steps (go=599), 1 complex action only. Win may require timing (I4) or a sequence/combo mechanism not yet tested.
 
 **Step 493 confirms Level 2 gap across families:** L2 k-means (286 cells) confirms LSH (259 cells) — both plateau, both 0/N Level 2. Growing centroids don't help. The reachable region is topologically bounded regardless of mapping architecture.
 
