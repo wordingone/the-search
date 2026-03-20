@@ -111,7 +111,8 @@ Step 571: KILL — BUT LIKELY A BUG. Candidate sweep L2=0/5 after 1547 episodes.
   L1 was solved by LUCK: greedy rare-color navigation accidentally toggled state correctly.
   FIX: Reset mode map on level transition. But L2 also requires accidentally solving Level 2's state puzzle.
 
-Step 572 Part C RUNNING: Mode map reset + re-detection on Level 2. Prediction: 1-2/5 (random state-solving).
+Step 572: KILL. Mode map reset works but env.reset() goes back to Level 1. L2 window = 129 steps post-L1. Cannot build mode map for Level 2 in single episode.
+Step 572b SENT: Multi-episode L2 mapping. Accumulate Level 2 frames across L1→L2 transitions (separate l2_freq). 30 mapping cycles then 305 targeting cycles. Prediction: 2-3/5 if puzzle small.
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
