@@ -547,7 +547,9 @@ The cascade reveals the problem decomposes into orthogonal layers: (1) level-awa
 
 ### 7.6 Honest assessment
 
-The feasible region for Level 1 navigation is occupied — graph + argmin + correct action decomposition satisfies R1, R2, U1, U3, U17, U20 and solves all three games. Recode extends this to partial R3 ($\ell_\pi$). Frame-diff guidance extends to partial $\ell_F$. But no system satisfies R3 in the strong sense ($\ell_F$ for object detection), R4 (no self-testing), or I1 (encoding discovery from raw). The full R1-R6 region remains unoccupied. Whether it contains a point is the open question this paper frames but does not answer. The L2 diagnostic specifies exactly what the next substrate must do: detect objects from raw pixels within a 129-step budget, without external reward.
+The feasible region for Level 1 navigation is occupied — graph + argmin + correct action decomposition satisfies R1, R2, U1, U3, U17, U20 and solves all three games. Level 2 (mgu completion) is achieved via a 12-component prescribed pipeline: mode map, isolated connected-component detection, level-aware reset, multi-episode accumulation, dead reckoning, state estimation from pixel diffs, and sequenced visitation (Step 572j, L2=5/5 at avg 4804 steps). The pipeline is R1-compliant in its detection components (no external labels) but game-specific in its state estimation (pixel regions and visit ordering are prescribed from source code analysis).
+
+The gap to R3 is precisely enumerated: 12 design choices that the substrate cannot currently self-discover. Four are general techniques (mode map, isolated CC, level-aware reset, multi-episode accumulation). Eight are game-specific engineering (position tracking, state estimation, sequencing, threshold tuning). A substrate satisfying R3 would need to discover all 12 from interaction alone — including recognizing that the game has hidden state variables gating progression (the POMDP structure). No current substrate family approaches this. The full R1-R6 region remains unoccupied.
 
 ## References
 
