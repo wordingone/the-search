@@ -105,7 +105,10 @@ Step 570: Self-observation KILL. BFS never triggered (0 plans across 10 seeds). 
 
 Step 570b: KILL. Argmax routing fires BFS (130 plans) but 0 wins at 20K. 920 nodes vs 925 argmin — BFS REDUCES exploration. Same noisy TV as Steps 477-482. Self-observation thread CLOSED for LSH substrate.
 
-Step 571: KILL. Candidate sweep L2=0/5 after 1547 candidate episodes. Palette NOT in rare-color clusters. Exit deterministic at (12,36). 98.5% target-directed. Rare-color hypothesis falsified.
+Step 571: KILL — BUT LIKELY A BUG. Candidate sweep L2=0/5 after 1547 episodes. EXIT at (12,36) is LEVEL 1's exit. Mode map built from Level 1 frames. Targets are Level 1's clusters applied to Level 2's layout = wrong targets.
+  ROOT CAUSE: iri sprites only exist on Level 2+. Level 1 has zero iri. Mode map never saw Level 2's layout.
+  FIX: Reset mode map on level transition, warmup on Level 2, re-detect. Step 572b spec sent.
+  IRI color=11 (cyan), 3x3px each, 0.44% coverage — well below 5% rare threshold. SHOULD be detectable.
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
