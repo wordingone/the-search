@@ -77,7 +77,10 @@ Step 554: Aggressive hub splitting. Active set 4970 (13.6x baseline). Splits 192
 
 Step 555: Living longer doesn't help. Active set plateaus at 5048. Growth rate 1411→74/100K. L2=0. Time, resolution, splitting speed ALL eliminated.
 
-ACTIVE FRONTIER: L2 requires qualitatively different policy. All l_pi approaches exhausted. Q3 (action sequence to L2) and Q6 (which constraints make R1-R6 empty) are the open fronts.
+Step 556: Game is LIVE after L1 (frames changing, not frozen). No simple action pattern reaches L2.
+Step 557: ROOT CAUSE FOUND. 129-step energy budget (3 lives × 43 steps). L1 solvable by luck in 129 steps. L2 requires finding "iri" energy palettes to refill, then navigating to exit — WITHIN BUDGET. Argmin can't detect objects. This is object-directed navigation, not random exploration.
+
+ACTIVE FRONTIER: L2 = object detection + purposeful navigation within 129-step budget. All 555 L2 failures explained by one number. Next: can Recode detect frame anomalies that signal energy palette pickup?
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
