@@ -131,7 +131,14 @@ Step 574: U19 PARTIALLY CHALLENGED. LSH k=12 raw 64x64 on LS20: L1 reliable (119
 Step 575: FT09 5/5. LSH k=12, 69-action, avg_cells=5. FT09 trivially solvable — pure action-coverage, no spatial structure needed.
 Step 576: VC33 **5/5**. Mode map + isolated CC autonomously discovered magic pixels at (62,26) and (62,34) — same positions as Step 505 but WITHOUT prescribed zone positions. 7 clusters detected. Burst navigation (5 clicks per cluster) found that (62,34) needs 3 consecutive clicks. Pipeline generalizes across games: LS20 sprites, FT09 action coverage, VC33 zone discovery — all from the same isolated CC mechanism.
 
-ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
+Step 577 chain: CIFAR→LS20→CIFAR. No contamination (delta=0.00pp). L2 not reached (time cap).
+Step 577b: Evolutionary R3 attack KILLED. 0/1000 random programs find pipeline sequence. No fitness gradient.
+Step 577c: Multi-buffer R3 (mode/mean/var/diff/min). 4/5 L1 but scoring inconclusive — all buffers equivalent for L1 navigation.
+Step 577d: Multi-buffer 100% buffer nav. **0 L1s across ALL 5 buffers, ALL 390 windows.** Pixel saliency ≠ task relevance. Buffers navigate to MORE cells but WRONG cells. Argmin's systematic coverage beats targeted navigation. R3 BARRIER PRECISELY LOCATED: substrate needs reward-correlated features, not visually-salient features.
+Step 578: U5 CHALLENGED — Recode softmax T=1.0, 3/3 L1. Sparse selection NOT required for navigation.
+Step 579: U8 CHALLENGED — LSH softmax T=0.5, 5/5 L1. Hard selection NOT required for navigation.
+
+ACTIVE FRONTIER: R3 attack. Pixel statistics fail (577d). Next: reward-correlated feature discovery (use L1 events as credit signal). OPEN-ENDED.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
