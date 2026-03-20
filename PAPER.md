@@ -516,9 +516,26 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 11. How to resolve U11 + U24 + U1 (incompatible tasks, no mode switch) in a single system (T6).
 12. R1-compliant classification — no substrate has achieved above-chance accuracy without external labels.
 
-### 7.5 Honest assessment
+### 7.5 The L2 Diagnostic (Steps 548-562)
 
-The feasible region for Level 1 navigation is occupied — graph + argmin + correct action decomposition satisfies R1, R2, U1, U3, U17, U20 and solves all three games. Recode extends this to partial R3 ($\ell_\pi$). But no system satisfies R3 in the strong sense ($\ell_F$), R4 (no self-testing), or R6 after exploration saturates. The full R1-R6 region remains unoccupied. Whether it contains a point is the open question this paper frames but does not answer.
+Thirteen directed questions (Steps 548-562) mapped the Level 2 problem completely:
+
+1. **State graph**: 942 cells, 364-node attractor, 134 unexploited deterministic frontier edges (Step 550).
+2. **Resolution**: k=20 gives 1749 cells, 0/3 L2. Not the bottleneck (Step 551).
+3. **Root cause**: 129-step energy budget (3 lives $\times$ 43 steps). L2 requires finding energy palette sprites ("iri"), picking them up, then navigating to exit. Argmin can't detect objects (Steps 556-557). Rudakov et al. solved L2 in 4000 actions with visual salience.
+4. **Refinement trigger**: 98.8% of confusion is reducible (Step 553), but refinement is partition-only — doesn't expand frontier (Step 549).
+5. **Self-modification levels**: $\ell_0$ (LSH) reaches L1 at 30K. $\ell_\pi$ (Recode) at 15K. $\ell_F$ v1 (frame-diff skip) at 7K. None detect objects (Step 559).
+6. **Frame-diff signal**: Perfectly bimodal (gap at 0.082). R1-compliant self-observation signal exists (Step 558).
+7. **Codebook**: Would make things worse — 98.4% of perceptually similar pairs are behaviorally distinct. Ban validated (Step 560).
+8. **Object-directed navigation**: Naive CC segmentation kills L1 (0/5). 97.7% of actions chase walls. Salience filtering required — the noisy TV problem applies to objects too (Step 561).
+9. **Classification**: Transition-based classification works under correlated presentation (7.07x ratio), not under random presentation (Step 552).
+10. **Budget**: Active set plateaus at 5048. Time doesn't help (Step 555).
+
+**The L2 bottleneck is object detection within a step budget.** The substrate can map the environment (942 cells), refine its partition (98.8% reducible confusion), detect frame anomalies (bimodal signal), and skip wasted actions (2x speedup). But it cannot identify that specific pixels represent interactive objects (energy palettes) and navigate toward them. This is the encoding frozen frame: avgpool16 (64$\times$64 $\to$ 16$\times$16) loses sprite-level resolution. The constraint is I1 (encoding discovery), not any pair of R1-R6.
+
+### 7.6 Honest assessment
+
+The feasible region for Level 1 navigation is occupied — graph + argmin + correct action decomposition satisfies R1, R2, U1, U3, U17, U20 and solves all three games. Recode extends this to partial R3 ($\ell_\pi$). Frame-diff guidance extends to partial $\ell_F$. But no system satisfies R3 in the strong sense ($\ell_F$ for object detection), R4 (no self-testing), or I1 (encoding discovery from raw). The full R1-R6 region remains unoccupied. Whether it contains a point is the open question this paper frames but does not answer. The L2 diagnostic specifies exactly what the next substrate must do: detect objects from raw pixels within a 129-step budget, without external reward.
 
 ## References
 
