@@ -71,7 +71,9 @@ Step 551: k=20 Recode at ~700K. L1=3/3, L2=0/3. max_cells=1749. Resolution NOT t
 
 Step 552: Transition-based classification. Sorted: 7.07x within/between ratio — works. Shuffled: no signal (sparsity). R1-compliant classification possible IF data is correlated. Chain implication: substrate must CREATE correlation, not receive it.
 
-ACTIVE FRONTIER: Experiment loop. Step 553 (reducible confusion) running. Q1+Q2+Q9 answered.
+Step 553: 98.8% of high-entropy edges REDUCIBLE (2545/2577). The "noisy TV" is structural coarseness, not noise. Hub nodes (13439: 5260 obs, 25727: 2702 obs) confuse 27 distinct successor regions — ALL distinguishable by transition profile. Recode's one-at-a-time splitting is too slow. L2 requires aggressive multi-way splitting of hub nodes.
+
+ACTIVE FRONTIER: Experiment loop. Q1+Q2+Q9+Q12 answered. Next: test aggressive hub splitting (Q3/Q4).
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
