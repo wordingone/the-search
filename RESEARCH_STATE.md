@@ -105,7 +105,7 @@ Step 570: Self-observation KILL. BFS never triggered (0 plans across 10 seeds). 
 
 Step 570b: KILL. Argmax routing fires BFS (130 plans) but 0 wins at 20K. 920 nodes vs 925 argmin — BFS REDUCES exploration. Same noisy TV as Steps 477-482. Self-observation thread CLOSED for LSH substrate.
 
-Step 571 RUNNING: Candidate sweep — one target + exit per episode, cycling.
+Step 571: KILL. Candidate sweep L2=0/5 after 1547 candidate episodes. Palette NOT in rare-color clusters. Exit deterministic at (12,36). 98.5% target-directed. Rare-color hypothesis falsified.
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
