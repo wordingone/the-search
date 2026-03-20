@@ -298,6 +298,8 @@ The decomposition into compare-select-store is the STRUCTURE of $F$. The specifi
 
 **Non-emptiness:** The feasible region for compare-select-store with observation-derived components is non-empty — the graph + k-means + argmin system occupies it (Section 5.1). The feasible region INCLUDING state-derived components (self-observation) is the open question. No system has been shown to satisfy R6 after exploration saturates.
 
+**Dual-signal conjecture (Step 581, pending):** A substrate with per-element default operations and per-element prediction error signals may satisfy R3 if: (1) predictions are stored in element state, not external code; (2) error signals modify predictions, not the default operation; (3) modified predictions change which element fires next. The frozen frame reduces to three operations: similarity, error computation, and default selection. This is R6 at the operation level — the letter's conjecture that irreducibility applies to operations, not data. The data (predictions) self-modify through interaction. The operations (similarity, error, default) are the irreducible interpreter. Inspired by cerebellar dual-signal architecture (climbing fiber error + Purkinje cell default).
+
 **Relationship to prior work:** The compare-select-store decomposition resembles the read-match-write cycle of Neural Turing Machines (Graves et al., 2014) and the content-based addressing of memory-augmented neural networks. The key difference: in NTMs, the controller is trained by backpropagation (violates R1/R2). In our framework, the controller IS $F$ — frozen, minimal, and non-trainable. The state $s$ does all the adapting.
 
 ## 5. Experimental Evidence
