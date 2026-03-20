@@ -54,6 +54,8 @@ Every navigation experiment since Step 442 uses the same graph + edge-count mech
 
 **Centering and domain separation (Steps 543-544, 546).** Centered encoding is REQUIRED for navigation (uncentered: 62 cells, 0/5 — Step 544). Global centering kills domain separation for the chain (CIFAR and LS20 hash to shared nodes — Step 543; CIFAR accuracy 15%, 15x above chance, showing encoding has cross-domain class signal). **RESOLVED via per-domain centering (Step 546):** reset the running mean on domain switch (on_reset). Per-domain centering gives 2/3 L1 on the chain (vs 5/5 clean — partial reliability gap remains), with s0 navigating FASTER than clean (L1@12201 vs 29691). R1-compliant: on_reset is a game event, not an external domain label.
 
+**Chain benchmark: cross-domain contamination tested (Step 577 chain, 2026-03-20).** Full sequence: CIFAR-100 (P1, 1K steps) → LS20 navigation → CIFAR-100 (P3, 1K steps). Result: CIFAR P1=1.02%, P3=1.02%, delta=0.00pp. **No contamination confirmed.** The per-domain centering fully isolates CIFAR classification from LS20 navigation — LS20 edges don't corrupt CIFAR nodes because of the separate edge dicts (G for LS20 nav, G_cif for CIFAR) and per-domain mean reset. Caveat: L2 was not reached (time cap hit at 572s with only 1 L1 cycle), so full chain (P1→L1→L2→CIFAR→L1_delta) was not measured. No contamination confirmed for the partial chain.
+
 **Honest framing:** Local continuity + persistence explain ALL Level 1 navigation failures. Level 2 failures are explained by the REWARD DISCONNECT — the game topology places L2 beyond the argmin-reachable frontier regardless of mapping architecture, partition granularity, or budget. The mapping properties are necessary for L1 but not sufficient for L2.
 
 ### Classification (P-MNIST)
@@ -97,8 +99,8 @@ The task is interactive (unknown environment, no separate training phase). Any s
 | # | Constraint | Status | Why provisional |
 |---|---|---|---|
 | U2 | No separate memory + generation | **RECLASSIFY → S-class** | LSH navigates with decomposed components: hash function (mapping) + edge dict (memory) are separate subsystems. Recode adds a third (refinement tree). The original constraint (codebook's process() as single function) was codebook-specific. Decomposed components work fine for navigation. |
-| U5 | Sparse selection over global aggregation | Partial | Hebbian uses global encoding (W.T@x) but SPARSE selection (argmin picks one action). Navigation requires sparse ACTION selection — the encoding step can be global. Reservoir failed for rank-1 collapse in the GLOBAL dynamics, not in the selection. The constraint is about selection, not encoding. Partially confirmed: sparse selection is universal, global encoding is compatible. |
-| U8 | Hard selection over soft blending | Partial | Codebook: soft blending → centroid convergence. Both graph + LSH use hard selection. But neural networks use soft operations successfully. May be navigation-specific, not universal. |
+| U5 | Sparse selection over global aggregation | **CHALLENGED** | Hebbian uses global encoding (W.T@x) but SPARSE selection (argmin picks one action). Step 578: Recode k=16 with softmax(-count/T=1.0) → 3/3 L1 at 50K. Soft probabilistic action selection navigates successfully. U5 as written (hard argmin required) is CHALLENGED: the sparse selection direction (prefer low-count actions) is preserved; the hard/soft distinction is not. |
+| U8 | Hard selection over soft blending | **CHALLENGED** | Codebook: soft blending → centroid convergence. Step 579: LSH k=12 T=0.5 softmax → 5/5 L1 at 50K; T=0.1 → 3/5. Soft selection WORKS for LSH navigation. Caution: note these experiments may have counted false-positive L1s (LS20 reports cl=1 for one step after reset — fresh_episode bug, see step 577 R3 work). Results likely overcount L1 "wins." Retest needed with fresh_episode fix. Provisional status: CHALLENGED but not confirmed. |
 | U9 | Curriculum transfer | Codebook-only | Tested only on codebook curriculum. Neural network curriculum shows different patterns. |
 | U10 | Dense memory kills exploration | **RECLASSIFY → S-class** | Recode has 1267 cells and navigates 5/5 (Step 542). LSH with 1605 cells navigates at k=20 (Step 531). The original finding was cosine saturation at 4096D, not density per se. Dense state is fine when the mapping preserves local continuity. |
 | U12 | Structured noise / Goldilocks zone | **RECLASSIFY → S-class** | LSH navigates without any Goldilocks zone (Step 453). Recode navigates without one (Step 542). Hebbian navigates without one (Step 524). The Goldilocks zone is a codebook artifact from F.normalize + centered_enc interaction. 3 non-codebook families navigate without it. |
@@ -188,9 +190,9 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 ---
 
-## The State of the Search (493 experiments, 8 families)
+## The State of the Search (580 experiments, 8 families)
 
-*Revised 2026-03-18 session 3. Updated with Steps 456-493. FT09/VC33 reframed as open problems.*
+*Revised 2026-03-20 session. Updated with Steps 494-579. Chain benchmark (no contamination), U5/U8 challenged, R3 attack underway (577b exploration proxy).*
 
 ### What's Solved
 
