@@ -8,11 +8,11 @@ date: 2026-03-19
 
 ## Abstract
 
-We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 546+ experiments across 11 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 570+ experiments across 11 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
 
 ## 1. Introduction
 
-546+ experiments across 11 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, graph, connected-component, Bloom filter, kd-tree, cellular automata, LLM, Recode/self-refining LSH) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
+570+ experiments across 11 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, graph, connected-component, Bloom filter, kd-tree, cellular automata, LLM, Recode/self-refining LSH) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
 
 The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, and states honestly what is proven vs conjectured vs open.
 
@@ -335,11 +335,13 @@ All edge manipulations reduce coverage below the pure argmin baseline (argmin=25
 
 **Implication:** L2 is not a resolution problem (942 cells is more than enough). It is not a budget problem (growth rate is ~2 cells/100K at 740K). It is a **policy problem**: argmin creates an attractor basin in the active set, and the L2 path requires escaping this basin to reach the deterministic frontier in the abandoned set. This directly validates Theorem 2: self-observation is needed to detect the attractor and escape it. $\ell_\pi$ (partition refinement) refines within the attractor (Step 549) but cannot break out.
 
+**Growth law.** Fitting $R(t) = C \cdot t^\alpha$ to the LSH k=12 data (259 cells at 50K, 439 at 740K) gives $\alpha \approx 0.20$. At k=16: 1094 at 200K, 1149 at 500K gives $\alpha \approx 0.05$. The exponent reflects the spectral gap of the explored graph under argmin dynamics — a small spectral gap (deep attractor basin) produces small $\alpha$. The 364-node active set (39% of the explored graph) acts as a low-conductance trap: the agent's return time to the frontier grows faster than the frontier itself expands. PAC-MDP theory (Strehl & Littman, 2008) guarantees all states are visited in $O(N^2 A)$ steps, but the effective $\alpha$ determines whether this is practically reachable within budget.
+
 Relationship to Section 4: Edge counts grow (U17 formally satisfied) but marginal counts in the active set are redundant (R6 violated). The 134 deterministic frontier edges are the non-redundant growth targets — but argmin cannot reach them.
 
 ### 5.3 Architecture Family Summary
 
-11 families tested across 546+ experiments.
+11 families tested across 570+ experiments.
 
 | Family | Experiments | Navigation result | Kill reason |
 |---|---|---|---|
@@ -524,7 +526,9 @@ The root cause is the game's energy mechanic: each life lasts 43 steps (3 lives 
 
 The encoding ($\text{avgpool}_{16}$: 64$\times$64 $\to$ 16$\times$16 = 256D) is too lossy to resolve 3-pixel sprites. An R1-compliant self-observation signal exists — frame-diff is perfectly bimodal with a gap at 0.082 separating movement from blocked actions (Step 558) — and using it to skip wasted actions reaches L1 2x faster (Step 559). But this signal detects whether the agent MOVED, not what it moved TOWARD. Naive object-directed navigation (connected-component segmentation without salience filtering) kills L1 entirely — 97.7% of actions chase walls and floor (Step 561). The noisy TV problem applies to objects: without discriminating interactive from decorative elements, object-chasing is worse than argmin.
 
-Two R1-compliant approaches to object detection have been tested. The mode map (running pixel-mode over frames) accumulates a level map from observations. Rare-color clusters in the mode map identify interactive objects (Step 566). Greedy navigation to the nearest rare target reaches L1 in 468 steps — 32x faster than argmin baseline (Step 567). However, visiting all 6 rare targets before the exit exhausts the 129-step episode budget (Steps 568-569, L1=0/5). The bottleneck is target ordering: L2 requires visiting the energy palette FIRST, then exit, within budget. A candidate sweep (one target + exit per episode, cycling) would test each rare cluster as a potential palette.
+Two R1-compliant approaches to object detection have been tested. The mode map (running pixel-mode over frames) accumulates a level map from observations. Rare-color clusters in the mode map identify interactive objects (Step 566). Greedy navigation to the nearest rare target reaches L1 in 468 steps — 32x faster than argmin baseline (Step 567). However, visiting all 6 rare targets before the exit exhausts the 129-step episode budget (Steps 568-569, L1=0/5). The bottleneck is target ordering: L2 requires visiting the energy palette FIRST, then exit, within budget. A candidate sweep (one target + exit per episode, cycling) would test each rare cluster as a potential palette (Step 571 pending).
+
+A self-observation mechanism (BFS graph planning toward least-visited nodes) was tested on LS20 (Step 570). The mechanism never triggered: LSH k=12 produces stochastic transitions that fail the determinism threshold (>0.5 probability required for routing), and 10K steps was below the L1 threshold. The structural finding is that k=12 produces exactly 860 nodes across all 10 seeds — a fixed-point graph. Self-observation via graph planning remains a viable approach but requires threshold-free routing (argmax over transition counts) and sufficient budget.
 
 The deeper bottleneck remains I1 (encoding discovery from raw observations). The constraint system is internally consistent (Section 7.1).
 
@@ -550,5 +554,6 @@ The feasible region for Level 1 navigation is occupied — graph + argmin + corr
 - Rosenstein, M. et al. (2005). To Transfer or Not To Transfer. NIPS Workshop on Inductive Transfer.
 - Rudakov, E., Shock, J. & Cowley, B. U. (2025). Graph-Based Exploration for ARC-AGI-3 Interactive Reasoning Tasks. arXiv:2512.24156.
 - Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements. arXiv:cs/0309048.
+- Strehl, A. L. & Littman, M. L. (2008). An Analysis of Model-Based Interval Estimation for Markov Decision Processes. JCSS, 74(8), 1309-1331.
 - van de Ven, G. M. & Tolias, A. S. (2024). Continual Learning and Catastrophic Forgetting. arXiv:2403.05175.
 - Wang, Z. et al. (2019). Characterizing and Avoiding Negative Transfer. CVPR.

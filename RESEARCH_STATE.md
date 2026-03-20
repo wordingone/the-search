@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   STAGE 8 = learned projection. The substrate discovers which pixels matter from its own codebook.
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 548 (Recode R6 diagnostic — KILL INVERTED)
+CURRENT STEP: 571 (Candidate sweep — mode map L2 path)
 
 Step 547: Recode on CIFAR-100. NMI=0.599, acc=67% (training). TWO ARTIFACTS: (1) sp=0 — refinement never fires (single-pass, MIN_OBS never met). NMI is pure k=16 LSH. (2) Training accuracy meaningless (6981 nodes for 10K images = singletons). Test accuracy ~15% (Step 543). Self-refinement is inert on classification.
 
@@ -103,9 +103,11 @@ Step 568-569: Visit-all-targets KILL. 6 rare clusters (not 8). TSP to all 6 + ex
 
 Step 570: Self-observation KILL. BFS never triggered (0 plans across 10 seeds). Two root causes: (1) >0.5 determinism threshold too strict for LSH stochastic transitions, (2) 10K steps below L1 threshold (~15K needed). Structural insight: k=12 produces EXACTLY 860 nodes across all seeds — fixed-point graph.
 
-Step 570b PENDING: Fix — argmax routing (no threshold) + 20K steps.
+Step 570b: KILL. Argmax routing fires BFS (130 plans) but 0 wins at 20K. 920 nodes vs 925 argmin — BFS REDUCES exploration. Same noisy TV as Steps 477-482. Self-observation thread CLOSED for LSH substrate.
 
-ACTIVE FRONTIER: Two threads — (1) mode map candidate sweep (one target+exit per episode), (2) self-observation mechanism (graph planning).
+Step 571 RUNNING: Candidate sweep — one target + exit per episode, cycling.
+
+ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
