@@ -112,7 +112,10 @@ Step 571: KILL — BUT LIKELY A BUG. Candidate sweep L2=0/5 after 1547 episodes.
   FIX: Reset mode map on level transition. But L2 also requires accidentally solving Level 2's state puzzle.
 
 Step 572: KILL. Mode map reset works but env.reset() goes back to Level 1. L2 window = 129 steps post-L1. Cannot build mode map for Level 2 in single episode.
-Step 572b SENT: Multi-episode L2 mapping. Accumulate Level 2 frames across L1→L2 transitions (separate l2_freq). 30 mapping cycles then 305 targeting cycles. Prediction: 2-3/5 if puzzle small.
+Step 572b: KILL. Both bugs confirmed (cycles=1, l2_clusters=[]). Fixes: re-entry detection + visited marker disabled.
+Step 572c: KILL. Re-entry works (cycles=1546). BUT lhs (color 5) NOT in targets — HUD uses color 5 extensively (>5% of pixels). Win objective invisible to rare-color filter.
+Step 572d SENT: Hardcoded positions diagnostic (kdy×3→qqv×1→lhs). NOT R1-compliant. 121 steps within 129 budget.
+Step 572e PLANNED: R1-compliant HUD masking (ignore zero-variance pixels, then rare-color filter on gameplay area only).
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
