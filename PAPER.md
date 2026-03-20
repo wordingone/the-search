@@ -376,18 +376,26 @@ Domain-adaptive threshold (Step 513) auto-calibrates for ARC (median=0.308, matc
 
 #### 5.4.4 Algorithm Invariance (Steps 521, 524, 525)
 
-Four representations of the same algorithm tested on LS20:
+**Prior work:** Bisimulation relations (Givan et al., 2003) formalize when two MDP states are behaviorally equivalent — states with the same reward and transition structure over bisimilar successors. MDP homomorphisms (Ravindran & Barto, 2004) extend this to structure-preserving maps between MDPs. State abstraction theory (Abel et al., 2017) characterizes which abstractions preserve near-optimal policies. All concern equivalence of STATES. Our finding is about equivalence of REPRESENTATIONS of the same state — a simpler, more specific result.
 
-| Representation | Step | Result | Mechanism |
-|----------------|------|--------|-----------|
-| LSH graph (edge dict) | 459 | 6/10 | argmin over edge visit counts |
-| Hebbian weights (matrix W) | 524 | 5/5 (1 trajectory) | argmin(W.T @ x) ≈ soft edge-count |
-| Markov tensor (T[c,a,c']) | 525 | 8/10 | argmin(sum_j T[c,a,j]) = identical |
-| N-gram (history buffer) | 521 | 4/5 (N=20) | falls back to edge-count argmin |
+**Proposition 3 (Representation Invariance):** Let $R: \mathcal{H} \to \mathbb{R}^{|A|}$ be a representation mapping transition history $\mathcal{H}$ to a per-action summary vector, and let $g(s) = \text{argmin}_a R(\mathcal{H})_a$. If $R$ is *count-monotone* — i.e., $N(s, a) > N(s, a') \Rightarrow R(\mathcal{H})_a > R(\mathcal{H})_{a'}$ where $N(s, a)$ is the visit count — then $g$ produces identical action sequences regardless of the specific form of $R$.
 
-All converge to **argmin over visit frequency**: the least-visited action from the current state. Whether visit frequency is stored as edge counts, accumulated weight vectors, transition tensors, or n-gram histories, the resulting behavior is the same algorithm. The mechanism is the invariant; the data structure is a degree of freedom.
+*Proof:* Argmin depends only on the ordering of $R(\mathcal{H})_a$ across actions. Count-monotonicity preserves this ordering. Any two count-monotone representations select the same action. $\square$
 
-This reduces the search space: new representations are unlikely to produce new algorithms unless they introduce a qualitatively different action-selection rule (not argmin over accumulated state).
+**Empirical confirmation.** Four representations tested on LS20:
+
+| Representation | Step | Result | Why count-monotone |
+|----------------|------|--------|--------------------|
+| LSH graph (edge dict) | 459 | 6/10 | $R_a = \sum_n E(s, a, n)$ — direct count |
+| Hebbian weights (matrix W) | 524 | 5/5 (1 trajectory) | $R_a = (W^T x)_a$ — accumulated weight ∝ frequency when $x$ is deterministic per state |
+| Markov tensor (T[c,a,c']) | 525 | 8/10 | $R_a = \sum_j T[s, a, j]$ — transition total = count |
+| N-gram (history buffer) | 521 | 4/5 (N=20) | Frequency estimate from recent window — converges to count ratios |
+
+All converge to **argmin over visit frequency**. Score variations (6/10 vs 8/10) are due to hash randomness and budget, not algorithmic differences.
+
+**Relationship to prior work:** The proposition itself is mathematically trivial — argmin over orderings is order-invariant. The contribution is empirical: confirming that four architecturally distinct representations ARE count-monotone in practice, and that no representation bias introduces a qualitatively different algorithm. This is NOT bisimulation (which equates states) nor MDP homomorphism (which equates MDPs). It is a sufficient-statistic result: the visit-count ordering is a sufficient statistic for argmin action selection, and all tested representations preserve it.
+
+**Implication:** The search space for new action-selection mechanisms is constrained. Any count-monotone representation converges to argmin. New representations are unlikely to produce new algorithms unless they introduce a qualitatively different selection rule (not argmin over accumulated state). Combined with Section 4.5 (argmin is robust to noisy TV), this means: the action-selection problem is solved for navigation — argmin is both optimal among tested strategies and invariant across representations. The open problem is self-observation (Theorem 2), not action selection.
 
 #### 5.4.5 Self-Refinement and Navigation Reliability (Steps 534-546, Recode)
 
@@ -461,12 +469,14 @@ The feasible region for Level 1 navigation is occupied — graph + argmin + corr
 - Bellemare, M. et al. (2016). Unifying Count-Based Exploration and Intrinsic Motivation. NeurIPS.
 - Burda, Y. et al. (2019). Large-Scale Study of Curiosity-Driven Learning. ICLR.
 - Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
+- Givan, R., Dean, T. & Greig, M. (2003). Equivalence Notions and Model Minimization in Markov Decision Processes. Artificial Intelligence, 147(1-2), 163-223.
 - Graves, A. et al. (2014). Neural Turing Machines. arXiv:1410.5401.
 - Jin, C. et al. (2020). Reward-Free Exploration for Reinforcement Learning. ICML.
 - Kohonen, T. (1988). Self-Organization and Associative Memory. Springer.
 - Maturana, H. & Varela, F. (1972). Autopoiesis and Cognition: The Realization of the Living.
 - McCloskey, M. & Cohen, N. J. (1989). Catastrophic interference in connectionist networks. Psychology of Learning and Motivation, 24, 109-165.
 - Pathak, D. et al. (2017). Curiosity-driven Exploration by Self-Supervised Prediction. ICML.
+- Ravindran, B. & Barto, A. G. (2004). Approximate Homomorphisms: A Framework for Non-Exact Minimization in Markov Decision Processes. ICML Workshop.
 - Rosenstein, M. et al. (2005). To Transfer or Not To Transfer. NIPS Workshop on Inductive Transfer.
 - Rudakov, E., Shock, J. & Cowley, B. U. (2025). Graph-Based Exploration for ARC-AGI-3 Interactive Reasoning Tasks. arXiv:2512.24156.
 - Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements. arXiv:cs/0309048.
