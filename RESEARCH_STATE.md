@@ -86,7 +86,9 @@ Step 559: Frame-diff guided Recode. L1=5/5 at avg 7318 steps (2x faster). L2=0/5
 
 Step 560: Codebook ban VALIDATED. 98.4% of visually similar pairs (cos>0.95) have different transitions. Codebook would merge them = false bridges. No object clusters in enc-space. LSH correctly separates behaviorally distinct states. L2 needs pixel-level sprite detection — neither codebook nor LSH provides this.
 
-ACTIVE FRONTIER: L2 = sprite detection in raw pixels. enc() is too lossy (16x16). 9/13 questions answered. Remaining: Q5, Q6, Q7.
+Step 561: Naive CC segmentation KILL (0/5 L1). 97.7% of actions chase walls/floor. Without filtering, object-directed navigation is WORSE than argmin. Need: novel-object detection (appear/disappear) or color-specific targeting.
+
+ACTIVE FRONTIER: Object-directed navigation needs SALIENCE — distinguish interactive from background. The noisy TV problem applies to objects too. 10/13 questions answered.
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
