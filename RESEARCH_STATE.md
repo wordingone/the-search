@@ -63,7 +63,9 @@ Step 547: Recode on CIFAR-100. NMI=0.599, acc=67% (training). TWO ARTIFACTS: (1)
 
 Step 548: Recode R6 diagnostic. KILL INVERTED — prediction wrong. Post-500K action change rate = 89.5% (predicted <10%). Mechanism: splits reset child edge table → argmin defaults to action 0 → forces re-exploration. R6 satisfied in the narrow sense (each refinement changes behavior). But does the action change produce new reachable states? Step 549 tests this.
 
-ACTIVE FRONTIER: Experiment loop. Step 549 (trajectory divergence) running.
+Step 549: Recode trajectory divergence. Jaccard overlap 95.1%→79.8% at 50K→300K. Divergence is EXACTLY partition-based: unique_lsh = sp_recode at every checkpoint. Recode-unique cells are children of splits (finer partition, not new frontier). Recode trades breadth for depth: 991 vs 1115 live cells. 5/5 improvement is state discrimination, not frontier expansion.
+
+ACTIVE FRONTIER: Experiment loop. Steps 548-549 answered: l_pi satisfies R6 behaviorally but not frontierally.
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
