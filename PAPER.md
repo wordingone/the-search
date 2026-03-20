@@ -292,7 +292,7 @@ All 3 ARC-AGI-3 games solved at Level 1:
 
 **Apparent ceiling resolved:** The 6/10 ceiling at 50K on LS20 (Steps 459-483) was a step budget artifact. Hard seeds need 35K-115K steps vs 5-20K for easy seeds. Step 484 confirmed 10/10 at 200K. The 6/10 figure should not be cited as a fundamental limit.
 
-**Encoding requirements:** centered_enc (x − mean(x)) is load-bearing across 2 families (codebook: prevents cosine saturation; LSH: prevents hash concentration). avgpool16 (64×64 → 16×16 = 256D) is required for LS20 — raw 4096D with k=16 gives 1/5 vs 6/10 for avgpool16 (Step 466).
+**Encoding requirements:** centered_enc ($x - \text{mean}(x)$) is load-bearing across 2 families (codebook: prevents cosine saturation; LSH: prevents hash concentration). avgpool16 (64×64 → 16×16 = 256D) is required for LS20 — raw 4096D with k=16 gives 1/5 vs 6/10 for avgpool16 (Step 466).
 
 ### 5.2 Level 2 Failure as Feasibility Violation
 
@@ -362,7 +362,7 @@ The full chain passes (Step 508): LS20 WIN@11170, FT09 WIN@8075, VC33 WIN@11, CI
 
 #### 5.4.2 The Threshold Tension (Steps 509-513)
 
-The encoding (avgpool16 + centered) contains class signal: NMI=0.42 at threshold=3.0 with 2701 centroids (Step 512). NMI climbs monotonically with centroid count (Step 510). But the spawn threshold is incompatible across domains: CIFAR needs threshold ≥ 3.0 for meaningful clustering; ARC needs threshold ≤ 0.5 for navigation. One fixed threshold cannot serve both.
+The encoding (avgpool16 + centered) contains class signal: NMI=0.42 at threshold=3.0 with 2701 centroids (Step 512). NMI climbs monotonically with centroid count (Step 510). But the spawn threshold is incompatible across domains: CIFAR needs threshold $\geq$ 3.0 for meaningful clustering; ARC needs threshold $\leq$ 0.5 for navigation. One fixed threshold cannot serve both.
 
 Domain-adaptive threshold (Step 513) auto-calibrates for ARC (median=0.308, matching optimal fixed) but fails for CIFAR — local density in sparse 256D does not reflect class structure. The encoding, not the threshold mechanism, is the bottleneck for classification.
 
@@ -387,7 +387,7 @@ Domain-adaptive threshold (Step 513) auto-calibrates for ARC (median=0.308, matc
 | Representation | Step | Result | Why count-monotone |
 |----------------|------|--------|--------------------|
 | LSH graph (edge dict) | 459 | 6/10 | $R_a = \sum_n E(s, a, n)$ — direct count |
-| Hebbian weights (matrix W) | 524 | 5/5 (1 trajectory) | $R_a = (W^T x)_a$ — accumulated weight ∝ frequency when $x$ is deterministic per state |
+| Hebbian weights (matrix W) | 524 | 5/5 (1 trajectory) | $R_a = (W^T x)_a$ — accumulated weight $\propto$ frequency when $x$ is deterministic per state |
 | Markov tensor (T[c,a,c']) | 525 | 8/10 | $R_a = \sum_j T[s, a, j]$ — transition total = count |
 | N-gram (history buffer) | 521 | 4/5 (N=20) | Frequency estimate from recent window — converges to count ratios |
 

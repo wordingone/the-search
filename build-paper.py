@@ -46,19 +46,33 @@ def simple_convert(md_path: str, tex_path: str):
 
 def compile_pdf(tex_path: str):
     """Compile .tex to .pdf."""
-    for compiler in ["xelatex", "pdflatex"]:
+    # Try pytinytex first, then system compilers
+    compilers = []
+    try:
+        import pytinytex
+        compilers.append(pytinytex.get_pdflatex_engine())
+    except Exception:
+        pass
+    compilers.extend(["xelatex", "pdflatex"])
+
+    for compiler in compilers:
         try:
             result = subprocess.run(
                 [compiler, "-interaction=nonstopmode", tex_path],
-                capture_output=True, text=True, timeout=60,
+                capture_output=True, text=True, timeout=120,
                 cwd=os.path.dirname(tex_path) or "."
             )
             if result.returncode == 0:
                 print(f"  PDF compiled with {compiler}.")
                 return True
+            # pdflatex returns non-zero on warnings but still produces PDF
+            pdf_path = tex_path.replace(".tex", ".pdf")
+            if os.path.exists(os.path.join(os.path.dirname(tex_path) or ".", pdf_path)):
+                print(f"  PDF compiled with {compiler} (with warnings).")
+                return True
         except (FileNotFoundError, subprocess.TimeoutExpired):
             continue
-    print("  No LaTeX compiler found. Install texlive or miktex for PDF output.")
+    print("  No LaTeX compiler found. Install texlive, miktex, or pip install pypandoc[tinytex].")
     return False
 
 
