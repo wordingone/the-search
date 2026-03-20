@@ -302,7 +302,7 @@ The decomposition into compare-select-store is the STRUCTURE of $F$. The specifi
 
 ## 5. Experimental Evidence
 
-### 5.1 Navigation (546+ experiments)
+### 5.1 Navigation (570+ experiments)
 
 All 3 ARC-AGI-3 games solved at Level 1:
 
