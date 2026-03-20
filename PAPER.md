@@ -526,11 +526,23 @@ The root cause is the game's energy mechanic: each life lasts 43 steps (3 lives 
 
 The encoding ($\text{avgpool}_{16}$: 64$\times$64 $\to$ 16$\times$16 = 256D) is too lossy to resolve 3-pixel sprites. An R1-compliant self-observation signal exists — frame-diff is perfectly bimodal with a gap at 0.082 separating movement from blocked actions (Step 558) — and using it to skip wasted actions reaches L1 2x faster (Step 559). But this signal detects whether the agent MOVED, not what it moved TOWARD. Naive object-directed navigation (connected-component segmentation without salience filtering) kills L1 entirely — 97.7% of actions chase walls and floor (Step 561). The noisy TV problem applies to objects: without discriminating interactive from decorative elements, object-chasing is worse than argmin.
 
-Two R1-compliant approaches to object detection have been tested. The mode map (running pixel-mode over frames) accumulates a level map from observations. Rare-color clusters in the mode map identify interactive objects (Step 566). Greedy navigation to the nearest rare target reaches L1 in 468 steps — 32x faster than argmin baseline (Step 567). However, visiting all 6 rare targets before the exit exhausts the 129-step episode budget (Steps 568-569, L1=0/5). A candidate sweep cycling through each rare cluster as a potential palette (Step 571) definitively falsified the rare-color hypothesis: L2=0/5 after 1547 candidate episodes with 98.5% target-directed actions. The energy palette is NOT a rare-color cluster — it uses a common color indistinguishable from background by frequency alone. The exit position is deterministic at (12,36) across all seeds.
+The mode map (running pixel-mode over frames) accumulates a level map from observations. Rare-color clusters in the mode map identify interactive objects (Step 566). Greedy navigation to the nearest rare target reaches L1 in 468 steps — 32x faster than argmin baseline (Step 567, reproducible across 15+ seeds). BFS graph planning toward least-visited nodes (Steps 570-570b) fires 130 plans but REDUCES the reachable set (920 vs 925 nodes), confirming the Section 4.5 finding that targeted strategies incur opportunity cost.
 
-A self-observation mechanism (BFS graph planning toward least-visited nodes) was tested on LS20 (Steps 570-570b). With threshold-free routing (argmax over transition counts) at 20K steps, BFS fires 130 plans but REDUCES the reachable set (920 vs 925 nodes for pure argmin). Targeted routing incurs the same opportunity cost as the 6 targeted exploration strategies (Section 4.5): time spent following plans is time not spent discovering new cells locally.
+**Game mechanics analysis (Steps 571-572f).** Source code analysis reveals LS20's level progression is a POMDP: the win condition requires visiting a specific sprite (lhs, color 5) while three hidden state variables (snw, tmx, tuv) match level-specific values. State variables are changed by toggle sprites (gsu, qqv, kdy) scattered through the level. L1 was reached by the mode map approach because greedy navigation to rare-color targets accidentally toggled the state correctly — stochastic coverage of a small state space (effective $|S| = 4$ for level mgu, where only tuv requires 3 touches of kdy).
 
-The L2 wall is now precisely specified: the energy palette cannot be detected by color frequency (rare-color filter fails) or color similarity (Step 560: 98.4% of similar nodes have different transitions). Detection requires either game-specific knowledge (reading the palette's color from source code) or a mechanism that correlates pixel identity with energy events — neither of which is available to the current substrate family.
+A systematic falsification cascade (Steps 571-572f, 10 iterations) diagnosed the L2 failure:
+
+| Iteration | Fix applied | Blocked by |
+|-----------|------------|-----------|
+| 571 | Mode map targeting | Stale level-1 targets on level-2 layout |
+| 572 | Mode map reset on transition | env.reset() returns to level 0 |
+| 572b | Multi-episode accumulation | Re-entry detection bug (fired once) |
+| 572c | Re-entry + no visited marker | lhs color 5 shared with HUD ($>$5\%) |
+| 572d | Hardcoded lhs position | Coordinate mapping error |
+| 572e | Isolated cluster detection | lhs+snw sprites merge (49px $>$ MAX\_CLUSTER=30) |
+| 572f | MAX\_CLUSTER=60 | Pending |
+
+The cascade reveals the problem decomposes into orthogonal layers: (1) level-aware background modeling (resetting pixel statistics on environment change), (2) robust object detection (isolated connected components with adaptive size thresholds, not color rarity), (3) hidden state coverage (POMDP with $|S| \leq 96$, solvable by stochastic visitation within budget). Each layer required a prescribed fix. The aggregate constitutes the L2 frozen frame — the set of design choices that R3 must discover autonomously.
 
 ### 7.6 Honest assessment
 
