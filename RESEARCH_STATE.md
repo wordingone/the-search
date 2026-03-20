@@ -88,7 +88,12 @@ Step 560: Codebook ban VALIDATED. 98.4% of visually similar pairs (cos>0.95) hav
 
 Step 561: Naive CC segmentation KILL (0/5 L1). 97.7% of actions chase walls/floor. Without filtering, object-directed navigation is WORSE than argmin. Need: novel-object detection (appear/disappear) or color-specific targeting.
 
-ACTIVE FRONTIER: Object-directed navigation needs SALIENCE — distinguish interactive from background. The noisy TV problem applies to objects too. 10/13 questions answered.
+Step 562: Palettes are STATIC. novel_seen=0. Frame-diff appearance detection wrong approach.
+Step 563: Q4 ANSWERED — 0% useful refinements. Every split is frontier-redundant. Substrate can't detect this.
+Step 564: Q5 ANSWERED — 0.4% of edges are bridges. Graph massively over-connected (99.6% redundant).
+Step 565: Q7 ANSWERED — 56.4% of splits rearrange (cos>0.9), not refine. Increases to 63% over time. U20 violated.
+
+ALL 13 QUESTIONS ANSWERED. Recode at scale: obsessive subdivision of same perceptual region + triply redundant graph. The encoding frozen frame (avgpool16 loses sprite resolution) is the bottleneck.
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
