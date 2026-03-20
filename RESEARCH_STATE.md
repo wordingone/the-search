@@ -122,7 +122,9 @@ Step 572j: **L2=5/5** FIRST EVER. avg 4804 steps (35-37 mgu entries per seed).
   Key fixes: dead reckoning (not frame-diff), kdj diff detection (pixel-level toggle counting), state sequencing (kdy×3 before lhs).
 Step 572k: L2multi=5/5. mgu permanently solved (~960 L2/seed). Wall set frozen at first L2.
 Step 572l: KILL. L3=0/5. prev_cl poisoning: terminal cl=2 overwrites prev_cl after done handler resets it to 0.
-Step 572m: RUNNING. Fix: add continue after prev_cl=0 in done handler. puq positions: GIC=(29,45), KDY=(49,10), LHS=(54,50). State seq: gic×1→kdy×3→lhs.
+Step 572m-572s: puq iteration chain (prev_cl fix, death detection, BFS gaps, xhp-step).
+Step 572t-572u: **L3=5/5**. puq solved. Key fix: energy routing through iri at (34,5) adds 2 steps but restores budget. Full SPAWN→GIC→KDY→LHS sequence = 46 steps, exceeds 42-step life budget without iri. Commit 0463b3c.
+  PIVOTING to Steps 573-575 (constraint validation + cross-game).
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
