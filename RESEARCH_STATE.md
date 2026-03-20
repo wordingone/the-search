@@ -141,8 +141,11 @@ Step 579: U8 CHALLENGED — LSH softmax T=0.5, 5/5 L1. Hard selection NOT requir
 Step 580: Per-edge interpreter selection. NEUTRAL (3/5 = 3/5 argmin). Self-modification works (edges flip rules) but 81-85% settle back on argmin. Fixed menu too small.
 Step 581: Cerebellar dual-signal (per-edge prediction error). FAIL 1/5 vs 3/5 argmin. Predictions work (93%+ accuracy) but confident-edge-following = exploitation = fewer cells. Same pattern as 477-482.
 Step 581b: FAIL 2/5 vs 3/5 argmin. Death edges permanent → some seeds accumulate too many (s3: 37 death edges, 89% steps filtered, 92 cells vs argmin 174). Avoidance too aggressive when edges are irrevocable.
+Step 581c: FAIL 2/5 vs 3/5 argmin. N>=3 threshold still collapses s3 (93 cells). Hard block fails at any confidence threshold.
+Step 581d: SIGNAL 4/5 vs 3/5 argmin. Soft penalty PENALTY=100, no hard block. Full action space preserved. FIRST WIN in death-avoidance series.
+Step 582: SIGNAL 4/5 vs 3/5 argmin. Ops as edge data: op2 (death penalty) + op3 (surprise boost). 84% op0, 6-10% op2, 10-12% op3. 24-28K surprise events/seed. Both 581d and 582 converge on 4/5. R3 conjecture holds: argmin + read/apply op_codes is the frozen frame.
 
-ACTIVE FRONTIER: R3 via cerebellar dual-signal. Problem confirmed: PERMANENT avoidance collapses exploration. Next: probabilistic/confidence-gated avoidance, or decay (death edges expire after T resets).
+ACTIVE FRONTIER: Soft penalty confirmed. Hard block kills exploration; soft penalty improves it. R3 test via ops-as-data (582) in progress.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
