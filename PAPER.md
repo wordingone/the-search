@@ -8,11 +8,11 @@ date: 2026-03-19
 
 ## Abstract
 
-We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 525+ experiments across 10 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 546+ experiments across 11 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
 
 ## 1. Introduction
 
-525+ experiments across 10 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, graph, connected-component, Bloom filter, kd-tree, cellular automata, LLM) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
+546+ experiments across 11 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, graph, connected-component, Bloom filter, kd-tree, cellular automata, LLM, Recode/self-refining LSH) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
 
 The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, and states honestly what is proven vs conjectured vs open.
 
@@ -113,7 +113,7 @@ Dynamics: s_{t+1} = F(s_t)(x_t), a_t = g(s_t).
 
 Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried action) and $g_{exploit} = \text{argmax}_a \text{score}(s, a)$ (highest-confidence action). These select opposite actions when the least-explored action is also the least-confident.
 
-**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 525+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
+**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 546+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
 
 #### U11: Discrimination and navigation require incompatible action selection
 
@@ -203,7 +203,33 @@ U3 + U17 + R6 together require that the system adds new components indefinitely 
 
 **Conjecture (not proven):** The minimal self-observing substrate is a fixed point of $F$. Applying the system to its own state trajectory reproduces the system's dynamics. This would terminate the potential infinite regress of self-observation (processing state → new state → processing new state → ...). Related to autopoiesis (Maturana & Varela, 1972): the network produces the components that produce the network. Difference: autopoiesis maintains structure; our system grows (U17). Status: open.
 
-### 4.5 Constructive Characterization of the Feasible Region
+### 4.5 Argmin Robustness and the Noisy TV Barrier
+
+**Prior work:** The noisy TV problem (Burda et al., 2019, ICLR) identifies a failure mode of curiosity-driven exploration: agents rewarded for prediction error or novelty are attracted to irreducibly stochastic transitions (a "noisy TV") because these transitions can never be predicted accurately. Random Network Distillation (RND, Burda et al., 2018) addresses this by using a fixed random network as a prediction target, making the bonus deterministic. Count-based exploration (Bellemare et al., 2016) is known to be robust to noisy TV because visit counts don't distinguish high-variance from low-variance transitions.
+
+**Our finding (empirical, not a theorem):** In R1-compliant systems (no external reward signal), the noisy TV problem is universal across ALL targeted exploration strategies, not just curiosity. We tested 6 independent strategies against pure argmin on LS20:
+
+| Strategy | Mechanism | Result | Failure mode |
+|----------|-----------|--------|-------------|
+| Argmin (baseline) | $g(s) = \text{argmin}_a N(s, a)$ | 10/10 | — |
+| Destination novelty | $g(s) = \text{argmax}_a \text{novelty}(s'|s,a)$ | 1/10 | Attracted to rare death states |
+| Prediction error | $g(s) = \text{argmax}_a \|s' - \hat{s}'\|$ | 0/10 | Death is maximally unpredictable |
+| Softmax temperature | $P(a) \propto \exp(-N(s,a)/T)$ | 2/3 | Stochasticity without benefit |
+| Entropy-seeking | $g(s) = \text{argmax}_a H(s'|s,a)$ | 0/3 | Noisy TV: death = max entropy |
+| UCB1 | $g(s) = \text{argmax}_a (\bar{r}_a + c\sqrt{\ln t / N_a})$ | 2/3 | Degenerates to argmin (no reward) |
+| Global novelty | $g(s) = \text{argmax}_a (1/N_{\text{global}}(s'))$ | 6/10 | Same count, different seeds |
+
+Steps 477-482, 539-541. 6 strategies tested, all worse than or equal to argmin.
+
+**Why argmin is robust:** Define a transition as *reducible* if $H(s' | s, a) \to 0$ with sufficient observations, and *irreducible* if $H(s' | s, a) > \epsilon$ for all sample sizes (e.g., death transitions, stochastic resets). Any strategy $g$ that selects actions based on model uncertainty (prediction error, entropy, novelty) preferentially selects actions leading to irreducible transitions, because these maximize the quality signal. Argmin $g(s) = \text{argmin}_a N(s, a)$ is immune: visit counts accumulate equally on reducible and irreducible transitions. The cost is slower exploration of structured regions; the benefit is avoiding traps.
+
+**Formalization:** Let $\mathcal{A}_{\text{irr}}(s) = \{a : H(s' | s, a) > \epsilon, \forall$ sample sizes$\}$ be the set of actions with irreducible stochasticity from state $s$. For any strategy $g$ that maximizes a signal $q(s, a)$ where $q$ is monotone in model uncertainty: $\Pr[g(s) \in \mathcal{A}_{\text{irr}}(s)] \geq |\mathcal{A}_{\text{irr}}(s)| / |\mathcal{A}|$. For argmin: $\Pr[g_{\text{argmin}}(s) \in \mathcal{A}_{\text{irr}}(s)] = |\mathcal{A}_{\text{irr}}(s)| / |\mathcal{A}|$ (uniform in the limit). Targeted strategies have strictly higher probability of selecting irreducible transitions; argmin treats them equally.
+
+**Relationship to prior work:** The noisy TV problem is known (Burda et al., 2019). Count-based robustness is known (Bellemare et al., 2016). Our contribution is empirical: (1) confirming the noisy TV problem applies to R1-compliant systems where death transitions are the "noisy TV," and (2) showing that 6 independent attempts to improve on argmin all fail for the same reason. The claim "argmin is locally optimal among memoryless count-based strategies in environments with irreducible stochasticity" is our empirical finding, not a published theorem.
+
+**Implication for R3:** Self-observation (Theorem 2) requires the system to extract new structure from its own state after exploration saturates. But any mechanism that TARGETS specific state structures for observation will be vulnerable to the noisy TV problem — self-referential noise (patterns that look complex but carry no usable signal). The self-observation mechanism must be as blind as argmin is to transition entropy.
+
+### 4.6 Constructive Characterization of the Feasible Region
 
 Combining all formalized constraints, we characterize the class of $F$ that satisfies R1-R6 + validated U-constraints simultaneously.
 
@@ -250,7 +276,7 @@ The decomposition into compare-select-store is the STRUCTURE of $F$. The specifi
 
 ## 5. Experimental Evidence
 
-### 5.1 Navigation (525+ experiments)
+### 5.1 Navigation (546+ experiments)
 
 All 3 ARC-AGI-3 games solved at Level 1:
 
@@ -270,17 +296,20 @@ All 3 ARC-AGI-3 games solved at Level 1:
 
 ### 5.2 Level 2 Failure as Feasibility Violation
 
-LS20 Level 2 is the only unsolved problem. Two families confirm identical behavior:
-- LSH k=12: 259-cell plateau, 0/N Level 2 at 1M steps (Steps 486-492)
+LS20 Level 2 is the only unsolved problem. The "259-cell ceiling" (Steps 486-492) was a TIME LIMIT, not a topological barrier. Steps 528-529 showed sublinear growth continues: 259 cells at 50K → 439 at 740K, growth rate ~2 cells/100K at 740K. At k=16, reachable set expands to 1094 cells at 200K (Step 531), 1267 with self-refinement (Step 542). Level 2 remains unreached at all tested budgets and granularities.
+
+Two families confirm identical behavior:
+- LSH k=12: 439 cells at 740K, 0/N Level 2 (Steps 486-492, 528-529)
 - L2 k-means n=300: 286-cell plateau, 0/3 Level 2 (Step 493)
+- Recode k=16: 1267 cells at 500K, 0/5 Level 2 (Step 542)
 
-The plateau is structural: all edge manipulations reduce coverage below the pure argmin baseline (argmin=259 > decay=241 > death-avoidance=227 > death-seeking=196). The reward region is not in the ~280-290 reachable state region. This is a game topology constraint, not a mechanism failure.
+All edge manipulations reduce coverage below the pure argmin baseline (argmin=259 > decay=241 > death-avoidance=227 > death-seeking=196, Steps 489-492). Six targeted exploration strategies all perform worse than argmin (Section 4.5). The reward region is beyond the argmin-reachable frontier regardless of mapping architecture, partition granularity, or budget.
 
-Relationship to Section 4: Edge counts grow (U17 formally satisfied) but each marginal count is redundant in the high-visit region (R6 violated). The system satisfies U17 locally but cannot satisfy R6 globally once the reachable region saturates. Level 2 requires strategic exploration (I6/I9) — a capability not yet tested.
+Relationship to Section 4: Edge counts grow (U17 formally satisfied) but each marginal count is redundant in the high-visit region (R6 violated). The system satisfies U17 locally but cannot satisfy R6 globally once the reachable region saturates. Level 2 requires strategic exploration (I6/I9) — a capability not yet tested. The noisy TV barrier (Section 4.5) constrains what strategies can be used: any targeted approach must avoid the irreducible-stochasticity trap.
 
 ### 5.3 Architecture Family Summary
 
-10 families tested across 525+ experiments.
+11 families tested across 546+ experiments.
 
 | Family | Experiments | Navigation result | Kill reason |
 |---|---|---|---|
@@ -293,12 +322,15 @@ Relationship to Section 4: Edge counts grow (U17 formally satisfied) but each ma
 | LLM | 1 | 0/1. Step 462. | Action collapse: 100% ACTION1, no exploration. Preliminary result (n=1). |
 | L2 k-means | ~9 | LS20: 5/10 at 50K (Step 475), comparable to LSH. FT09: 3/3 (Step 503). VC33: 3/3 (Step 505). | Not killed. Active family. Zone discovery + argmin is general mechanism. |
 | Bloom filter | 1 | 0/10. Step 494. | No edge memory: observation→cell without edge state = near-random walk. Confirms graph mechanism is load-bearing. |
+| SplitTree | 5 | LS20: 3/3 L1 (Step 537, combined fix: edge transfer + thresh=64). Chain: KILLED (Step 538, deterministic splitting fragments the graph across domains). | Self-partitioning binary tree from transition divergence. Navigates L1 but fully deterministic splitting creates fragile domain separation. 11th distinct family. |
+| Recode | 3 | LS20: **5/5 L1** (Step 542) — best non-codebook result. Chain: 2/3 L1 with per-domain centering (Step 546). | Not killed. LSH k=16 + passive self-refinement from transition statistics. First substrate where the mapping self-modifies AND navigation succeeds reliably. See Section 5.4.5. |
 
 **Cross-family findings:**
 - Local continuity (U20) is the strongest kill criterion: 4 families fail cleanly on this axis (grid graph, CA, reservoir, kd-tree).
 - centered_enc is load-bearing in 2 families (codebook, LSH) for different failure modes — confirmed universal (U16).
 - Graph + edge-count argmin is the constant across all winning navigation configurations. No family has won without it.
-- Classification: **R1-compliant classification is unsolved.** Step 432 (codebook) achieves 94.48% and Step 444b (graph) achieves 93.34% — but both receive ground-truth labels on every training step (supervised NNC). Without external labels, accuracy drops to chance (~10%). The R1 constraint (no external objective) and the classification task are fundamentally incompatible with all tested architectures. These numbers are supervised baselines confirming the mapping quality, not evidence of self-organized classification.
+- **Noisy TV is universal:** Entropy-seeking (Absorb substrate, Steps 539-541) drives the agent into lethal states because death transitions have maximum irreducible entropy (Burda et al. 2019). 6 independent targeted exploration strategies tested, all worse than argmin (Section 4.5). The Absorb substrate (LSH + entropy-driven action selection + BFS routing) is the 12th tested architecture — KILLED for noisy TV. Not counted as a distinct family because it shares LSH's spatial engine; the failure is in action selection, not mapping.
+- Classification: **R1-compliant classification is unsolved.** Step 432 (codebook) achieves 94.48% and Step 444b (graph) achieves 93.34% — but both receive ground-truth labels on every training step (supervised NNC). Without external labels, accuracy drops to chance (~10%). LSH k=16 achieves NMI=0.599 on CIFAR-100 (Step 547) — the encoding has class signal, but no mechanism extracts it without external labels. The R1 constraint (no external objective) and the classification task are fundamentally incompatible with all tested architectures.
 
 ### 5.4 The Chain Benchmark
 
@@ -357,7 +389,27 @@ All converge to **argmin over visit frequency**: the least-visited action from t
 
 This reduces the search space: new representations are unlikely to produce new algorithms unless they introduce a qualitatively different action-selection rule (not argmin over accumulated state).
 
-**Non-codebook experiment count:** ~67 (vs ~435 codebook). Ongoing scale-up.
+#### 5.4.5 Self-Refinement and Navigation Reliability (Steps 534-546, Recode)
+
+Recode is LSH k=16 with passive self-refinement: when a cell produces inconsistent transition outcomes (high entropy in $G[(n, a)]$), the substrate learns a separating hyperplane from the mean difference between the two most frequent transition patterns. This splits the cell into two children, each mapping to a distinct transition regime. Refinement is conservative: max 3 splits per 5000 steps, MIN_OBS=8 per transition pair.
+
+**Results:**
+
+| Configuration | Result | Cells | Steps |
+|---------------|--------|-------|-------|
+| LSH k=16 (no refinement) | 3/3 L1 at 200K (Step 531) | 1149 | 200K |
+| Recode k=16 (with refinement) | **5/5 L1** at 500K (Step 542) | 1267 | 500K |
+| Recode chain (per-domain centering) | 2/3 L1 (Step 546) | — | 500K |
+| Recode chain (global centering) | 0/5 (Step 543) | — | — |
+| LSH k=16 (no centering) | 0/5 (Step 544) | 62 | — |
+
+**Analysis:** The 5/5 vs 3/3 improvement is confounded with budget (500K vs 200K). Self-refinement adds ~10% cells (1267 vs 1149) — modest. The dominant factor in reachable set expansion is k (partition granularity), not refinement. However, Recode is the first substrate where the observation→cell mapping self-modifies AND navigation succeeds reliably. This is partial R3 compliance: the mapping (a component of $F$) changes based on the state (transition statistics). It is NOT full R3 — the refinement algorithm itself is fixed.
+
+**Centering tension resolved (Steps 543-546):** Centered encoding ($x - \bar{x}$) is required for navigation (U16: without it, 62 cells, 0/5). But global centering kills domain separation in the chain — CIFAR and LS20 frames hash to shared nodes (Step 543). **Per-domain centering** resets the running mean on domain switch (on_reset signal). Result: 2/3 L1 on the chain, with s0 navigating FASTER than clean (L1@12201 vs 29691). R1-compliant: on_reset is a game event, not an external domain label. The 2/3 vs 5/5 reliability gap on the chain remains unexplained.
+
+**Classification (Step 547):** Recode's self-refinement is inert on classification — single-pass image presentation never triggers refinement (MIN_OBS=8 per node-action pair is never met with ~1.4 images per node). NMI=0.599 is pure k=16 LSH. Self-refinement is a navigation mechanism, not a general learning mechanism.
+
+**Non-codebook experiment count:** ~95 (vs ~435 codebook). Ongoing scale-up.
 
 ## 6. Degrees of Freedom
 
@@ -407,8 +459,10 @@ The feasible region for Level 1 navigation is occupied — graph + argmin + corr
 
 - Abraham, W. C. & Robins, A. (2005). Memory retention — the synaptic stability versus plasticity dilemma. Trends in Neurosciences, 28(2), 73-78.
 - Bellemare, M. et al. (2016). Unifying Count-Based Exploration and Intrinsic Motivation. NeurIPS.
+- Burda, Y. et al. (2019). Large-Scale Study of Curiosity-Driven Learning. ICLR.
 - Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
 - Graves, A. et al. (2014). Neural Turing Machines. arXiv:1410.5401.
+- Jin, C. et al. (2020). Reward-Free Exploration for Reinforcement Learning. ICML.
 - Kohonen, T. (1988). Self-Organization and Associative Memory. Springer.
 - Maturana, H. & Varela, F. (1972). Autopoiesis and Cognition: The Realization of the Living.
 - McCloskey, M. & Cohen, N. J. (1989). Catastrophic interference in connectionist networks. Psychology of Learning and Motivation, 24, 109-165.

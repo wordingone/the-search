@@ -57,15 +57,15 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   STAGE 8 = learned projection. The substrate discovers which pixels matter from its own codebook.
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 522 (k-means graph cross-game transfer — non-codebook chain replication)
+CURRENT STEP: 547 (Recode NMI on CIFAR-100 — U26 test)
 
-ACTIVE FRONTIER: Non-codebook experiment scale-up.
-  - Current non-codebook count: ~54. Target: 400 (to match codebook's 435).
-  - Strategy: Replicate every codebook chain finding (Steps 506-512) in each non-codebook family.
-  - Step 513 in progress (Eli): domain-adaptive threshold.
-  - Step 522 queued: k-means cross-game transfer (LS20 centroids → FT09/VC33).
-  385b KILLED: centering alone in 4096 dims → thresh=-0.17, cb=8, frozen. Confirmed adversary prediction.
-  384 running: FT09 fine click (256 regions), at ~40K/50K, level 1 only. Level 2 still not found.
+Step 547: Recode on CIFAR-100. NMI=0.599, acc=67% (training). TWO ARTIFACTS: (1) sp=0 — refinement never fires (single-pass, MIN_OBS never met). NMI is pure k=16 LSH. (2) Training accuracy meaningless (6981 nodes for 10K images = singletons). Test accuracy ~15% (Step 543). Self-refinement is inert on classification.
+
+ACTIVE FRONTIER: Non-codebook experiment scale-up + birth (formalizing compressed findings).
+  - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
+  - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
+  - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
+  - Compression complete (3 iterations with Hart adversary). Birth phase active.
 ```
 
 ## Session 2026-03-15 Summary (Steps 291-319)
