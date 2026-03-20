@@ -82,7 +82,9 @@ Step 557: ROOT CAUSE FOUND. 129-step energy budget (3 lives × 43 steps). L1 sol
 
 Step 558: Frame anomaly detection BIMODAL. Perfect gap 0.078→0.431 (zero samples between). frame_diff > 0.082 = moved to new region (63%). frame_diff <= 0.082 = blocked/wasted step (37%). Deaths 62.9% detectable. L1 transition NOT detectable (looks like wall-hit). R1-compliant self-observation signal confirmed.
 
-ACTIVE FRONTIER: The l_F signal EXISTS (frame_diff). Next: can frame-diff guidance + argmin reach energy palettes within 129 steps?
+Step 559: Frame-diff guided Recode. L1=5/5 at avg 7318 steps (2x faster). L2=0/5. Wall avoidance improves efficiency but NOT direction. L2 requires object-directed navigation — detecting energy palette pixels and moving toward them. avgpool16 may lose sprite-level resolution.
+
+ACTIVE FRONTIER: L2 needs pixel-level object detection within enc-space. Three levels of self-modification tested: l_0 (30K), l_pi (15K), l_F v1 (7K). All navigate faster but none detect objects.
   - Current non-codebook count: ~95. Target: 400 (to match codebook's 435).
   - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
