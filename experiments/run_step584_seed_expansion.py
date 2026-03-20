@@ -1,28 +1,24 @@
 """
-Step 584 — 581d seed expansion: 20 seeds on LS20.
+Step 584 — 581d seed expansion: 20 seeds on LS20 (FULL MODE, 50K steps).
 
-Addresses reviewer gap: 5 seeds insufficient for statistical rigor.
-Config identical to 581d (permanent soft penalty, PENALTY=100).
-TIME_CAP=280 per seed. Fisher exact test vs argmin baseline.
+Jun-approved. Checkpoints at 10K/20K/30K/40K/50K.
+Early kill: if deaths=0 across ALL seeds at 20K, abort — mechanism never fires.
 
-FAST_MODE=True  → 10K steps (signal check, ~36 min total)
-FAST_MODE=False → 50K steps (full validation, ~3 hrs — needs Jun sign-off)
-
-Output: X/20 seeds L1, Y/20 seeds L1, Fisher exact p-value.
+Output: X/20 seeds L1 per checkpoint, Fisher exact p-value at 50K.
 """
 import time
 import numpy as np
 import sys
 
-FAST_MODE = True  # set False for full 50K run (needs Jun approval)
-
 K = 12
 DIM = 256
 N_A = 4
-MAX_STEPS = 10_000 if FAST_MODE else 50_000
-TIME_CAP = 60 if FAST_MODE else 280   # per seed
+MAX_STEPS = 50_000
+TIME_CAP = 300    # 5 min per seed
 N_SEEDS = 20
 PENALTY = 100
+CHECKPOINTS = [10_000, 20_000, 30_000, 40_000, 50_000]
+EARLY_KILL_STEP = 20_000  # if deaths=0 for ALL seeds at this point, abort
 
 
 # ── LSH hashing ──────────────────────────────────────────────────────────────
@@ -112,7 +108,7 @@ class ArgminSub:
         pass
 
 
-# ── Seed runner ───────────────────────────────────────────────────────────────
+# ── Seed runner with checkpoints ─────────────────────────────────────────────
 
 def run_seed(mk, seed, SubClass, time_cap=TIME_CAP):
     env = mk()
@@ -123,8 +119,19 @@ def run_seed(mk, seed, SubClass, time_cap=TIME_CAP):
     prev_cl = 0; fresh = True
     l1 = l2 = go = step = 0
     t0 = time.time()
+    checkpoints = {}       # step -> {l1, cells, deaths}
+    next_ckpt_idx = 0
 
     while step < MAX_STEPS and time.time() - t0 < time_cap:
+        # Checkpoint
+        while next_ckpt_idx < len(CHECKPOINTS) and step >= CHECKPOINTS[next_ckpt_idx]:
+            ck = CHECKPOINTS[next_ckpt_idx]
+            cells = len(sub.cells)
+            deaths = getattr(sub, 'total_deaths', 0)
+            checkpoints[ck] = dict(l1=l1, cells=cells, deaths=deaths)
+            print(f"    CK@{ck//1000}K: L1={l1} cells={cells} deaths={deaths}", flush=True)
+            next_ckpt_idx += 1
+
         if obs is None:
             obs = env.reset(seed=seed)
             sub.on_reset()
@@ -154,12 +161,21 @@ def run_seed(mk, seed, SubClass, time_cap=TIME_CAP):
             l2 += 1
         prev_cl = cl
 
+    # Final checkpoint flush
+    while next_ckpt_idx < len(CHECKPOINTS) and step >= CHECKPOINTS[next_ckpt_idx]:
+        ck = CHECKPOINTS[next_ckpt_idx]
+        cells = len(sub.cells)
+        deaths = getattr(sub, 'total_deaths', 0)
+        checkpoints[ck] = dict(l1=l1, cells=cells, deaths=deaths)
+        next_ckpt_idx += 1
+
     elapsed = time.time() - t0
     cells = len(sub.cells)
     deaths = getattr(sub, 'total_deaths', 0)
     print(f"  s{seed}: L1={l1} L2={l2} go={go} step={step} cells={cells} deaths={deaths} {elapsed:.0f}s",
           flush=True)
-    return dict(seed=seed, l1=l1, l2=l2, go=go, steps=step, cells=cells)
+    return dict(seed=seed, l1=l1, l2=l2, go=go, steps=step, cells=cells,
+                deaths=deaths, checkpoints=checkpoints)
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -179,9 +195,10 @@ def main():
     except Exception as e:
         print(f"arcagi3: {e}"); return
 
-    mode_str = "FAST (10K steps)" if FAST_MODE else "FULL (50K steps)"
-    print(f"Step 584: Seed expansion — {N_SEEDS} seeds, LS20 [{mode_str}]", flush=True)
+    print(f"Step 584: Seed expansion FULL — {N_SEEDS} seeds, LS20, 50K steps", flush=True)
     print(f"  K={K} MAX_STEPS={MAX_STEPS} PENALTY={PENALTY} TIME_CAP={TIME_CAP}s/seed", flush=True)
+    print(f"  Checkpoints: {CHECKPOINTS}", flush=True)
+    print(f"  Early kill: if deaths=0 for ALL seeds at {EARLY_KILL_STEP} steps", flush=True)
 
     sp_results = []
     t_total = time.time()
@@ -192,6 +209,20 @@ def main():
         print(f"\nseed {seed} (total {elapsed_total:.0f}s):", flush=True)
         r = run_seed(mk, seed, SoftPenaltySub)
         sp_results.append(r)
+
+        # Early kill check after all seeds reach EARLY_KILL_STEP
+        if seed == N_SEEDS - 1:
+            ek_deaths = sum(r2.get('checkpoints', {}).get(EARLY_KILL_STEP, {}).get('deaths', 0)
+                            for r2 in sp_results)
+            if ek_deaths == 0:
+                print(f"\n  EARLY KILL: deaths=0 for all {N_SEEDS} seeds at {EARLY_KILL_STEP} steps.", flush=True)
+                print(f"  Death penalty mechanism never fired. Aborting — 50K would not change this.", flush=True)
+                # Print partial results and exit
+                sp_l1 = sum(r2['l1'] for r2 in sp_results)
+                sp_seeds = sum(1 for r2 in sp_results if r2['l1'] > 0)
+                print(f"\n  Partial SoftPenalty: {sp_seeds}/{N_SEEDS} seeds L1, total L1={sp_l1}")
+                print(f"  (ABORTED: deaths=0, mechanism inactive)")
+                return
 
     print("\n--- Argmin baseline ---", flush=True)
     am_results = []
@@ -207,13 +238,23 @@ def main():
     am_seeds = sum(1 for r in am_results if r['l1'] > 0)
 
     print(f"\n{'='*60}")
-    print(f"Step 584: Seed expansion ({N_SEEDS} seeds, {mode_str})")
+    print(f"Step 584: Seed expansion FULL ({N_SEEDS} seeds, 50K steps)")
     print(f"  SoftPenalty: {sp_seeds}/{N_SEEDS} seeds L1, total L1={sp_l1}")
     for r in sp_results:
-        print(f"    s{r['seed']:02d}: L1={r['l1']} cells={r['cells']}")
+        print(f"    s{r['seed']:02d}: L1={r['l1']} cells={r['cells']} deaths={r.get('deaths',0)}")
     print(f"  Argmin:      {am_seeds}/{N_SEEDS} seeds L1, total L1={am_l1}")
     for r in am_results:
-        print(f"    s{r['seed']:02d}: L1={r['l1']} cells={r['cells']}")
+        print(f"    s{r['seed']:02d}: L1={r['l1']} cells={r['cells']} deaths={r.get('deaths',0)}")
+
+    # Checkpoint table: SP L1 vs AM L1 at each step milestone
+    print(f"\n  Checkpoint progression (SP_L1 / AM_L1 across seeds):")
+    for ck in CHECKPOINTS:
+        sp_ck_l1 = sum(r.get('checkpoints', {}).get(ck, {}).get('l1', 0) for r in sp_results)
+        am_ck_l1 = sum(r.get('checkpoints', {}).get(ck, {}).get('l1', 0) for r in am_results)
+        sp_ck_d  = sum(r.get('checkpoints', {}).get(ck, {}).get('deaths', 0) for r in sp_results)
+        am_ck_d  = sum(r.get('checkpoints', {}).get(ck, {}).get('deaths', 0) for r in am_results)
+        print(f"    @{ck//1000:2d}K: SP_L1={sp_ck_l1:3d} AM_L1={am_ck_l1:3d} "
+              f"SP_deaths={sp_ck_d:4d} AM_deaths={am_ck_d:4d}")
 
     # Fisher exact test: proportion of seeds reaching L1
     if HAS_SCIPY:
