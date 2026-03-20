@@ -120,7 +120,9 @@ Step 572e: KILL. c5=[] — lhs+snw merge into 49px blob > MAX_CLUSTER=30.
 Step 572f-572i: iterations (MAX_CLUSTER, navigation, position tracking fixes).
 Step 572j: **L2=5/5** FIRST EVER. avg 4804 steps (35-37 mgu entries per seed).
   Key fixes: dead reckoning (not frame-diff), kdj diff detection (pixel-level toggle counting), state sequencing (kdy×3 before lhs).
-  Post-L2: stall on puq (wall map corruption). 572k building.
+Step 572k: L2multi=5/5. mgu permanently solved (~960 L2/seed). Wall set frozen at first L2.
+Step 572l: KILL. L3=0/5. prev_cl poisoning: terminal cl=2 overwrites prev_cl after done handler resets it to 0.
+Step 572m: RUNNING. Fix: add continue after prev_cl=0 in done handler. puq positions: GIC=(29,45), KDY=(49,10), LHS=(54,50). State seq: gic×1→kdy×3→lhs.
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
