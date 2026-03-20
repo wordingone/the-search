@@ -115,7 +115,8 @@ Step 572: KILL. Mode map reset works but env.reset() goes back to Level 1. L2 wi
 Step 572b: KILL. Both bugs confirmed (cycles=1, l2_clusters=[]). Fixes: re-entry detection + visited marker disabled.
 Step 572c: KILL. Re-entry works (cycles=1546). BUT lhs (color 5) NOT in targets — HUD uses color 5 extensively (>5% of pixels). Win objective invisible to rare-color filter.
 Step 572d SENT: Hardcoded positions diagnostic (kdy×3→qqv×1→lhs). NOT R1-compliant. 121 steps within 129 budget.
-Step 572e PLANNED: R1-compliant HUD masking (ignore zero-variance pixels, then rare-color filter on gameplay area only).
+Step 572d: KILL. Hardcoded lhs(42,16) never reached (lhs_visits=0). Coord mapping off or maze-blocked. Position from set_position(14,40) doesn't map to (42,16) in rendered frame.
+Step 572e RUNNING: Isolated cluster detection (all colors → CC → size 2-30). Finds lhs at TRUE pixel position from mode map. R1-compliant. Logs c5= detected coordinates.
 
 ACTIVE FRONTIER: Mode map candidate sweep (L2 path). Self-observation thread closed.
   - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
