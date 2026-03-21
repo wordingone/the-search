@@ -220,6 +220,28 @@ pheromone is fixed. This is ℓ₀. An agent that learns to weight pheromone
 differently based on context would be ℓ\_π. An agent that modifies the
 rule for how it modifies pheromone would be ℓ\_F.
 
+\textbf{Termite mound construction} (Grassé, 1959; PNAS 2019, 2021)
+extends the stigmergy analogy. Termites build complex adaptive
+architecture without blueprints, centralized control, or global
+observation. Individual termites respond only to LOCAL stimuli ---
+pheromone concentration, surface curvature, temperature gradients. The
+mound emerges. Crucially, termites solve our Proposition 13 problem
+(introspection ≠ foresight) by NOT introspecting: no termite models the
+global mound structure. They use local gradients as implicit predictions
+--- pheromone concentration IS the prediction that ``this location was
+useful.''
+
+\textbf{Connection to Proposition 13:} Our eigenform (Steps 620-629)
+tried GLOBAL self-observation (read the graph's statistics). Inert ---
+because global self-observation computes functions of visited states,
+not unvisited ones. Argmin IS local gradient-following (least-visited
+action from current cell) and WORKS for L1. The termite lesson for L2:
+the gradient must point toward the FRONTIER, not toward less-visited
+territory within the attractor. Not ``which action has fewest visits
+from this cell?'' but ``which action leads toward cells with the most
+unknown successors?'' Foresight via local gradient, not via world model.
+This is a degree of freedom (DoF 8) concretized by biological precedent.
+
 \subsection{3. Formal Framework}\label{formal-framework}
 
 \textbf{On the status of R1-R6:} The six rules began as philosophical
@@ -522,7 +544,7 @@ action). These select opposite actions when the least-explored action is
 also the least-confident.
 
 \textbf{Relationship to prior work:} This is the standard RL tradeoff.
-Not novel. Our contribution is empirical confirmation across 546+
+Not novel. Our contribution is empirical confirmation across 612+
 experiments that no single \(g\) produces both good navigation and good
 classification (Steps 418, 432, 444b).
 
@@ -776,6 +798,174 @@ state → processing new state → \ldots). Related to autopoiesis (Maturana
 network. Difference: autopoiesis maintains structure; our system grows
 (U17). Status: open.
 
+\textbf{Prior work on eigenforms:} Kauffman (2023, ``Autopoiesis and
+Eigenform'') connects autopoiesis to eigenforms --- fixed points of
+recursive processes where \(f(f) = f\). Formal autopoiesis (Letelier et
+al., 2023) generates self-referential objects with this property. The
+(M,R)-system (Rosen, 1991) is equivalent: organizational closure where
+every component is produced by the network of components. Our conjecture
+is an instance of eigenform theory applied to dynamical substrates.
+
+\textbf{Concrete mechanism (self-application of \(F\)).} The substrate
+alternates between observing the environment and observing itself:
+
+\[s_{t+1} = F(s_t)(x_t) \quad \text{(environment step)}\]
+\[s_{t+2} = F(s_{t+1})(\text{enc}(s_{t+1})) \quad \text{(self-observation step)}\]
+
+where \(\text{enc}: S \to X\) embeds the state into observation space.
+For the graph substrate: each cell's edge profile (outgoing counts per
+action per successor) is a vector that can be hashed through the same
+LSH. The substrate builds a graph of its own graph --- cells with
+similar exploration patterns share a meta-cell, revealing attractor
+basins vs frontier regions. No new operations: the same
+compare-select-store applied to self instead of environment.
+
+The frozen frame cost is one element: the decision to feed
+\(\text{enc}(s)\) back as input. But \(\text{enc}\) uses the substrate's
+own encoding pipeline. The self-observation uses the same hash, the same
+argmin, the same edge accumulation. This is the eigenform: \(F\) applied
+to its own output.
+
+\textbf{Concrete instantiation.} For the graph substrate with
+\(|A| = 4\) actions, define
+\(\text{enc}(c) = [N(c,0), N(c,1), N(c,2), N(c,3)] \in \mathbb{R}^4\),
+where \(N(c,a) = \sum_n E(c,a,n)\) is the total outgoing count for
+action \(a\) from cell \(c\). Hash \(\text{enc}(c)\) through 4 random
+hyperplanes → 4-bit meta-cell address → 16 possible meta-cells. Build a
+meta-graph \(M\) with edges accumulated from the self-observation steps.
+The substrate maintains two parallel graphs: the environment graph \(G\)
+(from hashing game frames) and the meta-graph \(M\) (from hashing action
+count vectors).
+
+Action selection combines both: when \(G\) has tied counts (fresh cell,
+all actions equal), use \(M\)'s argmin for the meta-cell of the current
+cell's action profile. This provides \textbf{global tie-breaking}:
+instead of random (Step 615) or always-zero (Step 614), the substrate
+selects the action that was least tried across ALL cells with similar
+exploration patterns. This is transfer learning within the graph ---
+cells that look similar in exploration-space share action
+recommendations.
+
+The meta-graph has 16 nodes × 4 actions = 64 edges. Negligible overhead.
+The frozen frame cost: one decision (hash action counts alongside
+observations). The mechanism is the same compare-select-store applied to
+\(\text{enc}(s)\) instead of \(x\).
+
+\textbf{Degeneration constraint (Zenil, 2026).} Zenil (``On the Limits
+of Self-Improving in LLMs,'' arXiv 2601.05280) formalizes recursive
+self-training as a dynamical system and proves two failure modes: (1)
+entropy decay --- sampling kills distributional diversity (our U22), and
+(2) variance amplification --- without persistent external grounding,
+distributional drift via random walk (our U7). The prediction:
+self-improvement degenerates unless the proportion of exogenous signal
+is maintained asymptotically.
+
+\textbf{Implication for the eigenform:} Pure self-observation
+\(F(s)(\text{enc}(s))\) without environmental input would degenerate per
+Zenil's theorem. The mechanism MUST interleave environment steps and
+self-observation steps: \(F(s)(x)\) then \(F(s)(\text{enc}(s))\). R5's
+environmental ground truth (game death, level transitions) provides the
+external grounding that prevents entropy decay. This predicts the
+interleaving ratio matters: too much self-observation → degeneration;
+too little → no benefit. The optimal ratio is a degree of freedom.
+
+\textbf{Testable predictions (made before experiments, tested in Steps
+620-629):} 1. Meta-graph tie-breaking vs random tie-breaking: if meta
+improves L1 success rate, self-observation provides useful signal at the
+bootstrap stage. \textbf{RESULT: No improvement.} Step 620: L1=5/5
+matches baseline exactly. Self-observation is inert at L1. 2. Meta-graph
+bias on saturated cells: if meta selects different actions than per-cell
+argmin in the attractor basin. \textbf{NOT YET TESTED} at the meta-graph
+level (eigenform tested simpler statistics). 3. If meta-argmin =
+per-cell argmin everywhere, self-observation via the same \(F\) is
+inert. \textbf{CONFIRMED.} Steps 620-626: self-observation via graph
+statistics produces AVOID/PREFER/NEUTRAL ops (94-99\% NEUTRAL). Step
+626: freezing ops after 5000 steps doesn't degrade L1. The mechanism
+produces non-zero output but has no performance effect. 4. Interleaving
+ratio. \textbf{ANSWERED DIFFERENTLY.} Step 621: adaptive M→2000 means
+self-observation self-terminates --- the distribution stabilizes, new
+observations add no information. The ``optimal N'' question is moot: the
+system naturally reduces self-observation frequency to zero.
+
+\paragraph{Proposition 13: Eigenform
+Inertness}\label{proposition-13-eigenform-inertness}
+
+\textbf{Prior work:} Kauffman (2009, 2017) shows every transformation in
+a reflexive domain has a fixed point (eigenform). In our framework,
+\(F(s)(\text{enc}(s))\) is the eigenform --- the substrate applying its
+own transition function to its own state. Kauffman's theory predicts
+convergence to a stable self-description. Gödel's incompleteness theorem
+predicts a system cannot prove statements about states outside its own
+axioms --- analogous to our graph containing no information about
+unvisited nodes.
+
+\textbf{Our finding (empirical, 10 experiments):} Self-observation on
+the existing graph converges to a fixed point (eigenform) and is inert
+for navigation. Specifically:
+
+\begin{itemize}
+\tightlist
+\item
+  Step 620: \(F(s)(\text{enc}(s))\) computes percentile thresholds on
+  edge-count distributions. AVOID grows from 0\% → 8\% of nodes. L1=5/5
+  (matches baseline --- no improvement).
+\item
+  Step 621: Adaptive observation frequency M → 2000. Self-observation
+  self-terminates when the distribution stabilizes. \textbf{This is the
+  eigenform fixed point:} \(F(s)(\text{enc}(s)) \approx s\) ---
+  self-observation produces no new information.
+\item
+  Step 626: Freezing ops after 5000 steps has zero effect on L1. The
+  eigenform is inert even when active.
+\item
+  Step 629: L2=0/5 even with L1-success tagging. Self-observation of the
+  EXISTING graph cannot produce information about UNVISITED states.
+\item
+  Step 625: Chain benchmark P3 is 7-53x SLOWER with eigenform. AVOID
+  contaminates known paths --- the eigenform HURTS when it acts, because
+  it avoids familiar territory without knowing what unfamiliar territory
+  contains.
+\end{itemize}
+
+\textbf{Formalization:} Let \(G = (N, E, \text{count})\) be the graph
+state. Self-observation \(h: S \to S\) computes statistics \(\sigma(G)\)
+that are functions of
+\(\{(n, a, \text{count}(n,a)) : n \in N, a \in A\}\). Level 2 requires
+reaching nodes \(n' \notin N\). For any statistic \(\sigma\) computable
+from \(G\), \(\sigma\) is a function of visited states only. No function
+of \(\{n \in N\}\) produces information about \(\{n' \notin N\}\)
+without a model that predicts observations beyond the frontier.
+
+\textbf{Proposition 13 (Eigenform Inertness):} Self-observation via
+\(F(s)(\text{enc}(s))\) is necessary (Theorem 2) but not sufficient for
+Level 2+. The gap is informational: the graph stores the past; Level 2
+requires predicting the future. Introspection identifies structure in
+visited states but cannot navigate to unvisited states. This is the same
+wall as the noisy TV barrier (Section 4.5) from a different angle ---
+both show that signals derived from the existing state cannot guide
+exploration beyond it.
+
+\textbf{Relationship to prior work:} Kauffman's eigenform theory
+predicts convergence --- confirmed (Step 621: M→2000). Gödel's
+incompleteness predicts self-referential limitations --- confirmed (Step
+629: L2=0/5). Our contribution: the empirical demonstration that
+eigenform inertness is not an implementation failure but a structural
+limitation. Self-observation MUST be supplemented by a mechanism that
+predicts unvisited states --- a world model or forward prediction.
+
+\textbf{Implications for R3:} R3 requires every aspect to be
+self-modified. Eigenform provides one form of self-modification
+(AVOID/PREFER ops derived from state). But eigenform alone cannot
+achieve L2. R3 compliance at L2+ requires something beyond
+self-observation: state-derived prediction of UNSEEN observations. This
+is the I1 gap (representation discovery) expressed in the R3 framework.
+
+\textbf{Degrees of freedom:} What predicts unvisited states? Two
+candidates: (1) frame-delta prediction (Steps 630-631, killed at k=16
+--- too fine-grained); (2) forward model from transition statistics (if
+action A from node N often leads to observation class C, predict C for
+untried actions from similar nodes). Neither tested successfully.
+
 \subsubsection{4.5 Argmin Robustness and the Noisy TV
 Barrier}\label{argmin-robustness-and-the-noisy-tv-barrier}
 
@@ -984,6 +1174,115 @@ controller is trained by backpropagation (violates R1/R2). In our
 framework, the controller IS \(F\) --- frozen, minimal, and
 non-trainable. The state \(s\) does all the adapting.
 
+\subsubsection{4.7 Interpreter Entailment (Proposition
+14)}\label{interpreter-entailment-proposition-14}
+
+\textbf{The question (posed 2026-03-21):} Section 4.6 identifies the
+minimal frozen frame as the interpreter: compare-select-store. When is
+this interpreter \emph{entailed} by the system --- a logical consequence
+of R1-R6 + task structure --- rather than a designer choice?
+
+\textbf{Prior work:} Rosen's (M,R)-systems (1991) formalize
+organizational closure as a cycle of efficient causation: metabolism
+\(f: A \to B\), repair \(\Phi_f: B \to H(A,B)\), and replication
+\(\beta: B \to H(B, H(A,B))\), forming the entailment cycle
+\(f \to \beta \to \Phi_f \to f\). Critically, Letelier et al.~(2006) and
+Cárdenas et al.~(2010) showed that \textbf{the existence of \(\beta\)
+does not follow from the architecture of (M,R)-systems} --- it must be
+postulated. The closure cycle is closed by assumption, not by
+derivation. Independently, Bauer (2016) proved that self-interpreters do
+not exist in System T (a total typed lambda calculus): a
+self-interpreter implies fixed-point operators at all types, which total
+languages cannot have. Self-interpretation requires general recursion.
+Recent work (Letelier et al., 2023, BioSystems) gives exact solutions
+for functional closure equations (FCEs) in restricted cases, partially
+addressing Rosen's contested conjecture that closure to efficient
+causation has no computable models.
+
+\textbf{Our formalization:} We distinguish two senses of ``entailment'':
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Abstract entailment:} The OPERATIONS \{compare, select, store,
+  modify\} are logically necessary given R1-R6 + U3:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    R1 (no external objectives) → the system must distinguish inputs
+    autonomously → \textbf{compare}
+  \item
+    R2 (adaptation from computation) → discriminative action choice IS
+    adaptation → \textbf{select}
+  \item
+    U3 (zero forgetting) → persistent accumulation required →
+    \textbf{store}
+  \item
+    R3 (self-modification) → stored procedures must change →
+    \textbf{modify}
+  \end{itemize}
+
+  Each operation is entailed by a different rule. Removing any operation
+  violates the corresponding rule. The abstract interpreter is the
+  intersection of all rules.
+\item
+  \textbf{Concrete entailment:} The IMPLEMENTATIONS (cosine similarity,
+  argmin, entry creation, attract-update) are NOT entailed. Multiple
+  implementations satisfy the abstract requirements (confirmed: 4
+  families navigate with different implementations of compare, Steps
+  521-525). The specific choice is the frozen frame.
+\end{enumerate}
+
+\textbf{Proposition 14 (Interpreter Entailment):} The abstract
+interpreter \{compare, select, store, modify\} is entailed by R1-R6 +
+U3. The concrete interpreter (specific implementations) is not. The gap
+between abstract and concrete entailment is exactly the R3 problem: can
+the system discover its own implementations?
+
+\textbf{Connection to Rosen:} Rosen's \(\beta\)-map asks whether the
+system produces its own components at runtime (constructive closure).
+Our abstract entailment asks whether the components are logically
+necessary (deductive closure). These are different questions. Logical
+necessity does not imply constructive production. A system can require
+an interpreter without being able to build one.
+
+\textbf{Connection to Bauer:} If our system's dynamics were total
+(always halting), the concrete interpreter could not be self-produced
+(Bauer, 2016). Our system is non-total (\(s_t\) evolves indefinitely),
+so the Bauer obstruction doesn't apply directly. But Rosen's
+computability conjecture suggests concrete self-interpretation may
+require capabilities beyond standard computation --- this remains
+contested.
+
+\textbf{The synthesis:} Abstract entailment + R3 creates a constructive
+demand: the system must discover concrete implementations of operations
+that are abstractly necessary. This is not a search for WHAT to do (the
+abstract operations are determined) but HOW to do it (the
+implementations are free). The frozen frame is the HOW; R3 asks it to
+become adaptive.
+
+\textbf{Implications:} 1. \(\ell_F\) (rule-modification) requires
+\(S \supseteq \text{repr}(F)\): the state space must contain
+representations of the meta-rule. Without this representational
+capacity, the system cannot modify what it cannot represent. 2. The
+codebook's state (\(\mathbb{R}^d\) centroids) cannot represent update
+rules → \(\ell_F\) is structurally impossible for the codebook. Not an
+engineering problem --- a type error. 3. A program-bearing state
+(op-codes as edge data, Steps 581d-582) CAN represent operations →
+\(\ell_F\) becomes possible in principle. 4. Whether the constructive
+gap is bridgeable --- whether a system can discover its own
+implementations of compare-select-store from interaction alone --- is
+the central open question. Rosen says no (for biological systems,
+contested). Bauer says no (for total systems, proved). Our evidence
+(612+ experiments, 0 substrates at \(\ell_F\)) is consistent with both
+pessimistic answers but has not established impossibility.
+
+\textbf{Degrees of freedom:} The representational capacity of \(S\) ---
+what operations can be encoded as state that the interpreter reads and
+executes --- determines whether interpreter entailment is achievable
+(DoF 9).
+
 \subsection{5. Experimental Evidence}\label{experimental-evidence}
 
 \subsubsection{5.1 Navigation (612+
@@ -1109,7 +1408,7 @@ but argmin cannot reach them.
 \subsubsection{5.3 Architecture Family
 Summary}\label{architecture-family-summary}
 
-11 families tested across 612+ experiments.
+12 families tested across 612+ experiments.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1527,7 +1826,7 @@ transition statistics (R1-compliant). Step 589 (pending) tests whether
 this R1-compliant \(\ell_\pi\) provides a statistically significant
 advantage over fixed \(\ell_0\) at 20 seeds.
 
-\textbf{Non-codebook experiment count:} \textasciitilde99 (vs
+\textbf{Non-codebook experiment count:} \textasciitilde177 (vs
 \textasciitilde435 codebook). Ongoing scale-up.
 
 \subsection{6. Degrees of Freedom}\label{degrees-of-freedom}
@@ -1640,9 +1939,11 @@ T5: Infinite growth vs finite environment & U17 + finite \(X\) &
 components. \\
 T6: Navigation vs classification & U11 + U24 + U1 & Open ---
 state-dependent behavior (DoF 11). No implementation yet. \\
-T7: Self-observation vs noisy TV & Theorem 2 + Sec 4.5 & Open ---
-self-observation must avoid irreducible-noise traps. Constrains
-mechanisms. \\
+T7: Self-observation vs noisy TV & Theorem 2 + Sec 4.5 &
+\textbf{Sharpened} --- Proposition 13 (eigenform inertness):
+self-observation on visited states cannot guide exploration to unvisited
+states. Self-observation IS necessary but provides only retrospective
+signal, not prospective guidance. Forward prediction required. \\
 T8: Centering vs domain separation & U16 + chain benchmark &
 \textbf{Resolved} --- per-domain centering (Step 546). R1-compliant via
 on\_reset. \\
@@ -1700,39 +2001,51 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   directly.
 \item
   The frozen frame and navigation capability are structurally coupled
-  (R3\_AUDIT.md). The 5 unjustified elements that enable navigation
-  (class scoring, class-restricted spawn/attract, seeding) are the same
-  elements R3 requires the system to self-modify. Removing any of them
-  destroys navigation. R3 requires exploring modifications to
-  load-bearing components --- not just discovering new components.
+  (Proposition 11, R3\_AUDIT.md). The 5 unjustified elements that enable
+  navigation are the same elements R3 requires the system to
+  self-modify. R3 requires exploring modifications to load-bearing
+  components.
+\item
+  The minimal frozen frame of any self-modifying substrate is the
+  interpreter (compare-select-store) + the ground truth (R5)
+  (Proposition 12). \(\ell_F\) as written is impossible for computable
+  systems --- the interpreter cannot rewrite itself without infinite
+  regress (Von Neumann, Kleene, Schmidhuber). But \(\ell_F\) is
+  achievable IN EFFECT via expressive \(\ell_1\): if the state space
+  encodes operations the interpreter executes, the system's behavior is
+  indistinguishable from \(\ell_F\).
+\item
+  Self-observation via the eigenform \(F(s)(\text{enc}(s))\) converges
+  to a fixed point and is inert for navigation (Proposition 13, Steps
+  620-629). Self-observation is necessary (Theorem 2) but not sufficient
+  for L2+. The gap is informational: the graph stores the past; L2
+  requires predicting the future. Introspection \(\neq\) foresight.
 \end{enumerate}
 
 \subsubsection{7.3 What is conjectured}\label{what-is-conjectured}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{9}
+\setcounter{enumi}{11}
 \tightlist
 \item
-  The minimal self-observing substrate is a fixed point of \(F\)
-  (Section 4.5).
+  The minimal self-observing substrate is an eigenform of \(F\): \(F\)
+  applied to its own state reproduces its dynamics (Section 4.4).
 \item
   The oscillation between U7 (convergence) and U17 (growth) is a limit
   cycle, not chaos.
 \item
   Selection pressure on a population of encodings (GRN architecture) may
-  bridge the ℓ₁→ℓ\_F gap without optimization --- environmental ground
-  truth selects encodings whose features happen to predict it. Step 607
-  tested this: KILLED (Cov(w,z)=0, encodings not behaviorally diverse).
-  The framework is sound but requires encoding diversity sufficient for
-  selection to operate.
+  bridge the ℓ₁→ℓ\_F gap without optimization. Step 607 tested: KILLED
+  (Cov(w,z)=0). Framework sound but requires behaviorally diverse
+  encodings.
 \end{enumerate}
 
 \subsubsection{7.4 What is open}\label{what-is-open}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{12}
+\setcounter{enumi}{14}
 \tightlist
 \item
   Whether the full feasible region (R1-R6 + all validated U-constraints)
@@ -1740,25 +2053,45 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   tighter impossibility result is needed.
 \item
   What self-observation mechanism satisfies R6 (irredundancy) while
-  avoiding noisy TV traps (T7).
-\item
-  Whether \(\ell_F\) (full self-reference) is achievable without
-  infinite regress --- or whether \(\ell_\pi\) suffices. 581d is
-  \(\ell_1\); the gap to \(\ell_F\) is two qualitative levels
-  (Proposition 4).
+  avoiding noisy TV traps (T7). The eigenform mechanism (Section 4.4) is
+  a concrete candidate; Zenil's degeneration constraint (2026) predicts
+  interleaving with environment observation is required.
 \item
   How to resolve U11 + U24 + U1 (incompatible tasks, no mode switch) in
-  a single system (T6).
+  a single system (T6). Recent work (Hao et al.~2025, ``Beyond the
+  Exploration-Exploitation Trade-off,'' arXiv 2509.23808) argues the
+  tradeoff is an artifact of measurement level --- in hidden-state
+  space, exploration and exploitation decouple. The eigenform mechanism
+  (Section 4.4) may dissolve U24 similarly: at the meta-cell level,
+  argmin naturally produces exploitation (follow meta-cell
+  recommendations) or exploration (least-tried action) depending on
+  state richness, without mode switching.
 \item
   R1-compliant classification --- no substrate has achieved above-chance
   accuracy without external labels.
 \item
-  Whether a population-level R3 architecture (GRN, quorum sensing,
-  immune clonal selection) can generate sufficiently diverse encodings
-  for selection to operate. Step 607 killed one implementation (LSH
-  encodings too similar), but the framework predicts success requires
-  behaviorally diverse --- not just parametrically diverse --- encoding
-  candidates.
+  \textbf{Interpreter entailment (Proposition 14).} The abstract
+  interpreter is entailed by R1-R6. The concrete interpreter is not.
+  Whether the constructive gap is bridgeable --- whether a system can
+  discover its own implementations of compare-select-store from
+  interaction alone --- connects to Rosen's (M,R) closure (β-map must be
+  postulated) and Bauer's self-interpreter impossibility (total systems
+  cannot self-interpret). The intersection of organizational closure and
+  self-modification in non-total dynamical systems appears open.
+\item
+  Whether the state space of compare-select-store is expressive enough
+  to encode arbitrary self-modifications as data (the expressiveness
+  question from Proposition 12). SUBLEQ (subtract-and-branch-if-≤-0) is
+  Turing complete with one instruction and unbounded memory.
+  Compare-select-store maps structurally: COMPARE → subtract, SELECT →
+  branch, STORE → write. But our specific COMPARE (LSH hash) is a fixed
+  random projection --- not an arbitrary function. The system's
+  expressiveness is bounded by the comparison function's expressiveness.
+  Whether the eigenform mechanism (hashing action counts →
+  meta-comparison) iterates toward Turing-complete comparison is the
+  core open question. If yes, R3 is satisfiable with the current
+  interpreter. If no, the comparison function must be extended or made
+  adaptive (\(\ell_\pi\) → \(\ell_F\) in effect).
 \end{enumerate}
 
 \subsubsection{7.5 The Level 2 Problem}\label{the-level-2-problem}
@@ -2218,6 +2551,108 @@ population-level dynamics compressed into a single agent's lifetime.
 This is the engineering challenge: generating sufficient diversity for
 selection to operate, within the 5-minute experiment cap.
 
+\paragraph{Proposition 12: The Interpreter
+Bound}\label{proposition-12-the-interpreter-bound}
+
+\textbf{Prior work:} Von Neumann's universal constructor (1966)
+separates the CONSTRUCTOR (interpreter) from the DESCRIPTION (data). The
+constructor reads descriptions and builds machines. The description is
+copied into new machines. The constructor is the irreducible frozen
+frame --- it cannot be built by a simpler constructor without infinite
+regress. Kleene's recursion theorem (1938) guarantees that for any
+computable function \(F\), a fixed point exists: a program \(e\) such
+that \(\varphi_e = \varphi_{F(e)}\). The program can act on its own
+description without modifying its own interpreter. Schmidhuber's SRWM
+(Irie \& Schlag, 2022) collapses meta-learning levels into one
+self-referential weight matrix but acknowledges: ``the highest level
+programmer would still have a fixed weight matrix.''
+
+\textbf{Statement:} The minimal frozen frame of any self-modifying
+substrate is the interpreter --- the mechanism that reads state and
+produces behavior. Formally: if \(F\) decomposes as
+\(F(s)(x) = \texttt{store}(s, \texttt{select}(s, \texttt{compare}(s, x)))\),
+then \(\{\texttt{compare}, \texttt{select}, \texttt{store}\}\) is
+irreducible. The state \(s\) can encode arbitrary instructions that
+these operations execute, but the operations themselves cannot be
+modified from within.
+
+\textbf{Derivation:} Suppose \(\texttt{compare}\) could be modified by
+\(s\). Then \(F(s_1) \neq F(s_2)\) as operations --- which is R3 (the
+meta-rule is non-constant). But the MECHANISM by which \(s\) modifies
+\(\texttt{compare}\) is itself a fixed operation --- call it
+\(\texttt{modify\_compare}\). This operation is now part of the frozen
+frame. Recursion: can \(\texttt{modify\_compare}\) be modified? Only by
+another fixed operation. The regress terminates at the outermost
+interpreter, which is irreducible by construction.
+
+\textbf{The minimum:} Combining with Theorem 3 (R3+R5 satisfiable iff
+ground truth is environmental), the minimal frozen frame is: \textbf{the
+interpreter (compare-select-store) + the ground truth test (R5)}.
+Everything below --- state, data, descriptions, encodings --- is
+potentially self-modifiable through the interpreter. The eigenform
+mechanism (Section 4.4) shows how: the state encodes meta-instructions
+(action count vectors → meta-cells) that the interpreter executes,
+modifying the substrate's behavior without modifying the interpreter
+itself. This is \(\ell_1\) by the hierarchy --- but it is the MAXIMUM
+achievable \(\ell\) for any computable system.
+
+\textbf{Relationship to prior work:} Von Neumann's constructor = our
+compare-select-store. Kleene's fixed point = our eigenform. Rosen's
+(M,R) closure = our autopoietic growth (U17). The individual pieces are
+known; the synthesis --- that the interpreter IS the irreducible frozen
+frame, and R3 is satisfiable iff ``self-modification'' means ``state
+encodes operations the interpreter executes'' rather than ``the
+interpreter rewrites itself'' --- appears to be our contribution.
+
+\textbf{Implication:} \(\ell_F\) as originally defined (the rule for
+modifying \(\pi\) itself adapts) is impossible for computable systems
+--- the highest-level rule is always fixed. But \(\ell_F\) can be
+ACHIEVED IN EFFECT by a sufficiently expressive \(\ell_1\): if the state
+space \(S\) is rich enough to encode arbitrary comparison operations as
+data, and the interpreter executes them, then the system's behavior is
+indistinguishable from \(\ell_F\) despite being formally \(\ell_1\). The
+question shifts from ``can the system modify its interpreter?'' (no) to
+``is the interpreter + state space expressive enough to simulate any
+modification?'' (the expressiveness question).
+
+\subsubsection{7.7 Where the search
+points}\label{where-the-search-points}
+
+The 612+ experiments, 12 propositions, and 3 theorems converge on a
+single question: \textbf{is compare-select-store with a sufficiently
+rich state space expressive enough to simulate self-modification?}
+
+The path to this question: 1. R3 requires self-modification of
+operations (the goal). 2. Proposition 11 shows the current frozen frame
+IS the navigation capability --- you can't modify one without destroying
+the other (the obstacle). 3. Proposition 12 shows the interpreter
+(compare-select-store) is irreducible --- every self-referential system
+has a top-level frozen frame (the bound). 4. But Proposition 12 also
+shows ℓ\_F is achievable IN EFFECT if the state space encodes operations
+the interpreter executes (the opening). 5. The eigenform mechanism
+(Section 4.4) shows how: \(F(s)(\text{enc}(s))\) --- the substrate
+applies its own operations to its own state, building a meta-graph that
+transfers experience across similar cells (the mechanism). 6. Zenil
+(2026) predicts this works only when interleaved with environmental
+observation --- pure self-reference degenerates (the constraint). 7.
+VERL (Hao et al.~2025) suggests the explore/exploit tradeoff dissolves
+at the right measurement level --- the eigenform's meta-cells may
+provide that level (the bonus).
+
+If the eigenform experiment (Step 617) shows that meta-graph
+tie-breaking improves navigation, Theorem 2 is validated empirically and
+the path toward R3 is: build richer state encodings that the fixed
+interpreter executes. If it fails, the interpreter itself must be
+extended --- and the question becomes what the minimal extension is.
+
+Either way, the 16 levels solved via source analysis (Proposition 9) are
+the specification: 16 concrete test cases that the resulting substrate
+must solve autonomously, without prescribed pipelines, without source
+code analysis, without a human designer.
+
+The contribution is the walls. The substrate --- if it exists --- lives
+inside them.
+
 \subsection{Author Attribution and
 Disclosure}\label{author-attribution-and-disclosure}
 
@@ -2306,6 +2741,19 @@ infrastructure are documented in the repository.
 \item
   Wang, Z. et al.~(2019). Characterizing and Avoiding Negative Transfer.
   CVPR.
+\item
+  Zenil, H. (2026). On the Limits of Self-Improving in Large Language
+  Models: The Singularity Is Not Near Without Symbolic Model Synthesis.
+  arXiv:2601.05280.
+\item
+  Kauffman, L. H. (2023). Autopoiesis and Eigenform. Computation,
+  11(12), 247.
+\item
+  Tero, A. et al.~(2010). Rules for Biologically Inspired Adaptive
+  Network Design. Science, 327(5964), 439-442.
+\item
+  Rosen, R. (1991). Life Itself: A Comprehensive Inquiry into the
+  Nature, Origin, and Fabrication of Life. Columbia University Press.
 \end{itemize}
 
 \end{document}
