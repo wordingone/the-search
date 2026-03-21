@@ -57,7 +57,26 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 635 (Frontier-gradient — MARGINAL, unconditional bias)
+CURRENT STEP: 641 (Meta-graph transfer — KILL, profile uniformity)
+
+Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
+  changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
+  Neighbor lookup rarely differs from random tie-breaking. KILL.
+
+Step 641: Soft bias transfer (alpha=0.1). L1=1/5 (same s1, same step). transfer_active=97.8% —
+  effectively always on, but effect is null. Neighbor average ≈ cell's own profile because argmin
+  equalizes action counts → all profile vectors roughly proportional → cosine ≈ 1.0 for all pairs
+  → "nearest neighbors" are random → transfer is noise. KILL.
+
+  **Section 4.4 prediction falsified.** The meta-graph world model does not transfer useful exploration
+  information. Root cause: argmin's balanced exploration produces UNIFORM profiles across cells.
+  The mechanism that makes L1 work (balanced action coverage) destroys the signal that meta-level
+  transfer depends on (differentiated cell profiles). ANY mechanism requiring differentiated profiles
+  will fail under argmin. This is a structural consequence of argmin, not an implementation issue.
+
+  **Proposition 14 implication:** The state (edge counts) cannot represent the meta-rule because
+  counts are too uniform. S ⊇ repr(F) requires richer state than visit counts — transition outcomes,
+  prediction errors, or program-like structures.
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
