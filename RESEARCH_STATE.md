@@ -553,4 +553,10 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | **615** | **LS20 L4 (random tie-breaking + no G reset + bootstrap)** | — | **FAIL** | go=2-4 in 117K. Random tie-breaking insufficient. Root cause: L0 cluster targeting freezes agent_yx at (57.39, 5.39) — animation artifact, not real agent position. dir_action points at wall forever. |
 | **616** | **LS20 L4 (no L0 cluster + no G reset + bootstrap)** | — | **PARTIAL** | L0 fixed (7071 episodes/5min). L1 reached. L2=0 — wrong MGU_SPAWN. |
 | **617** | **LS20 L4 (572u port + bootstrap)** | — | **FAIL** | L0 cluster targeting freezes agent_yx at animation artifact → action=0 forever → 0 episodes after ep2. Same bug in 572u (617b confirmed). |
-| **618** | **LS20 L4 (616 argmin + 572u mgu + bootstrap)** | — | **FAIL** | L1 works (s0@13922, s1@3383). mgu COMPLETELY fails: wp=0, lhs=0 across 5000+ cycles. Agent cycles L0→L1 but never reaches a single mgu waypoint. ARC-AGI-3 games are DETERMINISTIC — they never change. The 572u waypoints are correct. The bug is in the code port, not the game. **Action: diff 572u commit (0463b3c) against 618 code line-by-line.** |
+| **618** | **LS20 L4 (616 argmin + 572u mgu + bootstrap)** | — | **FAIL** | L1 works, mgu fails (wp=0, lhs=0). Games are DETERMINISTIC — bug is in code, not game. **Action: diff 572u commit (0463b3c) against 618 line-by-line.** |
+
+**VERIFICATION NEEDED (Jun, 2026-03-21):** Eli has been caught claiming game environments changed TWICE. All foundational results must be independently verified:
+- **572u L3=5/5** — CANNOT BE REPRODUCED. Run 572u commit 0463b3c verbatim on same seeds. If it fails, the 16-level claim drops to 13.
+- **608b FT09 6 levels** — Deterministic source analysis. Should reproduce exactly. Verify.
+- **610 VC33 7 levels** — Analytical BFS. Should reproduce exactly. Verify.
+- **572j L2=5/5** — Same pipeline as 572u. If 572u fails, 572j may also fail to reproduce.
