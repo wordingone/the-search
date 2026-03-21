@@ -57,7 +57,18 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 629 (Eigenform L2 attempt — self-observation with L1 success tagging)
+CURRENT STEP: 631 (Delta causality probe — delta structure too fine-grained at k=16)
+
+Step 631: Delta causality probe (diagnostic). L1=4/5. ~220 unique delta_cells per action, top_frac
+  6-21%, invariant_frac 2-3%. NO action-invariant universals. Each action produces wildly different
+  deltas depending on which node. Stale threshold (>80%) unreachable.
+
+Step 630: Delta-augmented action selection. L1=4/5, L2=0/5. L1 steps IDENTICAL to pure argmin.
+  stale_set=empty on all seeds. productive_set=1 element max. ops: 99-100% NEUTRAL.
+  ROOT CAUSE: k=16 LSH on avgpool-delta gives too-fine resolution. ~220 unique delta_cells per action
+  means the productive cell matches only ~3% of (N,A) pairs. Signal can't propagate.
+  **Delta direction at k=16 resolution: KILLED.** Two possible fixes: coarser hashing (k=4-8) or
+  binary change mask (threshold |delta| → binary changed/unchanged vector).
 
 Step 621: Eigenform adaptive M — SIGNAL (L1=5/5, M→2000 on all seeds). Self-observation becomes
   self-terminating at L1. Once edge counts form stable percentiles, distribution stops changing.
