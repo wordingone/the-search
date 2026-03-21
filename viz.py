@@ -177,9 +177,11 @@ def resolution_score(result, desc):
     """Higher = more resolved. Center of sphere. Diagnostic kills valued."""
     d = desc.lower()
 
-    # Milestones
-    if '5/5' in d and any(w in d for w in ['l3', 'l4']): return 0.95
-    if '5/5' in d and 'l2' in d: return 0.90
+    # Milestones — must check SPECIFIC level=result patterns, not just co-occurrence
+    # "L1=5/5 ... L2=0/5" should score as L1 solved (0.80), not L2 solved (0.90)
+    import re as _re
+    if _re.search(r'l[34]\S*[=: ]*5/5', d): return 0.95
+    if _re.search(r'l2\S*[=: ]*5/5', d): return 0.90
     if 'first ever' in d: return 0.88
     if 'all 3 games' in d or 'all 7' in d or 'all 6' in d: return 0.85
     if 'solved' in d or ('5/5' in d and ('win' in d or 'pass' in d)): return 0.80
@@ -358,16 +360,16 @@ def generate_html(compact, trajectories, exps):
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 html,body{{width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}}
-#ui{{position:fixed;top:8px;left:8px;z-index:10;font:clamp(8px,2.2vw,10px)/1.5 monospace;pointer-events:none;max-width:55vw}}
-#ui h1{{font-size:clamp(14px,3.5vw,18px);color:#ccc;letter-spacing:3px;font-weight:300}}
-#ui .sub{{color:#444;margin-top:2px}}
-#ui .counts{{color:#222;font-size:clamp(6px,1.4vw,7px);margin-top:1px}}
-#ui .hint{{color:#1a1a1a;font-size:clamp(6px,1.4vw,7px);margin-top:6px}}
-#lg{{position:fixed;top:8px;right:8px;z-index:10;font:clamp(7px,1.8vw,9px)/1.5 monospace;pointer-events:none}}
+#ui{{position:fixed;top:10px;left:10px;z-index:10;font:clamp(10px,2.5vw,13px)/1.5 monospace;pointer-events:none;max-width:55vw}}
+#ui h1{{font-size:clamp(18px,4.5vw,24px);color:#ddd;letter-spacing:3px;font-weight:300}}
+#ui .sub{{color:#777;margin-top:3px;font-size:clamp(10px,2.5vw,13px)}}
+#ui .counts{{color:#555;font-size:clamp(8px,2vw,10px);margin-top:2px}}
+#ui .hint{{color:#333;font-size:clamp(8px,2vw,10px);margin-top:8px}}
+#lg{{position:fixed;top:10px;right:10px;z-index:10;font:clamp(9px,2.2vw,12px)/1.5 monospace;pointer-events:none}}
 #lg span{{display:block;margin-bottom:2px}}
-#sh{{position:fixed;bottom:8px;right:8px;z-index:10;font:clamp(7px,1.8vw,8px)/1.5 monospace;pointer-events:none;color:#333}}
+#sh{{position:fixed;bottom:10px;right:10px;z-index:10;font:clamp(9px,2.2vw,11px)/1.5 monospace;pointer-events:none;color:#555}}
 #sh span{{display:block;margin-bottom:1px}}
-.lbl{{position:absolute;pointer-events:none;font:clamp(7px,1.8vw,9px)/1.3 monospace;padding:4px 8px;border-radius:2px;white-space:nowrap;z-index:5;background:rgba(0,0,0,.92)}}
+.lbl{{position:absolute;pointer-events:none;font:clamp(9px,2.2vw,11px)/1.3 monospace;padding:5px 10px;border-radius:3px;white-space:nowrap;z-index:5;background:rgba(0,0,0,.92)}}
 </style></head><body>
 <div id="ui">
 <h1>THE SEARCH</h1>
