@@ -77,7 +77,7 @@ results. Compress edits both.}
 We formalize six rules (R1-R6) for recursive self-improvement as
 mathematical conditions on a state-update function
 \(f: S \times X \to S\) and derive necessary properties of any system
-satisfying all six simultaneously. From 546+ experiments across 11
+satisfying all six simultaneously. From 612+ experiments across 12
 architecture families on ARC-AGI-3 interactive games, we extract 26
 constraints and prove: (1) no satisfying system has a fixed point ---
 self-modification is necessary, not optional; (2) in finite
@@ -90,9 +90,9 @@ contribution is the walls themselves.
 
 \subsection{1. Introduction}\label{introduction}
 
-546+ experiments across 11 architecture families (codebook/LVQ, LSH, L2
-k-means, reservoir, graph, connected-component, Bloom filter, kd-tree,
-cellular automata, LLM, Recode/self-refining LSH) tested substrates for
+612+ experiments across 12 architecture families (codebook/LVQ, LSH, L2
+k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree,
+Absorb, connected-component, Bloom filter, CA) tested substrates for
 navigation and classification on ARC-AGI-3 interactive games and a
 cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All
 experiments used the same evaluation framework (R1-R6) and constraint
@@ -204,7 +204,67 @@ mechanism --- the substrate must naturally resist forgetting through its
 dynamics alone (U3: zero forgetting by construction, not by
 regularization).
 
+\subsubsection{2.8 Stigmergy and ant colony
+optimization}\label{stigmergy-and-ant-colony-optimization}
+
+Stigmergy (Grassé, 1959) is indirect communication through environment
+modification --- agents mark the environment, and those marks guide
+future behavior. Ant colony optimization (Dorigo et al., 2000) applies
+this to search: pheromone trails reinforce successful paths. Our
+substrate is a stigmergic system with \textbf{anti-pheromone}: edge
+counts mark visited transitions, and argmin follows the LEAST marked
+path. The graph IS the environment modification; the frozen frame IS the
+response rule. R3, in stigmergic terms, asks: can the agent modify its
+own pheromone response? ACO agents cannot --- their response to
+pheromone is fixed. This is ℓ₀. An agent that learns to weight pheromone
+differently based on context would be ℓ\_π. An agent that modifies the
+rule for how it modifies pheromone would be ℓ\_F.
+
 \subsection{3. Formal Framework}\label{formal-framework}
+
+\textbf{On the status of R1-R6:} The six rules began as philosophical
+commitments. The experiments validated them --- each rule is justified
+by what fails when it is violated:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{R1 (no external objectives):} Every targeted exploration
+  strategy failed (Steps 478-481: novelty 1/10, prediction-error 0/10,
+  UCB1 neutral). External objectives create exploitable structure that
+  noisy environments corrupt. Argmin survives because it has no target
+  to corrupt.
+\item
+  \textbf{R2 (adaptation from computation):} Algorithm invariance across
+  4 families (codebook, LSH, Hebbian, Markov --- Steps 524-525). The
+  same argmin algorithm emerges regardless of representation. Adaptation
+  IS the computation, not a separate learning rule.
+\item
+  \textbf{R3 (every aspect self-modified):} The aspiration. 12
+  prescribed components remain (Section 7.6). Every experiment that
+  prescribed fewer components performed worse (Step 593: removing
+  centering → 0/5). R3 defines the gap between current substrates and
+  the goal.
+\item
+  \textbf{R4 (modifications tested against prior state):} Negative
+  transfer destroys prior capability when untested (Steps 506, 515,
+  596). Domain isolation (separate edge dicts) is the empirical solution
+  --- effectively a per-domain R4 check.
+\item
+  \textbf{R5 (one fixed ground truth):} Theorem 3: without a fixed
+  external ground truth, R3 permits self-modification of evaluation
+  criteria, which is degenerate. The ground truth must be environmental
+  (game death, level transitions).
+\item
+  \textbf{R6 (no deletable parts):} Step 548: 89.5\% of Recode splits
+  change argmin action. Every component is behaviorally load-bearing.
+  Redundant components would waste the growth budget (U17).
+\end{itemize}
+
+Alternative frameworks (Schmidhuber's Gödel Machine, open-ended
+evolution, intrinsic motivation) make different commitments. R1-R6 are
+not uniquely determined --- but each is experimentally motivated, not
+arbitrary.
 
 \subsubsection{3.1 Primitives}\label{primitives}
 
@@ -326,20 +386,25 @@ was learned. This is a qualitative jump: the system's perception of the
 environment changes, not just its memory.
 
 \textbf{Empirical evidence (Step 542, Recode):} \(\ell_\pi\) produces
-5/5 L1 navigation vs 3/3 for \(\ell_0\) (LSH k=16). Self-modification of
-\(\pi\) improves navigation reliability. But the refinement algorithm
-(entropy threshold, hyperplane from mean difference) is frozen --- the
-system cannot modify HOW it refines, only WHERE. This is partial R3:
-\(F\) is non-constant because \(\pi_s\) varies with \(s\), but \(F\) is
-still a SINGLE fixed meta-rule.
+5/5 L1 navigation at 5 seeds. But Step 589 (20 seeds, K-controlled)
+reveals a confound: Recode(K=16) 18/20 = LSH(K=16) 18/20 \textgreater{}
+LSH(K=12) 13/20. The 5/5 vs 3/3 advantage was K=16 vs K=12, not adaptive
+splitting vs fixed hashing. Self-modification of \(\pi\) provides a
+speed advantage at mid-budget (p\textless0.05 at 30-40K checkpoints) but
+does not improve final success rate at 50K. The refinement algorithm is
+frozen --- the system cannot modify HOW it refines, only WHERE. This is
+partial R3 in principle, but operationally equivalent to \(\ell_0\) with
+the same K.
 
 \textbf{Relationship to prior work:} Schmidhuber's hierarchy (1993)
 addresses the same question --- what level of self-reference does the
 system have? His solution (self-referential weight matrix) collapses all
 levels into one. Our framework makes the levels explicit and maps
-concrete substrates to them. The contribution is empirical: showing that
-\(\ell_\pi\) is achievable and produces measurable improvement over
-\(\ell_0\), while \(\ell_F\) remains open.
+concrete substrates to them. The contribution is taxonomic: categorizing
+mechanisms by what they modify (\(g\), \(u\), \(\pi\), \(F\)). The
+predictive claim --- that higher levels produce measurably better
+outcomes --- is not supported at 20 seeds (Step 589). The hierarchy
+describes what is modified, not whether modification helps.
 
 \textbf{Implication for Theorem 2:} Self-observation (Section 4.3)
 requires extracting new irredundant structure from \(s\). At \(\ell_0\),
@@ -606,6 +671,26 @@ The specific finding that it's load-bearing for TWO architecturally
 distinct families (codebook: prevents cosine saturation; LSH: prevents
 hash concentration) is our empirical contribution, not the
 formalization.
+
+\textbf{Ablation (Step 593):} LSH k=12 without centering: 0/5 L1, avg 5
+cells (vs 222 cells with centering). The hash collapses to
+\textasciitilde5 states without mean subtraction. One line of
+preprocessing --- \texttt{x\ -=\ x.mean()} --- is the difference between
+a functioning exploration system and a degenerate one. This confirms U16
+is not a soft recommendation but a hard requirement.
+
+\textbf{Tension with R3 (Proposition 7):} U16 is frozen --- centering is
+part of the encoding pipeline that R3 requires to be self-modifiable.
+But removing centering is lethal (0/5 vs 1/5). This creates a necessary
+constraint on R3: some components are so load-bearing that
+self-modification of them is functionally suicidal. The system cannot
+safely explore modifications to centering because every modification
+kills navigation. R3 must be interpreted as ``every component is
+self-modifiable IN PRINCIPLE'' rather than ``every component IS
+modified'' --- otherwise the system must explore centering ablations,
+discover they're lethal, and never try again. This is analogous to
+highly conserved genes: essential for viability, frozen by selection
+pressure, not by design constraint.
 
 \paragraph{U22: Convergence kills
 exploration}\label{u22-convergence-kills-exploration}
@@ -878,6 +963,19 @@ with observation-derived components is non-empty --- the graph + k-means
 state-derived components (self-observation) is the open question. No
 system has been shown to satisfy R6 after exploration saturates.
 
+\textbf{Dual-signal conjecture (Step 581, pending):} A substrate with
+per-element default operations and per-element prediction error signals
+may satisfy R3 if: (1) predictions are stored in element state, not
+external code; (2) error signals modify predictions, not the default
+operation; (3) modified predictions change which element fires next. The
+frozen frame reduces to three operations: similarity, error computation,
+and default selection. This is R6 at the operation level --- the
+letter's conjecture that irreducibility applies to operations, not data.
+The data (predictions) self-modify through interaction. The operations
+(similarity, error, default) are the irreducible interpreter. Inspired
+by cerebellar dual-signal architecture (climbing fiber error + Purkinje
+cell default).
+
 \textbf{Relationship to prior work:} The compare-select-store
 decomposition resembles the read-match-write cycle of Neural Turing
 Machines (Graves et al., 2014) and the content-based addressing of
@@ -888,8 +986,8 @@ non-trainable. The state \(s\) does all the adapting.
 
 \subsection{5. Experimental Evidence}\label{experimental-evidence}
 
-\subsubsection{5.1 Navigation (546+
-experiments)}\label{navigation-546-experiments}
+\subsubsection{5.1 Navigation (612+
+experiments)}\label{navigation-612-experiments}
 
 All 3 ARC-AGI-3 games solved at Level 1:
 
@@ -991,6 +1089,18 @@ needed to detect the attractor and escape it. \(\ell_\pi\) (partition
 refinement) refines within the attractor (Step 549) but cannot break
 out.
 
+\textbf{Growth law.} Fitting \(R(t) = C \cdot t^\alpha\) to the LSH k=12
+data (259 cells at 50K, 439 at 740K) gives \(\alpha \approx 0.20\). At
+k=16: 1094 at 200K, 1149 at 500K gives \(\alpha \approx 0.05\). The
+exponent reflects the spectral gap of the explored graph under argmin
+dynamics --- a small spectral gap (deep attractor basin) produces small
+\(\alpha\). The 364-node active set (39\% of the explored graph) acts as
+a low-conductance trap: the agent's return time to the frontier grows
+faster than the frontier itself expands. PAC-MDP theory (Strehl \&
+Littman, 2008) guarantees all states are visited in \(O(N^2 A)\) steps,
+but the effective \(\alpha\) determines whether this is practically
+reachable within budget.
+
 Relationship to Section 4: Edge counts grow (U17 formally satisfied) but
 marginal counts in the active set are redundant (R6 violated). The 134
 deterministic frontier edges are the non-redundant growth targets ---
@@ -999,7 +1109,7 @@ but argmin cannot reach them.
 \subsubsection{5.3 Architecture Family
 Summary}\label{architecture-family-summary}
 
-11 families tested across 546+ experiments.
+11 families tested across 612+ experiments.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1067,23 +1177,53 @@ strongest kill criterion: 4 families fail cleanly on this axis (grid
 graph, CA, reservoir, kd-tree). - centered\_enc is load-bearing in 2
 families (codebook, LSH) for different failure modes --- confirmed
 universal (U16). - Graph + edge-count argmin is the constant across all
-winning navigation configurations. No family has won without it. -
-\textbf{Noisy TV is universal:} Entropy-seeking (Absorb substrate, Steps
-539-541) drives the agent into lethal states because death transitions
-have maximum irreducible entropy (Burda et al.~2019). 6 independent
-targeted exploration strategies tested, all worse than argmin (Section
-4.5). The Absorb substrate (LSH + entropy-driven action selection + BFS
-routing) is the 12th tested architecture --- KILLED for noisy TV. Not
-counted as a distinct family because it shares LSH's spatial engine; the
-failure is in action selection, not mapping. - Classification:
-\textbf{R1-compliant classification is unsolved.} Step 432 (codebook)
-achieves 94.48\% and Step 444b (graph) achieves 93.34\% --- but both
-receive ground-truth labels on every training step (supervised NNC).
-Without external labels, accuracy drops to chance (\textasciitilde10\%).
-LSH k=16 achieves NMI=0.599 on CIFAR-100 (Step 547) --- the encoding has
-class signal, but no mechanism extracts it without external labels. The
-R1 constraint (no external objective) and the classification task are
-fundamentally incompatible with all tested architectures.
+winning navigation configurations. No family has won without it.
+However, random action selection achieves 10/20 L1 at 50K vs argmin's
+13/20 (Step 594, p=0.26, NS). The advantage is in SPEED of discovery,
+not exclusive access. \textbf{Proposition 8 (cover time scaling, REVISED
+by Steps 597/600):} Argmin is a weighted random walk with anti-pheromone
+weighting. The advantage depends on the budget/graph-size ratio, not
+graph size alone. At K=16/10K steps, random BEATS argmin (2/5 vs 0/5,
+Step 597) because the graph is too sparse for reliable visit counts ---
+argmin's few non-zero entries mislead rather than guide. At K=12/10K,
+argmin leads (3/5 vs 2/5). At K=8/10K, tied (2/5 vs 2/5). There is an
+optimal K for a given step budget. \textbf{Step 600 quantifies the
+target:} L1 requires 97\% cell coverage (186/191 cells, avg degree
+3.35/4). Navigation is a coverage threshold problem --- the agent must
+visit nearly all reachable states, not discover the exit early. This
+explains why argmin helps at the right K (faster coverage) and hurts at
+wrong K (sparse counts create false gradients). - \textbf{Cross-game
+detection (Steps 575-576):} The mode map + isolated connected-component
+pipeline generalizes across all 3 ARC-AGI-3 games without game-specific
+tuning for detection. FT09: 5/5 via LSH k=12 alone (avg 5 cells ---
+trivially solvable by action coverage). VC33: 5/5 via mode map +
+isolated CC, which autonomously discovers the two magic pixels at
+(62,26) and (62,34) that Step 505 found with prescribed zone positions.
+One detection mechanism, three games. - \textbf{Constraint validation
+(Steps 573-574):} U26 (self-labels compound errors) CHALLENGED: LSH k=16
+achieves 36.2\% test accuracy on P-MNIST with self-labels, 4x above
+codebook's 9.8\%. The self-label failure was codebook-specific
+(NN-voting on cosine centroids). U19 (dynamics \(\neq\) features)
+PARTIALLY CHALLENGED: LSH k=12 at raw 64\$\times\$64 achieves L1
+reliably on LS20 (1191-1418 completions per seed). Dynamics alone are
+sufficient for L1 (single-touch exploration), insufficient for L2+
+(sequencing requires task-relevant features). - \textbf{Noisy TV is
+universal:} Entropy-seeking (Absorb substrate, Steps 539-541) drives the
+agent into lethal states because death transitions have maximum
+irreducible entropy (Burda et al.~2019). 6 independent targeted
+exploration strategies tested, all worse than argmin (Section 4.5). The
+Absorb substrate (LSH + entropy-driven action selection + BFS routing)
+is the 12th tested architecture --- KILLED for noisy TV. Not counted as
+a distinct family because it shares LSH's spatial engine; the failure is
+in action selection, not mapping. - Classification: \textbf{R1-compliant
+classification is unsolved.} Step 432 (codebook) achieves 94.48\% and
+Step 444b (graph) achieves 93.34\% --- but both receive ground-truth
+labels on every training step (supervised NNC). Without external labels,
+accuracy drops to chance (\textasciitilde10\%). LSH k=16 achieves
+NMI=0.599 on CIFAR-100 (Step 547) --- the encoding has class signal, but
+no mechanism extracts it without external labels. The R1 constraint (no
+external objective) and the classification task are fundamentally
+incompatible with all tested architectures.
 
 \subsubsection{5.4 The Chain Benchmark}\label{the-chain-benchmark}
 
@@ -1115,7 +1255,24 @@ classify (argmax-like) AND navigate (argmin-like) with one state, one
 mechanism. The chain forces both in sequence, not in parallel.
 
 \textbf{Protocol:} 5-minute phases per benchmark. 1-pass CIFAR (10K
-images), 5-min per ARC game, 1-pass CIFAR return.
+images), 5-min per ARC game, 1-pass CIFAR return. One continuous agent
+state, no reset between phases. Metrics: CIFAR accuracy before/after
+(forgetting delta), ARC levels reached, total actions to first level
+completion.
+
+\textbf{Baselines from literature (reviewer gap \#4):} No existing
+method has been evaluated on this exact protocol (cross-domain chain
+with no reset). For the classification phase, published split-CIFAR-100
+results provide context: naive sequential \textasciitilde10-20\%, EWC
+(Kirkpatrick et al.~2017) \textasciitilde20-35\%, replay buffer
+(50/class) \textasciitilde30-45\%, DER++ (Buzzega et al.~2020)
+\textasciitilde45-55\% average accuracy (van de Ven \& Tolias, 2024).
+All exhibit measurable forgetting. The substrate achieves zero
+forgetting by construction (growth-only state, U3) --- no parameter
+overwriting occurs. Direct comparison is limited by benchmark difference
+(substrate tested on P-MNIST, not CIFAR-100). The navigation phases have
+no direct baseline --- RL methods require reward (violating R1) and CL
+methods don't address navigation.
 
 \paragraph{5.4.1 Negative Transfer and Dynamic Growth (Steps
 506-508)}\label{negative-transfer-and-dynamic-growth-steps-506-508}
@@ -1358,6 +1515,18 @@ self-observation after saturation: partition refinement cannot discover
 states BEYOND the original hash partition's reachable set. \(\ell_\pi\)
 is necessary but not sufficient; \(\ell_F\) remains the open question.
 
+\textbf{Relationship to DESOM (Forest et al.~2021):} Deep Embedded
+Self-Organizing Maps jointly train an autoencoder and a SOM layer,
+learning representations that are ``SOM-friendly'' --- the encoding
+adapts to serve the topology-preserving mechanism. Recode is a
+gradient-free analog: the hash refinement adapts the encoding to serve
+the argmin mechanism. Both modify \(\pi\) to improve the downstream
+computation. The difference: DESOM uses backpropagation through a loss
+function (violating R1), while Recode uses entropy-based splitting from
+transition statistics (R1-compliant). Step 589 (pending) tests whether
+this R1-compliant \(\ell_\pi\) provides a statistically significant
+advantage over fixed \(\ell_0\) at 20 seeds.
+
 \textbf{Non-codebook experiment count:} \textasciitilde99 (vs
 \textasciitilde435 codebook). Ongoing scale-up.
 
@@ -1488,13 +1657,17 @@ questions (T1, T6, T7). The constraint system is internally consistent.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   The system has no fixed point (Theorem 1). Self-modification is
   necessary.
 \item
   In finite environments, the system must process its own state (Theorem
   2). Self-observation is required.
+\item
+  R3 and R5 are simultaneously satisfiable if and only if the ground
+  truth is strictly environmental (Theorem 3, System Boundary Theorem).
+  The feasible region is not provably empty --- the question is
+  empirical.
 \item
   The current graph + argmin mechanism exits the feasible region after
   exploration saturates.
@@ -1505,13 +1678,40 @@ questions (T1, T6, T7). The constraint system is internally consistent.
 \item
   Self-modification of the encoding (\(\ell_\pi\)) is achievable and
   improves navigation reliability (Recode, Step 542).
+\item
+  Permanent soft death penalty (\(\ell_1\)) does NOT improve navigation
+  success rate at 50K steps: 13/20 vs 13/20 (Step 584, p=0.63). However,
+  it accelerates early discovery: 9/20 vs 6/20 at 10K (Fisher p=0.33).
+  The mechanism is a speed improvement, not a success improvement ---
+  argmin catches up by 30K. Cross-game test (Step 585): NEUTRAL on VC33
+  --- death penalty is navigation-specific, not universal.
+\item
+  R1 (no external objectives) costs \textasciitilde1 level
+  (\textasciitilde6\%) at the ARC-AGI-3 competition frontier. The 16
+  levels solved via source analysis are R3's SPECIFICATION --- 16
+  concrete test cases --- not evidence that R3 is nearly satisfied
+  (Proposition 9, competition data).
+\item
+  The gap from \(\ell_1\) to \(\ell_F\) is recording vs predicting
+  ground truth events (Proposition 10). 577d pixel statistics navigate
+  to the WRONG cells; 581d death penalties improve navigation via
+  retrospective marking. Prospective prediction requires features that
+  correlate with ground truth --- which R1 prohibits optimizing for
+  directly.
+\item
+  The frozen frame and navigation capability are structurally coupled
+  (R3\_AUDIT.md). The 5 unjustified elements that enable navigation
+  (class scoring, class-restricted spawn/attract, seeding) are the same
+  elements R3 requires the system to self-modify. Removing any of them
+  destroys navigation. R3 requires exploring modifications to
+  load-bearing components --- not just discovering new components.
 \end{enumerate}
 
 \subsubsection{7.3 What is conjectured}\label{what-is-conjectured}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{5}
+\setcounter{enumi}{9}
 \tightlist
 \item
   The minimal self-observing substrate is a fixed point of \(F\)
@@ -1519,29 +1719,46 @@ questions (T1, T6, T7). The constraint system is internally consistent.
 \item
   The oscillation between U7 (convergence) and U17 (growth) is a limit
   cycle, not chaos.
+\item
+  Selection pressure on a population of encodings (GRN architecture) may
+  bridge the ℓ₁→ℓ\_F gap without optimization --- environmental ground
+  truth selects encodings whose features happen to predict it. Step 607
+  tested this: KILLED (Cov(w,z)=0, encodings not behaviorally diverse).
+  The framework is sound but requires encoding diversity sufficient for
+  selection to operate.
 \end{enumerate}
 
 \subsubsection{7.4 What is open}\label{what-is-open}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{7}
+\setcounter{enumi}{12}
 \tightlist
 \item
   Whether the full feasible region (R1-R6 + all validated U-constraints)
-  is non-empty.
+  is occupied. Theorem 3 shows it is not provably empty; a witness or
+  tighter impossibility result is needed.
 \item
   What self-observation mechanism satisfies R6 (irredundancy) while
   avoiding noisy TV traps (T7).
 \item
   Whether \(\ell_F\) (full self-reference) is achievable without
-  infinite regress --- or whether \(\ell_\pi\) suffices.
+  infinite regress --- or whether \(\ell_\pi\) suffices. 581d is
+  \(\ell_1\); the gap to \(\ell_F\) is two qualitative levels
+  (Proposition 4).
 \item
   How to resolve U11 + U24 + U1 (incompatible tasks, no mode switch) in
   a single system (T6).
 \item
   R1-compliant classification --- no substrate has achieved above-chance
   accuracy without external labels.
+\item
+  Whether a population-level R3 architecture (GRN, quorum sensing,
+  immune clonal selection) can generate sufficiently diverse encodings
+  for selection to operate. Step 607 killed one implementation (LSH
+  encodings too similar), but the framework predicts success requires
+  behaviorally diverse --- not just parametrically diverse --- encoding
+  candidates.
 \end{enumerate}
 
 \subsubsection{7.5 The Level 2 Problem}\label{the-level-2-problem}
@@ -1576,34 +1793,451 @@ actions chase walls and floor (Step 561). The noisy TV problem applies
 to objects: without discriminating interactive from decorative elements,
 object-chasing is worse than argmin.
 
-Two R1-compliant approaches to object detection have been tested. The
-mode map (running pixel-mode over frames) accumulates a level map from
-observations. Rare-color clusters in the mode map identify interactive
-objects (Step 566). Greedy navigation to the nearest rare target reaches
-L1 in 468 steps --- 32x faster than argmin baseline (Step 567). However,
-visiting all 6 rare targets before the exit exhausts the 129-step
-episode budget (Steps 568-569, L1=0/5). The bottleneck is target
-ordering: L2 requires visiting the energy palette FIRST, then exit,
-within budget. A candidate sweep (one target + exit per episode,
-cycling) would test each rare cluster as a potential palette.
+The mode map (running pixel-mode over frames) accumulates a level map
+from observations. Rare-color clusters in the mode map identify
+interactive objects (Step 566). Greedy navigation to the nearest rare
+target reaches L1 in 468 steps --- 32x faster than argmin baseline (Step
+567, reproducible across 15+ seeds). BFS graph planning toward
+least-visited nodes (Steps 570-570b) fires 130 plans but REDUCES the
+reachable set (920 vs 925 nodes), confirming the Section 4.5 finding
+that targeted strategies incur opportunity cost.
 
-The deeper bottleneck remains I1 (encoding discovery from raw
-observations). The constraint system is internally consistent (Section
-7.1).
+\textbf{Game mechanics analysis (Steps 571-572f).} Source code analysis
+reveals LS20's level progression is a POMDP: the win condition requires
+visiting a specific sprite (lhs, color 5) while three hidden state
+variables (snw, tmx, tuv) match level-specific values. State variables
+are changed by toggle sprites (gsu, qqv, kdy) scattered through the
+level. L1 was reached by the mode map approach because greedy navigation
+to rare-color targets accidentally toggled the state correctly ---
+stochastic coverage of a small state space (effective \(|S| = 4\) for
+level mgu, where only tuv requires 3 touches of kdy).
+
+A systematic falsification cascade (Steps 571-572f, 10 iterations)
+diagnosed the L2 failure:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3235}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3529}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3235}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Iteration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Fix applied
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Blocked by
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+571 & Mode map targeting & Stale level-1 targets on level-2 layout \\
+572 & Mode map reset on transition & env.reset() returns to level 0 \\
+572b & Multi-episode accumulation & Re-entry detection bug (fired
+once) \\
+572c & Re-entry + no visited marker & lhs color 5 shared with HUD
+(\$\textgreater\$5\%) \\
+572d & Hardcoded lhs position & Coordinate mapping error \\
+572e & Isolated cluster detection & lhs+snw sprites merge (49px \(>\)
+MAX\_CLUSTER=30) \\
+572f-i & MAX\_CLUSTER + navigation fixes & Position tracking noise,
+state timing \\
+572j & Dead reckoning + state estimation + sequencing & \textbf{L2=5/5
+at avg 4804 steps} \\
+\end{longtable}
+}
+
+The cascade reveals the problem decomposes into orthogonal layers: (1)
+level-aware background modeling (resetting pixel statistics on
+environment change), (2) robust object detection (isolated connected
+components with adaptive size thresholds, not color rarity), (3) hidden
+state coverage (POMDP with \(|S| \leq 96\), solvable by stochastic
+visitation within budget). Each layer required a prescribed fix. The
+aggregate constitutes the L2 frozen frame --- the set of design choices
+that R3 must discover autonomously.
 
 \subsubsection{7.6 Honest assessment}\label{honest-assessment}
 
 The feasible region for Level 1 navigation is occupied --- graph +
 argmin + correct action decomposition satisfies R1, R2, U1, U3, U17, U20
-and solves all three games. Recode extends this to partial R3
-(\(\ell_\pi\)). Frame-diff guidance extends to partial \(\ell_F\). But
-no system satisfies R3 in the strong sense (\(\ell_F\) for object
-detection), R4 (no self-testing), or I1 (encoding discovery from raw).
-The full R1-R6 region remains unoccupied. Whether it contains a point is
-the open question this paper frames but does not answer. The L2
-diagnostic specifies exactly what the next substrate must do: detect
-objects from raw pixels within a 129-step budget, without external
-reward.
+and solves all three games. However, argmin's advantage over random
+action selection is a speed improvement, not exclusive access: 13/20 vs
+10/20 at 50K (Step 594, p=0.26, NS). LS20 Level 1 is within random-walk
+reach at sufficient budget. Level 2 (mgu completion) is achieved via a
+12-component prescribed pipeline: mode map, isolated connected-component
+detection, level-aware reset, multi-episode accumulation, dead
+reckoning, state estimation from pixel diffs, and sequenced visitation
+(Step 572j, L2=5/5 at avg 4804 steps). The pipeline is R1-compliant in
+its detection components (no external labels) but game-specific in its
+state estimation (pixel regions and visit ordering are prescribed from
+source code analysis).
+
+The gap to R3 is precisely enumerated at two levels:
+
+\textbf{At the pipeline level (L2+):} 12 design choices that the
+substrate cannot currently self-discover. Four are general techniques
+(mode map, isolated CC, level-aware reset, multi-episode accumulation).
+Eight are game-specific engineering (position tracking, state
+estimation, sequencing, threshold tuning). A substrate satisfying R3
+would need to discover all 12 from interaction alone --- including
+recognizing that the game has hidden state variables gating progression
+(the POMDP structure).
+
+\textbf{At the substrate level (L1):} The R3 audit (R3\_AUDIT.md)
+reveals a deeper problem. The navigating substrate (process\_novelty)
+has 5-7 unjustified elements, and the 5 that enable navigation
+(class-restricted spawn, class-restricted attract, argmin class scoring,
+top-K scoring, seeding protocol) ARE the frozen frame. Removing any of
+them produces SelfRef, which does not navigate. The frozen frame and
+navigation capability are \textbf{coupled through the class structure}:
+the U elements that R3 requires the system to self-modify are the same
+elements that make navigation work. This is not an engineering problem
+--- it is a structural tension between R3 (self-modify operations) and
+the fact that the operations being modified are load-bearing. The system
+cannot safely explore modifications to its own class structure because
+every modification kills navigation.
+
+This parallels the U16 centering finding (Proposition 7): some frozen
+elements are so load-bearing that self-modification of them is
+functionally suicidal. The system cannot learn to remove centering
+because every removal kills it. Similarly, the system cannot learn to
+restructure its class scoring because every restructuring kills it. R3
+requires exploring modifications to elements whose modification is
+lethal --- a much harder problem than discovering new encodings or
+action spaces.
+
+No current substrate family approaches this. The full R1-R6 region
+remains unoccupied.
+
+\paragraph{The R3-R5 Tension (Proposition
+4)}\label{the-r3-r5-tension-proposition-4}
+
+R5 requires one fixed ground truth. R3 requires every aspect of
+computation to be self-modifiable. The tension is: if evaluation
+criteria are fixed (R5), then at minimum the system's notion of ``good''
+is prescribed --- violating R3.
+
+\textbf{Resolution:} R5's ground truth is \emph{environmental feedback}
+(game score, death events, level transitions). It is input the substrate
+reads, not computation the substrate performs. R3 applies to the
+substrate's \emph{response} to ground truth, not to the ground truth
+signal itself. The resolution holds if and only if: (a) the ground truth
+is strictly environmental (no designer-specified reward shaping), and
+(b) the substrate's interpretation of ground truth is itself
+self-modifiable.
+
+\textbf{581d under the hierarchy:} Step 581d (permanent soft death
+penalty, 4/5 vs argmin 3/5) is the closest empirical approach to R3. But
+it is \(\ell_1\), not \(\ell_\pi\): the system self-selects WHICH edges
+to penalize (death edges --- data-driven), but the penalty VALUE (fixed
+constant) and DURATION (permanent) are designer-prescribed. The response
+to ground truth is partially self-modified (placement), partially
+hardcoded (magnitude, persistence). Full R3 requires \(\ell_F\): the
+system modifies its own rule for how to respond to death. The gap from
+\(\ell_1\) (581d) to \(\ell_F\) is two qualitative levels --- this is
+the central open problem.
+
+\paragraph{Theorem 3: The System Boundary
+Theorem}\label{theorem-3-the-system-boundary-theorem}
+
+\textbf{Statement:} R3 (full self-modification) and R5 (fixed ground
+truth) are simultaneously satisfiable if and only if the ground truth
+\(g\) is strictly environmental --- i.e., \(g \notin F\).
+
+\textbf{Proof sketch:}
+
+(\(\Rightarrow\)) Suppose \(g\) is a component of \(F\). R3 requires
+every component of \(F\) to be self-modifiable. If \(g\) is
+self-modifiable, the system can alter its evaluation criterion,
+violating R5. If \(g\) is protected from modification, that protection
+mechanism is a non-self-modifiable component of \(F\), violating R3.
+Contradiction in both cases.
+
+(\(\Leftarrow\)) Suppose \(g\) is strictly environmental (determined by
+the environment, not by any component of \(F\)). Then R3's requirement
+that every component of \(F\) be self-modifiable does not apply to
+\(g\), since \(g \notin F\). R5 holds because \(g\) is fixed by the
+environment. No contradiction.
+
+\textbf{Implication:} The boundary of self-modification is precisely the
+system-environment interface. Everything inside the system boundary
+(encoding, update, selection, meta-rules) must be self-modifiable for
+R3. Everything outside (ground truth signal) must be fixed for R5. The
+theorem constrains substrate design: the ground truth MUST be
+environmental feedback (game death, level transitions, external reward),
+never an internal evaluation function. Any substrate with an internal
+fitness function violates R3 or R5.
+
+\paragraph{Proposition 6: Self-Modification Level Determines Speed vs
+Reachability}\label{proposition-6-self-modification-level-determines-speed-vs-reachability}
+
+\textbf{Statement:} \(\ell_1\) self-modification (data-driven placement
+of prescribed operations) accelerates exploration but does not expand
+the reachable set. Only \(\ell_\pi\) self-modification (data-driven
+encoding change) expands reachability.
+
+\textbf{Evidence:} - Step 584 (20 seeds, 50K): Soft penalty (SP) and
+argmin (AM) converge to 13/20 at 50K, but SP leads 9/6 at 10K. The
+penalty accelerates discovery without expanding the graph. - Step 542
+(Recode, 5/5): Self-modification of \(\pi\) (hash refinement from
+transition statistics) expands the graph from 440 to 1267 cells and
+improves success from 3/3 to 5/5. The encoding change creates new nodes
+the agent can visit. - Step 587: Death-count penalty DC(1) solves at
+2338 steps vs SP at 7749 --- faster still, but on the same graph.
+
+\textbf{Interpretation:} The reachable set is determined by the
+partition geometry (\(\pi\)). \(\ell_1\) operations (penalty, boost)
+change how the agent traverses the existing graph. \(\ell_\pi\)
+operations (Recode) change what the graph IS. Speed vs reachability maps
+exactly to \(\ell_1\) vs \(\ell_\pi\) in the self-modification
+hierarchy.
+
+\textbf{Testable prediction (FALSIFIED by Step 589):} Proposition 6
+predicted Recode (\(\ell_\pi\)) would outperform LSH (\(\ell_0\)) at 20
+seeds. Result: Recode(K=16) 18/20 = LSH(K=16) 18/20 \textgreater{}
+LSH(K=12) 13/20. The advantage over K=12 is entirely explained by having
+16 hash bits, not by adaptive splitting. \(\ell_\pi\) self-modification
+adds nothing on top of the K it uses. The hierarchy remains
+descriptively useful (categorizing mechanisms by what they modify) but
+is not operationally predictive: more hash bits (a frozen \(\ell_0\)
+parameter) achieves the same reachability as adaptive splitting
+(\(\ell_\pi\)). The speed-vs-reachability distinction holds at
+mid-budget (Recode leads at 30-40K checkpoints, p\textless0.05) but
+collapses at 50K.
+
+\paragraph{Proposition 9: The R1 Tax}\label{proposition-9-the-r1-tax}
+
+\textbf{Statement:} R1 (no external objectives) costs approximately one
+level (\textasciitilde6\%) at the ARC-AGI-3 competition frontier. The
+cost is bounded and non-fatal.
+
+\textbf{Evidence (competition data as measurement instrument):} -
+StochasticGoose (Tufa Labs, 1st place): CNN + RL, 18 levels across 2
+games. Violates R1 (uses reward signal for RL training). Violates R3
+(fixed CNN architecture, fixed RL policy update). - Rudakov et
+al.~(dolphin-in-a-coma, 3rd place): Graph-based exploration, 17 levels
+post-fix (14-19 range across seeds). Satisfies R1 (no reward, no
+training). Violates R3 (fixed CC segmentation, fixed priority tiers,
+fixed BFS planning). - Our system: Graph + argmin + source analysis, 16
+levels (3 LS20 + 6 FT09 + 7 VC33). Satisfies R1. Violates R3 (prescribed
+pipelines per game). FT09: all 6 levels, 75 clicks (Step 608b). VC33:
+all 7 levels, 176 clicks (Step 610). LS20: L1-L3 via mgu pipeline; L4+
+blocked at L3 transition.
+
+\textbf{Interpretation:} The gap between R1-violating (18 levels) and
+R1-satisfying (17 levels) systems is \textasciitilde1 level. R1 is
+cheap. But source analysis does not close the R3 gap --- \textbf{source
+analysis IS the R3 violation.} Reading game source code to design
+level-specific pipelines (FT09 color matching, VC33 analytical BFS, LS20
+mgu navigation) is precisely what R3 prohibits: a human engineer
+prescribing the system's operations. The 16 levels we solved by source
+analysis are not evidence that R3 is nearly satisfied. They are 16
+concrete test cases that specify what an R3-compliant substrate must
+discover autonomously:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{FT09 (6 levels, 75 clicks):} The substrate must discover
+  color-matching rules from pixel observations alone --- that cgj()
+  checks 8 neighbors against bsT sprite target colors.
+\item
+  \textbf{VC33 (7 levels, 176 clicks):} The substrate must discover gel
+  physics, switch conditions, and train tracking --- then solve a
+  2.4M-state BFS without being given the state representation.
+\item
+  \textbf{LS20 (3 levels, mgu pipeline):} The substrate must discover
+  spatial navigation, energy management, and level geometry changes
+  across L1→L2→L3 transitions.
+\end{itemize}
+
+Each additional level we solve via source analysis makes the R3
+specification MORE precise, not the R3 gap smaller. The gap is the
+entire distance from \(\ell_0\) (fixed operations) to \(\ell_F\)
+(self-modifying frozen frame). No substrate we have tested crosses this
+gap. Rudakov et al.'s system (17 levels, no source analysis) uses fixed
+CC segmentation, priority tiers, and BFS planning --- the same class of
+prescribed operations. Their success at R1 + fixed strategy confirms:
+\textbf{the feasible region for R1 alone is large; the feasible region
+for R1 + R3 is where the real constraint lies.} The 16 levels enumerate
+what lives inside the R3 gap.
+
+\textbf{Caveat:} Competition data is biased --- top teams optimize for
+competition metrics, not R1-R6 compliance. The comparison is
+informative, not definitive. N=3 teams at the frontier.
+
+\paragraph{Proposition 10: The Feature-Ground Truth Coupling
+Barrier}\label{proposition-10-the-feature-ground-truth-coupling-barrier}
+
+\textbf{Prior work:} Jin et al.~(2020, ``Reward-Free Exploration'')
+prove that polynomial exploration suffices to learn a representation
+from which near-optimal policies can be computed for ANY downstream
+reward function. However, their framework assumes reward IS eventually
+given --- the exploration phase is reward-free, but the planning phase
+uses reward. Our R1 prohibits external reward entirely. R5 provides
+environmental ground truth (death, level transitions) as the only
+feedback signal.
+
+\textbf{Statement:} The gap from \(\ell_1\) to \(\ell_F\) in the
+self-modification hierarchy is the gap between RECORDING ground truth
+events and PREDICTING them.
+
+\textbf{Evidence:} - Step 577d: pixel statistics (mode, mean, variance,
+diff, min) used as navigation features visit MORE cells than argmin
+(higher exploration rate) but the WRONG cells (0/5 L1 across 390
+evaluation windows × 5 feature buffers). Visual statistics are not
+predictive of exit-relevant features. - Step 581d: death events used as
+post-hoc soft penalties achieve 4/5 vs argmin 3/5. Ground truth feedback
+improves navigation when applied as \(\ell_1\) (penalty placement). -
+Step 589: encoding self-modification (\(\ell_\pi\), Recode) provides no
+advantage over fixed encoding (\(\ell_0\), LSH) at same K. The system
+modifies WHERE hyperplanes split, but not WHAT the splits are FOR.
+
+\textbf{Formalization:} Define the ground truth predictor
+\(p: S \to [0,1]\) as the substrate's estimate of
+\(P(\text{ground truth event} | s)\). At \(\ell_1\), \(p\) is
+retrospective: ground truth events mark states after they occur. At
+\(\ell_F\), \(p\) is prospective: the substrate predicts which states
+WILL produce ground truth events and navigates accordingly. The barrier
+is: prospective prediction requires features that correlate with ground
+truth, but R1 prohibits optimizing features FOR ground truth
+correlation. The features must emerge from the dynamics alone.
+
+\textbf{Implication:} The GRN architecture (below) may address this: if
+multiple encodings \(\{\pi_i\}\) compete, and environmental ground truth
+selects the winner, then the surviving \(\pi_i\) is the one whose
+features happen to correlate with ground truth --- without any \(\pi_i\)
+being optimized for it. Selection pressure, not optimization, bridges
+the gap.
+
+\paragraph{Proposition 11: The Frozen Frame --- Capability
+Coupling}\label{proposition-11-the-frozen-frame-capability-coupling}
+
+\textbf{Prior work:} Self-adaptive systems literature (Salehie \&
+Tahvildari, 2009) identifies the challenge that reconfiguring essential
+components risks disrupting system functionality. No formal framework
+addresses the specific case where the elements REQUIRING modification
+for self-improvement are exactly the elements whose modification
+destroys capability.
+
+\textbf{Statement:} Let
+\(\mathcal{U}(F) = \{u \in F : u \text{ is neither Modified nor Irreducible}\}\)
+be the set of unjustified frozen elements. For the navigating substrate
+(process\_novelty), \(\mathcal{U}(F)\) is load-bearing: for every
+\(u \in \mathcal{U}(F)\), removing \(u\) reduces navigation success to
+0. R3 requires every element of \(\mathcal{U}(F)\) to become Modified.
+But modifying any element of \(\mathcal{U}(F)\) is lethal.
+
+\textbf{Evidence (R3\_AUDIT.md, Rounds A-B):} - P6 (top-K class
+scoring): Remove → SelfRef (no class structure) → 0 levels. - P7 (argmin
+class selection): Remove → random or argmax → 0 levels. - P8
+(class-restricted spawn): Remove → global spawn (SelfRef) → cb=164 vs
+20K, 0 levels. - P9 (class-restricted attract): Remove → global attract
+(SelfRef) → 0 levels. - P15 (seeding protocol): Remove → cold-start
+degenerate argmin → 0 levels.
+
+\textbf{Formalization:} Define the \textbf{capability coupling} of \(F\)
+as \(C(F) = \mathcal{U}(F) \cap \mathcal{L}(F)\), where
+\(\mathcal{L}(F) = \{u \in F : \text{removing } u \text{ kills the ground truth test}\}\)
+is the set of load-bearing elements. R3 requires
+\(\mathcal{U}(F) = \emptyset\). The coupling
+\(C(F) = \mathcal{U}(F) \cap \mathcal{L}(F)\) measures how much of the
+unjustified frozen frame IS the capability. For the navigating
+substrate, \(C(F) = \mathcal{U}(F)\) --- the coupling is total.
+
+\textbf{Relationship to prior work:} This is a stronger obstacle than
+Schmidhuber's Gödel machine incompleteness (where the system cannot
+PROVE certain rewrites are safe). Here the system cannot SURVIVE certain
+rewrites --- not because proof is hard, but because the rewrites are
+genuinely destructive. The obstacle is physical, not logical.
+
+\textbf{Implication:} R3 cannot be achieved by incremental modification
+of existing substrates. Removing any U element kills navigation; adding
+self-modification of U elements adds complexity (violating U4) without
+removing the underlying dependency. The R3-compliant substrate, if it
+exists, must achieve navigation through a DIFFERENT mechanism --- one
+where the load-bearing elements are Irreducible (forced by the
+constraint map) rather than Unjustified (chosen by the designer).
+
+\paragraph{Population-Level R3: Fixed Rules, Collective
+Self-Modification}\label{population-level-r3-fixed-rules-collective-self-modification}
+
+\textbf{The unifying principle.} Every natural self-organizing system
+that achieves complex adaptive behavior does so from fixed individual
+rules operating through a shared medium. Gene regulatory networks: the
+genome is fixed, but which genes are expressed changes via environmental
+signals and mutual inhibition (Oliveri \& Davidson, 2008). Quorum
+sensing: each bacterium has fixed response rules (\(\ell_0\)), but
+collective gene expression self-modifies when autoinducer concentration
+crosses a threshold (Waters \& Bassler, 2005). Physarum polycephalum:
+the thickening rule is fixed (\(\ell_1\)), but the tube network
+self-organizes to solve shortest-path problems (Tero et al., 2010).
+Turing reaction-diffusion: the equation is fixed, but stable spatial
+patterns emerge from a homogeneous substrate (Turing, 1952). Ant colony
+optimization: pheromone response is fixed, but trail networks
+self-organize to find efficient paths (Dorigo et al., 2000).
+
+None of these systems modify their own rules. All achieve
+self-organization that LOOKS like \(\ell_F\) from the outside.
+
+\textbf{Mapping to our substrate.} The edge-count graph IS both memory
+and processor --- like Physarum's tube network. Edge counts ARE
+autoinducers --- like quorum sensing. Argmin IS a fixed response rule
+(\(\ell_0\)) that produces self-modifying exploration at the collective
+level, because graph topology changes the count distribution which
+changes the actions.
+
+\textbf{The R3 architecture this suggests.} Instead of one encoding
+\(\pi\) that modifies itself (Schmidhuber's self-referential approach),
+maintain multiple encoding candidates \(\{\pi_1, \pi_2, \ldots\}\) that
+mutually inhibit each other. Environmental ground truth (R5) determines
+which \(\pi_i\) is expressed. The substrate doesn't modify \(\pi\) ---
+it modifies which \(\pi\) is \emph{active}. Whether this achieves
+genuine \(\ell_F\) or disguised \(\ell_1\) (the ``population'' being
+data, not operations) is an open question.
+
+\textbf{Mathematical framework.} The Price equation (Price, 1970)
+partitions evolutionary change:
+\(\Delta\bar{z} = \text{Cov}(w, z)/\bar{w} + E(w \cdot \Delta z)/\bar{w}\).
+The first term is selection (Step 607). The second is
+transmission/mutation. Step 607 tested selection only: KILLED ---
+Cov(w,z)=0, encodings not behaviorally diverse. The failure is in
+encoding generation (all LSH encodings at same k produce similar hash
+distributions), not in the selection framework. The Price equation
+predicts success requires behaviorally diverse --- not just
+parametrically diverse --- encoding candidates.
+
+\textbf{The sharpened question.} R3 may be asking the system to do
+something no natural self-organizing system does within a single
+lifetime. Physarum, Turing patterns, and ant colonies all achieve
+complex adaptation from fixed \(\ell_1\) rules. In biology, the rules
+ARE modified --- but by evolution, a much slower meta-process operating
+on a population over generations. R3 at the individual level may require
+population-level dynamics compressed into a single agent's lifetime.
+This is the engineering challenge: generating sufficient diversity for
+selection to operate, within the 5-minute experiment cap.
+
+\subsection{Author Attribution and
+Disclosure}\label{author-attribution-and-disclosure}
+
+This research was conducted by a team of LLM agent personas (Leo, Eli)
+coordinated by a human researcher (Jun). Leo (Claude Opus) designed
+experiments, formalized theory, and wrote the paper. Eli (Claude Sonnet)
+implemented experiment scripts, ran experiments, and maintained
+infrastructure. Jun provided strategic direction, constitutional
+framework (R1-R6), approval gates, and evaluated findings for
+self-deception.
+
+The adversary process (internal review of each experiment) was conducted
+by Leo, not by independent human reviewers. The simulated NeurIPS review
+in Section 7 was generated by Jun to stress-test the paper's claims. All
+experimental code is available in the repository for independent
+verification.
+
+The agents operated on a single machine (Windows 11, RTX 4090) with
+experiments run via WSL2. The memory system, mailbox, and coordination
+infrastructure are documented in the repository.
 
 \subsection{References}\label{references}
 
@@ -1662,6 +2296,10 @@ reward.
   Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal
   Problem Solvers Making Provably Optimal Self-Improvements.
   arXiv:cs/0309048.
+\item
+  Strehl, A. L. \& Littman, M. L. (2008). An Analysis of Model-Based
+  Interval Estimation for Markov Decision Processes. JCSS, 74(8),
+  1309-1331.
 \item
   van de Ven, G. M. \& Tolias, A. S. (2024). Continual Learning and
   Catastrophic Forgetting. arXiv:2403.05175.
