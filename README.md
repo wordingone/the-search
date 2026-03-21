@@ -2,7 +2,9 @@
 
 **Can a system improve itself by criteria it generates?**
 
-This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 612+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), three theorems, and ten propositions characterizing the feasible region are the main contributions.
+This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 612+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), three theorems, and twelve propositions characterizing the feasible region are the main contributions.
+
+**[Interactive search space visualization](search_space.html)** — 378 experiments mapped to a 3D sphere. Center = resolved. Edge = open. R3 (the central question) has 10% of experiments. Run `python viz.py` to regenerate from current repo state.
 
 ---
 
