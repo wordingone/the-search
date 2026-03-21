@@ -31,8 +31,8 @@ WHAT WAS FOUND (genuine contributions):
 
 WHAT WAS NOT FOUND:
   - The atomic substrate. LVQ is not it.
-  - Self-modifying metric (Stage 7 open)
-  - Representation discovery from raw observations (Stage 8 open)
+  - Self-modifying metric (R3 — open, central problem)
+  - Representation discovery from raw observations (I1 — open)
   - Purposeful exploration (current system is biased random walk)
   - Temporal reasoning, transfer, richer output
 
@@ -146,8 +146,8 @@ Step 581d: SIGNAL 4/5 vs 3/5 argmin. Soft penalty PENALTY=100, no hard block. Fu
 Step 582: SIGNAL 4/5 vs 3/5 argmin. Ops as edge data: op2 (death penalty) + op3 (surprise boost). 84% op0, 6-10% op2, 10-12% op3. 24-28K surprise events/seed. Both 581d and 582 converge on 4/5. R3 conjecture holds: argmin + read/apply op_codes is the frozen frame.
 
 ACTIVE FRONTIER: Soft penalty confirmed. Hard block kills exploration; soft penalty improves it. R3 test via ops-as-data (582) in progress.
-  - Current non-codebook count: ~97. Target: 400 (to match codebook's 435).
-  - 11 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
+  - Current non-codebook count: ~177. Target: 400 (to match codebook's 435).
+  - 12 families tested. Recode is strongest non-codebook (5/5 L1, 2/3 chain).
   - 7 provisional constraints need targeted experiments: U5, U8, U9, U18, U19, U21, U26.
   - Compression complete (3 iterations with Hart adversary). Birth phase active.
 ```

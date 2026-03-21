@@ -154,7 +154,7 @@ The **self-modification level** of a substrate is determined by which components
 
 Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried action) and $g_{exploit} = \text{argmax}_a \text{score}(s, a)$ (highest-confidence action). These select opposite actions when the least-explored action is also the least-confident.
 
-**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 546+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
+**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 612+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
 
 #### U11: Discrimination and navigation require incompatible action selection
 
@@ -362,7 +362,7 @@ Relationship to Section 4: Edge counts grow (U17 formally satisfied) but margina
 
 ### 5.3 Architecture Family Summary
 
-11 families tested across 612+ experiments.
+12 families tested across 612+ experiments.
 
 | Family | Experiments | Navigation result | Kill reason |
 |---|---|---|---|
@@ -482,7 +482,7 @@ Recode is LSH k=16 with passive self-refinement: when a cell produces inconsiste
 
 **Relationship to DESOM (Forest et al. 2021):** Deep Embedded Self-Organizing Maps jointly train an autoencoder and a SOM layer, learning representations that are "SOM-friendly" — the encoding adapts to serve the topology-preserving mechanism. Recode is a gradient-free analog: the hash refinement adapts the encoding to serve the argmin mechanism. Both modify $\pi$ to improve the downstream computation. The difference: DESOM uses backpropagation through a loss function (violating R1), while Recode uses entropy-based splitting from transition statistics (R1-compliant). Step 589 (pending) tests whether this R1-compliant $\ell_\pi$ provides a statistically significant advantage over fixed $\ell_0$ at 20 seeds.
 
-**Non-codebook experiment count:** ~99 (vs ~435 codebook). Ongoing scale-up.
+**Non-codebook experiment count:** ~177 (vs ~435 codebook). Ongoing scale-up.
 
 ## 6. Degrees of Freedom
 
