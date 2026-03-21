@@ -195,6 +195,8 @@ Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried act
 
 **Relationship to prior work:** Centering is standard (LeCun 1998). The specific finding that it's load-bearing for TWO architecturally distinct families (codebook: prevents cosine saturation; LSH: prevents hash concentration) is our empirical contribution, not the formalization.
 
+**Ablation (Step 593):** LSH k=12 without centering: 0/5 L1, avg 5 cells (vs 222 cells with centering). The hash collapses to ~5 states without mean subtraction. One line of preprocessing — `x -= x.mean()` — is the difference between a functioning exploration system and a degenerate one. This confirms U16 is not a soft recommendation but a hard requirement.
+
 #### U22: Convergence kills exploration
 
 **Prior work:** In bandit theory, a converged policy exploits one arm and never explores others (Lai & Robbins, 1985). In RL, policy convergence to a deterministic policy eliminates exploration (Sutton & Barto, 2018). The formal statement that convergent dynamics in interactive environments produce stationary behavior is well-established.
