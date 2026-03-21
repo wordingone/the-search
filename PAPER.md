@@ -652,6 +652,14 @@ Gene regulatory networks (GRNs) solve a structural analog of R3. The genome is f
 
 This suggests an alternative architecture for R3 that avoids infinite regress: instead of one encoding $\pi$ that directly modifies itself (Schmidhuber's self-referential approach), maintain multiple encoding candidates $\{\pi_1, \pi_2, \ldots\}$ that mutually inhibit each other. Environmental ground truth (R5) determines which $\pi_i$ is expressed. The substrate doesn't modify $\pi$ — it modifies which $\pi$ is *active*. This achieves $\ell_F$ through selection pressure on a population of encodings, not through self-referential weight modification. Whether this is genuinely $\ell_F$ or disguised $\ell_1$ (the "population" being data, not operations) is an open question — but it reframes the R3 problem from "how does the system rewrite its own code?" to "how does the system select among codes it has already generated?"
 
+#### Connection: Quorum Sensing and Population-Level R3
+
+Quorum sensing (Nealson et al., 1970; Waters & Bassler, 2005) achieves collective behavior switching without central control. Each bacterium produces AND responds to signaling molecules (autoinducers). When local concentration exceeds a threshold — determined by population density, not by design — the entire colony switches gene expression. Individual response rules are fixed ($\ell_0$); collective behavior is self-modifying.
+
+This maps to the substrate: edge counts ARE autoinducers. Spawn-on-novelty IS quorum sensing inverted — the ABSENCE of matching entries triggers growth. Argmin IS a fixed response rule ($\ell_0$ individually) that produces self-modifying exploration ($\ell_\pi$ collectively) because the graph topology changes the count distribution which changes the actions.
+
+**The implication for R3:** R3 may not require individual-level self-reference (Schmidhuber's SRWM). A population of $\ell_0$ agents with shared state and threshold-triggered mode switching achieves R3 at the COLLECTIVE level. The GRN substrate (Step 606) tests this: multiple fixed encodings, environmental selection, emergent $\ell_F$. If the collective self-modifies while individuals don't, R3 is satisfied in the same way quorum sensing produces adaptive behavior from fixed gene circuits.
+
 ## Author Attribution and Disclosure
 
 This research was conducted by a team of LLM agent personas (Leo, Eli) coordinated by a human researcher (Jun). Leo (Claude Opus) designed experiments, formalized theory, and wrote the paper. Eli (Claude Sonnet) implemented experiment scripts, ran experiments, and maintained infrastructure. Jun provided strategic direction, constitutional framework (R1-R6), approval gates, and evaluated findings for self-deception.
