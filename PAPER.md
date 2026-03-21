@@ -269,11 +269,33 @@ The meta-graph has 16 nodes × 4 actions = 64 edges. Negligible overhead. The fr
 
 **Implication for the eigenform:** Pure self-observation $F(s)(\text{enc}(s))$ without environmental input would degenerate per Zenil's theorem. The mechanism MUST interleave environment steps and self-observation steps: $F(s)(x)$ then $F(s)(\text{enc}(s))$. R5's environmental ground truth (game death, level transitions) provides the external grounding that prevents entropy decay. This predicts the interleaving ratio matters: too much self-observation → degeneration; too little → no benefit. The optimal ratio is a degree of freedom.
 
-**Testable predictions:**
-1. Meta-graph tie-breaking vs random tie-breaking: if meta improves L1 success rate, self-observation provides useful signal at the bootstrap stage.
-2. Meta-graph bias on saturated cells: if meta selects different actions than per-cell argmin in the attractor basin (Step 550's 364-node active set), self-observation provides signal at the frontier stage.
-3. If meta-argmin = per-cell argmin everywhere, self-observation via the same $F$ is inert — the self-observation mechanism must be qualitatively different from environment observation.
-4. Interleaving ratio: self-observation every N steps. If N=1 (every step) degenerates and N=∞ (never) is baseline, there exists an optimal N that maximizes reachable set expansion.
+**Testable predictions (made before experiments, tested in Steps 620-629):**
+1. Meta-graph tie-breaking vs random tie-breaking: if meta improves L1 success rate, self-observation provides useful signal at the bootstrap stage. **RESULT: No improvement.** Step 620: L1=5/5 matches baseline exactly. Self-observation is inert at L1.
+2. Meta-graph bias on saturated cells: if meta selects different actions than per-cell argmin in the attractor basin. **NOT YET TESTED** at the meta-graph level (eigenform tested simpler statistics).
+3. If meta-argmin = per-cell argmin everywhere, self-observation via the same $F$ is inert. **CONFIRMED.** Steps 620-626: self-observation via graph statistics produces AVOID/PREFER/NEUTRAL ops (94-99% NEUTRAL). Step 626: freezing ops after 5000 steps doesn't degrade L1. The mechanism produces non-zero output but has no performance effect.
+4. Interleaving ratio. **ANSWERED DIFFERENTLY.** Step 621: adaptive M→2000 means self-observation self-terminates — the distribution stabilizes, new observations add no information. The "optimal N" question is moot: the system naturally reduces self-observation frequency to zero.
+
+#### Proposition 13: Eigenform Inertness
+
+**Prior work:** Kauffman (2009, 2017) shows every transformation in a reflexive domain has a fixed point (eigenform). In our framework, $F(s)(\text{enc}(s))$ is the eigenform — the substrate applying its own transition function to its own state. Kauffman's theory predicts convergence to a stable self-description. Gödel's incompleteness theorem predicts a system cannot prove statements about states outside its own axioms — analogous to our graph containing no information about unvisited nodes.
+
+**Our finding (empirical, 10 experiments):** Self-observation on the existing graph converges to a fixed point (eigenform) and is inert for navigation. Specifically:
+
+- Step 620: $F(s)(\text{enc}(s))$ computes percentile thresholds on edge-count distributions. AVOID grows from 0% → 8% of nodes. L1=5/5 (matches baseline — no improvement).
+- Step 621: Adaptive observation frequency M → 2000. Self-observation self-terminates when the distribution stabilizes. **This is the eigenform fixed point:** $F(s)(\text{enc}(s)) \approx s$ — self-observation produces no new information.
+- Step 626: Freezing ops after 5000 steps has zero effect on L1. The eigenform is inert even when active.
+- Step 629: L2=0/5 even with L1-success tagging. Self-observation of the EXISTING graph cannot produce information about UNVISITED states.
+- Step 625: Chain benchmark P3 is 7-53x SLOWER with eigenform. AVOID contaminates known paths — the eigenform HURTS when it acts, because it avoids familiar territory without knowing what unfamiliar territory contains.
+
+**Formalization:** Let $G = (N, E, \text{count})$ be the graph state. Self-observation $h: S \to S$ computes statistics $\sigma(G)$ that are functions of $\{(n, a, \text{count}(n,a)) : n \in N, a \in A\}$. Level 2 requires reaching nodes $n' \notin N$. For any statistic $\sigma$ computable from $G$, $\sigma$ is a function of visited states only. No function of $\{n \in N\}$ produces information about $\{n' \notin N\}$ without a model that predicts observations beyond the frontier.
+
+**Proposition 13 (Eigenform Inertness):** Self-observation via $F(s)(\text{enc}(s))$ is necessary (Theorem 2) but not sufficient for Level 2+. The gap is informational: the graph stores the past; Level 2 requires predicting the future. Introspection identifies structure in visited states but cannot navigate to unvisited states. This is the same wall as the noisy TV barrier (Section 4.5) from a different angle — both show that signals derived from the existing state cannot guide exploration beyond it.
+
+**Relationship to prior work:** Kauffman's eigenform theory predicts convergence — confirmed (Step 621: M→2000). Gödel's incompleteness predicts self-referential limitations — confirmed (Step 629: L2=0/5). Our contribution: the empirical demonstration that eigenform inertness is not an implementation failure but a structural limitation. Self-observation MUST be supplemented by a mechanism that predicts unvisited states — a world model or forward prediction.
+
+**Implications for R3:** R3 requires every aspect to be self-modified. Eigenform provides one form of self-modification (AVOID/PREFER ops derived from state). But eigenform alone cannot achieve L2. R3 compliance at L2+ requires something beyond self-observation: state-derived prediction of UNSEEN observations. This is the I1 gap (representation discovery) expressed in the R3 framework.
+
+**Degrees of freedom:** What predicts unvisited states? Two candidates: (1) frame-delta prediction (Steps 630-631, killed at k=16 — too fine-grained); (2) forward model from transition statistics (if action A from node N often leads to observation class C, predict C for untried actions from similar nodes). Neither tested successfully.
 
 ### 4.5 Argmin Robustness and the Noisy TV Barrier
 
@@ -546,7 +568,7 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 | T4: Never delete vs no redundancy | U3 + R6 | **Resolved** — irredundant growth (Sec 4.2). Every new component covers unique territory. |
 | T5: Infinite growth vs finite environment | U17 + finite $X$ | **Resolved** — Theorem 2. Growth shifts to state-derived components. |
 | T6: Navigation vs classification | U11 + U24 + U1 | Open — state-dependent behavior (DoF 11). No implementation yet. |
-| T7: Self-observation vs noisy TV | Theorem 2 + Sec 4.5 | Open — self-observation must avoid irreducible-noise traps. Constrains mechanisms. |
+| T7: Self-observation vs noisy TV | Theorem 2 + Sec 4.5 | **Sharpened** — Proposition 13 (eigenform inertness): self-observation on visited states cannot guide exploration to unvisited states. Self-observation IS necessary but provides only retrospective signal, not prospective guidance. Forward prediction required. |
 | T8: Centering vs domain separation | U16 + chain benchmark | **Resolved** — per-domain centering (Step 546). R1-compliant via on_reset. |
 
 **No undiscovered contradictions.** All tensions are either resolved (T2, T4, T5, T8), constrained (T3), or identified as open questions (T1, T6, T7). The constraint system is internally consistent.
@@ -565,6 +587,7 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 9. The gap from $\ell_1$ to $\ell_F$ is recording vs predicting ground truth events (Proposition 10). 577d pixel statistics navigate to the WRONG cells; 581d death penalties improve navigation via retrospective marking. Prospective prediction requires features that correlate with ground truth — which R1 prohibits optimizing for directly.
 10. The frozen frame and navigation capability are structurally coupled (Proposition 11, R3_AUDIT.md). The 5 unjustified elements that enable navigation are the same elements R3 requires the system to self-modify. R3 requires exploring modifications to load-bearing components.
 11. The minimal frozen frame of any self-modifying substrate is the interpreter (compare-select-store) + the ground truth (R5) (Proposition 12). $\ell_F$ as written is impossible for computable systems — the interpreter cannot rewrite itself without infinite regress (Von Neumann, Kleene, Schmidhuber). But $\ell_F$ is achievable IN EFFECT via expressive $\ell_1$: if the state space encodes operations the interpreter executes, the system's behavior is indistinguishable from $\ell_F$.
+12. Self-observation via the eigenform $F(s)(\text{enc}(s))$ converges to a fixed point and is inert for navigation (Proposition 13, Steps 620-629). Self-observation is necessary (Theorem 2) but not sufficient for L2+. The gap is informational: the graph stores the past; L2 requires predicting the future. Introspection $\neq$ foresight.
 
 ### 7.3 What is conjectured
 
