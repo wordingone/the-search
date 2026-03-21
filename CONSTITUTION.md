@@ -161,6 +161,37 @@ The team lead (Opus) serves as the constructive adversarial — challenging assu
 
 ---
 
+## R3 Audit of the Search Itself
+
+*Added 2026-03-21. The search process IS structurally identical to the substrate (Finding 12, external audit). If R3 applies to the substrate, it applies to the search. The search's frozen frame is a valid compression target.*
+
+The search is a system that processes experiments (observations), extracts constraints (state), and selects next directions (actions). Its R3 audit:
+
+| # | Element | Class | Evidence |
+|---|---------|-------|----------|
+| 1 | 4 modes (experiment/compress/birth/explore) | **U** | Designer-chosen. The search doesn't add or remove modes based on evidence. |
+| 2 | Mode ordering (experiment → compress → birth → explore) | **U** | Jun-imposed (2026-03-21). Not derived from experimental evidence. |
+| 3 | Hart debate protocol (spawn → challenge → respond → resolve) | **U** | Fixed structure. Same adversarial format every iteration. |
+| 4 | Constraint classification format (U/P/S/I/E) | **U** | Designer-chosen. The search doesn't modify how it classifies. |
+| 5 | Constitution (R1-R6) | **M** | R1 clarification modified (2026-03-21 Hart debate). R2-R6 untouched in 200+ experiments. Partially modified. |
+| 6 | Constraint map entries | **M** | Modified every compression iteration. U27 created and killed in one session. |
+| 7 | Skill definitions (compress/birth/experiment) | **narrow U** | Content modified (compress now targets CONSTITUTION). Structure frozen (read context → act → commit). |
+| 8 | Paper format and sections | **U** | Fixed academic structure. |
+
+**Score: 2 M, 6 U. R3: FAIL.**
+
+The search is at ℓ₀: its interpreter (skills, modes, protocol) is fixed. The constraint map and constitution are the data it reads and writes. **The search modifies DATA but not OPERATIONS.** This is the same structural position as the codebook substrate — it modifies entries (data) but not cosine/attract/spawn (operations).
+
+**What R3 compliance for the search would require:**
+- The search modifying HOW it compresses (not just what it compresses)
+- The Hart debate protocol adapting based on past debate outcomes
+- Mode selection driven by evidence (what worked last time), not by fixed ordering
+- The classification system evolving when constraints don't fit existing categories
+
+**The search's frozen frame IS the substrate's frozen frame.** When the search reaches ℓ_F — modifying its own rules for modifying rules — it will have found the substrate. The two problems are the same problem.
+
+---
+
 ## Phase 1 Record
 
 Experiments across four substrate architectures (Living Seed, ANIMA, FoldCore, TopK-Fold) mapped the feasible region's walls. See CONSTRAINTS.md for the complete extraction. See git history for the original sequential stages framework (superseded by R1-R6 above).
