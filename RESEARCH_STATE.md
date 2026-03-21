@@ -57,7 +57,14 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 633 (Binary change mask — FIRST delta signal, unique_dc=2 over-collapse)
+CURRENT STEP: 635 (Frontier-gradient action selection — running)
+
+Step 634: Binary mask with separate delta H matrix. kd=4: L1=4/5, unique_dc=5-16. kd=8: L1=4/5,
+  unique_dc=10-22. PREFER bias active (33-42%). BUT: L1 steps IDENTICAL to pure argmin for 4/5 seeds
+  (s0=3803, s1=17617, s2=NO_L1, s4=11685 — all match Step 630 exactly). Only s3 varies.
+  ROOT CAUSE: single productive_cell global tagging doesn't generalize across seeds. The delta signal
+  EXISTS (633 showed it) but the mechanism for USING it is too coarse. Delta direction at current
+  mechanism: approaching KILL. Need per-context association, not global tagging.
 
 Step 633: Binary change mask. |avgpool_delta| > epsilon (adaptive ~0.018) per 16x16 block → binary
   → pack first 16 bits → hash. L1=5/5. **FIRST encoding to populate stale_set AND productive_set.**
