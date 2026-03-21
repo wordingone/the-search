@@ -57,7 +57,18 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 631 (Delta causality probe — delta structure too fine-grained at k=16)
+CURRENT STEP: 633 (Binary change mask — FIRST delta signal, unique_dc=2 over-collapse)
+
+Step 633: Binary change mask. |avgpool_delta| > epsilon (adaptive ~0.018) per 16x16 block → binary
+  → pack first 16 bits → hash. L1=5/5. **FIRST encoding to populate stale_set AND productive_set.**
+  unique_dc=2, prod=1.0, stale=1.0 on ALL seeds. Ops active: 66% PREFER, 21% AVOID, 13% NEUTRAL.
+  BUT: over-collapse (2 delta cells → unconditional bias). 3/5 seeds 10-18x slower.
+  SIGNAL: delta structure exists in binary masks. PROBLEM: 2 cells too coarse for context-sensitivity.
+  Next: increase bits (use more than first 16) to get 4-8 unique delta cells.
+
+Step 632: Coarser delta hashing. k=4: L1=1/5, 16 unique_dc, stale=0 — state space collapsed.
+  k=8: L1=3/5, 185 unique_dc, stale=0 — still too spread. KILL. Note: step 632 coarsened state AND
+  delta hashing together (same H matrix). k=4 failure is state collapse, not delta quality.
 
 Step 631: Delta causality probe (diagnostic). L1=4/5. ~220 unique delta_cells per action, top_frac
   6-21%, invariant_frac 2-3%. NO action-invariant universals. Each action produces wildly different
