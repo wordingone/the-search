@@ -107,12 +107,12 @@ python experiments/run_step474_kmeans_l2.py                 # K-means graph on L
 the-search/
   CONSTITUTION.md        -- 5 principles + 6 rules (R1-R6)
   CONSTRAINTS.md         -- Constraint map with cross-family validation
-  RESEARCH_STATE.md      -- Full experiment log (Steps 1-588+)
+  RESEARCH_STATE.md      -- Full experiment log (Steps 1-612+)
   PAPER.md               -- Publication draft (compiles to LaTeX)
   build-paper.py         -- LaTeX compilation pipeline
 
   substrates/            -- Substrate implementations (Phase 1)
-  experiments/           -- 590+ experiment scripts
+  experiments/           -- 400+ experiment scripts
   experiments/foldcore-steps/  -- Archived Phase 1 scripts (Steps 1-80). Hardcoded paths to local data. Not portable — included for historical record only.
   research/              -- Research methodology and frameworks
   archive/               -- Archived Phase 1 infrastructure

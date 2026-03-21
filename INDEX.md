@@ -1,6 +1,6 @@
 # The Search — Index
 
-*596+ experiments across 12 families. These are the ones that matter.*
+*612+ experiments across 12 families. These are the ones that matter.*
 
 ---
 
@@ -12,6 +12,11 @@
 | [432](experiments/run_step432_labeled_vs_self.py) | Classification requires external labels | Self-generated labels: 9.8% (below chance). The 94.48% P-MNIST result depends entirely on external supervision. 84.68pp gap. R1 violation. |
 | [418](experiments/run_step418_readiswrite.py) | argmin ≠ argmax | Navigation needs argmin (least-visited). Classification needs argmax (most-similar). One mechanism cannot serve both. The substrate must be general enough for both — but not by switching between them. |
 
+| [572j](experiments/run_step572j_mgu_l2.py) | LS20 L2=5/5 — first ever multi-level solution | 12-component prescribed pipeline (mode map + isolated CC + dead reckoning + state estimation). Enumerated the R3 gap at the pipeline level: 12 design choices the substrate can't self-discover. |
+| [589](experiments/run_step589_recode_vs_lsh.py) | Proposition 6 FALSIFIED — K confound | Recode(K=16) 18/20 = LSH(K=16) 18/20. ℓ_π advantage was entirely K=16 vs K=12, not self-modification. The hierarchy is descriptive, not predictive. |
+| [608b](experiments/run_step608b_ft09_full_chain.py) | FT09 all 6 levels solved (75 clicks) | Source analysis: color-matching puzzle. Same mechanism all levels. Established FT09 as R3 test case. |
+| [610](experiments/vc33_l7_analytical_bfs.py) | VC33 all 7 levels solved (176 clicks) | Source analysis + analytical BFS (2.4M states). Established VC33 as R3 test case. |
+
 ## Tier 2 — Established key empirical facts
 
 | Step | What happened | Why it matters |
@@ -20,6 +25,9 @@
 | [481](experiments/run_step481_prediction_error.py) | Prediction error 0/10 | Smart exploration kills navigation. Every targeted action strategy performs worse than uniform argmin. Coverage, not signal-chasing, is what works. |
 | 484/[485](experiments/run_step485_ls20_9of10.py) | 6/10 was budget artifact; 9/10 at 120K | The apparent 6/10 ceiling was step budget, not mechanism. Hard seeds navigate at 35K-115K. No architecture change needed — just more time. |
 | 489–[493](experiments/run_step493_kmeans_level2.py) | Level 2 closed across two families | LSH (259 cells) and k-means (286 cells) both plateau. The reachable state space is bounded regardless of mapping architecture. Level 2 requires purposeful exploration, not a better map. |
+| [542](experiments/run_step542_recode_ls20.py) | Recode 5/5 — first ℓ_π that navigates | LSH k=16 + passive self-refinement from transition statistics. The observation→cell mapping self-modifies AND navigation succeeds. But Step 589 reveals K confound. |
+| [594](experiments/run_step594_random_vs_argmin.py) | Random vs argmin: NOT significant | Random 10/20 vs argmin 13/20 at 50K (p=0.26). Argmin is a speed advantage, not exclusive access. The substrate is a speed improvement over random walk, not a qualitatively different regime. |
+| [576](experiments/run_step576_vc33_modemap.py) | Cross-game detection generalizes | Mode map + isolated CC pipeline discovers interactive objects across all 3 games without game-specific tuning. One detection mechanism, three games. |
 
 ## Tier 3 — Filled in the picture
 
@@ -51,7 +59,7 @@
 |----------|-----------------|
 | [CONSTITUTION.md](CONSTITUTION.md) | R1-R6: the six rules any substrate must satisfy |
 | [CONSTRAINTS.md](CONSTRAINTS.md) | Full constraint map with cross-family validation |
-| [RESEARCH_STATE.md](RESEARCH_STATE.md) | Complete experiment log (Steps 1–525+) |
+| [RESEARCH_STATE.md](RESEARCH_STATE.md) | Complete experiment log (Steps 1–612+) |
 | [PAPER.md](PAPER.md) | Publication draft — formal framework, theorems, results |
 | [R3_AUDIT.md](R3_AUDIT.md) | Frozen frame analysis per substrate |
 
@@ -107,4 +115,4 @@ Current re-benchmark candidates:
 
 ---
 
-*The 16 experiments above cover what 525 found. The other 509 are the search space that made these visible.*
+*The indexed experiments above cover what 612+ found. Most experiments are not indexed — the index is curated signal, not exhaustive log.*
