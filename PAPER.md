@@ -735,6 +735,25 @@ None of these systems modify their own rules. All achieve self-organization that
 
 **Implication:** $\ell_F$ as originally defined (the rule for modifying $\pi$ itself adapts) is impossible for computable systems — the highest-level rule is always fixed. But $\ell_F$ can be ACHIEVED IN EFFECT by a sufficiently expressive $\ell_1$: if the state space $S$ is rich enough to encode arbitrary comparison operations as data, and the interpreter executes them, then the system's behavior is indistinguishable from $\ell_F$ despite being formally $\ell_1$. The question shifts from "can the system modify its interpreter?" (no) to "is the interpreter + state space expressive enough to simulate any modification?" (the expressiveness question).
 
+### 7.7 Where the search points
+
+The 612+ experiments, 12 propositions, and 3 theorems converge on a single question: **is compare-select-store with a sufficiently rich state space expressive enough to simulate self-modification?**
+
+The path to this question:
+1. R3 requires self-modification of operations (the goal).
+2. Proposition 11 shows the current frozen frame IS the navigation capability — you can't modify one without destroying the other (the obstacle).
+3. Proposition 12 shows the interpreter (compare-select-store) is irreducible — every self-referential system has a top-level frozen frame (the bound).
+4. But Proposition 12 also shows ℓ_F is achievable IN EFFECT if the state space encodes operations the interpreter executes (the opening).
+5. The eigenform mechanism (Section 4.4) shows how: $F(s)(\text{enc}(s))$ — the substrate applies its own operations to its own state, building a meta-graph that transfers experience across similar cells (the mechanism).
+6. Zenil (2026) predicts this works only when interleaved with environmental observation — pure self-reference degenerates (the constraint).
+7. VERL (Hao et al. 2025) suggests the explore/exploit tradeoff dissolves at the right measurement level — the eigenform's meta-cells may provide that level (the bonus).
+
+If the eigenform experiment (Step 617) shows that meta-graph tie-breaking improves navigation, Theorem 2 is validated empirically and the path toward R3 is: build richer state encodings that the fixed interpreter executes. If it fails, the interpreter itself must be extended — and the question becomes what the minimal extension is.
+
+Either way, the 16 levels solved via source analysis (Proposition 9) are the specification: 16 concrete test cases that the resulting substrate must solve autonomously, without prescribed pipelines, without source code analysis, without a human designer.
+
+The contribution is the walls. The substrate — if it exists — lives inside them.
+
 ## Author Attribution and Disclosure
 
 This research was conducted by a team of LLM agent personas (Leo, Eli) coordinated by a human researcher (Jun). Leo (Claude Opus) designed experiments, formalized theory, and wrote the paper. Eli (Claude Sonnet) implemented experiment scripts, ran experiments, and maintained infrastructure. Jun provided strategic direction, constitutional framework (R1-R6), approval gates, and evaluated findings for self-deception.
