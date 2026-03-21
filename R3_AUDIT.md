@@ -342,9 +342,13 @@ The theoretical constraint-killing logic (L1 killed by U7, growth forced by U22,
 | #13 thresh formula | narrow U | gauge confirmed | — | **CONFIRMED** (mean = median) |
 | Fixed lr kill | N/A | cb=4 | cb=5 | **CONFIRMED** (both depths) |
 
-### Round C: Step 417 Constraint Validation — IN PROGRESS
+### Round C: Step 417 Constraint Validation — NEVER COMPLETED
 
-Script: `experiments/run_step417_constraint_validation.py` (7 variants of process_novelty() with Jun's incremental Gram optimization). Baseline running on CUDA, ~2 hours projected.
+Script: `experiments/run_step417_constraint_validation.py` (7 variants of process_novelty() with Jun's incremental Gram optimization). Script exists but results never recorded in RESEARCH_STATE.md or returned to R3_AUDIT.md. **Status: LOST or never run.**
+
+**This is the decisive test.** Rounds A-B proved MinimalLVQ and SelfRef don't navigate. Round C tests whether process_novelty()'s frozen hyperparameters can be replaced with V-derived approximations. If all 7 variants fail → the frozen frame is genuinely irreducible. If some navigate → specific U elements are reclassifiable to I.
+
+**Blocker (2026-03-21):** process_novelty() is a codebook substrate (cosine similarity, attract update, LVQ dynamics). The codebook ban (Jun, 2026-03-18) may prevent running this. However, the R3 audit is ABOUT the codebook — it characterizes the frozen frame of the substrate that actually navigated. Running Round C doesn't violate the ban's intent (no new codebook experiments) because it tests whether existing frozen elements are forced, not whether the codebook can be extended.
 
 **Critical reframing (Jun):** Step 353 found Level 1 through stochastic coverage at ~26K steps. 63 experiments after it tried to make navigation purposeful. All failed or degraded. The measurement is STEP COUNT to Level 1, not binary pass/fail. Variant < 26K = added directional signal. Variant = 26K = neutral. Variant > 26K = degraded.
 
