@@ -2,7 +2,7 @@
 
 **Can a system improve itself by criteria it generates?**
 
-This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 588+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), and three theorems characterizing the feasible region are the main contributions.
+This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 603+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), three theorems, and ten propositions characterizing the feasible region are the main contributions.
 
 ---
 
@@ -23,7 +23,7 @@ R3 is the binding constraint. Every substrate tested so far has hardcoded operat
 
 ---
 
-## What 588 Experiments Found
+## What 603 Experiments Found
 
 ### Architecture families
 
@@ -60,9 +60,13 @@ CIFAR-100 → Atari (ARC-AGI-3) → CIFAR-100
 
 ### Key findings
 
-**All 3 ARC-AGI-3 games solved through Level 3 (Steps 572j-576).** LS20 L3=5/5, FT09 L1=5/5, VC33 L1=5/5. Mechanism: graph + edge-count argmin + mode map + isolated connected-component detection. LS20: 4 directional actions. FT09: 69 actions (64 click grid + 5 simple). VC33: 64 click actions.
+**6 levels across 3 ARC-AGI-3 games (Steps 572j-604).** LS20 L1-L3=5/5, FT09 L1-L2=5/5, VC33 L1=5/5. FT09 L2 solved deterministically: color-matching puzzle, 7 clicks (Step 604). Mechanism: graph + edge-count argmin + mode map + isolated CC detection + source analysis for click games.
 
-**Self-modification hierarchy maps speed vs reachability (Proposition 6).** ℓ₁ (death penalty) accelerates exploration but doesn't expand the graph: 13/20 = 13/20 at 50K (Step 584, p=0.63). ℓ_π (Recode, encoding refinement) expands the graph from 440→1267 cells and improves 3/3→5/5 (Step 542). Speed vs reachability corresponds exactly to ℓ₁ vs ℓ_π.
+**R1 is cheap, R3 is expensive (Proposition 9).** Competition data: CNN+RL (violates R1) achieves 18 levels. Graph exploration (satisfies R1, violates R3) achieves 17 levels. Our system (satisfies R1, violates R3): 6 levels. The ~1-level R1 tax is bounded. The ~11-level R3 gap is the bottleneck.
+
+**Proposition 6 FALSIFIED (Step 589).** Recode(K=16) 18/20 = LSH(K=16) 18/20. The advantage was K, not self-modification. The hierarchy is descriptively useful but not operationally predictive.
+
+**Feature-Ground Truth Coupling (Proposition 10).** The gap from ℓ₁ to ℓ_F is recording vs predicting ground truth events. Pixel statistics navigate to the WRONG cells (Step 577d: 0/5 L1). Death penalties improve navigation retrospectively (Step 581d: 4/5). Prospective prediction requires features that correlate with ground truth — achievable through population-level selection (GRN architecture), not individual self-reference.
 
 **System Boundary Theorem (Theorem 3).** R3 (full self-modification) and R5 (fixed ground truth) are simultaneously satisfiable iff ground truth is strictly environmental. The feasible region is not provably empty.
 
@@ -76,9 +80,9 @@ Constraints extracted from experimental failure across 12 families. See [CONSTRA
 
 ## Current Direction
 
-1. **ℓ_π self-modification** — Recode (Step 542, 5/5) is the strongest non-codebook result. Encoding self-modification expands the reachable set. Next: head-to-head Recode vs LSH at 20 seeds (Step 589).
-2. **Statistical rigor** — 20-seed validation of all claims. Step 584 showed 5-seed results can be noise. Fisher exact tests on all comparisons.
-3. **The paper** — [PAPER.md](PAPER.md) compiles to LaTeX. Three theorems, self-modification hierarchy (ℓ₀–ℓ_F), Propositions 4/6. Addressing NeurIPS reviewer feedback.
+1. **GRN substrate (Step 607)** — Population of competing LSH encodings with environmental selection. Tests whether R3 can be achieved through selection pressure (biology: gene regulatory networks, quorum sensing, immune system clonal selection) rather than self-referential weight modification. First genuinely new architecture since Phase 2.
+2. **Push depth on all games** — LS20 L4+ (Step 606), VC33 L2+ via source analysis, FT09 full chain (Steps 608). Competition data (18 levels 1st place) is measurement for R1-R6, not optimization target.
+3. **The paper** — [PAPER.md](PAPER.md). Three theorems, Propositions 1-10, self-modification hierarchy (ℓ₀–ℓ_F), GRN/quorum sensing/immune system connections. 603+ experiments.
 
 ---
 
