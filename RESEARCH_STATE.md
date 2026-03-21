@@ -44,7 +44,7 @@ ARC-AGI-3 (Steps 343-416): 3/3 preview games Level 1 with PRESCRIBED encodings.
   FT09: 69-class click-space. Level at step 82.
   VC33: 3-zone mapping (PRESCRIBED — looked behind scenes. Not autonomous discovery).
   Sequential resolution trial (Step 414): substrate discovers 16x16 from raw input via gameplay.
-  Stage 8 partially addressed but encoding still prescribed per game type.
+  Encoding still prescribed per game type (I1 open — representation discovery).
 
 PHASE 2 DIRECTION: See CONSTRAINTS.md. The next substrate is specified by U1-U24 + I1-I9.
 ```
@@ -54,7 +54,7 @@ Step 378: Raw 64x64 50K steps. 0 levels. Codebook builds but sim too uniform (0.
 Step 379: Centering at 64x64 — no effect. Same sim stats.
   The gap: V @ x at 4096 dims washes 0.3% signal in 99.7% noise.
   16x16 avgpool worked by accidentally doing feature selection (12 pixels → 4.7% of encoding).
-  STAGE 8 = learned projection. The substrate discovers which pixels matter from its own codebook.
+  I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
 CURRENT STEP: 571 (Candidate sweep — mode map L2 path)
@@ -163,11 +163,11 @@ ACTIVE FRONTIER: Soft penalty confirmed. Hard block kills exploration; soft pena
 - OOD: 48.5% genuine (K=1). Higher K numbers (99.2%) are inflated — spawn covers the test range = lookup.
 - Periodic encoding (prescribed physics): 100% — confirms equation works when physics matches function.
 
-**Constitution stages on a%b substrate:**
-- Stage 1 (autonomous computation): PASSES
-- Stage 2 (self-generated adaptation): PASSES (w learning from matching signal, 86.8→91.2%)
-- Stage 3 (adaptation rate adapts): IMPLICIT (per-b differential learning rates)
-- Stage 4 (structural constants adapt): DEMONSTRATED (107/190 b-pairs diverse, per-b specialization)
+**R1-R6 on a%b substrate (pre-Phase 2 — stages superseded by simultaneous rules):**
+- R1 (no external objectives): PASSES
+- R2 (adaptation from computation): PASSES (w learning from matching signal, 86.8→91.2%)
+- R3 (self-modification): PARTIAL (per-b weights adapt, but grow+refine algorithm frozen)
+- R4 (tested against prior): NOT TESTED
 
 **The automated loop:** `auto_loop.py` — runs the discovery-prescription loop autonomously. Grow (reflection spawn) + refine (per-b weight learning). One turn: 96.5% LOO. Saturates at K=1 grow depth for LOO.
 
@@ -336,14 +336,14 @@ Candidates that survive constraint filtering. Ordered by promise.
 **Session 2026-03-16 Summary (35 experiments, Steps 377-410):**
 The substrate works VIA noise, not despite it. Cosine saturation at 16x16 = the Goldilocks zone.
 Discriminative encoding saturates exploration. The substrate IS Levin search in codebook space.
-Stage 7 is open (rules ≠ parameters). The Search found itself (fixed point).
+R3 is open (rules ≠ parameters). The Search found itself (fixed point).
 F.normalize IS necessary (Step 412: 0/3 without it). centered_enc IS necessary (Step 414 run 1: 0 levels without it).
 The substrate is 22 lines + centered_enc preprocessing. Irreducible: additions AND deletions hurt.
 
 **Step 414: Sequential resolution discovery — LEVEL 1 FOUND at 16x16 (step 26218).**
 The substrate discovers its own resolution from raw 64x64 input through sequential trial.
 Skip proven-dead resolutions (64x64, 32x32). 16x16 with exact baseline config finds level.
-The search (35 experiments) compressed to 2 resolution trials. Stage 8 via gameplay feedback.
+The search (35 experiments) compressed to 2 resolution trials. I1 (representation discovery) via gameplay feedback.
 
 Open question: how does the search compress FURTHER into the substrate?
 
@@ -547,4 +547,5 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | **612** | **LS20 L4 bootstrap fix (Option C)** | — | **STRUCTURALLY CORRECT** | _update_bg builds puq wall_set at game_level=2 when l3_frames >= WARMUP AND l2_count >= N_MAP_PUQ. Mirrors mgu bootstrap. Cannot verify in 5min (needs 100K+ steps). |
 | **612b** | **LS20 L4 (2 seeds × 5min)** | — | **FAIL** | go=2, l2c=0 at 111K steps. Root cause: `self.G = {}` in on_l1() resets argmin graph on every L1 entry. Without graph, argmin blind → 55K steps wandering → l1_cycles never reaches N_MAP → mgu never bootstraps. 572u didn't reset G. |
 | **614** | **LS20 L4 (no G reset + bootstrap fixes)** | — | **FAIL** | go=2, cyc=0 in 114K steps. G reset fix insufficient. Root cause: np.argmin([0,0,0,0])=0 always picks action=0 (UP). Agent spawns at top wall → never moves → done never fires → 0 episodes. |
-| **615** | **LS20 L4 (random tie-breaking + no G reset + bootstrap)** | — | **RUNNING** | Random choice when all counts equal (fresh node). Expected: ~170 steps per episode → 650+ episodes in 5min. 2 seeds × 5min. |
+| **615** | **LS20 L4 (random tie-breaking + no G reset + bootstrap)** | — | **FAIL** | go=2-4 in 117K. Random tie-breaking insufficient. Root cause: L0 cluster targeting freezes agent_yx at (57.39, 5.39) — animation artifact, not real agent position. dir_action points at wall forever. |
+| **616** | **LS20 L4 (no L0 cluster + no G reset + bootstrap)** | — | **RUNNING** | Removes L0 cluster targeting entirely. Pure argmin + random tie-break for L0. Probe confirmed: done=7 per 1K steps without clusters. 2 seeds × 5min. |
