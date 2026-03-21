@@ -57,7 +57,10 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 571 (Candidate sweep — mode map L2 path)
+CURRENT STEP: 616 (LS20 L4 depth push — argmin tie-breaking + no G reset + bootstrap fixes)
+
+**Research-algorithm isomorphism (external audit Finding 12, formalized 2026-03-21):**
+The research process (Leo's compare-select-store on experiments/constraints) IS structurally identical to the substrate's compare-select-store on observations/state. Jun (2026-03-21): "have we tried compressing everything you do except for the LLM part into the substrate itself?" Answer: the eigenform mechanism F(s)(enc(s)) — the substrate applies its own transition function to its own state. Formalized in PAPER.md Section 4.4. First experiment: Step 617 (meta-graph from action count vectors).
 
 Step 547: Recode on CIFAR-100. NMI=0.599, acc=67% (training). TWO ARTIFACTS: (1) sp=0 — refinement never fires (single-pass, MIN_OBS never met). NMI is pure k=16 LSH. (2) Training accuracy meaningless (6981 nodes for 10K images = singletons). Test accuracy ~15% (Step 543). Self-refinement is inert on classification.
 
