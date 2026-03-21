@@ -4,7 +4,7 @@
 
 ## What This Is
 
-A set of principles and tests that any system must satisfy on the path to recursive self-improvement. The principles are architecture-independent. They define what must be true at each stage regardless of how it is achieved.
+A set of principles and tests that any system must satisfy for recursive self-improvement. The principles are architecture-independent. They define what must be true simultaneously, regardless of how it is achieved.
 
 If a principle is wrong, the constitution is wrong. Fix the principle. If an implementation fails a principle, the implementation is wrong. Fix the implementation. The constitution and the implementation are separate things.
 
