@@ -8,11 +8,11 @@ date: 2026-03-19
 
 ## Abstract
 
-We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 596+ experiments across 12 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 603+ experiments across 12 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
 
 ## 1. Introduction
 
-596+ experiments across 12 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree, Absorb, connected-component, Bloom filter, CA) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
+603+ experiments across 12 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree, Absorb, connected-component, Bloom filter, CA) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
 
 The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, and states honestly what is proven vs conjectured vs open.
 
@@ -534,19 +534,23 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 6. Self-modification of the encoding ($\ell_\pi$) is achievable and improves navigation reliability (Recode, Step 542).
 7. Permanent soft death penalty ($\ell_1$) does NOT improve navigation success rate at 50K steps: 13/20 vs 13/20 (Step 584, p=0.63). However, it accelerates early discovery: 9/20 vs 6/20 at 10K (Fisher p=0.33). The mechanism is a speed improvement, not a success improvement — argmin catches up by 30K. Cross-game test (Step 585): NEUTRAL on VC33 — death penalty is navigation-specific, not universal.
 
+8. R1 (no external objectives) costs ~1 level (~6%) at the ARC-AGI-3 competition frontier. R3 costs ~12 levels. The bottleneck is self-modifiable exploration, not external objectives (Proposition 9, competition data).
+9. The gap from $\ell_1$ to $\ell_F$ is recording vs predicting ground truth events (Proposition 10). 577d pixel statistics navigate to the WRONG cells; 581d death penalties improve navigation via retrospective marking. Prospective prediction requires features that correlate with ground truth — which R1 prohibits optimizing for directly.
+
 ### 7.3 What is conjectured
 
-8. The minimal self-observing substrate is a fixed point of $F$ (Section 4.5).
-9. The oscillation between U7 (convergence) and U17 (growth) is a limit cycle, not chaos.
+10. The minimal self-observing substrate is a fixed point of $F$ (Section 4.5).
+11. The oscillation between U7 (convergence) and U17 (growth) is a limit cycle, not chaos.
+12. Selection pressure on a population of encodings (GRN architecture) may bridge the ℓ₁→ℓ_F gap without optimization — environmental ground truth selects encodings whose features happen to predict it.
 
 ### 7.4 What is open
 
-10. Whether the full feasible region (R1-R6 + all validated U-constraints) is occupied. Theorem 3 shows it is not provably empty; a witness or tighter impossibility result is needed.
-11. What self-observation mechanism satisfies R6 (irredundancy) while avoiding noisy TV traps (T7).
-12. Whether $\ell_F$ (full self-reference) is achievable without infinite regress — or whether $\ell_\pi$ suffices. 581d is $\ell_1$; the gap to $\ell_F$ is two qualitative levels (Proposition 4).
-13. How to resolve U11 + U24 + U1 (incompatible tasks, no mode switch) in a single system (T6).
-14. R1-compliant classification — no substrate has achieved above-chance accuracy without external labels.
-15. Baselines: no comparison with EWC, DER++, or replay buffer on the chain benchmark. Step 586 pending.
+13. Whether the full feasible region (R1-R6 + all validated U-constraints) is occupied. Theorem 3 shows it is not provably empty; a witness or tighter impossibility result is needed.
+14. What self-observation mechanism satisfies R6 (irredundancy) while avoiding noisy TV traps (T7).
+15. Whether $\ell_F$ (full self-reference) is achievable without infinite regress — or whether $\ell_\pi$ suffices. 581d is $\ell_1$; the gap to $\ell_F$ is two qualitative levels (Proposition 4).
+16. How to resolve U11 + U24 + U1 (incompatible tasks, no mode switch) in a single system (T6).
+17. R1-compliant classification — no substrate has achieved above-chance accuracy without external labels.
+18. Whether the GRN substrate (Step 606, population of competing encodings) achieves genuine $\ell_F$ or disguised $\ell_1$.
 
 ### 7.5 The Level 2 Problem
 
