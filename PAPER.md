@@ -661,6 +661,25 @@ Each additional level we solve via source analysis makes the R3 specification MO
 
 **Implication:** The GRN architecture (below) may address this: if multiple encodings $\{\pi_i\}$ compete, and environmental ground truth selects the winner, then the surviving $\pi_i$ is the one whose features happen to correlate with ground truth — without any $\pi_i$ being optimized for it. Selection pressure, not optimization, bridges the gap.
 
+#### Proposition 11: The Frozen Frame — Capability Coupling
+
+**Prior work:** Self-adaptive systems literature (Salehie & Tahvildari, 2009) identifies the challenge that reconfiguring essential components risks disrupting system functionality. No formal framework addresses the specific case where the elements REQUIRING modification for self-improvement are exactly the elements whose modification destroys capability.
+
+**Statement:** Let $\mathcal{U}(F) = \{u \in F : u \text{ is neither Modified nor Irreducible}\}$ be the set of unjustified frozen elements. For the navigating substrate (process_novelty), $\mathcal{U}(F)$ is load-bearing: for every $u \in \mathcal{U}(F)$, removing $u$ reduces navigation success to 0. R3 requires every element of $\mathcal{U}(F)$ to become Modified. But modifying any element of $\mathcal{U}(F)$ is lethal.
+
+**Evidence (R3_AUDIT.md, Rounds A-B):**
+- P6 (top-K class scoring): Remove → SelfRef (no class structure) → 0 levels.
+- P7 (argmin class selection): Remove → random or argmax → 0 levels.
+- P8 (class-restricted spawn): Remove → global spawn (SelfRef) → cb=164 vs 20K, 0 levels.
+- P9 (class-restricted attract): Remove → global attract (SelfRef) → 0 levels.
+- P15 (seeding protocol): Remove → cold-start degenerate argmin → 0 levels.
+
+**Formalization:** Define the **capability coupling** of $F$ as $C(F) = \mathcal{U}(F) \cap \mathcal{L}(F)$, where $\mathcal{L}(F) = \{u \in F : \text{removing } u \text{ kills the ground truth test}\}$ is the set of load-bearing elements. R3 requires $\mathcal{U}(F) = \emptyset$. The coupling $C(F) = \mathcal{U}(F) \cap \mathcal{L}(F)$ measures how much of the unjustified frozen frame IS the capability. For the navigating substrate, $C(F) = \mathcal{U}(F)$ — the coupling is total.
+
+**Relationship to prior work:** This is a stronger obstacle than Schmidhuber's Gödel machine incompleteness (where the system cannot PROVE certain rewrites are safe). Here the system cannot SURVIVE certain rewrites — not because proof is hard, but because the rewrites are genuinely destructive. The obstacle is physical, not logical.
+
+**Implication:** R3 cannot be achieved by incremental modification of existing substrates. Removing any U element kills navigation; adding self-modification of U elements adds complexity (violating U4) without removing the underlying dependency. The R3-compliant substrate, if it exists, must achieve navigation through a DIFFERENT mechanism — one where the load-bearing elements are Irreducible (forced by the constraint map) rather than Unjustified (chosen by the designer).
+
 #### Population-Level R3: Fixed Rules, Collective Self-Modification
 
 **The unifying principle.** Every natural self-organizing system that achieves complex adaptive behavior does so from fixed individual rules operating through a shared medium. Gene regulatory networks: the genome is fixed, but which genes are expressed changes via environmental signals and mutual inhibition (Oliveri & Davidson, 2008). Quorum sensing: each bacterium has fixed response rules ($\ell_0$), but collective gene expression self-modifies when autoinducer concentration crosses a threshold (Waters & Bassler, 2005). Physarum polycephalum: the thickening rule is fixed ($\ell_1$), but the tube network self-organizes to solve shortest-path problems (Tero et al., 2010). Turing reaction-diffusion: the equation is fixed, but stable spatial patterns emerge from a homogeneous substrate (Turing, 1952). Ant colony optimization: pheromone response is fixed, but trail networks self-organize to find efficient paths (Dorigo et al., 2000).
