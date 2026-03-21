@@ -216,15 +216,27 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 ### What's Open
 
-1. **R3 (self-modification of operations):** The frozen frame and navigation capability are structurally coupled (R3_AUDIT.md). The 5 unjustified elements enabling navigation are the same elements R3 requires the system to self-modify. Removing any kills navigation. This is not engineering — it is the central structural tension.
+1. **R3 (self-modification of operations):** The frozen frame and navigation capability are structurally coupled (R3_AUDIT.md). R3 audit Rounds A-B (2026-03-17) found: most "unjustified" elements in the codebook are actually FORCED by the constraint map — every alternative is killed by a specific universal constraint. This is the "frozen variable" phenomenon from CSP theory (Zdeborová & Krzakala 2007): in highly constrained systems, most variables take the same value in all solutions. **Round C (the decisive test) was never completed** — blocked by codebook ban. The methodology (enumerate alternatives, kill with constraints) applies to any substrate.
+
+   **Encoding IS the largest frozen element.** The encoding pipeline (avgpool, centering, normalization, action mapping) accounts for 300x difference in step count across games (LS20: 26K steps, FT09: 82 steps, VC33: 283 steps — same substrate, same argmin). R3_AUDIT encoding compilation: 3I/2M/1 narrow U. Anti-inflation rule 7 requires auditing the FULL system (substrate + encoding), not just the substrate code.
+
+   **No Phase 2 substrate has been formally R3-audited.** The LSH substrate has frozen elements (random hyperplanes, k, centering, argmin) that have not been enumerated or classified. Recode's self-refinement (Step 542) is the closest to R3 compliance: the mapping self-modifies. But op-code definitions (Steps 581d, 582: PENALTY=100, death/surprise semantics) are frozen value judgments — R4 says they must be adaptive or irreducible. Hart debate (2026-03-21) classified these as computational vs value parameters: R1 governs value parameters, R4 governs computational parameters.
+
+   **The R3 barrier precisely located (Steps 577b-577d):** Evolutionary R3 (577b): 0/1000 random programs find the pipeline. Buffer navigation (577d): 0 L1s across ALL buffers — pixel statistics navigate to MORE cells but WRONG cells. R3 requires reward-correlated features, not visually salient features. Without a feedback loop linking strategy to outcomes, no pixel statistic discovers the exit.
 
 2. **R1-compliant classification:** No substrate classifies without external labels. LSH k=16 achieves 36.2% with self-labels (Step 573, 4x above codebook's 9.8%), but still far below supervised. Classification under R1 remains unsolved.
 
-3. **Purposeful exploration (I6, I9):** All navigation is stochastic coverage with argmin bias. 6 targeted strategies tested, all worse than argmin (Steps 477-482). Strategic hypothesis testing remains absent.
+3. **Purposeful exploration (I6, I9):** All navigation is stochastic coverage with argmin bias. 6 targeted strategies tested (Steps 477-482) — failures were mechanism-specific (noise, locality traps, noisy TV), not a categorical result. Step 482 (global novelty) was comparable to argmin (6/10). U27 (provisional): attractor-creating signals trap; attractor-removing signals help (Steps 581d, 582). Strategic hypothesis testing remains absent.
 
 4. **Population-level R3:** GRN substrate (Step 607) killed — encodings not diverse enough. Price equation framework predicts success requires behaviorally diverse encoding candidates, not just parametric variation.
 
 5. **LS20 L4+:** Blocked at L3 transition (puq_wall_set bootstrap, Step 611-612). Fix structurally correct but needs longer run to verify.
+
+### External Audit Status (2026-03-18, 13 findings)
+
+Integrated: Finding 1 (R1/R5 clarification — resolved via Hart debate 2026-03-21), Finding 4 (R3 I-classification — anti-inflation rule 8, forced ≠ unjustified), Finding 5 (constraint map induction — reclassified 2026-03-18), Finding 7 (adversary process — Hart debate formalized), Finding 12 (research-algorithm isomorphism — PAPER.md Section 4.4).
+
+Outstanding: Finding 2 (no CL head-to-head comparison — HIGH), Finding 3 (random walk propagation — codebook-specific, LSH argmin stays effective), Finding 6 (R2-performance tradeoff — not documented), Finding 8 (ANIMA connection — not explored), Finding 9 (survival benchmark — partially tested via chain Steps 543-577), Finding 11 (paper framing — strategic). Finding 10 (ghost projects) and Finding 13 (FOLD_EVOLUTION.md) are LOW severity.
 
 ### What's Changed Since Phase 1 Assessment
 
