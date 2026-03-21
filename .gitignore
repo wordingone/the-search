@@ -12,3 +12,4 @@ models/
 .mcp.json
 settings.local.json
 *.local.json
+train_config.json

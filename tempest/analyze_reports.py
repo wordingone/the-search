@@ -164,7 +164,7 @@ def score_criteria(result: Dict, content: str) -> Dict:
     return result
 
 def main():
-    reports_dir = Path("B:/M/ArtificialArchitecture/the_singularity_search/tempest/reports")
+    reports_dir = Path("./reports")
 
     # Find all report files
     report_files = list(reports_dir.rglob("*.md"))
@@ -219,7 +219,7 @@ def main():
         print(f"f{r['f_number']:03d} ({r['language']:12s}): score={r['total_score']:.1f}, final_density={r['final_density']:.4f}")
 
     # Write detailed CSV
-    with open("B:/M/ArtificialArchitecture/the_singularity_search/tempest/analysis_results.csv", 'w') as f:
+    with open("./analysis_results.csv", 'w') as f:
         f.write("f_number,language,cycles,init_density,final_density,extinction_cycle,stable_density,")
         f.write("score_dist,score_energy,score_selfref,score_memory,total_score\n")
 
