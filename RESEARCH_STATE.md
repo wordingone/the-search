@@ -57,7 +57,20 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 620 (Eigenform self-observation on L1 — self-derived op codes from graph statistics)
+CURRENT STEP: 621 (Eigenform adaptive observation frequency — self-derived M)
+
+Step 619: 572u exact reproduction — KILL (L3=0/5). Eli claims game API served different version
+  (cb3b57cc March 17 → 9607627b March 20, different sprite definitions). Jun verifying.
+  If true: 572u result stands on original version. Waypoint-based pipelines are version-specific.
+  Eigenform experiments (620-628) unaffected — no waypoints.
+
+Step 620: Eigenform self-observation — SIGNAL (L1=5/5). First R3 experiment from birth mode.
+  Op distribution: 94-99% NEUTRAL, 0-2% AVOID, 1-10% PREFER. Self-observation finds little
+  exploitable structure at L1. BUT: AVOID grows over time (0% → 8-10% across all seeds).
+  The substrate learns which edges are over-represented and starts avoiding them.
+  Self-calibration IS working — self-derived, no external targets.
+  L1=5/5 matches baseline (eigenform doesn't hurt). Effect minimal because L1 is argmin-solvable.
+  Real test: L2+ where argmin fails and trap avoidance could matter.
 
 **Search space visualization (2026-03-21):**
 378 real experiments mapped to 3D sphere (center=resolved, edge=open). Cluster distribution:
