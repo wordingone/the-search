@@ -87,6 +87,23 @@ Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (margina
   This strengthens Proposition 13: graph statistics cannot guide exploration. The useful signals
   come from the ENVIRONMENT (deaths, transitions), not from the GRAPH (edge statistics).
 
+Step 638: Environmental event catalog. Two sparse signals found: large_diff (5.2%, rises 3→11%)
+  and game_over (1.3%). No other candidates. Reward=0, new_cell saturates, repeat=96%.
+
+Step 639: large_diff per-edge penalty. L1=5/5, avg_speedup=5.18x (inflated by s2=23.2x).
+  Honest count: 2/5 faster, 3/5 slower. large_diff and game_over have 0% overlap (independent).
+Step 639b: Combined large_diff + game_over. L1=5/5, avg_speedup=2.01x. Same seed asymmetry.
+
+  **Environmental event thread CLOSED (630-639, 10 experiments).** Penalties are sparse, per-edge,
+  negative (correct mechanism). But benefit is SEED-DEPENDENT: which edges are "bad" depends on
+  game topology per seed. No single penalty consistently improves over argmin. Consistent improvement
+  requires learning which events matter for THIS layout — a world model.
+
+  The L2 wall is now confirmed from 4 angles: (1) coverage (486-492), (2) eigenform (620-629),
+  (3) delta/stale (630-637), (4) environmental events (638-639). ALL converge on the same conclusion:
+  L2 requires forward prediction, not retrospective penalty. The graph stores the past. L2 requires
+  the future. Proposition 13 holds across all tested mechanisms.
+
 Step 634: Binary mask with separate delta H matrix. kd=4: L1=4/5, unique_dc=5-16. kd=8: L1=4/5,
   unique_dc=10-22. PREFER bias active (33-42%). BUT: L1 steps IDENTICAL to pure argmin for 4/5 seeds
   (s0=3803, s1=17617, s2=NO_L1, s4=11685 — all match Step 630 exactly). Only s3 varies.
