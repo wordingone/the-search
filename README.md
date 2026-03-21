@@ -108,7 +108,8 @@ the-search/
   build-paper.py         -- LaTeX compilation pipeline
 
   substrates/            -- Substrate implementations (Phase 1)
-  experiments/           -- 588+ experiment scripts
+  experiments/           -- 590+ experiment scripts
+  experiments/foldcore-steps/  -- Archived Phase 1 scripts (Steps 1-80). Hardcoded paths to local data. Not portable — included for historical record only.
   research/              -- Research methodology and frameworks
   archive/               -- Archived Phase 1 infrastructure
   audits/                -- External audit reports
