@@ -68,7 +68,20 @@ Step 626: Eigenform negative control — L1 MAINTAINED (5/5) after disabling sel
 
   621 + 626 conclusion: self-observation is INERT at L1. Two independent paths confirm.
   L1 is argmin-solvable — no room for eigenform improvement. Real test is L2+.
-  Steps 622-624 (also L1) SKIPPED — would also be inert. 629 tests L2 directly.
+  Steps 622-624 (also L1) SKIPPED — would also be inert.
+
+Step 629: Eigenform L2 attempt — KILL (L1=5/5, L2=0/5). L1-success tagging + self-observation.
+  l1_productive nodes: 22-73 per seed. PREFER bias 1-5%. Mechanism active but signal too sparse.
+  Even seeds with 295s post-L1 exploration time didn't find L2.
+  KEY FINDING: Eigenform is purely reflective on the EXISTING graph. It has no "unknown territory"
+  signal. L2 requires nodes NOT YET in the graph. No amount of self-observation on known nodes
+  helps navigate to unknown nodes. Same wall as Steps 477-482 (targeted exploration) from a
+  different angle.
+
+  **Eigenform series conclusion (620-629):** Self-observation mechanism works mechanically
+  (AVOID grows, self-calibrates, self-terminates). But it is INERT for navigation — adds nothing
+  to argmin at L1, and cannot reach L2. The graph stores the PAST. L2 requires the FUTURE.
+  The substrate needs a world model (causal structure, physics), not a graph model (visit counts).
 
 Step 619: 572u exact reproduction — KILL (L3=0/5). Eli claims game API served different version
   (cb3b57cc March 17 → 9607627b March 20, different sprite definitions). Jun verifying.
