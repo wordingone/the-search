@@ -248,6 +248,19 @@ U3 + U17 + R6 together require that the system adds new components indefinitely 
 
 **Conjecture (not proven):** The minimal self-observing substrate is a fixed point of $F$. Applying the system to its own state trajectory reproduces the system's dynamics. This would terminate the potential infinite regress of self-observation (processing state → new state → processing new state → ...). Related to autopoiesis (Maturana & Varela, 1972): the network produces the components that produce the network. Difference: autopoiesis maintains structure; our system grows (U17). Status: open.
 
+**Prior work on eigenforms:** Kauffman (2023, "Autopoiesis and Eigenform") connects autopoiesis to eigenforms — fixed points of recursive processes where $f(f) = f$. Formal autopoiesis (Letelier et al., 2023) generates self-referential objects with this property. The (M,R)-system (Rosen, 1991) is equivalent: organizational closure where every component is produced by the network of components. Our conjecture is an instance of eigenform theory applied to dynamical substrates.
+
+**Concrete mechanism (self-application of $F$).** The substrate alternates between observing the environment and observing itself:
+
+$$s_{t+1} = F(s_t)(x_t) \quad \text{(environment step)}$$
+$$s_{t+2} = F(s_{t+1})(\text{enc}(s_{t+1})) \quad \text{(self-observation step)}$$
+
+where $\text{enc}: S \to X$ embeds the state into observation space. For the graph substrate: each cell's edge profile (outgoing counts per action per successor) is a vector that can be hashed through the same LSH. The substrate builds a graph of its own graph — cells with similar exploration patterns share a meta-cell, revealing attractor basins vs frontier regions. No new operations: the same compare-select-store applied to self instead of environment.
+
+The frozen frame cost is one element: the decision to feed $\text{enc}(s)$ back as input. But $\text{enc}$ uses the substrate's own encoding pipeline. The self-observation uses the same hash, the same argmin, the same edge accumulation. This is the eigenform: $F$ applied to its own output.
+
+**Testable prediction:** If self-observation via $F(s)(\text{enc}(s))$ selects actions that differ from $F(s)(x)$, and those actions expand the reachable set beyond the argmin-accessible frontier, then Theorem 2 is validated empirically. If the meta-graph argmin is equivalent to regular argmin (same actions, just slower), then self-observation adds computation without benefit and the self-observation mechanism must be qualitatively different from the environment-observation mechanism — a stronger result that would constrain future substrate design.
+
 ### 4.5 Argmin Robustness and the Noisy TV Barrier
 
 **Prior work:** The noisy TV problem (Burda et al., 2019, ICLR) identifies a failure mode of curiosity-driven exploration: agents rewarded for prediction error or novelty are attracted to irreducibly stochastic transitions (a "noisy TV") because these transitions can never be predicted accurately. Random Network Distillation (RND, Burda et al., 2018) addresses this by using a fixed random network as a prediction target, making the bonus deterministic. Count-based exploration (Bellemare et al., 2016) is known to be robust to noisy TV because visit counts don't distinguish high-variance from low-variance transitions.
