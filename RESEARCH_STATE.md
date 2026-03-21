@@ -70,10 +70,22 @@ Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (margina
   Frontier gradient fires 94-98% → hurts. The mechanism must be SPARSE (fire rarely), NEGATIVE
   (avoid, not seek), and PER-EDGE (context-specific, not global).
 
-  Delta direction (630-635): 6 experiments, 0 improvements over argmin. Kill criteria met (>5
-  experiments). Direction KILLED for unconditional bias mechanism. Delta STRUCTURE exists (633 showed
-  real signal in binary masks). Future: per-edge delta mechanism (tag specific edges as stale when
-  same delta_cell > 80% of transitions, bias AGAINST those edges). Sparse + negative + per-edge.
+  Delta/stale direction (630-637, 8 experiments): KILLED. Full series:
+  630: delta argmin inert (k=16). 631: diagnostic, ~220 delta_cells/action.
+  632: coarser k kills state space. 633: binary mask SIGNAL (unique_dc=2).
+  634: separate H matrix, unique_dc=5-22, identical to argmin 4/5 seeds.
+  635: frontier-gradient marginal (1.15x, fires 94-98%).
+  636: per-edge delta stale, stale_pct=54% — NOT sparse.
+  637: per-edge entropy stale, stale_pct=12% — sparser but 0.94x (inert).
+
+  DEFINITIVE FINDING: Only game events with structural significance produce useful sparse signals.
+  Death penalty (581d, ~5% of edges) works because death is an ENVIRONMENTAL EVENT with causal
+  meaning. Statistical regularities (delta patterns, entropy, visit frequency) are too common to
+  provide targeted signal. The s2/s3 speedup across 634-637 is a confound (shorter path to L1),
+  not caused by any stale/frontier mechanism.
+
+  This strengthens Proposition 13: graph statistics cannot guide exploration. The useful signals
+  come from the ENVIRONMENT (deaths, transitions), not from the GRAPH (edge statistics).
 
 Step 634: Binary mask with separate delta H matrix. kd=4: L1=4/5, unique_dc=5-16. kd=8: L1=4/5,
   unique_dc=10-22. PREFER bias active (33-42%). BUT: L1 steps IDENTICAL to pure argmin for 4/5 seeds
