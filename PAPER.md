@@ -614,6 +614,40 @@ R5 requires one fixed ground truth. R3 requires every aspect of computation to b
 
 **Testable prediction (FALSIFIED by Step 589):** Proposition 6 predicted Recode ($\ell_\pi$) would outperform LSH ($\ell_0$) at 20 seeds. Result: Recode(K=16) 18/20 = LSH(K=16) 18/20 > LSH(K=12) 13/20. The advantage over K=12 is entirely explained by having 16 hash bits, not by adaptive splitting. $\ell_\pi$ self-modification adds nothing on top of the K it uses. The hierarchy remains descriptively useful (categorizing mechanisms by what they modify) but is not operationally predictive: more hash bits (a frozen $\ell_0$ parameter) achieves the same reachability as adaptive splitting ($\ell_\pi$). The speed-vs-reachability distinction holds at mid-budget (Recode leads at 30-40K checkpoints, p<0.05) but collapses at 50K.
 
+#### Proposition 9: The R1 Tax
+
+**Statement:** R1 (no external objectives) costs approximately one level (~6%) at the ARC-AGI-3 competition frontier. The cost is bounded and non-fatal.
+
+**Evidence (competition data as measurement instrument):**
+- StochasticGoose (Tufa Labs, 1st place): CNN + RL, 18 levels across 2 games. Violates R1 (uses reward signal for RL training). Violates R3 (fixed CNN architecture, fixed RL policy update).
+- Rudakov et al. (dolphin-in-a-coma, 3rd place): Graph-based exploration, 17 levels post-fix (14-19 range across seeds). Satisfies R1 (no reward, no training). Violates R3 (fixed CC segmentation, fixed priority tiers, fixed BFS planning).
+- Our system: Graph + argmin, 5 levels (3 LS20 + 1 FT09 + 1 VC33). Satisfies R1. Violates R3 (12 prescribed components).
+
+**Interpretation:** The gap between R1-violating (18 levels) and R1-satisfying (17 levels) systems is ~1 level. The gap between R1-satisfying with fixed exploration policy (17 levels) and R1-satisfying with minimal prescribed structure (5 levels) is ~12 levels. **R1 is cheap. R3 is expensive.** The bottleneck is not the absence of external objectives — it is the absence of self-modifiable exploration strategy. Rudakov et al.'s CC segmentation, priority tiers, and BFS planning are exactly the 12 prescribed components our system also requires. Their success at R1 + fixed strategy validates our hypothesis: the feasible region for R1 alone is large; the feasible region for R1 + R3 is where the real constraint lies.
+
+**Caveat:** Competition data is biased — top teams optimize for competition metrics, not R1-R6 compliance. The comparison is informative, not definitive. N=3 teams at the frontier.
+
+#### Proposition 10: The Feature-Ground Truth Coupling Barrier
+
+**Prior work:** Jin et al. (2020, "Reward-Free Exploration") prove that polynomial exploration suffices to learn a representation from which near-optimal policies can be computed for ANY downstream reward function. However, their framework assumes reward IS eventually given — the exploration phase is reward-free, but the planning phase uses reward. Our R1 prohibits external reward entirely. R5 provides environmental ground truth (death, level transitions) as the only feedback signal.
+
+**Statement:** The gap from $\ell_1$ to $\ell_F$ in the self-modification hierarchy is the gap between RECORDING ground truth events and PREDICTING them.
+
+**Evidence:**
+- Step 577d: pixel statistics (mode, mean, variance, diff, min) used as navigation features visit MORE cells than argmin (higher exploration rate) but the WRONG cells (0/5 L1 across 390 evaluation windows × 5 feature buffers). Visual statistics are not predictive of exit-relevant features.
+- Step 581d: death events used as post-hoc soft penalties achieve 4/5 vs argmin 3/5. Ground truth feedback improves navigation when applied as $\ell_1$ (penalty placement).
+- Step 589: encoding self-modification ($\ell_\pi$, Recode) provides no advantage over fixed encoding ($\ell_0$, LSH) at same K. The system modifies WHERE hyperplanes split, but not WHAT the splits are FOR.
+
+**Formalization:** Define the ground truth predictor $p: S \to [0,1]$ as the substrate's estimate of $P(\text{ground truth event} | s)$. At $\ell_1$, $p$ is retrospective: ground truth events mark states after they occur. At $\ell_F$, $p$ is prospective: the substrate predicts which states WILL produce ground truth events and navigates accordingly. The barrier is: prospective prediction requires features that correlate with ground truth, but R1 prohibits optimizing features FOR ground truth correlation. The features must emerge from the dynamics alone.
+
+**Implication:** The GRN architecture (below) may address this: if multiple encodings $\{\pi_i\}$ compete, and environmental ground truth selects the winner, then the surviving $\pi_i$ is the one whose features happen to correlate with ground truth — without any $\pi_i$ being optimized for it. Selection pressure, not optimization, bridges the gap.
+
+#### Connection: Gene Regulatory Networks and R3
+
+Gene regulatory networks (GRNs) solve a structural analog of R3. The genome is fixed (frozen frame), but which genes are *expressed* changes in response to environmental signals — the "exclusion effect" (Oliveri & Davidson, 2008). When one regulatory program activates, it produces transcriptional repressors that suppress alternative programs. The environment triggers which program runs, not a designer.
+
+This suggests an alternative architecture for R3 that avoids infinite regress: instead of one encoding $\pi$ that directly modifies itself (Schmidhuber's self-referential approach), maintain multiple encoding candidates $\{\pi_1, \pi_2, \ldots\}$ that mutually inhibit each other. Environmental ground truth (R5) determines which $\pi_i$ is expressed. The substrate doesn't modify $\pi$ — it modifies which $\pi$ is *active*. This achieves $\ell_F$ through selection pressure on a population of encodings, not through self-referential weight modification. Whether this is genuinely $\ell_F$ or disguised $\ell_1$ (the "population" being data, not operations) is an open question — but it reframes the R3 problem from "how does the system rewrite its own code?" to "how does the system select among codes it has already generated?"
+
 ## Author Attribution and Disclosure
 
 This research was conducted by a team of LLM agent personas (Leo, Eli) coordinated by a human researcher (Jun). Leo (Claude Opus) designed experiments, formalized theory, and wrote the paper. Eli (Claude Sonnet) implemented experiment scripts, ran experiments, and maintained infrastructure. Jun provided strategic direction, constitutional framework (R1-R6), approval gates, and evaluated findings for self-deception.
