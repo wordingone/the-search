@@ -265,10 +265,15 @@ Action selection combines both: when $G$ has tied counts (fresh cell, all action
 
 The meta-graph has 16 nodes × 4 actions = 64 edges. Negligible overhead. The frozen frame cost: one decision (hash action counts alongside observations). The mechanism is the same compare-select-store applied to $\text{enc}(s)$ instead of $x$.
 
+**Degeneration constraint (Zenil, 2026).** Zenil ("On the Limits of Self-Improving in LLMs," arXiv 2601.05280) formalizes recursive self-training as a dynamical system and proves two failure modes: (1) entropy decay — sampling kills distributional diversity (our U22), and (2) variance amplification — without persistent external grounding, distributional drift via random walk (our U7). The prediction: self-improvement degenerates unless the proportion of exogenous signal is maintained asymptotically.
+
+**Implication for the eigenform:** Pure self-observation $F(s)(\text{enc}(s))$ without environmental input would degenerate per Zenil's theorem. The mechanism MUST interleave environment steps and self-observation steps: $F(s)(x)$ then $F(s)(\text{enc}(s))$. R5's environmental ground truth (game death, level transitions) provides the external grounding that prevents entropy decay. This predicts the interleaving ratio matters: too much self-observation → degeneration; too little → no benefit. The optimal ratio is a degree of freedom.
+
 **Testable predictions:**
 1. Meta-graph tie-breaking vs random tie-breaking: if meta improves L1 success rate, self-observation provides useful signal at the bootstrap stage.
 2. Meta-graph bias on saturated cells: if meta selects different actions than per-cell argmin in the attractor basin (Step 550's 364-node active set), self-observation provides signal at the frontier stage.
-3. If meta-argmin = per-cell argmin everywhere, self-observation via the same $F$ is inert — the self-observation mechanism must be qualitatively different from environment observation. This would be a strong negative result constraining future substrate design.
+3. If meta-argmin = per-cell argmin everywhere, self-observation via the same $F$ is inert — the self-observation mechanism must be qualitatively different from environment observation.
+4. Interleaving ratio: self-observation every N steps. If N=1 (every step) degenerates and N=∞ (never) is baseline, there exists an optimal N that maximizes reachable set expansion.
 
 ### 4.5 Argmin Robustness and the Noisy TV Barrier
 
@@ -745,3 +750,7 @@ The agents operated on a single machine (Windows 11, RTX 4090) with experiments 
 - Strehl, A. L. & Littman, M. L. (2008). An Analysis of Model-Based Interval Estimation for Markov Decision Processes. JCSS, 74(8), 1309-1331.
 - van de Ven, G. M. & Tolias, A. S. (2024). Continual Learning and Catastrophic Forgetting. arXiv:2403.05175.
 - Wang, Z. et al. (2019). Characterizing and Avoiding Negative Transfer. CVPR.
+- Zenil, H. (2026). On the Limits of Self-Improving in Large Language Models: The Singularity Is Not Near Without Symbolic Model Synthesis. arXiv:2601.05280.
+- Kauffman, L. H. (2023). Autopoiesis and Eigenform. Computation, 11(12), 247.
+- Tero, A. et al. (2010). Rules for Biologically Inspired Adaptive Network Design. Science, 327(5964), 439-442.
+- Rosen, R. (1991). Life Itself: A Comprehensive Inquiry into the Nature, Origin, and Fabrication of Life. Columbia University Press.
