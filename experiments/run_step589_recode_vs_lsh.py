@@ -1,5 +1,5 @@
 """
-Step 589 -- Recode vs LSH head-to-head, 20 seeds, 50K steps. NEEDS JUN APPROVAL.
+Step 589 -- Recode vs LSH head-to-head, 20 seeds, 50K steps. JUN APPROVED.
 
 Reviewer's separation result: does l_pi (Recode, adaptive encoding) provably
 outperform l_0 (fixed LSH) at same budget?
@@ -12,10 +12,8 @@ Three conditions:
   B) LSH (l_0, K=12) -- same as argmin baseline
   C) LSH (l_0, K=16) -- controls for K, isolates adaptive-split effect
 
-Same seed protocol as 584. Fisher exact test: Recode vs LSH(K=12).
-
-Expected runtime: 3 conditions x 20 seeds x 50K steps ~= 90 min.
-JUN APPROVAL REQUIRED before running.
+Checkpoints at 10K/20K/30K/40K/50K steps.
+Fisher exact at each checkpoint AND at 50K final.
 """
 import numpy as np
 import time
@@ -26,9 +24,10 @@ K_LSH12  = 12
 K_LSH16  = 16
 DIM = 256
 N_A = 4
-MAX_STEPS = 50_000
-TIME_CAP  = 300   # 5 min per seed
-N_SEEDS   = 20
+MAX_STEPS   = 50_000
+TIME_CAP    = 300   # 5 min per seed
+N_SEEDS     = 20
+CHECKPOINTS = [10_000, 20_000, 30_000, 40_000, 50_000]
 REFINE_EVERY = 5000
 MIN_OBS   = 8
 H_SPLIT   = 0.05
@@ -140,6 +139,8 @@ def run_seed(mk, seed, SubClass):
     env = mk(); sub = SubClass(seed=seed * 100 + 7)
     obs = env.reset(seed=seed); sub.on_reset()
     l1 = l2 = go = step = 0; prev_cl = 0; fresh = True; t0 = time.time()
+    l1_first_step = None
+    cp_wins = {c: False for c in CHECKPOINTS}  # whether L1 reached by checkpoint c
 
     while step < MAX_STEPS and time.time() - t0 < TIME_CAP:
         if obs is None:
@@ -154,16 +155,24 @@ def run_seed(mk, seed, SubClass):
         if fresh: prev_cl = cl; fresh = False
         elif cl >= 1 and prev_cl < 1:
             l1 += 1
-            if l1 <= 2: print(f"    s{seed} L1@{step}", flush=True)
+            if l1 == 1:
+                l1_first_step = step
+                print(f"    s{seed} L1@{step}", flush=True)
+            elif l1 == 2:
+                print(f"    s{seed} L1x2@{step}", flush=True)
         elif cl >= 2 and prev_cl < 2: l2 += 1
         prev_cl = cl
+        for c in CHECKPOINTS:
+            if not cp_wins[c] and l1 > 0 and l1_first_step is not None and l1_first_step <= c:
+                cp_wins[c] = True
 
     deaths = getattr(sub, 'total_deaths', 0)
     if hasattr(sub, 'stats'): nc, ns, _ = sub.stats(); cells = nc
     else: cells = len(getattr(sub, 'cells', set()))
     print(f"  s{seed}: L1={l1} L2={l2} go={go} step={step} cells={cells} deaths={deaths} "
           f"{time.time()-t0:.0f}s", flush=True)
-    return dict(seed=seed, l1=l1, l2=l2, go=go, steps=step, cells=cells, deaths=deaths)
+    return dict(seed=seed, l1=l1, l2=l2, go=go, steps=step, cells=cells, deaths=deaths,
+                l1_first_step=l1_first_step, cp_wins=cp_wins)
 
 
 def run_condition(mk, label, SubClass):
@@ -179,13 +188,28 @@ def run_condition(mk, label, SubClass):
     return results
 
 
+def checkpoint_fisher(rc, l12, label_rc="Recode", label_lsh="LSH-K12"):
+    """Print Fisher exact (Recode > LSH-K12) at each checkpoint and at final."""
+    try:
+        from scipy.stats import fisher_exact
+    except ImportError:
+        fisher_exact = None
+
+    print(f"\n--- Checkpoint analysis ({label_rc} vs {label_lsh}) ---", flush=True)
+    for c in CHECKPOINTS:
+        rc_w  = sum(1 for r in rc  if r.get('cp_wins', {}).get(c, False))
+        l12_w = sum(1 for r in l12 if r.get('cp_wins', {}).get(c, False))
+        n = len(rc)
+        line = f"  @{c//1000:2d}K: {label_rc} {rc_w}/{n}  {label_lsh} {l12_w}/{n}"
+        if fisher_exact and n > 0:
+            tbl = [[rc_w, n - rc_w], [l12_w, n - l12_w]]
+            _, pval = fisher_exact(tbl, alternative='greater')
+            line += f"  p={pval:.4f}"
+        print(line, flush=True)
+
+
 def main():
-    import sys
-    # Require explicit approval flag
-    if "--approved" not in sys.argv:
-        print("Step 589 requires Jun's explicit 50K approval.")
-        print("Run with --approved flag after receiving approval.")
-        return
+    # Jun approved via Leo mail 2255 (2026-03-21)
 
     try:
         sys.path.insert(0, '.')
@@ -225,6 +249,8 @@ def main():
         print(f"  Fisher (Recode > LSH-K12): odds={odds:.3f} p={pval:.4f}")
     except ImportError:
         pass
+
+    checkpoint_fisher(rc, l12)
 
     print(f"\n  Total elapsed: {time.time()-t_total:.0f}s")
 

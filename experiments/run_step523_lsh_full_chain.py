@@ -240,7 +240,7 @@ def main():
     print(f"Baseline: Step 516 LSH CIFAR->LS20->CIFAR WIN@1116", flush=True)
 
     import torchvision, arc_agi
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data',
+    ds = torchvision.datasets.CIFAR100('./data/cifar100',
                                         train=False, download=True)
     X = np.array(ds.data[:N_CIFAR])
     y = np.array(ds.targets[:N_CIFAR])

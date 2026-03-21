@@ -437,7 +437,7 @@ def main():
     try:
         import torchvision
         ds = torchvision.datasets.CIFAR100(
-            'C:/Users/Admin/cifar100_data', train=False, download=True
+            './data/cifar100', train=False, download=True
         )
         X = np.array(ds.data); y = np.array(ds.targets)
         print(f"CIFAR-100: {len(X)} test images", flush=True)

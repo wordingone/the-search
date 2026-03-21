@@ -115,7 +115,7 @@ def main():
     print(f"Analog: codebook Step 506 (FAIL). Prediction: FAIL (0/1).", flush=True)
 
     import torchvision, arc_agi
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data', train=False, download=True)
+    ds = torchvision.datasets.CIFAR100('./data/cifar100', train=False, download=True)
     X = np.array(ds.data)
     y = np.array(ds.targets)
     arc = arc_agi.Arcade()

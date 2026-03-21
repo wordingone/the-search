@@ -123,9 +123,9 @@ class CompressedFold:
 
 def load_mnist():
     import torchvision
-    tr = torchvision.datasets.MNIST('C:/Users/Admin/mnist_data',
+    tr = torchvision.datasets.MNIST('./data/mnist',
                                     train=True,  download=False)
-    te = torchvision.datasets.MNIST('C:/Users/Admin/mnist_data',
+    te = torchvision.datasets.MNIST('./data/mnist',
                                     train=False, download=False)
     X_tr = tr.data.numpy().reshape(-1, 784).astype(np.float32) / 255.0
     X_te = te.data.numpy().reshape(-1, 784).astype(np.float32) / 255.0

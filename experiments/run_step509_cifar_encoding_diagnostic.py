@@ -128,7 +128,7 @@ def main():
 
     print("\nLoading CIFAR-100...", flush=True)
     import torchvision
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data', train=False, download=True)
+    ds = torchvision.datasets.CIFAR100('./data/cifar100', train=False, download=True)
     X = np.array(ds.data)   # [10000, 32, 32, 3] uint8
     y = np.array(ds.targets)
     print(f"  {len(X)} test images, {len(set(y))} classes", flush=True)

@@ -46,8 +46,8 @@ def test_pmnist():
     import torchvision
     print("\n--- Test A: P-MNIST 1-task (5K samples) ---", flush=True)
 
-    tr = torchvision.datasets.MNIST('C:/Users/Admin/mnist_data', train=True, download=True)
-    te = torchvision.datasets.MNIST('C:/Users/Admin/mnist_data', train=False, download=True)
+    tr = torchvision.datasets.MNIST('./data/mnist', train=True, download=True)
+    te = torchvision.datasets.MNIST('./data/mnist', train=False, download=True)
     X_tr = tr.data.numpy().reshape(-1, 784).astype(np.float32) / 255.0
     y_tr = tr.targets.numpy()
     X_te = te.data.numpy().reshape(-1, 784).astype(np.float32) / 255.0

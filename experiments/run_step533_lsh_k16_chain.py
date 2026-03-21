@@ -294,7 +294,7 @@ def main():
     print(f"Baseline (k=12, Step 523): LS20 0/3, FT09 3/3, VC33 3/3", flush=True)
 
     import torchvision, arc_agi
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data',
+    ds = torchvision.datasets.CIFAR100('./data/cifar100',
                                         train=False, download=True)
     X = np.array(ds.data[:N_CIFAR])
     y = np.array(ds.targets[:N_CIFAR])

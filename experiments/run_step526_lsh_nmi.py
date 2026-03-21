@@ -40,7 +40,7 @@ def main():
     import torchvision
     from sklearn.metrics import normalized_mutual_info_score
 
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data',
+    ds = torchvision.datasets.CIFAR100('./data/cifar100',
                                         train=False, download=True)
     X = np.array(ds.data[:N_IMAGES])
     y = np.array(ds.targets[:N_IMAGES])

@@ -151,7 +151,7 @@ def main():
     print(f"Max LS20 steps: {MAX_LS20_STEPS//1000}K, time cap: {LS20_TIME_CAP}s.", flush=True)
 
     import torchvision, arc_agi
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data', train=False, download=True)
+    ds = torchvision.datasets.CIFAR100('./data/cifar100', train=False, download=True)
     X = np.array(ds.data)
     y = np.array(ds.targets)
 

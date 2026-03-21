@@ -189,7 +189,7 @@ def main():
     print(f"spawn_threshold={SPAWN_THRESHOLD}", flush=True)
 
     import torchvision, arc_agi
-    ds = torchvision.datasets.CIFAR100('C:/Users/Admin/cifar100_data', train=False, download=True)
+    ds = torchvision.datasets.CIFAR100('./data/cifar100', train=False, download=True)
     X = np.array(ds.data); y = np.array(ds.targets)
 
     arc = arc_agi.Arcade()
