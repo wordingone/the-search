@@ -550,6 +550,13 @@ Step 703: FT09 chain, 5 seeds, game ft09/0d8bbf25. L1=5/5, CIFAR 1.7%.
   Aliasing UNFREEZES in chain: standalone FT09 aliased=1-4 (frozen), chain aliased=6-17.
   Running-mean centering changes hash embeddings cross-game. Centering effect confirmed on FT09.
 
+Step 702: 674 on FT09, 20 seeds, 120K, game ft09/0d8bbf25. L1=17/20, L2=0/20.
+  3 seeds fail (s11, s13, s18): aliased=0 — completely deterministic transitions.
+  674's mechanism never engages. FT09 is largely deterministic (1-4 aliased cells max).
+  The 3 missing seeds are a DIFFERENT failure mode from LS20: not too many aliased cells
+  (LS20 problem) but ZERO aliased cells (FT09 problem). Plain argmin without 674 would
+  need to be tested to determine if these seeds fail on all mechanisms or just 674.
+
 Step 704: 674 + running-mean centering, 10 seeds (0-9), 25s. Game: ls20/9607627b.
   **L1=10/10** vs frame-local 674 7/10 (on seeds 0-9 at 25s). +3 seeds rescued (s2, s4, s7).
   Speed tradeoff: s1 3.9x slower, s3 4.1x slower, s8 52x slower (126→6564).
