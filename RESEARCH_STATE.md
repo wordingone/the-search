@@ -184,8 +184,20 @@ Step 653: Seed-matched argmin vs random. 20 seeds, 5s per method. SYMMETRIC BLOC
   Argmin's order is systematically different from random's order, and each unlocks
   different conjunctions.
 
+Step 654: Hidden state MI diagnostic. BLOCKED — game internals not accessible from env API.
+  No snw/tmx/tuv exposed. MI computation impossible without source access.
+  Pattern distribution informative: 65.8% frontier (000), 0.3% attractor (111).
+  Most of the graph has no recent temporal history at any given step.
+
+Step 655: Tempest graph (3-bit recency pattern). 9/10 L1 (vs 6/10 baseline Step 459).
+  BUT mechanism DEGENERATE: 99% of cells are pattern 000 at any step. K=3 register
+  is too short for 1000-20000 step L1 timescales. All successors get the same weight
+  (frontier 0.5) → constant multiplier → same argmin ordering. Pattern weighting does nothing.
+  9/10 explained by more seeds, not by composition. Tempest f064 parallel: history collapses
+  when timescale mismatches register length. K=1000 would be needed → collapses to count.
+  **Tempest composition at K=3: KILLED by timescale mismatch.**
+
   Next experiments testing the composition hypothesis directly:
-  - Does the graph implicitly encode game hidden state? (MI diagnostic, Step 654)
   - Does argmin prevent some solutions? (seed-matched comparison, Step 653)
   - Tempest graph: node-level temporal patterns + pattern-sensitive selection (Step 655)
   - N-gram retest with N=3 pattern processing (Step 656)
