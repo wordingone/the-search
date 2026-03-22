@@ -77,7 +77,7 @@ results. Compress edits both.}
 We formalize six rules (R1-R6) for recursive self-improvement as
 mathematical conditions on a state-update function
 \(f: S \times X \to S\) and derive necessary properties of any system
-satisfying all six simultaneously. From 612+ experiments across 12
+satisfying all six simultaneously. From 720+ experiments across 12
 architecture families on ARC-AGI-3 interactive games, we extract 26
 constraints and prove: (1) no satisfying system has a fixed point ---
 self-modification is necessary, not optional; (2) in finite
@@ -90,7 +90,7 @@ contribution is the walls themselves.
 
 \subsection{1. Introduction}\label{introduction}
 
-612+ experiments across 12 architecture families (codebook/LVQ, LSH, L2
+720+ experiments across 12 architecture families (codebook/LVQ, LSH, L2
 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree,
 Absorb, connected-component, Bloom filter, CA) tested substrates for
 navigation and classification on ARC-AGI-3 interactive games and a
@@ -685,7 +685,7 @@ action). These select opposite actions when the least-explored action is
 also the least-confident.
 
 \textbf{Relationship to prior work:} This is the standard RL tradeoff.
-Not novel. Our contribution is empirical confirmation across 612+
+Not novel. Our contribution is empirical confirmation across 720+
 experiments that no single \(g\) produces both good navigation and good
 classification (Steps 418, 432, 444b).
 
@@ -1374,6 +1374,14 @@ before dying, then proceed to the exit. Exhaustive coverage via argmin
 fails for L2 because the energy constraint imposes a TIME LIMIT per
 episode.
 
+\textbf{Cross-game confirmation (Step 691).} FT09 with 674 at 300s:
+L1=5/5, L2=0/5. Aliased cells are FROZEN post-L1 (1-4 cells, unchanged
+over 1.9M steps). Compare LS20 (Step 686): aliased grows 2→471. The L2
+wall exists on BOTH games despite fundamentally different aliasing
+dynamics --- FT09 has near-zero aliasing yet L2 is equally unreachable.
+This proves L2 is not about disambiguation capacity. The substrate is
+already fully disambiguated on FT09 and still cannot reach L2.
+
 \textbf{Connection to Proposition 13 (Eigenform Inertness):}
 Self-observation identifies structure in visited states but cannot guide
 navigation to unvisited states. For L2, the unvisited states include
@@ -1385,6 +1393,13 @@ partial observations. This is the transition from \(\ell_\pi\)
 (perception refinement) to \(\ell_F\) (rule modification) --- the system
 must modify its UPDATE RULE to incorporate predictions, not just refine
 its mapping.
+
+\textbf{Connection to Section 2.11 (Renormalization Group):} The L2 wall
+as a phase transition is confirmed by Step 691: the L1 effective theory
+(argmin + transition-inconsistency refinement) has the SAME structure on
+both games but neither reaches L2. L2 requires different relevant
+operators --- not finer resolution of the same operators. This is
+precisely an RG phase boundary: the universality class changes at L2.
 
 \paragraph{Proposition 16: Transition-Inconsistency Refinement (Q20
 Resolved)}\label{proposition-16-transition-inconsistency-refinement-q20-resolved}
@@ -1703,7 +1718,7 @@ gap is bridgeable --- whether a system can discover its own
 implementations of compare-select-store from interaction alone --- is
 the central open question. Rosen says no (for biological systems,
 contested). Bauer says no (for total systems, proved). Our evidence
-(612+ experiments, 0 substrates at \(\ell_F\)) is consistent with both
+(720+ experiments, 0 substrates at \(\ell_F\)) is consistent with both
 pessimistic answers but has not established impossibility.
 
 \textbf{Corollary (Dissolution of the R3-Navigation Coupling):}
@@ -1730,8 +1745,8 @@ executes --- determines whether interpreter entailment is achievable
 
 \subsection{5. Experimental Evidence}\label{experimental-evidence}
 
-\subsubsection{5.1 Navigation (612+
-experiments)}\label{navigation-612-experiments}
+\subsubsection{5.1 Navigation (720+
+experiments)}\label{navigation-720-experiments}
 
 All 3 ARC-AGI-3 games solved at Level 1:
 
@@ -1756,9 +1771,14 @@ Steps
 \bottomrule\noalign{}
 \endlastfoot
 LS20 Level 1 & LSH k=12 + centered\_enc + avgpool16, 4 actions, argmin &
-10/10 at 200K; 9/10 at 120K & 471 (easy seed) to 137K (hard seed) \\
-FT09 & k-means n=300, 69 actions (64 click grid + 5 simple), argmin &
-3/3 at 50K & 157, 2035, 3840 \\
+Plain: 11/20 at 25s, 16/20 at 120K. \textbf{674+running-mean: 20/20 at
+25s.} 674 frame-local: 17/20 at 25s, 20/20 at 120K. & 126 (easy) to 27K
+(hard) \\
+FT09 Level 1 & LSH k=12 + centered\_enc + avgpool16, 6 actions, argmin &
+Plain: 8/20 at 25s = 8/20 at 120K (binary). 674 frame-local: 17/20.
+\textbf{674+running-mean: 20/20.} & 566-12603 \\
+FT09 Level 1 & k-means n=300, 69 actions (64 click grid + 5 simple),
+argmin & 3/3 at 50K & 157, 2035, 3840 \\
 VC33 & k-means n=50, 3 actions (zone discovery), argmin & 3/3 at 30K &
 18, 82, 144 \\
 \end{longtable}
@@ -1786,8 +1806,9 @@ avg 152 times before L1 triggers (Step 652). The bottleneck is hash
 resolution at the exit cell, not action selection (Proposition 15). Step
 672 (diagnostic): k=20 separates hidden states that k=12 conflates ---
 slow seeds have 20-43 k=20 sub-cells at the exit cell vs 6.79 average.
-\textbf{Step 674 (transition-triggered dual-hash): definitive 17/20 L1
-at 25s (Step 690, 20-seed sweep).} Cells with inconsistent transitions
+\textbf{Step 674 (transition-triggered dual-hash): 17/20 L1 at 25s (Step
+690), 20/20 at 120K (Step 692 --- complete L1 coverage, +11 seeds vs
+baseline 9/10).} Cells with inconsistent transitions
 (\textbar successor\_set\textbar{} ≥ 2) get fine k=20 hash; all others
 use k=12. Seed 8: 192x faster (24235→126). The aliased-cell count
 determines success: \textless130 aliased cells → faster, \textgreater180
@@ -1871,7 +1892,7 @@ but argmin cannot reach them.
 \subsubsection{5.3 Architecture Family
 Summary}\label{architecture-family-summary}
 
-12 families tested across 612+ experiments.
+12 families tested across 720+ experiments.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -3104,7 +3125,7 @@ modification?'' (the expressiveness question).
 \subsubsection{7.7 Where the search
 points}\label{where-the-search-points}
 
-The 612+ experiments, 12 propositions, and 3 theorems converge on a
+The 720+ experiments, 12 propositions, and 3 theorems converge on a
 single question: \textbf{is compare-select-store with a sufficiently
 rich state space expressive enough to simulate self-modification?}
 
