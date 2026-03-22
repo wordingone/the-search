@@ -397,6 +397,12 @@ Step 686: 674 on LS20, seed 8, 300s. L1=126, L2=None. aliased: 2→439 over 572K
   from L1's bounded aliasing — L1 has a finite number of hidden states at the exit cell,
   L2 has a growing frontier of aliased cells.
 
+Step 687: Chain benchmark with 674. L1=3/3, CIFAR acc=1.4% (near chance). CHAIN-COMPATIBLE.
+  CIFAR has 8-11 aliased cells (prediction wrong — sequential images create non-deterministic
+  transitions). LS20 aliased=1077-1159 by 300s (same growth). L1 faster in chain context
+  (1526-3463 vs 674's seeds). CIFAR accuracy consistent with Step 546 baseline — no cross-domain
+  benefit from LS20 navigation, expected.
+
   **Implication for the paper:** Proposition 15 (perception-action decoupling) holds for L1
   but NOT for L2. L1's bottleneck is perception resolution (bounded aliasing). L2's bottleneck
   is that perception resolution DIVERGES — the mechanism can't refine fast enough to keep
