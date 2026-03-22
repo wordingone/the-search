@@ -1297,6 +1297,31 @@ redirects from per-level optimization to full chain across all games.
 
 NEXT: Step 713 (universal action discovery + raw 64x64 + all games). Specs sent to Eli.
 
+**L1 BAN (Jun, 2026-03-22).** L1 banned as metric. 674+running-mean = frozen bootloader.
+Every experiment states R3 hypothesis. Ban lifts when R3 produces first M reclassification.
+
+Step 713a: Universal AD on LS20, avgpool16, 5 seeds, 120K. Bootloader pass.
+  R3: action discovery correct — 64 clicks DEAD, 4 dirs LIVE. Perfect pruning.
+
+Step 713_raw: Universal AD on LS20, raw 64x64 (4096D), 5 seeds, 120K. Bootloader pass.
+  R3: same perfect discovery as avgpool16. Raw 64x64 NOT slower (356s vs 357s).
+  FINDING: raw 64x64 viable as universal encoding. No speed penalty.
+
+Step 713b: Universal AD on FT09, raw 64x64, 5 seeds, 120K. Bootloader pass.
+  R3: 4 dirs DEAD, 8 specific clicks LIVE (out of 64). Stronger than expected —
+  discovers not just "clicks work" but WHICH positions produce state changes.
+
+Step 714: Universal AD on VC33, raw 64x64, 5 seeds, 120K. Bootloader FAIL (0/5).
+  R3: dead=0. All 68 actions classified LIVE. Pruning mechanism blind on VC33.
+  VC33 responds visually to every action — state-change detection can't distinguish
+  productive from non-productive clicks. Magic pixels found (Y,Y) but only because
+  nothing pruned. DIAGNOSTIC: tol sweep requested (714c).
+
+**Universal AD summary:** LS20 perfect, FT09 perfect, VC33 blind.
+State-change detection = ℓ₀ R3 for action discovery. Works when games have binary
+live/dead actions. Fails when all actions produce visual feedback.
+Next R3 level: outcome-based pruning from graph topology (new-cell rate).
+
 L2 DIRECTION NOTES (post-674 compression, 2026-03-22):
 
 Step 712 determines whether 674 or running-mean centering is the primary L1 coverage driver.
