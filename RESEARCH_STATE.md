@@ -211,7 +211,16 @@ Step 658: Decoupled compare/select. 0/10. INTERPRETER IS ONE OPERATION.
   Storing at frame cell while selecting from delta cell kills everything.
   Compare and select are coupled — the decomposition is a theoretical artifact.
 
-  Remaining: Step 659 (spatial composition), Steps 660-663 (doubting the graph)
+Step 659: Betweenness centrality selection. 6/10. MARGINAL — same seed asymmetry.
+  Opens 2 seeds (s6, s8), hurts 1 (s1: 12.9x slower). BC signal sparse (max=0.2).
+  Spatial composition alone doesn't produce consistent improvement.
+
+Step 660: Flat counter vs graph. 15/20 IDENTICAL. Graph is mostly a counter.
+  flat_only=3 (s0, s8, s14). argmin_only=1 (s10). The graph's transition structure
+  adds marginal value through tie-breaking. On 3 seeds, transitions ADD NOISE —
+  flat counter is better. 660 experiments built transitions that nothing exploits.
+
+  Remaining: Steps 661-663, Steps 664-671 (POMDP pivot)
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
