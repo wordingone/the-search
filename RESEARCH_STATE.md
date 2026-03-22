@@ -509,6 +509,16 @@ Step 698: s4 centering diagnostic. Game: ls20/9607627b. FINDING — centering IS
   variable that determines which cells get aliased. This connects to U16 (centering
   load-bearing) and I1 (representation discovery).
 
+Step 697: Plain k=12 baseline on current game (ls20/9607627b), 20 seeds, 25s. L1=11/20.
+  s0:8298 s1:18514 s2:NO s3:220 s4:132 s5:NO s6:950 s7:NO s8:24938 s9:NO
+  s10:900 s11:NO s12:NO s13:NO s14:31075 s15:7283 s16:23128 s17:NO s18:NO s19:8953
+  DEFINITIVE CURRENT BASELINE: plain k=12 = 11/20 at 25s.
+  674 advantage on current game: 17/20 vs 11/20 = +6 seeds at 25s.
+  674 rescues: s5, s9, s11, s13, s17, s18. Both miss: s7.
+  Note: s4 plain=132 but 674=24968 (189x regression). s8 plain=24938 but 674=126 (198x improvement).
+  The mechanism is a TRADE: helps high-aliasing-at-exit seeds, hurts low-aliasing seeds.
+  Net: +6 seeds (17 vs 11). Clear positive on current game.
+
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
   2/5 seeds 2-3x faster (286-399 cells — L1 in unexplored territory). Same failure mode as delta
