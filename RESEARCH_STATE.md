@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 641 (Meta-graph transfer — KILL, profile uniformity)
+CURRENT STEP: 651 (mgu vs argmin diagnostic — L2-targeting series)
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -126,6 +126,49 @@ Step 648: Outcome-hash transfer (K=3 Hamming neighbors). L1=3/5, changed=39% (vs
   **Direction assessment:** L1 improvement via edge-state enrichment = KILLED. Argmin is locally
   optimal for L1 across 9 experiments, 4 mechanism variants, and the same seed asymmetry pattern.
   The next direction must target L2 directly — not L1 improvement.
+
+Step 649: Path-conditioned counts (2nd-order Markov). L1=4/5, avg_speedup=1.09x. MARGINAL (noise).
+  Path diversity IS real: avg 10.3 distinct prev_cells per cell. G3 memory: 4442-11002 keys.
+  But diversity doesn't translate to consistent L1 speedup — s3 alone drives average above 1.0x.
+  Seed asymmetry persists. The composed state EXISTS (path diversity) but argmin can't read it
+  as structure — it just approximates the same frequency.
+
+Step 650: Per-episode exploration (fresh edge dict each life). L1=1/5. KILL.
+  Episode-local clearing prevents building cross-episode count gradient. Unique cells drop to
+  67-113 (vs 200-360 for argmin). The substrate explores within episodes but never builds the
+  sustained directional pressure that reaches L1. Argmin's L1 requires cross-episode accumulation.
+  **Destroying temporal history destroys navigation** — confirms temporal structure is load-bearing.
+
+Step 651: mgu vs argmin gap diagnostic (seed=0, 90s). MOST INFORMATIVE.
+  argmin: L1=11439, 136K steps/90s, 316 cells, action dist 25/25/25/25%.
+  mgu:    L1=None,  31K steps/90s, 124 cells, action dist 99/0/0/0%.
+  mgu at level 0 uses cluster navigation (mode map → isolated CC → directed movement).
+  Result: 99% action 0 (north). Stuck in directed movement, not exploring.
+  mgu_exclusive cells: 2. argmin_exclusive cells: 194.
+  **The mgu pipeline's L2 advantage is BFS-hardcoded. It never discovers L2 autonomously.**
+  At level 0, mgu is WORSE than argmin: 4x slower, 2.5x fewer cells, action collapse.
+
+  **649-651 combined finding:** The composed state exists (path diversity, outcome hashes,
+  surprise rates — all confirmed informative). But no mechanism tested so far can exploit
+  composed state for consistent L1/L2 improvement. The state HAS the information. The
+  interpreter can't READ it as temporal structure — argmin flattens everything to counts.
+
+  **Phase 3 reframing (Jun, 2026-03-21, Spelke/Tempest synthesis):**
+  648 experiments characterized the interpreter (compare-select-store). The interpreter is
+  fully mapped: what it can't do (L2), what it doesn't need (targeted strategies), what it
+  requires (centering, local continuity, persistence). The interpreter is the frozen frame.
+  The question was never "how do we modify the interpreter?" — it was always "what state
+  structure enables the interpreter to compose its outputs into operations it never explicitly
+  computes?" (Spelke, 2022: fixed core knowledge modules + composition = novel cognition.
+  Alonso-Sanz, 2015: memory transforms complexity class without changing transition function.
+  Tempest: 3-bit history per cell + pattern-dependent transition + neighbor context = emergent
+  behavior from fixed rules.)
+
+  Next experiments test the composition hypothesis directly:
+  - Does the graph implicitly encode game hidden state? (MI diagnostic)
+  - Is L1 about exploration or recognition? (exit cell visit count before trigger)
+  - Does argmin prevent some solutions? (seed-matched argmin vs random comparison)
+  - Tempest graph: node-level temporal patterns + pattern-sensitive selection
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
