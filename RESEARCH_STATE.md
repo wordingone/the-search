@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 690 (20-seed definitive L1 sweep)
+CURRENT STEP: 692 (20/20 L1 confirmed + FT09 aliasing frozen)
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -451,6 +451,17 @@ Step 692: 674 on LS20, 20 seeds, 120K steps. **L1=20/20. L2=0/20.**
   Binary criterion selects right cells for some seeds, wrong cells for others.
   Comparison: Step 485 baseline = 9/10 at 120K. Step 692 = 20/20 at 120K. +11 seeds.
   L2=0/20 confirms L2 wall is mechanism, not coverage (consistent with 686/688/689).
+
+Step 691: 674 on FT09, 5 seeds, 300s. L1=5/5, L2=0/5. **CRITICAL STRUCTURAL FINDING.**
+  Aliased cells FROZEN post-L1: s0=4→4, s1=2→2, s2=1→1, s3=2→2, s4=1→1 over 1.9M steps.
+  Compare LS20 (686): aliased 2→471 over 300s. FT09 has near-zero perceptual aliasing.
+  L2 wall anatomy (cross-game):
+    LS20: HIGH aliasing (471 cells), fine hash heavily used → L2=0
+    FT09: ZERO aliasing (1-4 cells, frozen), fine hash unused → L2=0
+  BOTH fail → L2 wall is NOT about disambiguation capacity.
+  L2 requires something beyond perception refinement (ℓ_π). Confirms RG analogy:
+  L2 has different relevant operators. The substrate needs ℓ_F (new operations),
+  not more ℓ_π (finer perception).
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).

@@ -410,7 +410,11 @@ Steps 477-482, 539-541. 6 strategies tested, all worse than or equal to argmin.
 
 **Implication:** L2 requires a mechanism that can navigate toward a goal region DESPITE unresolved perceptual aliasing — not one that resolves all aliasing before navigating. This is the L2 energy mechanic (iri sprites, Steps 556-557): the agent must navigate TO energy sources before dying, then proceed to the exit. Exhaustive coverage via argmin (which works for L1 because L1's exit is findable by random coverage) fails for L2 because the energy constraint imposes a TIME LIMIT per episode.
 
+**Cross-game confirmation (Step 691).** FT09 with 674 at 300s: L1=5/5, L2=0/5. Aliased cells are FROZEN post-L1 (1-4 cells, unchanged over 1.9M steps). Compare LS20 (Step 686): aliased grows 2→471. The L2 wall exists on BOTH games despite fundamentally different aliasing dynamics — FT09 has near-zero aliasing yet L2 is equally unreachable. This proves L2 is not about disambiguation capacity. The substrate is already fully disambiguated on FT09 and still cannot reach L2.
+
 **Connection to Proposition 13 (Eigenform Inertness):** Self-observation identifies structure in visited states but cannot guide navigation to unvisited states. For L2, the unvisited states include energy sources. The mechanism must predict WHERE energy sources are from partial observations — a world model, not a coverage strategy. This sharpens the L2 problem: the bottleneck is not perception ($\pi$) and not action selection ($g$), but prediction of unvisited states from partial observations. This is the transition from $\ell_\pi$ (perception refinement) to $\ell_F$ (rule modification) — the system must modify its UPDATE RULE to incorporate predictions, not just refine its mapping.
+
+**Connection to Section 2.11 (Renormalization Group):** The L2 wall as a phase transition is confirmed by Step 691: the L1 effective theory (argmin + transition-inconsistency refinement) has the SAME structure on both games but neither reaches L2. L2 requires different relevant operators — not finer resolution of the same operators. This is precisely an RG phase boundary: the universality class changes at L2.
 
 #### Proposition 16: Transition-Inconsistency Refinement (Q20 Resolved)
 
