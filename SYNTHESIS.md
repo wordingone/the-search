@@ -177,6 +177,17 @@ The benchmark tests NAVIGATION. Navigation is solved (674+running-mean, 20/20, 9
 - Chain benchmark: L1 rate, coverage, steps. Measures frozen-bootloader performance.
 - Missing: DYNAMIC R3 measurement. Compare operations at t=0 vs t=N. Did components change? Was the change self-directed? Did it help on tasks the substrate wasn't designed for?
 
+**Our benchmark is proprietary and uncomperable.** LS20/FT09/VC33 are ARC-AGI-3 games nobody else uses. SOTA benchmarks the substrate should be testable on:
+
+| What we test | SOTA benchmark | Why it matters |
+|---|---|---|
+| Cross-task adaptation | Split-CIFAR100 (50 tasks, 2 classes/task) | THE continual learning standard. DER++, EWC, iCaRL all report here. |
+| Sample-efficient navigation | Atari 100K (26 games, 100K steps) | Direct comparability for navigation claims. |
+| Procedural generalization | ProcGen (16 envs), Craftax | Tests whether mechanism generalizes, not memorizes. |
+| Self-modification | No published benchmark exists | Our R3 audit (frozen element count) is genuinely novel. |
+
+The R3 audit is the novel contribution. But without grounding in Split-CIFAR100 or Atari 100K, nobody can compare.
+
 ---
 
 **The question for the session:**
