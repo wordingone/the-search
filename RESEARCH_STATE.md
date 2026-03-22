@@ -220,7 +220,22 @@ Step 660: Flat counter vs graph. 15/20 IDENTICAL. Graph is mostly a counter.
   adds marginal value through tie-breaking. On 3 seeds, transitions ADD NOISE —
   flat counter is better. 660 experiments built transitions that nothing exploits.
 
-  Remaining: Steps 661-663, Steps 664-671 (POMDP pivot)
+Step 661: Cell N-gram (N=20, same 20 seeds). 0/20. Recency at same cell = nothing.
+  Persistent lifetime accumulation beats any recency window. Confirms 656.
+
+Step 662: Sequence library (K=10 seqs, mutate worst). L1=7/10. **SURPRISE.**
+  Pure evolutionary search over action sequences — NO graph, NO hash, NO cells,
+  NO perception — reaches L1 on 7/10 seeds. 58 unique sequences, 595 episodes.
+  Sequences beat topology for the conjunction problem. R1-compliant (fitness =
+  death/L1 = environmental). Violates R3 (mutation frozen). But 7/10 without
+  ANY of the machinery from 660 experiments.
+
+Step 663: Graph + random selection. 2/20 (vs pure random 4/20). GRAPH HURTS.
+  Graph memory changes the random walk trajectory through conjunction space.
+  Loses 4 seeds pure random reaches, gains 2. Net negative. Graph is not
+  neutral infrastructure — it reshapes exploration paths, sometimes destructively.
+
+  Remaining: Steps 664-671 (POMDP pivot)
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
