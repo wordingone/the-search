@@ -311,11 +311,45 @@ Step 674: Transition-triggered refinement (aliased cells only). L1=9/10. **BEST 
   **FIX: top-N or min-visit threshold to concentrate fine graph on most critical cells.**
   Steps 673-678 running to test variants.
 
+Step 673: Selective dual-hash (entropy > 1.0 at cells with 10+ visits). L1=8/10.
+  fine_cells=69-230. Seed 1 NEW: 483 steps (vs 3270 baseline). Seeds 4,7 fail (230,162 fine_cells).
+  Entropy-based selection reaches 8/10 — second best.
+
+Step 675: Progressive refinement (k=8→16, +2 every 5000 steps). L1=7/10, avg_speedup=0.57x.
+  MARGINAL. Global k increase costs more than it gains. Non-selective refinement hurts.
+
+Step 676: Outcome-hash (4 classes). L1=5/10, avg_speedup=0.19x. KILL.
+  Even 4-class hashing creates 1674-4715 keys = counts 4x sparser. Outcome direction DEAD.
+
+Step 677: Multi-resolution ensemble (k=8/12/16 vote). L1=8/10, avg_speedup=1.55x.
+  Vote averages out peaks. Seeds 0,1,4 regress (k=8 votes pull wrong). Reduces variance
+  but also reduces peak performance. 8/10 by breadth, not by precision.
+
+Step 678: Variance top-5% refinement. L1=7/10, avg_speedup=72.96x (s3: 285x, s4: 6.4x).
+  fine_active=5-14 cells. Tighter threshold improves on 669 (5/10→7/10). But variance
+  targets wrong cells for seeds 0,1. Transition-based (674) > variance-based (678).
+
+Step 679: Recode k=16 replication on current game. L1=7/10. k=16 alone reaches more seeds
+  than k=12 (7 > 5) but at higher cost: 966-2978 cells. Seeds 6,7 reached (new). Refinement
+  splits hit 30 cap. k=16 is broader but slower. k=12 + selective fine hash (674) is better.
+
+  **π-refinement series ranking (Steps 672-679):**
+  | Step | Approach | L1 | Key insight |
+  |------|----------|-----|-------------|
+  | 674  | Transition-triggered | **9/10** | Best. aliased < 120 = fast, > 170 = slow |
+  | 673  | Selective entropy | 8/10 | Second best. Seed 1 NEW at 483 steps |
+  | 677  | Multi-res vote | 8/10 | Breadth via ensemble, peak performance lost |
+  | 675  | Progressive k | 7/10 | Non-selective hurts |
+  | 678  | Variance top-5% | 7/10 | Improved 669 but still targets wrong cells |
+  | 679  | Recode k=16 | 7/10 | Broader but slower than selective refinement |
+  | 672  | Diagnostic only | 5/10 | Confirmed k=20 separates hidden states |
+  | 676  | Outcome-hash | 5/10 | Key expansion KILL |
+
   **Proposition 15 CONFIRMED empirically.** Perception quality (π-refinement) IS the lever.
-  Action selection (g-modification) is NOT. The transition-triggered criterion identifies
-  aliased cells from data (R1-compliant). The dual-hash approach separates hidden states
-  that k=12 conflates. This is ℓ_π in the self-modification hierarchy — the observation
-  mapping is modified from the system's own transition statistics.
+  Step 674 is the best L1 result in the search (9/10). The transition-triggered criterion
+  identifies aliased cells from data (R1-compliant). The fix for seeds 0,4,7: cap aliased
+  cells to top-N most inconsistent. aliased=87 → L1=126 (192x). aliased=313 → 29.5x slower.
+  The operating range is clear. Next: Step 674b with capped aliased cells.
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
