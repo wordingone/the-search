@@ -8,11 +8,11 @@ date: 2026-03-19
 
 ## Abstract
 
-We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 612+ experiments across 12 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 720+ experiments across 12 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) the feasible region is non-empty for Level 1 navigation but currently unoccupied for the full constraint set including R3 (self-modification of operations). Whether a substrate exists inside all six walls remains open. The contribution is the walls themselves.
 
 ## 1. Introduction
 
-612+ experiments across 12 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree, Absorb, connected-component, Bloom filter, CA) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
+720+ experiments across 12 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree, Absorb, connected-component, Bloom filter, CA) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
 
 The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, and states honestly what is proven vs conjectured vs open.
 
@@ -191,7 +191,7 @@ The **self-modification level** of a substrate is determined by which components
 
 Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried action) and $g_{exploit} = \text{argmax}_a \text{score}(s, a)$ (highest-confidence action). These select opposite actions when the least-explored action is also the least-confident.
 
-**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 612+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
+**Relationship to prior work:** This is the standard RL tradeoff. Not novel. Our contribution is empirical confirmation across 720+ experiments that no single $g$ produces both good navigation and good classification (Steps 418, 432, 444b).
 
 #### U11: Discrimination and navigation require incompatible action selection
 
@@ -517,7 +517,7 @@ The decomposition into compare-select-store is the STRUCTURE of $F$. The specifi
 1. $\ell_F$ (rule-modification) requires $S \supseteq \text{repr}(F)$: the state space must contain representations of the meta-rule. Without this representational capacity, the system cannot modify what it cannot represent.
 2. The codebook's state ($\mathbb{R}^d$ centroids) cannot represent update rules → $\ell_F$ is structurally impossible for the codebook. Not an engineering problem — a type error.
 3. A program-bearing state (op-codes as edge data, Steps 581d-582) CAN represent operations → $\ell_F$ becomes possible in principle.
-4. Whether the constructive gap is bridgeable — whether a system can discover its own implementations of compare-select-store from interaction alone — is the central open question. Rosen says no (for biological systems, contested). Bauer says no (for total systems, proved). Our evidence (612+ experiments, 0 substrates at $\ell_F$) is consistent with both pessimistic answers but has not established impossibility.
+4. Whether the constructive gap is bridgeable — whether a system can discover its own implementations of compare-select-store from interaction alone — is the central open question. Rosen says no (for biological systems, contested). Bauer says no (for total systems, proved). Our evidence (720+ experiments, 0 substrates at $\ell_F$) is consistent with both pessimistic answers but has not established impossibility.
 
 **Corollary (Dissolution of the R3-Navigation Coupling):** Proposition 11 found that the frozen frame and navigation capability are "structurally coupled" — the 5 unjustified elements that enable navigation ARE the elements R3 requires the system to self-modify. Interpreter entailment dissolves this tension. The abstract operations {compare, select, store} are BOTH the frozen frame AND the navigation mechanism. They are coupled because they are the SAME thing at the abstract level. R3 does not require modifying these abstract operations (which would destroy navigation). R3 requires discovering IMPLEMENTATIONS of these operations — concrete comparison functions, selection policies, storage formats — that are distinct from the abstract structure. The Proposition 11 coupling is between abstract structure (fixed, entailed) and concrete implementation (variable, discoverable). This is not a conflict to be resolved but a design constraint: the system must search within the space of implementations, not within the space of operations.
 
@@ -525,7 +525,7 @@ The decomposition into compare-select-store is the STRUCTURE of $F$. The specifi
 
 ## 5. Experimental Evidence
 
-### 5.1 Navigation (612+ experiments)
+### 5.1 Navigation (720+ experiments)
 
 All 3 ARC-AGI-3 games solved at Level 1:
 
@@ -567,7 +567,7 @@ Relationship to Section 4: Edge counts grow (U17 formally satisfied) but margina
 
 ### 5.3 Architecture Family Summary
 
-12 families tested across 612+ experiments.
+12 families tested across 720+ experiments.
 
 | Family | Experiments | Navigation result | Kill reason |
 |---|---|---|---|
@@ -918,7 +918,7 @@ None of these systems modify their own rules. All achieve self-organization that
 
 ### 7.7 Where the search points
 
-The 612+ experiments, 12 propositions, and 3 theorems converge on a single question: **is compare-select-store with a sufficiently rich state space expressive enough to simulate self-modification?**
+The 720+ experiments, 12 propositions, and 3 theorems converge on a single question: **is compare-select-store with a sufficiently rich state space expressive enough to simulate self-modification?**
 
 The path to this question:
 1. R3 requires self-modification of operations (the goal).

@@ -57,8 +57,9 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 712 (674 characterization CLOSED — centering is dominant variable, not 674 mechanism)
+CURRENT STEP: 716 (universal action discovery — k_prune=8 full run on all 3 games, pending)
 DIRECTION (Jun, 2026-03-22): Stop optimizing per-level. The goal is ALL games, ALL levels, classification — the full chain. Whole-trajectory rule: never optimize for a single level/game/task. Breaking games into levels creates a frozen frame — the substrate should handle all levels with ONE mechanism.
+L1 BAN (Jun, 2026-03-22): L1 banned as metric. 674+running-mean = frozen bootloader. Every experiment states R3 hypothesis. Ban lifts when R3 produces first M reclassification.
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -1322,27 +1323,26 @@ State-change detection = ℓ₀ R3 for action discovery. Works when games have b
 live/dead actions. Fails when all actions produce visual feedback.
 Next R3 level: outcome-based pruning from graph topology (new-cell rate).
 
-L2 DIRECTION NOTES (post-674 compression, 2026-03-22):
+Step 714c: VC33 tol sweep. dead=0→68 at tol 2→5. median_delta=3.0 for ALL actions.
+  VC33 produces uniform 3.0 pixel change regardless of action. No separating threshold.
+  Self-calibrating threshold hypothesis FALSIFIED — unimodal delta distribution.
 
-Step 712 determines whether 674 or running-mean centering is the primary L1 coverage driver.
-After 712, the 674 L1 characterization is complete. L2 is the frontier.
+Step 715: Outcome-based pruning on VC33, k=12. cosmetic=0 on all 5 seeds. KILL.
+  Every action leads to a new graph cell — hash too fine for novelty-based pruning.
+  Both ℓ₀ (pixel delta) and ℓ_π (graph novelty) blind on VC33 at k=12.
 
-The L2 wall is NOT about disambiguation:
-- LS20: high aliasing, 674 heavily used → L2=0/20 (Steps 692/699)
-- FT09: ZERO aliasing post-L1, fully deterministic → L2=0/5 (Step 691)
-- L2 requires qualitatively different operators (RG analogy, Section 2.11)
+Step 715b: k_prune sweep — INVALID (centering bug). Running-mean centering makes
+  pruning hash non-stationary. Identical raw frames hash differently after _mu shift.
 
-Why argmin can't reach L2: L2 likely requires sequential goals ("collect energy THEN reach exit").
-Argmin is unconditional — it treats all cells equally regardless of game phase. It can't express
-"go to region A first, then region B." This is exactly R3: the action-selection rule must change
-based on state. ℓ₀ (fixed argmin) is structurally insufficient for conditional navigation.
+Step 715e: k_prune sweep with raw (uncentered) pruning hash. FINDING:
+  k=8 is the ONLY k where all 3 games show correct action-type discrimination:
+  | Game | k=4 | k=6 | k=8 | k=12 |
+  | LS20 | struct=0 | struct=3d | struct=2d | struct=3d |
+  | FT09 | struct=1c | struct=0 | struct=1c | struct=0 |
+  | VC33 | struct=0 | struct=0 | struct=7(1d+6c) | struct=0 |
+  (d=direction, c=click. Warmup only — probe-limited.)
 
-The graph already encodes the information needed (edge counts, visit patterns). The gap is in
-ACTION SELECTION, not perception. π-refinement (674) solved L1's perception gap. L2's gap is
-in g (selection), not π (encoding). This is the ℓ₀ → ℓ_π transition for the action-selection
-component, not the encoding component.
-
-Candidate next specs (post-712):
-- Step 713: Running-mean L2 test (Hart flagged: L2 not verified on running-mean variant)
-- Step 714: FT09 69-action decomposition + 674 (action space variable on FT09)
-- Step 715: LS20 L2 extended budget (needs Jun approval for >5min cap)
+Step 716/716b/716c: k_prune=8 full run on all 3 games. PENDING.
+  R3 hypothesis: graph-derived action pruning at k_prune=8 discovers correct
+  action spaces for ALL games from transition topology alone.
+  KEY QUESTION: Do VC33's 6 structural clicks include magic pixels?

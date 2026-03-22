@@ -2,7 +2,7 @@
 
 **Can a system improve itself by criteria it generates?**
 
-This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 612+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), three theorems, and twelve propositions characterizing the feasible region are the main contributions.
+This repository documents a systematic search for a substrate — a minimal computational structure — that satisfies six simultaneous rules for recursive self-improvement. 720+ experiments across 12 architecture families. No solution found yet. The constraint map from those failures, a self-modification hierarchy (ℓ₀ through ℓ_F), three theorems, and twelve propositions characterizing the feasible region are the main contributions.
 
 **[Interactive search space visualization](search_space.html)** — 378 experiments mapped to a 3D sphere. Center = resolved. Edge = open. R3 (the central question) has 10% of experiments. Run `python viz.py` to regenerate from current repo state.
 
@@ -84,7 +84,7 @@ Constraints extracted from experimental failure across 12 families. See [CONSTRA
 
 1. **R3 specification via depth push** — 16 levels solved via source analysis (3 LS20 + 6 FT09 + 7 VC33). Each level is a concrete test case for what an R3-compliant substrate must discover autonomously. LS20 L4+ blocked at L3 transition (bootstrap fix in progress, Step 612).
 2. **Population-level R3** — GRN substrate (Step 607) KILLED (encodings not diverse enough for selection). Framework is sound (Price equation, quorum sensing); engineering challenge is generating behaviorally diverse encoding candidates.
-3. **The paper** — [PAPER.md](PAPER.md). Three theorems, Propositions 1-10, self-modification hierarchy (ℓ₀–ℓ_F), biological connections (GRN, quorum sensing, stigmergy, Physarum). 612+ experiments.
+3. **The paper** — [PAPER.md](PAPER.md). Three theorems, Propositions 1-10, self-modification hierarchy (ℓ₀–ℓ_F), biological connections (GRN, quorum sensing, stigmergy, Physarum). 720+ experiments.
 
 ---
 
