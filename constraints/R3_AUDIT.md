@@ -507,3 +507,89 @@ Three critical corrections during this session, each sharpening the analysis:
 **Key difference:** process_novelty() has class structure (P6-P9, P15-P16) which SelfRef doesn't. The class structure drives higher growth (class-restricted spawn check ≈ 80% spawn) and novelty-seeking action selection (argmin). These are the 4-5 U elements that SelfRef lacks — and they're what makes navigation work.
 
 **The tension:** The class elements (P6-P9) are what enable navigation but are also the largest source of U. Removing them gives SelfRef, which doesn't navigate. The frozen frame and navigation capability are coupled through the class structure.
+
+---
+
+## TransitionTriggered674 (substrates/step0674.py) — THE WORKING SUBSTRATE
+
+*Added 2026-03-22. The substrate that achieves 20/20 LS20, 20/20 FT09 with running-mean centering. This is the frozen bootloader — L1 infrastructure, not an R3 substrate. Wrapped as BaseSubstrate for the gym framework.*
+
+**Architecture:** LSH (not codebook). Dual-hash: k=12 coarse + k=20 fine at aliased cells. Graph + edge-count argmin. Transition-triggered refinement learns hyperplanes from frame differences.
+
+**Key structural insight:** 674 has TWO encoding layers:
+- **Layer 1 (FROZEN):** raw frame → avgpool16 → channel_0 → centering → LSH hash → coarse cell
+- **Layer 2 (SELF-DERIVED):** coarse cell → refinement hyperplane (from frame differences) → fine cell
+
+Layer 2 IS ℓ_π — the encoding structure changes from the substrate's own dynamics. 674 already self-modifies part of its encoding. The U elements are concentrated in Layer 1 and meta-parameters.
+
+### Substrate Elements
+
+| # | Element | Class | Justification |
+|---|---------|-------|---------------|
+| T1 | avgpool16 | **U** | 16×16 average pooling. Could be 8×8, 32×32, raw. System doesn't choose. Step 574: raw 64×64 achieves L1 reliably — avgpool may not be load-bearing. |
+| T2 | channel_0_only | **U** | Uses only first channel. Could use all 3 or weighted combination. System doesn't choose. |
+| T3 | mean_centering | **U** | Subtract mean (x - x.mean()). Step 712: centering = 75% of L1 gain. Load-bearing but formula is frozen. Could normalize by std or use running mean of corpus. |
+| T4 | H_nav_planes (k=12 random LSH) | **U** | Random hyperplanes for coarse hash. k=12 and random directions are designer-chosen. System doesn't choose count or orientation. |
+| T5 | H_fine_planes (k=20 random LSH) | **U** | Random hyperplanes for fine hash at aliased cells. k=20 is designer-chosen. |
+| T6 | binary_hash (sign of projection) | **I** | Sign(H @ x) → cell identity. Removing → no cell identity → graph collapses → dead. The simplest possible hash. Irreducible. |
+| T7 | argmin_edge_count | **I** | Argmin of total outgoing edges per (cell, action). Dual role: (1) coarse: neutralizes graph's anti-exploration effect (Step 663: graph+random=2/20 < pure random=4/20; argmin prevents harm), (2) fine: directed exploration at aliased cells (25% of L1 gain). Removing → graph becomes harmful. Steps 477-482: 6 non-argmin alternatives all worse. |
+| T8 | fine_graph_priority | **U** | At aliased cells, use fine graph instead of coarse. System doesn't choose when to switch. Could average both, or use coarse everywhere. |
+| T9 | min_visits_alias (=3) | **U** | Threshold for aliasing detection. Could be 2, 5, 10 or V-derived. System doesn't choose. Detection mechanism (|successor_set| ≥ 2) is I (T11); threshold is U. |
+| T10 | h_split_threshold (=0.05) | **U** | Entropy threshold for refinement. Could be 0.01, 0.1 or V-derived. System doesn't choose. |
+| T11 | multi_successor_criterion | **I** | Aliasing = multiple distinct successors from same (cell, action). This is compare-select-store applied to transition history. Removing → no aliasing signal → fine graph never activates → 674 mechanism disabled. |
+| T12 | refine_every (=5000) | **U** | Refinement interval. Could be 1000, 10000, or triggered by aliased count. System doesn't choose timing. |
+| T13 | edge_count_update | **M** | Edge counts modified by every (cell, action, successor) transition. Self-derived accumulation. The graph IS the substrate's memory. |
+| T14 | aliased_set | **M** | Set of cells where |successor_set| ≥ 2. Grows as dynamics discover ambiguous transitions. System-driven detection. |
+| T15 | ref_hyperplanes | **M** | Refinement hyperplanes derived from mean frame difference between top 2 successors. Layer 2 ℓ_π: the encoding structure changes from the substrate's own dynamics. Self-derived direction, self-triggered, self-applied. |
+
+### Score
+
+**Total: 3 M, 3 I, 9 U. R3: FAIL.**
+
+| Category | M | I | U |
+|----------|---|---|---|
+| Encoding (Layer 1) | 0 | 0 | 3 (T1, T2, T3) |
+| Hashing | 0 | 1 (T6) | 2 (T4, T5) |
+| Action selection | 0 | 1 (T7) | 1 (T8) |
+| Aliasing detection | 0 | 1 (T11) | 1 (T9) |
+| Refinement | 1 (T15) | 0 | 2 (T10, T12) |
+| Graph dynamics | 2 (T13, T14) | 0 | 0 |
+
+**Encoding dominates the frozen frame (3/9 = 33%).** Meta-parameters (thresholds, timing) contribute 3/9. Hashing contributes 2/9. Action selection contributes 1/9.
+
+### Layer Analysis
+
+674 already achieves ℓ_π at Layer 2 (T15: refinement hyperplanes are M). The R3 path:
+
+1. **Layer 1 encoding (T1-T3):** Apply the SAME refinement mechanism to input encoding. Which channels produce the most successor-discriminating hashes? Which spatial regions? The mechanism (compare mean frames per successor, compute difference) already exists for T15. Extending it to channel weights and pooling weights uses the same compare-select-store on transition statistics. Each extension converts one U→M.
+
+2. **Hash planes (T4-T5):** Random planes are generic (work for any input). Learned planes were tested in Recode (33 experiments, K confound invalidated result). Clean test needed: same K, learned vs random, measure whether learning helps.
+
+3. **Meta-parameters (T9-T10, T12):** Could be V-derived (e.g., min_visits = median visit count; refine when aliased count exceeds threshold). Each would convert U→M. Small changes, clean tests.
+
+### Comparison to Other Substrates
+
+| Substrate | M | I | U | Navigates? | ℓ level |
+|-----------|---|---|---|------------|---------|
+| SelfRef | 2 | 3 | 10 | No | ℓ₁ |
+| process_novelty() | 4-6 | 7 | 5-7 | Yes (26K) | ℓ₁ |
+| TemporalPrediction (reduced) | 2 | 6 | 1 | No | ℓ₁ |
+| **TransitionTriggered674** | **3** | **3** | **9** | **Yes (20/20)** | **ℓ_π (layer 2)** |
+
+674 is the only substrate that (a) navigates reliably AND (b) achieves ℓ_π (partial encoding self-modification). TemporalPrediction has fewer U but doesn't navigate. process_novelty() navigates but at ℓ₁ only.
+
+### The R3 Path from 674
+
+The frozen frame reduction roadmap (each step independently testable, all using the existing gym):
+
+| Step | Element(s) | Change | U removed | Dynamic R3 signal |
+|------|-----------|--------|-----------|-------------------|
+| 1 | T2 (channel_0) | Channel weights from transition stats | 1 | Channel weights ≠ at t=0 vs t=N |
+| 2 | T1 (avgpool16) | Adaptive pooling from transition stats | 1 | Pooling weights change |
+| 3 | T9 (min_visits) | V-derived threshold | 1 | Threshold adapts over time |
+| 4 | T12 (refine_every) | Triggered by aliased count | 1 | Timing self-determined |
+| 5 | T10 (h_split) | V-derived entropy threshold | 1 | Threshold adapts |
+| 6 | T4-T5 (hash planes) | Learned from transition stats (clean Recode test) | 2 | Planes change direction |
+| 7 | T8 (fine_priority) | Self-determined switching | 1 | Switch criterion adapts |
+
+Steps 1-5 each convert one U→M using existing mechanisms. Step 6 requires the clean Recode test. Step 7 is the smallest. Total potential: 9U → 0-1U.
