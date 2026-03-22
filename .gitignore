@@ -13,3 +13,6 @@ models/
 settings.local.json
 *.local.json
 train_config.json
+*.npy
+analysis_results.csv
+wave_output.txt
