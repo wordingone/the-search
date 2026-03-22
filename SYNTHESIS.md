@@ -153,14 +153,19 @@ The frozen frame and navigation capability are COUPLED. The things R3 requires t
 **Load order:**
 1. This document (SYNTHESIS.md)
 2. CONSTITUTION.md (R1-R6 formal)
-3. CONSTRAINTS.md (full map with evidence)
-4. Selected literature (Schmidhuber 2003, Kirsch 2022, Mossio 2009, Heins 2025, Rudakov 2025)
-5. Key substrate code (self_improving_substrate.py, candidate.c, step0674)
-6. Memory patterns (reasoning habits, Jun's corrections)
+3. Selected literature:
+   - Schmidhuber (2003) Gödel Machine: https://arxiv.org/pdf/cs/0309048
+   - Irie/Schmidhuber (2022) SRWM: https://arxiv.org/pdf/2202.05780
+   - Mossio & Longo (2009) closure computability: https://shs.hal.science/halshs-00791132/document
+   - Heins et al. (2025) AXIOM: https://arxiv.org/abs/2505.24784
+4. Key substrate code (step0674, candidate.c)
+5. Memory patterns (reasoning habits, Jun's corrections)
 
 **The question for the session:**
-Given everything above — 719 experiments, 12 families, 3 theorems, 12 degrees of freedom, and the coupling between R3 and navigation — what is the NEXT substrate to test?
+What mechanism allows compare-select-store to encode its own modification via state, without the encoding being prescribed?
 
-Not an incremental modification. A genuinely new architecture class that satisfies R1-R6 simultaneously, handles all games with one configuration, and achieves ℓ_π or ℓ_F for action selection.
+Not "what substrate passes the chain." The chain is a LENS — it reveals whether self-modification of operations is happening. Designing FOR the chain is the same trap as designing for a level, one abstraction up. ARC-AGI-3 is a data point. LS20 is a data point. The substrate that genuinely modifies its own operations will handle them all. But a substrate designed to handle them won't necessarily modify its own operations. Direction matters.
+
+719 experiments, 12 families, 3 theorems — all say the same thing: the frozen frame and navigation are coupled. Every R3 attempt killed L1. The question isn't how to avoid this. The question is what KIND of self-modification doesn't destroy the dynamics it modifies.
 
 The L1 ban lifts when R3 produces its first M reclassification.
