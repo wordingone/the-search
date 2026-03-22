@@ -585,6 +585,7 @@ Step 704: 674 + running-mean centering, 10 seeds (0-9), 25s. Game: ls20/9607627b
   | Plain k=12 (697)            | 20    | 25s    | 11/20  |
   | 674 frame-local (690)       | 20    | 25s    | 17/20  |
   | 674 running-mean (704)      | 10    | 25s    | 10/10  |
+  | **674 running-mean (705)**  | **20**| **25s**| **20/20** |
   | 674 standalone (699)        | 20    | 120K   | 20/20  |
   | 674 chain (700)             | 20    | 120K   | 20/20  |
 
