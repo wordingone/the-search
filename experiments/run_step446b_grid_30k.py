@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 446b — Grid Graph at 30K steps, 3 seeds.
-APPROVED by Leo. Sharpest test: does edge structure navigate without cosine?
+APPROVED by Avir. Sharpest test: does edge structure navigate without cosine?
 
 If navigates ~25-30K: EDGE STRUCTURE IS THE MECHANISM. Cosine was incidental.
 If 0/3 with healthy dynamics: cosine geometry load-bearing for graph navigation.

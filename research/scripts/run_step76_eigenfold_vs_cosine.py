@@ -2,7 +2,7 @@
 """
 Step 76 — EigenFold vs cosine nearest-prototype head-to-head.
 
-[researcher] directive (mail 1181): same data, same d=16 features, same CB budget.
+Spec: same data, same d=16 features, same CB budget.
 System A: EigenFold matrix codebook (4x4, frob perturbation).
 System B: Vector codebook (16-dim, cosine similarity).
 Both spawn at ~same rate. Report AA, forgetting, CB, time.

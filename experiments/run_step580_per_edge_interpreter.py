@@ -1,7 +1,7 @@
 """
 Step 580 -- Per-edge interpreter selection.
 
-Insight (Leo mail 2196): The frozen frame isn't argmin — it's the existence of
+Insight (Spec): The frozen frame isn't argmin — it's the existence of
 a SINGLE interpreter applied uniformly. What if different edges use different
 selection rules, self-modified by interaction?
 

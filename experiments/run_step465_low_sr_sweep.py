@@ -4,7 +4,7 @@ Step 465 — Low spectral radius sweep: sr={0.0, 0.05, 0.1, 0.2}.
 res_dim=64, k=10 LSH on h-space, graph+edge argmin.
 Final 5 experiments (16-20/20) for reservoir family kill assessment.
 
-NOTE: Leo spec 50K×5 = ~8 min. Running 30K×3 = ~3 min (same reduction as Steps 463/464).
+NOTE: Spec 50K×5 = ~8 min. Running 30K×3 = ~3 min (same reduction as Steps 463/464).
 
 Hypothesis: Lower sr → less recurrence → h closer to obs mapping → lower chg_rate.
 sr=0.0 best so far (1/3, chg_rate=0.71, Step 460).

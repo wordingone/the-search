@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 500 — VC33 full diagnostic. Leo's spec (mail 1988).
+Step 500 — VC33 full diagnostic. Spec.
 VC33: 1 action, 50 visual states (Step 476). Timing game (I4).
 1. Action space inspection (is there really only 1 action? complex?)
 2. Reward signal (any at all in 50K steps?)

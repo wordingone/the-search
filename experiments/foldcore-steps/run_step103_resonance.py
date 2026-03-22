@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 103 -- Resonance Equation. Non-codebook substrate test.
-Leo mail 1247.
+Spec.
 
 One state variable z evolves under:
   dz = alpha * autonomous(z) + beta * energy_grad(z)

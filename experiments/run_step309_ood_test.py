@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 309 -- OOD test for learned w. Leo mail 1368.
+Step 309 -- OOD test for learned w. Spec.
 
 Three experiments:
 1. OOD on a%b: a in 21..50, b in 1..20. Use 308b w at pass 20.

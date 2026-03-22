@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 503 — FT09 69-action k-means graph. Leo's spec (mail 1996).
+Step 503 — FT09 69-action k-means graph. Spec.
 Hypothesis: codebook won FT09 via 69-action systematic coverage, not codebook learning.
 Step 501 had 6 actions (ACTION6 random-click). Graph couldn't distinguish click positions.
 Here: 69 DISTINCT actions — each click position is a separate action in the graph.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 313 -- Fixed decreasing weights on phi. Leo mail 1376.
+Step 313 -- Fixed decreasing weights on phi. Spec.
 
 Weight schedules applied to per-class sorted top-K phi distances:
   1. uniform:   w_k = 1          (Step 296 baseline)

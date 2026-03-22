@@ -1,4 +1,4 @@
-"""LS20 10K: TemporalPerAction. All diagnostics per Leo's spec."""
+"""LS20 10K: TemporalPerAction. All diagnostics per Spec."""
 import sys, time
 import numpy as np
 import torch
@@ -103,7 +103,7 @@ def run():
     dom = max(action_counts) / total * 100 if total > 0 else 0
     print(f"TemporalPerAction LS20: levels={levels}  unique={len(unique)}  go={go}  dom={dom:.0f}%  acts={action_counts}  runs>5={runs_gt5}  {elapsed:.0f}s")
     print(f"Baseline (1 W):         levels=0          unique=1536          dom=54%  acts=4/4")
-    print(f"Leo kill criterion:     unique <= 1536 → kill")
+    print(f"Kill criterion:     unique <= 1536 → kill")
     return levels
 
 

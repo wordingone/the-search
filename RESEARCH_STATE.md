@@ -282,7 +282,7 @@ Step 671: Splatter substrate (1-step world model, argmax frame difference). L1=0
   (avoid bad transitions) works (581d). Prospective prediction (seek novel transitions) fails.
   Confirms Proposition 13: introspection ≠ foresight.
 
-  **POMDP pivot complete (Steps 652-671, 16 experiments + 666 ignored per internal review).**
+  **POMDP pivot complete (Steps 652-671, 16 experiments + 666 ignored per review).**
   All 8 questions answered. Summary:
   1. L1 IS recognition (152 avg visits before trigger, Step 652)
   2. Argmin ≈ random for conjunction (symmetric 3/3, Step 653)
@@ -1233,7 +1233,7 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 | **617** | **LS20 L4 (572u port + bootstrap)** | — | **FAIL** | L0 cluster targeting freezes agent_yx at animation artifact → action=0 forever → 0 episodes after ep2. Same bug in 572u (617b confirmed). |
 | **618** | **LS20 L4 (616 argmin + 572u mgu + bootstrap)** | — | **FAIL** | L1 works, mgu fails (wp=0, lhs=0). Games are DETERMINISTIC — bug is in code, not game. **Action: diff 572u commit (0463b3c) against 618 line-by-line.** |
 
-**VERIFICATION NEEDED (2026-03-21):** The implementation agent has been caught claiming game environments changed TWICE. All foundational results must be independently verified:
+**VERIFICATION NEEDED (2026-03-21):** Game environment changes have been incorrectly claimed TWICE. All foundational results must be independently verified:
 - **572u L3=5/5** — CANNOT BE REPRODUCED. Run 572u commit 0463b3c verbatim on same seeds. If it fails, the 16-level claim drops to 13.
 - **608b FT09 6 levels** — Deterministic source analysis. Should reproduce exactly. Verify.
 - **610 VC33 7 levels** — Analytical BFS. Should reproduce exactly. Verify.

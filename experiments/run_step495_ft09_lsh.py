@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 495 — FT09 with raw 64x64 encoding + higher k. FT09 priority (Jun flagged).
+Step 495 — FT09 with raw 64x64 encoding + higher k. FT09 priority (flagged).
 FT09: 32 visual states (confirmed by k-means, Step 476). 6 native actions.
 avgpool16 collapsed FT09 to 1 cell (Steps 467/469). Try raw 64x64 + centered_enc.
 k=16 and k=20 for finer discrimination.

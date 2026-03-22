@@ -4,7 +4,7 @@ Step 562 — Novel-object detection via frame diff (fix for Step 561).
 Only chase objects that APPEAR between consecutive frames (not static walls).
 Fast approach: single ndlabel on diff mask (0.04ms/step vs 17ms/step naive).
 
-Actions: 0=UP, 1=DOWN, 2=LEFT, 3=RIGHT (per Leo's spec).
+Actions: 0=UP, 1=DOWN, 2=LEFT, 3=RIGHT (per Spec).
 
 Predictions:
   L1: 3/5 (argmin fallback handles L1 when no novel objects)

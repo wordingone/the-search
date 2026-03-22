@@ -14,7 +14,7 @@ Click coordinates: grid_pos * 2 (Camera width=32, scale=2 mapping).
 NTi sprite pixels[j][i]==6 expands the click pattern to neighboring walls.
 ZkU (tagged NTi) pixel (0,1)==6 means each click also cycles the wall above.
 
-R3 note: FT09 = "frozen frame" per Leo's Prop 10.
+R3 note: FT09 = "frozen frame" per spec Prop 10.
 All solutions are deterministic (same clicks across all seeds after reset).
 
 Protocol: 5 seeds x 50K steps (60s/seed cap).

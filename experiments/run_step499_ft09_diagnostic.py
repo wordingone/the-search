@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 499 — FT09 full diagnostic. Leo's requests from mails 1984+1986.
+Step 499 — FT09 full diagnostic. Spec.
 1. Full action space inspection (ALL actions, is_complex flags)
 2. Does the game EVER give reward? (track reward signals)
 3. Transition structure: unique (cell, action, next_cell) triples
@@ -8,7 +8,7 @@ Step 499 — FT09 full diagnostic. Leo's requests from mails 1984+1986.
 5. Saturation speed: how many steps to visit all 32 cells?
 6. Action distribution per cell: uniform or collapsed?
 7. Max consecutive steps in same cell
-8. Check if complex/click actions exist (Leo: codebook used 69-class CLICK)
+8. Check if complex/click actions exist (Avir: codebook used 69-class CLICK)
 3 seeds, 30K steps (fast game, ~7s/seed expected).
 """
 import time, logging
@@ -270,7 +270,7 @@ def main():
         print(f"  NO REWARD IN {MAX_STEPS//1000}K STEPS. Win condition likely requires:", flush=True)
         if complex_count == 0:
             print(f"  - Complex/click actions NOT in action space ({na} discrete only).", flush=True)
-            print(f"  - Leo: codebook used 69-class CLICK — FT09 may need spatial clicks.", flush=True)
+            print(f"  - Avir: codebook used 69-class CLICK — FT09 may need spatial clicks.", flush=True)
             print(f"  - The 6 discrete actions may be an INCOMPLETE action space for FT09.", flush=True)
         else:
             print(f"  - {complex_count} complex actions exist but argmin not using them effectively.", flush=True)

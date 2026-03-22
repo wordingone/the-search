@@ -4,7 +4,7 @@ Step 442 — GRAPH SUBSTRATE. Relational dual of the codebook.
 Nodes = observation landmarks. Edges = observed transitions.
 Action from graph structure (least-explored edge), not similarity scoring.
 
-Leo spec: LS20, 30K steps, sim_thresh=0.99, 1 seed.
+Spec: LS20, 30K steps, sim_thresh=0.99, 1 seed.
 Runtime cap: 10K steps (5-min cap rule).
 Log: node count, edge count, unique states, dom%, action at each checkpoint.
 
@@ -187,7 +187,7 @@ def run_ls20(max_steps=10000):
           f"  levels={lvls}  dom={dom:.0f}%  go={go}  {elapsed:.0f}s", flush=True)
     print(f"action_counts={action_counts}", flush=True)
 
-    # Assessment per Leo's predictions
+    # Assessment per Predictions
     print(f"\nAssessment:", flush=True)
     print(f"  dom<30%? {'YES' if dom < 30 else 'NO'} ({dom:.0f}%)", flush=True)
     print(f"  unique>3000? {'YES' if len(unique) > 3000 else 'NO'} ({len(unique)})", flush=True)

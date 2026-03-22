@@ -1,11 +1,11 @@
 """
 Constraint Map Validation — 6 MinimalLVQ variants on LS20 50K.
-Mail 1747: Jun-approved long run.
+Mail 1747: Approved long run.
 
 Tests whether 9 of 10 "unjustified" elements are actually forced.
 Each variant changes exactly one element. Failure = element is forced (I).
 
-Leo's predictions:
+Predictions:
   Run 0 (baseline):     Level 1 ~26K
   Run 1 (L1 norm):      FAIL — timer dominates
   Run 2 (fixed lr=0.5): might navigate (weak kill)

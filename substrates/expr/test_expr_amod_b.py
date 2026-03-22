@@ -88,7 +88,7 @@ def main():
     print("ExprSubstrate: a%b (modular arithmetic)")
     print("d=32: x[0]=a/20, x[1]=b/5, x[2:]=noise(0,0.01)")
     print("500 steps (100 pairs × 5 rounds), 5 seeds")
-    print("Leo prediction: ~20% accuracy (chance), random dim splits")
+    print("Prediction: ~20% accuracy (chance), random dim splits")
     print("=" * 55)
 
     accs = []
@@ -104,7 +104,7 @@ def main():
     print(f"\nSummary:")
     print(f"  accuracy: min={min(accs)*100:.1f}%  max={max(accs)*100:.1f}%  mean={np.mean(accs)*100:.1f}%")
     print(f"  signal dim frac: min={min(signal_fracs)*100:.1f}%  max={max(signal_fracs)*100:.1f}%  mean={np.mean(signal_fracs)*100:.1f}%  (chance={chance_signal:.1f}%)")
-    print(f"  Leo predicted: ~20% accuracy, ~6.3% signal dim frac")
+    print(f"  Predicted: ~20% accuracy, ~6.3% signal dim frac")
 
     elapsed = time.time() - t0
     print(f"\nelapsed={elapsed:.1f}s")

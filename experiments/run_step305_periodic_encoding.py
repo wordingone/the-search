@@ -2,7 +2,7 @@
 """
 Step 305 -- Periodic encoding for ABSORB. The Tempest physics test.
 
-Leo mail 1358. Periodic encoding = physics of circular motion.
+Spec. Periodic encoding = physics of circular motion.
 Same-class examples have IDENTICAL (sin, cos) → cosine = 1.0 → always absorb.
 The substrate discovers the geometry; the encoding provides the physics.
 

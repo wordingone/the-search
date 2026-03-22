@@ -4,7 +4,7 @@ Constraint Map Validation — 6 MinimalLVQ variants.
 Each run changes exactly one element of Run 0 (MinimalLVQ baseline).
 Failure confirms the changed element is forced (I). Success overturns U claim.
 
-Run 0: BASELINE     — Minimal Forced Substrate (Leo's exact spec)
+Run 0: BASELINE     — Minimal Forced Substrate (the exact spec)
 Run 1: L1_NORM      — L1 normalization instead of L2 (tests U: L2 norm)
 Run 2: FIXED_LR     — lr=0.5 instead of 1-sim (tests U: adaptive lr)
 Run 3: MEAN_THRESH  — mean instead of median threshold (tests U: gauge symmetry)
@@ -17,7 +17,7 @@ import torch.nn.functional as F
 
 
 class MinimalLVQ:
-    """Run 0: BASELINE. Leo's exact MinimalLVQ (depth 1, forced elements only).
+    """Run 0: BASELINE. the exact MinimalLVQ (depth 1, forced elements only).
     Prediction: Level 1 by ~26K steps."""
 
     def __init__(self, d, device='cpu'):

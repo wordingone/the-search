@@ -2,7 +2,7 @@
 """
 Step 340 — process() with all 7 stages: state-derived hyperparameters.
 
-Base: Step 339's CompressedFold (Leo's exact process() — class vote + winner update).
+Base: Step 339's CompressedFold (the exact process() — class vote + winner update).
 Modifications: only to process(). No new classes.
 
 3 FROZEN HYPERPARAMETERS -> STATE-DERIVED:

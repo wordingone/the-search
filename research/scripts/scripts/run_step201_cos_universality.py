@@ -9,7 +9,7 @@ parity + XOR + multi-rule, the primitive set collapses to ONE element.
 Kill: cos-only misses full menu by >3pp on any task = NOT universal.
 Pass: cos-only within 3pp on ALL tasks = cos is sufficient.
 
-[researcher] mail 1290.
+Spec.
 """
 
 import numpy as np

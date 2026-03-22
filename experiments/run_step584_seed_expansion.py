@@ -1,7 +1,7 @@
 """
 Step 584 — 581d seed expansion: 20 seeds on LS20 (FULL MODE, 50K steps).
 
-Jun-approved. Checkpoints at 10K/20K/30K/40K/50K.
+Approved. Checkpoints at 10K/20K/30K/40K/50K.
 Early kill: if deaths=0 across ALL seeds at 20K, abort — mechanism never fires.
 
 Output: X/20 seeds L1 per checkpoint, Fisher exact p-value at 50K.

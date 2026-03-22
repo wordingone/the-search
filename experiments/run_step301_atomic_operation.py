@@ -2,7 +2,7 @@
 """
 Step 301 -- The atomic operation. S1 test.
 
-Leo mail 1351. Single function, no training/inference branch. Label is data,
+Spec. Single function, no training/inference branch. Label is data,
 not control. Match reads and writes simultaneously.
 
 Encoding:
@@ -138,7 +138,7 @@ def process(state, x, b_val_hint, is_training=True):
     nearest_sc_idx = sc_idxs[int(np.argmin(dists_sc2))]
     v_prev = np.array(state.V[nearest_sc_idx], dtype=np.float32)
 
-    # ── SPAWN VARIANT A: Centroid (Leo's exact spec) ──────────────────────────
+    # ── SPAWN VARIANT A: Centroid (the exact spec) ──────────────────────────
     # d_sc = ||v* - nearest_same_class||
     # mu_sc = centroid of same-class
     # spawn = v* + d_sc * normalize(v* - mu_sc)
@@ -342,7 +342,7 @@ def main():
     hdr = f"{'Pass':>5} | {'CB size':>8} | {'Spawns':>7} | {'In-dist LOO':>12} | {'OOD':>7} | {'vs Step300':>11}"
     sep = "-" * 70
 
-    # ─── Variant A: Centroid spawn (Leo's exact spec, fixed training set) ────
+    # ─── Variant A: Centroid spawn (the exact spec, fixed training set) ────
     print("=== Variant A: Centroid spawn (exact spec, fixed train set) ===", flush=True)
     print(hdr, flush=True); print(sep, flush=True)
     acc_ood_a, per_b_a, cb_a = run_experiment(False, N_PASSES, "centroid", grow_queue=False)

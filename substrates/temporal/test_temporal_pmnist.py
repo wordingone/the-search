@@ -56,7 +56,7 @@ def run():
 
     elapsed = time.time() - t0
     print(f"P-MNIST 5K steps: accuracy={accuracy*100:.1f}%  (chance=10%)  actions_used={actions_used}/10  {elapsed:.1f}s")
-    print(f"Leo predicted: ~10%. SURPRISE if >15%.")
+    print(f"Predicted: ~10%. SURPRISE if >15%.")
     return accuracy
 
 

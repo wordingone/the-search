@@ -1,5 +1,5 @@
 """
-Step 607 -- GRN Substrate on LS20 (Leo's step 606 spec).
+Step 607 -- GRN Substrate on LS20 (Spec).
 
 Gene Regulatory Network substrate: N=4 competing LSH encodings with
 selection pressure and mutual inhibition.

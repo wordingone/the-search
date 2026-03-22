@@ -3,7 +3,7 @@
 Step 463 — Reservoir-LSH dimension sweep: res_dim={32, 64, 128, 256}.
 sr=0.9, k=10 LSH on h-space, graph+edge argmin.
 
-NOTE: Leo specified 50K x 5 seeds = ~8 min. Exceeds 5-min cap.
+NOTE: Specified 50K x 5 seeds = ~8 min. Exceeds 5-min cap.
 Running 30K x 3 seeds = ~3 min. Flagged in results mail.
 
 Baselines:
@@ -198,7 +198,7 @@ def main():
     n_seeds = 3
     max_steps = 30000
     print(f"Step 463: Reservoir-LSH res_dim sweep. sr={SR}, k={K}.", flush=True)
-    print(f"NOTE: Leo spec was 50Kx5 (~8min). Running {max_steps//1000}Kx{n_seeds} to fit 5-min cap.", flush=True)
+    print(f"NOTE: Spec was 50Kx5 (~8min). Running {max_steps//1000}Kx{n_seeds} to fit 5-min cap.", flush=True)
     print(f"Baseline (Step 460): res_dim=64, sr=0.9 -> 1/3  sig_q=0.305  chg_rate=0.90", flush=True)
 
     arc = arc_agi.Arcade()

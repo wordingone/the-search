@@ -2,7 +2,7 @@
 """
 Step 295 -- Dynamical System Fold: basin sculpting on a%b.
 
-Leo mail 1338. New frame: codebook = dynamical system. Classification = trajectory
+Spec. New frame: codebook = dynamical system. Classification = trajectory
 to attractor. Training = basin sculpting via stepping-stone spawning.
 
 Phase 1: Diagnostic — raw flow field before sculpting (LOO chain following).
@@ -271,7 +271,7 @@ def main():
           flush=True)
     print(flush=True)
 
-    print("KILL CRITERION (Leo mail 1338):", flush=True)
+    print("KILL CRITERION (Spec):", flush=True)
     if final_acc_chain <= final_acc_1nn:
         print(f"  KILLED — chain ({final_acc_chain*100:.1f}%) <= 1-NN ({final_acc_1nn*100:.1f}%)",
               flush=True)

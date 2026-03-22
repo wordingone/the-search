@@ -1,5 +1,5 @@
 """
-Step 612: LS20 L3 bootstrap fix (Option C from Leo's 611 analysis).
+Step 612: LS20 L3 bootstrap fix (Option C from the 611 analysis).
 
 Problem (confirmed by 611): At L2->L3 transition, l3_frames=0.
   _puq_wall_set requires l3_frames >= WARMUP (100), so it stays None.

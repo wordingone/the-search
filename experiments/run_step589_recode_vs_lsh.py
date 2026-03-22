@@ -1,5 +1,5 @@
 """
-Step 589 -- Recode vs LSH head-to-head, 20 seeds, 50K steps. JUN APPROVED.
+Step 589 -- Recode vs LSH head-to-head, 20 seeds, 50K steps. APPROVED.
 
 Reviewer's separation result: does l_pi (Recode, adaptive encoding) provably
 outperform l_0 (fixed LSH) at same budget?
@@ -209,7 +209,7 @@ def checkpoint_fisher(rc, l12, label_rc="Recode", label_lsh="LSH-K12"):
 
 
 def main():
-    # Jun approved via Leo mail 2255 (2026-03-21)
+    # Approved via Spec (2026-03-21)
 
     try:
         sys.path.insert(0, '.')

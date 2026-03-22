@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 318 -- Sweep K=1..10: Pareto frontier (LOO-orig vs OOD). Leo mail 1387.
+Step 318 -- Sweep K=1..10: Pareto frontier (LOO-orig vs OOD). Spec.
 
 For each K:
   1. Grow K iterations (consensus spacing = b).

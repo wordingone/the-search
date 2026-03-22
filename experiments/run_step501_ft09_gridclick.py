@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 501 — FT09 grid-click sweep. Leo's spec (mail 1994).
+Step 501 — FT09 grid-click sweep. Spec.
 Step 499: ACTION6 is complex, argmax click = self-loop. 32 states reachable = no-click subgraph.
 Test: use RANDOM click from 8x8 grid (64 positions) for ACTION6 instead of argmax.
 Q: Do new cells appear beyond 32? Does reward appear?

@@ -3,7 +3,7 @@ Step 532 — Level 2 stochastic attack, k=16.
 
 Step 531 killed k=12: k=16 reaches 1094 cells vs k=12's 425 at 200K.
 Finer partition may reveal more stochastic edges and better navigate L2.
-Based on Jun's Step 528 script, K changed from 12 to 16.
+Based on the Step 528 script, K changed from 12 to 16.
 
 Predictions:
 - More stochastic edges (finer partition = narrower state boundaries).

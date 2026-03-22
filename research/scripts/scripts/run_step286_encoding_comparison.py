@@ -2,7 +2,7 @@
 """
 Step 286 -- Which encoding makes a%b k-NN discoverable?
 
-[researcher] mail 1308. Arc question: can the substrate discover an algorithmic step
+Spec. Arc question: can the substrate discover an algorithmic step
 from I/O and iterate it OOD?
 
 This step: test 4 encodings for (a,b) -> a%b k-NN step accuracy.

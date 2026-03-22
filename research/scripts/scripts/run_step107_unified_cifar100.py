@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 107 -- Unified Process (S1) on CIFAR-100. Full 10-task.
-[researcher] mail 1258.
+Spec.
 
 Same process() function from Step 106. Stress-test: ~38% accuracy means
 ~62% of self-supervised spawns are mislabeled. Does S1 survive?

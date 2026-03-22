@@ -6,7 +6,7 @@ Key difference from Step 506: centroids are NOT frozen after warmup.
 Spawn-on-novelty: if min_L2_dist(x, centroids) > spawn_threshold, create new centroid.
 Domains get their own centroids as needed.
 
-Leo's prediction: Phase 1 ~300 CIFAR centroids. Phase 2 spawns ~30-50 new ARC centroids.
+the prediction: Phase 1 ~300 CIFAR centroids. Phase 2 spawns ~30-50 new ARC centroids.
 Navigation should work because ARC frames get ARC-specific centroids.
 
 T1: synthetic data, calibrate spawn_threshold, <30s.
@@ -263,7 +263,7 @@ def main():
     print(f"\nVERDICT:", flush=True)
     if lvls > 0:
         print(f"  LS20 NAVIGATES. Dynamic growth enables cross-domain transfer.", flush=True)
-        print(f"  ARC spawned {new_arc_centroids} new centroids (Leo predicted 30-50).", flush=True)
+        print(f"  ARC spawned {new_arc_centroids} new centroids (Predicted 30-50).", flush=True)
     else:
         print(f"  LS20 FAILS. Dynamic growth insufficient -- domains can't share centroid space.", flush=True)
     acc_delta = acc3 - acc1

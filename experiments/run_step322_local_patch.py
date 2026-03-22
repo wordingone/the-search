@@ -2,7 +2,7 @@
 """
 Step 322: Local Patch Encoding for ARC-AGI
 
-Eli's spec: replace 900-dim global flat input with 5x5 local patch.
+Spec: replace 900-dim global flat input with 5x5 local patch.
 Feature: [patch_5x5_flat | global_color_hist | r/H | c/W | H/30 | W/30] = 39 dims
 
 Kill criterion: changed-cell accuracy must improve >10pp over Step 320 baseline (24%).

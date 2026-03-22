@@ -99,7 +99,7 @@ def main():
     t0 = time.time()
     print("=" * 65)
     print("Centering hypothesis: Tier 1b (d=256, 2 signal dims, 4 clusters)")
-    print("Jun: does centering suppress noise-scale, preserve signal-scale?")
+    print("Question: does centering suppress noise-scale, preserve signal-scale?")
     print("=" * 65)
 
     print("\nA. Baseline   dims=[3,147] (aliased: both→action 3)")

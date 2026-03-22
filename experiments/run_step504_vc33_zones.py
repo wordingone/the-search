@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 504 — VC33 zone discovery + expanded actions. Leo's spec (mail 1997).
+Step 504 — VC33 zone discovery + expanded actions. Spec.
 Original win: 3-zone encoding + 3 actions won at step 283.
 Phase 1: Click each 8x8 grid position from initial state, hash result frame.
 Group positions by frame hash → discover zones.

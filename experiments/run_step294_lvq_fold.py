@@ -2,7 +2,7 @@
 """
 Step 294 -- LVQ Fold: label-aware attract/repel + chain emergence test.
 
-Leo mail 1336. Hypothesis: LVQ dynamics reshape the codebook so same-class
+Spec. Hypothesis: LVQ dynamics reshape the codebook so same-class
 vectors form arithmetic-progression chains as a training side effect.
 
 Update rule:
@@ -262,7 +262,7 @@ def main():
     print(f"Codebook size: {len(model.V)}", flush=True)
     print(f"Mean chain regularity (b={CHAIN_B}): {mean_regularity:.2f}", flush=True)
     print(flush=True)
-    print("KILL CRITERION (Leo mail 1336):", flush=True)
+    print("KILL CRITERION (Spec):", flush=True)
     acc_passes   = acc > 0.418
     chain_passes = mean_regularity < 2.0 if all_regularities else False
 

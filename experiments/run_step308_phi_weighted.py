@@ -2,7 +2,7 @@
 """
 Step 308 -- Frozen phi-absorption (308a) vs Learned weights (308b).
 
-Leo mail 1366. Two experiments with the same codebook structure.
+Spec. Two experiments with the same codebook structure.
 
 BUG FIX vs initial run: phi must use LOO exclusion (exclude self from own
 phi computation), matching Step 296's protocol. Without exclusion, every

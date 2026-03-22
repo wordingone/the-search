@@ -2,7 +2,7 @@
 """
 Step 328 — Recursive phi (Level 2) on ARC-AGI.
 
-Jun's insight: phi fails on cells with identical patches but different
+Insight: phi fails on cells with identical patches but different
 global context (e.g., interior of large vs small rectangle). Level 2 phi
 captures relationships BETWEEN phi_1 vectors.
 

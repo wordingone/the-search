@@ -1,6 +1,6 @@
 """
 SelfRef variant: argmin for w0 selection (exploration) instead of argmax (exploitation).
-One line change from selfref.py. Leo's hypothesis: this is the whole gap.
+One line change from selfref.py. Hypothesis: this is the whole gap.
 """
 import torch
 import torch.nn.functional as F

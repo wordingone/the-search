@@ -2,7 +2,7 @@
 """
 Step 293 -- AMR Fold: disagreement-driven spawn + distance-gated merge on a%b.
 
-Leo mail 1334. Placement test: does disagreement-driven AMR produce better
+Spec. Placement test: does disagreement-driven AMR produce better
 codebook topology than distance-driven spawning?
 
 Architecture:
@@ -238,7 +238,7 @@ def main():
     print(f"AMR vs Step 286 best LOO (49%): {(amr_acc - 0.49)*100:+.1f}pp", flush=True)
 
     print(flush=True)
-    print("KILL CRITERION (Leo mail 1334):", flush=True)
+    print("KILL CRITERION (Spec):", flush=True)
     if amr_acc <= 0.49:
         print(f"  KILLED -- AMR ({amr_acc*100:.1f}%) <= Step 286 baseline (49%)",
               flush=True)

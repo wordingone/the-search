@@ -148,7 +148,7 @@ def run():
     print(f"TemporalRowNorm 50K: levels={levels}  unique={len(unique)}  go={go}  dom={dom:.0f}%")
     print(f"  action_counts={action_counts}  mean_run={mean_run:.1f}  max_run={max_run}")
     print(f"  {elapsed:.0f}s")
-    print(f"\nLeo prediction: 60% NO navigation, 40% qualitative improvement")
+    print(f"\nPrediction: 60% NO navigation, 40% qualitative improvement")
     print(f"Kill: unique <= LVQ baseline AND 0 levels @ 50K → temporal family dead")
     print(f"Live: Level 1 OR clearly spatial coverage pattern")
     return levels

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 114 -- Online Sparse Coding + k-NN, CIFAR-100 raw pixels.
-[researcher] mail 1273.
+Spec.
 
 Hypothesis: sparse activation → different tasks update different atoms →
 structural zero-forgetting. Learned dictionary beats random projection.

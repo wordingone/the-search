@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 97 -- Differential Response on P-MNIST.
-[researcher] mail 1231. tau x lr sweep, classify_diff vs classify_1nn.
+Spec. tau x lr sweep, classify_diff vs classify_1nn.
 
 DifferentialResponse: codebook update IS the classification signal.
 delta_i serves as both update and readout -- collapses read/write separation.

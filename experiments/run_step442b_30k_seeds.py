@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 442b — Graph Substrate, 30K steps, 3 seeds.
-Leo approved after 10K showed unique=3379 (matches codebook baseline), dom=25%.
+Approved after 10K showed unique=3379 (matches codebook baseline), dom=25%.
 First non-codebook architecture to reach baseline exploration threshold.
 """
 

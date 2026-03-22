@@ -5,15 +5,15 @@ Sparse W (10% connections), sparse U, sparse Hebbian update.
 Hypothesis: sparse topology prevents rank-1 collapse by maintaining
 semi-independent neighborhoods.
 
-Leo spec: LS20 only, 30K steps, 1 seed.
+Spec: LS20 only, 30K steps, 1 seed.
 Runtime cap: 10K steps (5-min cap rule).
 Log: rank at 5K intervals, unique, dom%, spectral radius.
 KILL: rank still 1-2 after 10K.
 PASS: rank >10 at any checkpoint.
 
-NOTE (Eli): torch.linalg.eigvalsh in spectral control treats W as symmetric
+NOTE: torch.linalg.eigvalsh in spectral control treats W as symmetric
 (uses lower triangle only). W is not symmetric. Spectral control may be
-ineffective. Reporting to Leo.
+ineffective. Reporting to Avir.
 """
 
 import time, logging

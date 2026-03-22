@@ -3,7 +3,7 @@ SVD(W) diagnostic on LS20 baseline TemporalPrediction.
 At steps 1K/5K/10K: report top-10 singular values, variance fractions,
 and spatial structure of top-3 input/output directions (16x16 heatmaps).
 
-Leo's prediction: top-1 timer-dominated (>30% variance), top 4-10 sprite-region.
+the prediction: top-1 timer-dominated (>30% variance), top 4-10 sprite-region.
 """
 import sys, time, os
 import numpy as np
@@ -131,7 +131,7 @@ def run():
 
     elapsed = time.time() - t0
     print(f"\nFinal: levels={levels}  unique={len(unique)}  {elapsed:.0f}s")
-    print(f"Leo prediction: top-1 >30% variance (timer), top-4..10 sprite region")
+    print(f"Prediction: top-1 >30% variance (timer), top-4..10 sprite region")
 
 
 if __name__ == '__main__':

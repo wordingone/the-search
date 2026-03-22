@@ -1,4 +1,4 @@
-"""Disc test (d=32, 4 clusters, 5 seeds) on TemporalPerAction. Leo predicts ~60-70%."""
+"""Disc test (d=32, 4 clusters, 5 seeds) on TemporalPerAction. Predicted ~60-70%."""
 import sys, time
 import numpy as np
 import torch
@@ -35,8 +35,8 @@ def run_disc(substrate_cls, seed, d=32, n_clusters=4, warm_steps=200):
 def main():
     t0 = time.time()
     print("Disc test: d=32, 4 clusters, 5 seeds")
-    print("Leo predicts PerAction ~60-70% (worse than baseline ~93.5%)")
-    print("Eli predicts PerAction ~55-65%\n")
+    print("Predicted PerAction ~60-70% (worse than baseline ~93.5%)")
+    print("Predicted PerAction ~55-65%\n")
 
     for name, cls in [("Baseline (1W)", TemporalPrediction), ("PerAction (4W)", TemporalPerAction)]:
         avgs, dists = [], []

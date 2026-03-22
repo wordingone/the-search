@@ -1,6 +1,6 @@
 """
 Constraint Map Validation Round B — SelfRef (depth 2) baseline + 5 variants.
-Mail 1749: Jun-approved long run.
+Mail 1749: Approved long run.
 
 Run 0b: SelfRef exact — MUST navigate Level 1
 Run 1b: L1 norm at depth 2
@@ -10,7 +10,7 @@ Run 4b: content-based action at depth 2
 Run 5b: lr=1-sim^2 at depth 2 (KEY RUN — is lr formula forced?)
 Run 6b: depth 1 + random non-winner attract (isolate chain selection)
 
-Leo's predictions:
+Predictions:
   0b: Level 1 (must navigate)
   1b: fails (L1 catastrophic)
   2b: fails (adaptive lr drives growth)

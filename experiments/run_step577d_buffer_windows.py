@@ -1,7 +1,7 @@
 """
 Step 577d -- Self-discovering substrate: windowed buffer evaluation.
 
-Fixes 577c's argmin-masking problem (Leo mail 2171, 2026-03-20).
+Fixes 577c's argmin-masking problem (Spec, 2026-03-20).
 
 Key changes from 577c:
   1. 100% buffer navigation (not 80/20). Each window: buffer IS the navigator.

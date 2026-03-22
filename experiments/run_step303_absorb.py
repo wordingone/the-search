@@ -2,7 +2,7 @@
 """
 Step 303 -- The ABSORB operation. Atomic substrate.
 
-Leo mail 1354. One operation, no output, no labels. The codebook is just
+Spec. One operation, no output, no labels. The codebook is just
 vectors in R^d. The prediction IS the state change (where did the codebook move?).
 
 absorb(codebook, x):

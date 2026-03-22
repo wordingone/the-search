@@ -2,7 +2,7 @@
 """
 Step 307 -- phi + raw features. One fix for Step 306 bootstrap failure.
 
-Leo mail 1362. Prepend one-hot(a,b) to phi vector.
+Spec. Prepend one-hot(a,b) to phi vector.
 
 phi_ext(x) = [one_hot(a,20), one_hot(b,20), per_class_distances(x, codebook)]
 

@@ -5,7 +5,7 @@ Replaces evolutionary approach (577b) which failed: 0/1000 random programs
 have the required threshold→label_cc→nearest→navigate pipeline sequence.
 No fitness gradient → no evolution.
 
-Architecture (Leo mail 2166, 2026-03-20):
+Architecture (Spec, 2026-03-20):
   - LSH k=12 + argmin (baseline, 80% of actions)
   - N=5 parallel buffers accumulating pixel statistics simultaneously:
       buf[0]: pixel_mode  -- argmax of per-pixel color histogram (mode map)

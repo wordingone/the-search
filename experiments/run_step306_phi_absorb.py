@@ -2,7 +2,7 @@
 """
 Step 306 -- Distribution-space absorption. f = phi.
 
-Leo mail 1360. The substrate operates in phi-space. phi IS f, not the observer.
+Spec. The substrate operates in phi-space. phi IS f, not the observer.
 
 absorb(codebook, input):
     phi_input = compute_phi(input, codebook)     # input's distribution
@@ -13,7 +13,7 @@ absorb(codebook, input):
         codebook[nearest] = blend(nearest, input) # absorb in INPUT space
         # distributions recompute lazily from new codebook geometry
 
-Leo's prediction: same-class inputs have near-identical phi -> lossless absorption.
+the prediction: same-class inputs have near-identical phi -> lossless absorption.
 CB should compress to ~210 (one per (b,class) pair).
 LOO >= 86.8% (Step 296 phi reference).
 
@@ -188,7 +188,7 @@ def main():
     print("Step 306 -- Distribution-Space Absorption (f = phi)", flush=True)
     print(f"phi = per-class sorted top-K distances, same-b. K={K}", flush=True)
     print(f"Absorb: match in phi-space, blend in a-space.", flush=True)
-    print(f"Leo prediction: CB -> ~210 vectors, LOO >= {STEP296_REF*100:.1f}%\n", flush=True)
+    print(f"Prediction: CB -> ~210 vectors, LOO >= {STEP296_REF*100:.1f}%\n", flush=True)
 
     # ─── Spawn threshold sweep ────────────────────────────────────────────
     print("=== Spawn threshold sweep ===", flush=True)

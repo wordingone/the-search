@@ -1,7 +1,7 @@
 """
 Step 577b -- Self-discovering substrate: exploration-proxy scoring.
 
-Refinement of 577 (Leo mail 2165, 2026-03-20):
+Refinement of 577 (Spec, 2026-03-20):
   Score by exploration rate (unique hash cells / 1000 steps)
   rather than L1 completion time. Gives 15x more evaluations per budget.
 

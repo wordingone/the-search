@@ -1,4 +1,4 @@
-"""PredictPersist on LS20 50K. Full diagnostics per Leo's spec."""
+"""PredictPersist on LS20 50K. Full diagnostics per Spec."""
 import sys, time
 import numpy as np
 import torch
@@ -127,8 +127,8 @@ def run():
     print(f"\nPredictPersist 50K: levels={levels}  unique={len(unique)}  go={go}  dom={dom:.0f}%")
     print(f"  action_counts={action_counts}  mean_run={mean_run:.1f}  max_run={max_run}")
     print(f"  {elapsed:.0f}s")
-    print(f"\nLeo predictions: unique@10K=800-1200, unique@50K=2500-4000, level1=70%@20K-35K")
-    print(f"Eli predictions: unique@10K=600-900,  unique@50K=2000-3500, level1=25%")
+    print(f"\nPredictions: unique@10K=800-1200, unique@50K=2500-4000, level1=70%@20K-35K")
+    print(f"Predictions: unique@10K=600-900,  unique@50K=2000-3500, level1=25%")
     print(f"Kill: unique<500 at 50K OR one action >90%")
     return levels
 

@@ -172,8 +172,8 @@ The search has persistent state (git repo, constraint map, skill definitions) an
 | # | Element | Class | Evidence |
 |---|---------|-------|----------|
 | 1 | 4 modes (experiment/compress/birth/explore) | **U** | Designer-chosen. The search doesn't add or remove modes. |
-| 2 | Mode ordering (exp → comp → birth → explore) | **I-prov** | Internal review caught birth-before-compress (this session: eigenform birthed from stale data). Information flow dependencies constrain ordering. Alternative orderings untested. |
-| 3 | Hart debate protocol | **I-prov** | Pre-Hart: 8-stage inflation survived internal review. Post-Hart: 3 inflation points caught in single session (commit eb6b0d7). Simpler alternatives (checklist) untested. |
+| 2 | Mode ordering (exp → comp → birth → explore) | **I-prov** | Review caught birth-before-compress (this session: eigenform birthed from stale data). Information flow dependencies constrain ordering. Alternative orderings untested. |
+| 3 | Hart debate protocol | **I-prov** | Pre-Hart: 8-stage inflation survived review. Post-Hart: 3 inflation points caught in single session (commit eb6b0d7). Simpler alternatives (checklist) untested. |
 | 4 | Constraint classification format (U/P/S/I/E) | **U** | Designer-chosen. The search doesn't modify how it classifies. |
 | 5 | Constitution (R1-R6) | **M-ext** | R1 clarification modified (Hart debate, 2026-03-21). But modification was externally triggered (directed compression). Mechanism internal, activation external. |
 | 6 | Constraint map entries | **M** | Modified every compression iteration without per-entry external approval. U27 created and killed in one session. Genuinely self-triggered. |

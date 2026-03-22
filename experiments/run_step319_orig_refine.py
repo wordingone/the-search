@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 319 -- Grow K=10, refine on original 400 only. Leo mail 1389.
+Step 319 -- Grow K=10, refine on original 400 only. Spec.
 
 Hypothesis: refine on original 400 only keeps LOO-orig high (~96%)
 while K=10 grow gives OOD coverage (~99%).

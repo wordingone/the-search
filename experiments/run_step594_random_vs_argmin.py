@@ -4,7 +4,7 @@ Step 594 -- Random vs Argmin, 20 seeds, 50K steps. Reviewer validation.
 Step 592 showed Random 2/5 vs Argmin 3/5 at 10K/5 seeds -- gap real but noisy.
 This is the definitive comparison: same format as Step 584 (20 seeds, 50K).
 
-Jun approved 50K format in Step 584; same approval applies here.
+Approved 50K format in Step 584; same approval applies here.
 
 Two conditions:
   A) Random -- uniform random from {0,1,2,3}

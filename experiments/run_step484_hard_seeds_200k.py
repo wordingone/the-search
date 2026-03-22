@@ -4,7 +4,7 @@ Step 484 — Hard seeds (1,2,5,6) at 200K steps. LSH k=12 argmin baseline.
 Hypothesis: hard seeds are slow but not impossible.
 Kill: 0/4 at 200K -> genuine ceiling, not budget limit.
 NOTE: Per-seed cap 400s. Total runtime ~27 min worst case.
-Leo explicitly requested this extended budget test (mail 1959).
+Explicitly requested this extended budget test (mail 1959).
 """
 import time, logging
 import numpy as np

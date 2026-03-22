@@ -2,7 +2,7 @@
 """
 Step 326 — Rule extraction for same-size ARC tasks.
 
-Leo's framing:
+The framing:
   Level 0: flat encoding (45% pixel) — thawed by local patches
   Level 1: local patches (52% pixel, 12 solved) — ceiling of pattern matching
   Level 2: rule extraction (this step) — ceiling of deterministic color rules

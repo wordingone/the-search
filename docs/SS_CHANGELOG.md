@@ -5,7 +5,7 @@
 ### Context
 Session 22 closed the ANIMA parameter landscape: all parameters characterized, none both binding AND adaptable from within. The conclusion from Session 22's adversarial review was unambiguous — ANIMA has reached an architecture ceiling for Stage 3. Session 23 was scheduled as a meta-cognitive review: no experiments, no code, no new implementations. Pure analysis. The goal: what are we missing? Where are the blind spots?
 
-No teammates deployed for implementation. Analysis conducted by [researcher] (team lead).
+No teammates deployed for implementation. Analysis conducted by Avir Research.
 
 ### Blind Spot 1: ACE.py — Third Substrate, Never Formally Tested
 
@@ -45,7 +45,7 @@ Eigenform convergence: the system finds fixed points in transformation space, no
 
 `frozen_frame.json` was created in Session 13 for the Living Seed only. Five sessions of ANIMA characterization (Sessions 18–22) produced 51 constraints, identified the architecture ceiling, and characterized all parameters — but no formal ANIMA frozen frame inventory has been maintained.
 
-The state.md frozen frame table still lists Living Seed elements. The ANIMA frozen frame is characterized across multiple constraint entries but has no single authoritative document. This gap is being filled in Session 23 housekeeping (entry 069, Rune).
+The state.md frozen frame table still lists Living Seed elements. The ANIMA frozen frame is characterized across multiple constraint entries but has no single authoritative document. This gap is being filled in Session 23 housekeeping (entry 069).
 
 ### Blind Spot 5: anima/ Parallel Codebase — Relationship Unclear
 
@@ -82,13 +82,13 @@ The Separation Theorem explains this: the Living Seed's per-cell alpha (state-co
 ### Housekeeping Completed
 
 - state.md stale frozen frame inventory (Living Seed-only) identified
-- ANIMA frozen frame inventory entry 069 being created (Rune, parallel task)
+- ANIMA frozen frame inventory entry 069 being created (parallel task)
 - Total constraints: 51 (c051 added Session 22, confirmed)
 - Forward path decision deferred to Session 24 based on ANIMA frozen frame inventory
 
 ### Session Summary
 
-No code written. No experiments run. No new constraints. No new knowledge base entries (entry 069 pending from Rune).
+No code written. No experiments run. No new constraints. No new knowledge base entries (entry 069 pending).
 
 **What changed:** Five blind spots identified that have been present in the codebase without formal acknowledgment. Two untested substrates (ACE.py, rk.py) discovered that directly address the current blockers. One formal theorem (Separation Theorem) identified that retroactively predicts Sessions 18–22 findings. One critical unrun experiment identified (calibration test). One parallel codebase (anima/) with unknown relationship to canonical substrate.
 
@@ -108,25 +108,25 @@ Next: Session 24 — Calibration test execution. ACE/rk ground truth evaluation.
 ### Context
 Session 21 confirmed MI-err structural decoupling: no I-based signal can locate the w_lr interior optimum. The forward path was tau_slow — implement a slow-timescale memory accumulator (mem_slow) that feeds back into organism dynamics and characterize whether tau_slow is a binding parameter for Stage 3.
 
-Full team deployed: [engineer] (implementation + sweep script), Jude (code review), Tess (revalidation + sweep execution).
+Full team deployed for implementation, code review, revalidation, and sweep execution.
 
-### Deliverable 1: Dual-Timescale I Implementation (Task #1, [engineer]; Task #2, Jude)
+### Deliverable 1: Dual-Timescale I Implementation (Task #1, implementation; Task #2, code review)
 `src/anima_organism.py` modified (172→193 lines, +21 lines).
 
 **Mechanism:** mem_slow accumulates tanh(err) with tau_slow EMA rate, parallel to existing mem (tau=0.3). Feedback: `i_slow_drive = mem_slow[i][k] * xs[i][k]`, additive to pre_act alongside i_drive. Principle II compliant: signal from organism's own prediction error, feeds back into state.
 
-**Backward compatibility:** tau_slow=0.0 (default): mem_slow stays zero, i_slow_drive=0.0, dynamics bit-for-bit identical to original. Verified by [engineer] (noise=0 comparison), Jude (code review), Tess (revalidation).
+**Backward compatibility:** tau_slow=0.0 (default): mem_slow stays zero, i_slow_drive=0.0, dynamics bit-for-bit identical to original. Verified via noise=0 comparison, code review, and revalidation.
 
-**Review verdict (Jude):** APPROVED. All checks pass. One non-blocking note: no range validation on tau_slow (consistent with existing code style).
+**Review verdict:** APPROVED. All checks pass. One non-blocking note: no range validation on tau_slow (consistent with existing code style).
 
-### Deliverable 2: tau_slow Binding Sweep Script (Task #3, [engineer])
+### Deliverable 2: tau_slow Binding Sweep Script (Task #3, Avir Research)
 `src/run_tau_slow_sweep.py` created (257 lines). Protocol: 7 tau_slow values × 10 seeds × K=[4,6,8,10] × n_perm=8 × n_trials=6. 280 total conditions.
 
-### Deliverable 3: Stage 1 Revalidation (Task #4, Tess)
+### Deliverable 3: Stage 1 Revalidation (Task #4)
 - tau_slow=0.0: alive_gap = +0.1299 (canonical +0.1256, delta=+0.0043, within ±0.005 tolerance). **PASS.**
 - tau_slow=0.005: alive_gap = +0.0847 (>0, ground truth passes but 35% below baseline). **PASS but degraded.**
 
-### Deliverable 4: tau_slow Sweep Results (Task #5, Tess)
+### Deliverable 4: tau_slow Sweep Results (Task #5)
 
 | tau_slow | mean_gap | std    |
 |----------|----------|--------|
@@ -144,7 +144,7 @@ Full team deployed: [engineer] (implementation + sweep script), Jude (code revie
 
 **Binding verdict:** tau_slow is binding in the NEGATIVE direction only. Boundary-optimal at 0.0.
 
-### Adversarial Review Conclusions ([researcher])
+### Adversarial Review Conclusions (Avir Research)
 
 1. **The effect is real.** d=1.19 on 10 seeds × 4 K values (40 conditions per tau_slow) is well above noise. The trough at 0.005 makes physical sense: tau_slow=0.005 creates a ~200-step integration window, while signal presentation is 90 steps. This integrates across half a signal cycle — maximally confusing current-signal processing with previous-signal residue.
 
@@ -176,10 +176,10 @@ Full team deployed: [engineer] (implementation + sweep script), Jude (code revie
 ### Context
 Session 20 produced the Stage 3 forward plan (entry 066): dual-timescale I with cycle-boundary adaptation for w_lr. The central question for Session 21 Phase 1: can ANY combination of I-based signals detect the w_lr interior optimum (0.0003) from within the organism's own computation? Or is the MI inverted-U invisible from prediction-error space?
 
-Full team deployed: Sage (analytical derivation), [engineer] (diagnostic script), Jude (code review), Tess (execution), Rune (analysis + verdict).
+Full team deployed for analytical derivation, diagnostic script, code review, execution, and analysis.
 
-### Deliverable 1: Analytical Signal Shape Predictions (Task #1, Sage)
-Sage derived expected shapes of I_fast_mean(w_lr), I_slow_mean(w_lr), and their ratio analytically.
+### Deliverable 1: Analytical Signal Shape Predictions (Task #1)
+Expected shapes of I_fast_mean(w_lr), I_slow_mean(w_lr), and their ratio were derived analytically.
 
 **Predictions:**
 - I_fast_mean: inverted-U (cancellation at high w_lr from sign-alternating err between signals)
@@ -187,10 +187,10 @@ Sage derived expected shapes of I_fast_mean(w_lr), I_slow_mean(w_lr), and their 
 - Ratio: not cleanly peaked at 0.0003 (confirmed entry 066 adversarial review)
 - Anti-signal risk: HIGH — signals are unsigned, cannot encode direction
 
-### Deliverable 2: Phase 1 Diagnostic Script (Task #2, [engineer]; Task #3, Jude)
+### Deliverable 2: Phase 1 Diagnostic Script (Task #2, implementation; Task #3, code review)
 `src/run_phase1_diagnostic.py` — InstrumentedAnimaOrganism wrapping AnimaOrganism with mem_slow (tau_slow=0.005) tracking. Measures 5 signals + alive_gap at 5 w_lr values × 2 seeds × 4 K values (40 combinations).
 
-**Two critical bugs found by Jude during review:**
+**Two critical bugs found during code review:**
 1. **Per-permutation organism reset** — measure_alive_gap() created a new organism for every permutation instead of one across all. Caused alive_gap magnitudes 3-10× too low and peak shifted from 0.0003 to 0.003. Fix: moved org creation outside perm loop.
 2. **I_fast_mean K-normalization** — I_fast divided by cycle_steps introduced reverse K-confound. mem values saturate via tanh and don't grow with K. Fix: removed normalization.
 
@@ -206,9 +206,9 @@ Sage derived expected shapes of I_fast_mean(w_lr), I_slow_mean(w_lr), and their 
 
 **The result that matters:** A 100× change in w_lr produces <25% variation in ALL I-based signals. The organism is blind to its own learning rate from within.
 
-Alive_gap peaks at w_lr=0.003 in this 2-seed run — confirmed as noise (Jude). Session 19's 10-seed × n_trials=6 remains authoritative for peak at 0.0003.
+Alive_gap peaks at w_lr=0.003 in this 2-seed run — confirmed as noise. Session 19's 10-seed × n_trials=6 remains authoritative for peak at 0.0003.
 
-### Deliverable 4: Formal Analysis and Verdict (Task #5, Entry 067, Rune)
+### Deliverable 4: Formal Analysis and Verdict (Task #5, Entry 067)
 
 **Verdict: C — Structurally Vacuous.** All five Amendment 1 conditions met.
 
@@ -222,8 +222,8 @@ Signal-by-signal:
 **Equilibrium hypothesis (entry 066): FALSIFIED.** Boundary forces exist at the W level (W_vel diverges at high w_lr) but are invisible to I-based signals. There is no crossover point, no natural fixed point, no self-stabilizing dynamics.
 
 **Analytical predictions vs empirical:**
-- Sage predicted I_fast inverted-U: WRONG (monotone increasing — no cancellation at tau=0.3)
-- Sage predicted I_slow non-monotone: PARTIALLY RIGHT (negligible amplitude, wrong location)
+- Analytical prediction of I_fast inverted-U: WRONG (monotone increasing — no cancellation at tau=0.3)
+- Analytical prediction of I_slow non-monotone: PARTIALLY RIGHT (negligible amplitude, wrong location)
 - Entry 066 predicted ratio not peaked: CONFIRMED
 - Entry 066 predicted MI-err structural decoupling: FULLY CONFIRMED
 
@@ -231,13 +231,13 @@ Signal-by-signal:
 - **c049**: No combination of I_fast, I_slow, I_curvature, or their ratios can locate the w_lr interior optimum via dual-timescale I. All signals show <25% variation across 100× w_lr range. MI-err structural decoupling empirically confirmed.
 - **c050**: W_velocity is monotone increasing in w_lr and is not available as an internal organism adaptation signal. It cannot serve as a Principle-II-compliant Stage 3 signal.
 
-### Adversarial Review Conclusions ([researcher])
+### Adversarial Review Conclusions (Avir Research)
 
 1. **The MI-err structural decoupling is the session's key scientific result.** The w_lr inverted-U exists in MI space (alive_gap peaks at 0.0003) but has NO gradient in prediction-error space. err-based signals (which is all the organism has) cannot detect position on the MI landscape. This is not a measurement problem — it is a structural property of the relationship between prediction error and mutual information.
 
 2. **Why err is blind to w_lr:** Prediction error (err = actual - w_pred) conflates predictive accuracy with dynamic magnitude. At high w_lr, W is large → w_pred is large → err can be large even when W is "doing well." The absolute magnitude of err scales with the magnitude of the dynamics, which scale with w_lr. A normalized signal would help, but normalization requires an external reference — violating Principle II.
 
-3. **Rune's tau_slow recommendation is the right direction but premature.** Before adapting tau_slow, we need: (a) implement dual-timescale I in anima_organism.py (mem_slow feeds back into dynamics), (b) show I_slow changes MI gap at any tau_slow, (c) show tau_slow is binding. c045 blocks tau in [0.1, 0.7] — tau_slow=0.005 is outside that range but the principle may hold.
+3. **The tau_slow recommendation is the right direction but premature.** Before adapting tau_slow, we need: (a) implement dual-timescale I in anima_organism.py (mem_slow feeds back into dynamics), (b) show I_slow changes MI gap at any tau_slow, (c) show tau_slow is binding. c045 blocks tau in [0.1, 0.7] — tau_slow=0.005 is outside that range but the principle may hold.
 
 ### Stage 3 Forward Path
 w_lr is declared a **calibration constant** for ANIMA — binding but not adaptable from within. This is the MI-err structural decoupling.
@@ -260,9 +260,9 @@ Next: Session 22 — Implement dual-timescale I in anima_organism.py. Stage 1 re
 ### Context
 Session 19 closed Stage 2 as vacuous (Amendment 1) — w_lr has interior optimum at 0.0003 but no Principle-II-compliant signal can detect position on the curve per-step. The timescale barrier (c036, c047, c048) is the central unsolved problem. Session 20 is the scheduled meta-cognitive review: full audit of 19 sessions, 48 constraints, and 63 knowledge entries, plus integration of the Han 7+2 Framework paper.
 
-Full team deployed: Rune (constraint taxonomy), Mira (7+2 mapping), Jude (KB consistency), [engineer] (compile.py fix), Tess (baseline validation), Sage (Stage 3 forward plan).
+Full team deployed for constraint taxonomy, 7+2 mapping, KB consistency, compile.py fix, baseline validation, and Stage 3 forward plan.
 
-### Deliverable 1: Constraint Taxonomy (Entry 065, Rune)
+### Deliverable 1: Constraint Taxonomy (Entry 065)
 All 48 constraints categorized into 8 failure modes:
 
 | Category | Count | Description |
@@ -278,7 +278,7 @@ All 48 constraints categorized into 8 failure modes:
 
 The pattern: 12 constraints are solved (statistical + protocol), 9 are uninformative (non-binding), 6 are hard walls (architectural). The remaining 21 are the actual search frontier, and 3 of those (timescale mismatch) point at the same wall.
 
-### Deliverable 2: 7+2 Framework Mapping (Entry 065, Mira)
+### Deliverable 2: 7+2 Framework Mapping (Entry 065)
 Han's 7+2 Framework defines sufficient state space: 7 individual variables (Vm, [Ca²⁺]ᵢ, {g}, {w}, θ, x, M) + 2 collective (Φ, Wᵢⱼ).
 
 **ANIMA implements 3/7 core variables:**
@@ -293,10 +293,10 @@ Han's 7+2 Framework defines sufficient state space: 7 individual variables (Vm, 
 
 **Key insight:** The degeneracy finding (most parameters non-binding) is predicted by 7+2: ~10⁵ molecular configurations → ~10² functional states. Non-binding parameters ARE degeneracy.
 
-### Deliverable 3: KB Consistency (Entry 065, Jude)
+### Deliverable 3: KB Consistency (Entry 065)
 Zero anomalies. 48 constraints sequential c001-c048. All cross-references valid. Canonical params consistent across state.md, anima_organism.py, run_anima_stage1.py.
 
-### Deliverable 4: compile.py ANIMA-Aware (Entry 064, [engineer])
+### Deliverable 4: compile.py ANIMA-Aware (Entry 064, Avir Research)
 Fixed compile.py to handle ANIMA architecture:
 - Active-substrate vs archived status detection
 - format_decision() fallback (content.decision → content.finding)
@@ -306,13 +306,13 @@ Fixed compile.py to handle ANIMA architecture:
 - Entry 064 created: ANIMA architecture with [ACTIVE SUBSTRATE] marker
 - Entry 001 updated: Living Seed marked [ARCHIVED — ceiling 6/8]
 
-### Deliverable 5: Baseline Validation (Entry 065, Tess)
+### Deliverable 5: Baseline Validation (Entry 065)
 ANIMA Stage 1 baseline confirmed exactly reproducible:
 - alive_gap = +0.1256 (d=2.46, 10 seeds × K=[4,6,8,10])
 - Uses calibrated params: w_lr=0.0003, gamma=3.0
 - Exact match to Session 19 calibration result
 
-### Deliverable 6: Stage 3 Forward Plan (Entry 066, Sage)
+### Deliverable 6: Stage 3 Forward Plan (Entry 066)
 
 **Central problem:** Stage 3 requires self-generated adaptation signal for w_lr. The timescale barrier means no per-step signal can detect optimal w_lr. Need a sequence-timescale signal.
 
@@ -330,7 +330,7 @@ ANIMA Stage 1 baseline confirmed exactly reproducible:
 
 **Vacuousness criterion:** If Phase 1 shows no signal has information content and no natural equilibrium exists, Stage 3 for w_lr is structurally vacuous. The MI-err structural decoupling means the inverted-U has no intrinsic gradient detectable from within.
 
-### Adversarial Review Findings ([researcher] + Sage)
+### Adversarial Review Findings (Avir Research)
 
 The adversarial exchange produced three key theoretical results:
 
@@ -344,7 +344,7 @@ The adversarial exchange produced three key theoretical results:
 
 **Architecture decision: dual-timescale I, not T-as-Φ.** Stage 3 = augment I with slow timescale. T-as-Φ violates Principle IV (adds frozen frame element). Deferred to Stage 4+.
 
-### Six Meta-Lessons ([researcher])
+### Six Meta-Lessons (Avir Research)
 
 1. **The landscape is almost entirely flat.** Of all parameters tested across two substrates, almost none are binding. The system is massively degenerate. 7+2 explains: ~10⁵:10² compression.
 
@@ -543,7 +543,7 @@ Adaptive conditions are significantly worse than the calibrated optimum (adaptiv
 
 ### Stage 4 Closure Declaration
 
-**[director]'s declaration:** Stage 4 is NOT vacuously passed. Delta IS binding (+6%). Declare closed as characterization result: **the Living Seed is a memoryless signal processor.**
+**Declaration:** Stage 4 is NOT vacuously passed. Delta IS binding (+6%). Declare closed as characterization result: **the Living Seed is a memoryless signal processor.**
 
 What this means:
 - Pure state replacement (delta=1.0) is architecturally optimal
@@ -658,7 +658,7 @@ Stage 4 assessment: VACUOUS PASSAGE under Amendment 1. The structural constants 
 ## Session 14 — Stage 4 MI-GT Validation & Parameter Binding (2026-02-25)
 
 ### Context
-Session 13 identified clip bounds as binding at multi-K resolution (Entry 042, d=7.583) and resolved the birth confound (Entry 044, clip constraint accounts for 97% of MI improvement). An external reviewer (Kimi K2.5) raised a critical concern: MI gap had never been validated against the binary ground truth test (Principle V). Additionally, the researcher agent fabricated state parameter data (Entry 043), requiring real experiments.
+Session 13 identified clip bounds as binding at multi-K resolution (Entry 042, d=7.583) and resolved the birth confound (Entry 044, clip constraint accounts for 97% of MI improvement). An external reviewer (Kimi K2.5) raised a critical concern: MI gap had never been validated against the binary ground truth test (Principle V). Additionally, state parameter data was fabricated in Entry 043, requiring real experiments.
 
 ### Experiment 1: Centroid MI-GT Validation (Entry 045)
 First attempt used centroid cosine similarity (averaging across cells). Found MI gap correlates with GT (r=0.934) but VERY_NARROW was the WORST condition — opposite of Entry 042. Flagged as methodologically confounded: centroid vs per-cell measurement.

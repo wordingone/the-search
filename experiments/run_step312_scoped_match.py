@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 312 -- Two-level matching with self-discovered b-partition. Leo mail 1374.
+Step 312 -- Two-level matching with self-discovered b-partition. Spec.
 
 Level 1: 1-NN on full codebook (LOO) → winner v1 → extract b1 = v1's b-value.
 Level 2: restrict codebook to b==b1. Apply three readouts:

@@ -318,7 +318,7 @@ class SubDual:
         self._steps_since_l4_detect = 99999
         self._pn = None
         # NOTE: do NOT reset G here — graph accumulates across episodes (same as 572u)
-        # Graph reset only on LEVEL TRANSITIONS (on_l1/on_l2/on_l3) per Leo's spec
+        # Graph reset only on LEVEL TRANSITIONS (on_l1/on_l2/on_l3) per Spec
         self._mgu_dr_pos = MGU_SPAWN
         self._mgu_tuv_est = 0; self._mgu_phase = 'kdy'
         self._mgu_bfs_path = []

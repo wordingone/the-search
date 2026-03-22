@@ -2,7 +2,7 @@
 """
 Step 292 -- IO-guided composition search for a%b.
 
-Leo mail 1328. Anti-inflation check: can IO-consistency VERIFY that the correct
+Spec. Anti-inflation check: can IO-consistency VERIFY that the correct
 3-step decomposition of a%b is the highest-scoring depth-3 composition?
 
 This is NOT the substrate discovering composition autonomously.
@@ -18,7 +18,7 @@ Composition: linear chain — each step adds one value, result is the last value
 IO pairs: (a,b) -> a%b for a,b in 1..20 (400 pairs).
 Score: fraction of IO pairs where |output - target| < 0.5.
 
-Success criterion (Leo): correct 3-step composition scores 100% AND is top-scoring.
+Success criterion (Avir): correct 3-step composition scores 100% AND is top-scoring.
 Kill criterion: correct composition is NOT top-scoring at depth-3.
 """
 
@@ -188,7 +188,7 @@ def main():
     print(f"Correct decomposition score: {correct_score*100:.1f}%", flush=True)
     print(flush=True)
 
-    print("SUCCESS CRITERION (Leo mail 1328):", flush=True)
+    print("SUCCESS CRITERION (Spec):", flush=True)
     if correct_score == 1.0 and best_score_d3 == 1.0:
         print(f"  PASSES — correct composition scores 100% and is among top-scoring.",
               flush=True)

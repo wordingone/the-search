@@ -216,7 +216,7 @@ def test_floor_div():
 def main():
     t0 = time.time()
     print("Step 302 -- Generalization Test for Distribution Matching", flush=True)
-    print("Leo RESEARCH_STATE: does phi generalize to larger ranges + other functions?",
+    print("RESEARCH_STATE: does phi generalize to larger ranges + other functions?",
           flush=True)
     print(flush=True)
 

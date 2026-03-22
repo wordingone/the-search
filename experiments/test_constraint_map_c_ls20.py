@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Constraint Map Validation Round C — process_novelty() baseline + 6 variants.
-Mail 1753. Jun-approved 50K runs.
+Mail 1753. Approved 50K runs.
 
 Run 0:  Baseline (process_novelty() exact) — MUST navigate Level 1
 Reverse tests (remove V-derivedness):

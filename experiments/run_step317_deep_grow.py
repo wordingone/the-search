@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 317 -- K=10 deep grow + per-b refine. Leo mail 1385.
+Step 317 -- K=10 deep grow + per-b refine. Spec.
 
 GROW: K=10 iterations of reflection spawn with consensus spacing.
 Each iteration extends from the new boundary — grows codebook toward OOD territory.

@@ -2,7 +2,7 @@
 """
 Step 291 -- Adaptive spawn threshold vs fixed on P-MNIST.
 
-Leo mail 1323. Frozen frame test: can the spawn criterion emerge from the
+Spec. Frozen frame test: can the spawn criterion emerge from the
 state distribution rather than being a hardcoded external hyperparameter?
 
 Hypothesis: If adaptive threshold (derived from the distribution of
@@ -16,7 +16,7 @@ Adaptive rule: theta = mean(1 - max_sim) + 1*std(1 - max_sim)
   Interpretation: spawn only if this input is >1 sigma more novel than average.
   Initially (no history): fall back to fixed=0.7 until n_seen >= 10.
 
-Kill criterion (Leo mail 1323):
+Kill criterion (Spec):
   If adaptive AA < fixed AA - 5pp: state distribution alone insufficient.
   If within 5pp or better: frozen frame is collapsible -> push to CIFAR-100.
 
@@ -338,7 +338,7 @@ def main():
     print(f"Adaptive final threshold: {final_thresh:.3f}", flush=True)
 
     print(flush=True)
-    print("KILL CRITERION (Leo mail 1323):", flush=True)
+    print("KILL CRITERION (Spec):", flush=True)
     if aa_a < aa_f - 0.05:
         print(f"  KILLED -- adaptive ({aa_a*100:.1f}%) < fixed ({aa_f*100:.1f}%) - 5pp",
               flush=True)

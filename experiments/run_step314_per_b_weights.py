@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Step 314 -- Per-b weight learning. Leo mail 1379.
+Step 314 -- Per-b weight learning. Spec.
 
 W[b,k] = 20 x 5 = 100 parameters.
 For query from b-group b: use W[b,:] as per-slot weights on phi comparison.
 Cross-class absorption: W[b_query, k] += LR * sum_c (phi_q[c*K+k] - phi_nearest[c*K+k])^2
 
-Also runs global w[k] (5-dim) as auto_loop baseline (Leo's 88.0%).
+Also runs global w[k] (5-dim) as auto_loop baseline (the 88.0% reference).
 
 Kill: per-b LOO <= 88.0%.
 Success: per-b LOO > 88.0% AND >=3 b-groups have cosine < 0.9 between w vectors.
@@ -278,14 +278,14 @@ def main():
 
     # ── Summary ───────────────────────────────────────────────────────────
     elapsed = time.time() - t0
-    BASELINE_GLOBAL = 0.880   # Leo's auto_loop reference
+    BASELINE_GLOBAL = 0.880   # the auto_loop reference
     kill = perb_final_loo <= BASELINE_GLOBAL
     success = perb_final_loo > BASELINE_GLOBAL and len(diverse_groups) >= 3
 
     print("=" * 65, flush=True)
     print("STEP 314 SUMMARY", flush=True)
     print("=" * 65, flush=True)
-    print(f"Global w[k] final LOO:   {global_final_loo*100:.1f}%  (Leo ref: 88.0%)", flush=True)
+    print(f"Global w[k] final LOO:   {global_final_loo*100:.1f}%  (ref: 88.0%)", flush=True)
     print(f"Per-b W[b,k] final LOO:  {perb_final_loo*100:.1f}%", flush=True)
     print(f"Diverse b-groups:        {len(diverse_groups)}/20", flush=True)
     print(flush=True)

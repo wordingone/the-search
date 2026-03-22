@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 444b — Graph Substrate on P-MNIST (1 task, unsupervised).
-Leo's question: if different digits land on different nodes,
+Question: if different digits land on different nodes,
 and node_idx is the prediction, does the graph discriminate?
 
 Two modes:

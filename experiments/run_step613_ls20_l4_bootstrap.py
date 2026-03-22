@@ -17,7 +17,7 @@ Includes all previous fixes:
   - L3 bootstrap: puq wall_set built from l3_mode mid-L3 run
   - L4 bootstrap: cluster targets built from l4_mode mid-L4 run
 
-2 seeds × 5 min (per Leo's direction for longer cap runs).
+2 seeds × 5 min (per direction for longer cap runs).
 Signal: L4 >= 1/2. Kill: L4 = 0/2.
 """
 import numpy as np

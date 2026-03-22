@@ -2,7 +2,7 @@
 """
 Step 300 -- Reflection spawn for OOD extrapolation.
 
-Leo mail 1347/1349. The fold detects period -> spawns extension -> OOD becomes
+Spec/1349. The fold detects period -> spawns extension -> OOD becomes
 in-distribution.
 
 Mechanism:
@@ -319,7 +319,7 @@ def main():
 
     kill_threshold = 0.50
     overall_best = max(best_acc, best_acc_cc)
-    print("KILL CRITERION (Leo mail 1349):", flush=True)
+    print("KILL CRITERION (Spec):", flush=True)
     if overall_best < kill_threshold:
         print(f"  KILLED -- best OOD ({overall_best*100:.1f}%) <= {kill_threshold*100:.0f}%",
               flush=True)

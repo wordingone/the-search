@@ -1,5 +1,5 @@
 """
-Step 534 -- Substrate S on LS20. Jun's 11th family: self-partitioning decision tree.
+Step 534 -- Substrate S on LS20. the 11th family: self-partitioning decision tree.
 
 S starts with 1 leaf (root=0). Splits when 2+ (action->next_cell) transition patterns
 diverge: finds best feature dimension separating the top-2 (by count) edge means.
@@ -37,7 +37,7 @@ def encode(frame):
     return x - x.mean()
 
 
-# --- Substrate S (Jun's implementation, unmodified) ---
+# --- Substrate S (the implementation, unmodified) ---
 
 class S:
 

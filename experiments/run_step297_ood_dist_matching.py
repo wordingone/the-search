@@ -2,7 +2,7 @@
 """
 Step 297 -- OOD Generalization Test for Per-class Distribution Matching.
 
-Leo mail 1344. Hypothesis: per-class distribution matching generalizes OOD
+Spec. Hypothesis: per-class distribution matching generalizes OOD
 because the distribution shift is uniform across classes.
 
 Training codebook: a,b in 1..20 (400 vectors, same as Step 296)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 311 -- Recursive absorption. Leo mail 1372.
+Step 311 -- Recursive absorption. Spec.
 
 Encoding: x = (a/20, b/20), 2D float.
 Algorithm: peel residuals at each depth using same nearest-neighbor op.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Step 113 -- Hebbian PCA + k-NN on CIFAR-100 raw pixels.
-[researcher] mail 1270.
+Spec.
 
 Four conditions:
 1. Raw pixel k-NN (d=3072) — floor

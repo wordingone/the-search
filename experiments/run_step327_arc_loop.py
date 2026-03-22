@@ -2,7 +2,7 @@
 """
 Step 327 — Port auto_loop to ARC-AGI.
 
-Jun's question: how many tasks did the SUBSTRATE solve?
+Question: how many tasks did the SUBSTRATE solve?
 Answer from Steps 320-326: zero. Everything was 1-NN or conventional ML.
 
 This step applies the substrate's actual mechanisms per ARC task:
@@ -343,7 +343,7 @@ def evaluate_task(task):
 def main():
     t0 = time.time()
     print("Step 327 — Auto-loop applied per-task to ARC-AGI", flush=True)
-    print("Jun's question: what does the SUBSTRATE contribute?", flush=True)
+    print("Question: what does the SUBSTRATE contribute?", flush=True)
     print(f"K_PHI={K_PHI}, PHI_DIM={PHI_DIM}, N_EPOCHS={N_EPOCHS}, LR={LR_W}", flush=True)
     print(flush=True)
     print("Three-way comparison:", flush=True)

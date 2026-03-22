@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 316 -- Consensus spacing in grow step. Leo mail 1383.
+Step 316 -- Consensus spacing in grow step. Spec.
 
 Grow phase (one turn):
 1. Per-class spacing: for each class with >=2 members, spacing = nearest same-class distance

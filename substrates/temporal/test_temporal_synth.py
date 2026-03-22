@@ -69,14 +69,14 @@ def main():
     # Tier 1b: d=256, 2 signal dims, 4 clusters
     print("\nTier 1b: d=256, 2 signal dims, 4 clusters")
     print("  (SelfRef baseline: ~94% avg dom, 4/4 distinct)")
-    print("  (Leo prediction: 40-60%)")
+    print("  (Prediction: 40-60%)")
     avg, n_distinct = run_discrimination(256, 4, warm_steps=800, signal_dims=SIGNAL_DIMS)
     status = "PASS" if avg > 0.6 and n_distinct >= 2 else ("DEGENERATE" if n_distinct <= 1 else "MARGINAL")
     print(f"  avg_dominance={avg*100:.1f}%  distinct_actions={n_distinct}/4  [{status}]")
 
     # Robustness: d=32, 5 seeds
     print("\nRobustness: d=32, dense, 4 clusters, 5 seeds")
-    print("  (Leo prediction: dom 85-97%, distinct 2-4)")
+    print("  (Prediction: dom 85-97%, distinct 2-4)")
     dom_vals = []
     dist_vals = []
     for seed in range(5):

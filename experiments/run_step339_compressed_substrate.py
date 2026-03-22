@@ -2,11 +2,11 @@
 """
 Step 339 — COMPRESSION: one function that passes S1+S2.
 
-Leo's revised spec: the compression is a REFACTOR of existing SpawnOnlyFold.
+the revised spec: the compression is a REFACTOR of existing SpawnOnlyFold.
 step() and eval_batch() share the first line (V @ x). Split is a def boundary,
 not mathematical. One process() method unifies both.
 
-The function (Leo's exact code):
+The function (the exact code):
     def process(self, x, label=None):
         x = F.normalize(x, dim=0)
         sims = self.V @ x                     # THE operation
@@ -35,13 +35,13 @@ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# THE CLASS + FUNCTION (Leo's exact process() body, plus class machinery)
+# THE CLASS + FUNCTION (the exact process() body, plus class machinery)
 # ══════════════════════════════════════════════════════════════════════════════
 
 class CompressedFold:
     """
     Compressed substrate: CL + class vote in one indivisible operation.
-    Wraps Leo's exact process() function.
+    Wraps the exact process() function.
     """
     def __init__(self, d, spawn_thresh=0.7, lr=0.1, k=3, device=DEVICE):
         self.V           = torch.zeros(0, d, device=device)
@@ -53,7 +53,7 @@ class CompressedFold:
         self.device      = device
 
     def process(self, x, label=None):
-        """Leo's exact function. ~20 lines. Not modified."""
+        """the exact function. ~20 lines. Not modified."""
         x = F.normalize(x.to(self.device), dim=0)
 
         # Bootstrap: first entry always spawns (empty V guard)
@@ -346,7 +346,7 @@ def s2_ablation_pmnist(spawn_thresh=0.7, lr=0.1, k=3):
 
 def main():
     t0 = time.time()
-    print("Step 339 — Compressed Substrate (Leo's revised spec)", flush=True)
+    print("Step 339 — Compressed Substrate (the revised spec)", flush=True)
     print("One process() method: class vote + winner update, S1+S2", flush=True)
     print(f"Device: {DEVICE}", flush=True)
     print(flush=True)
@@ -362,7 +362,7 @@ def main():
     print("=" * 60, flush=True)
     print("STEP 339 SUMMARY", flush=True)
     print("=" * 60, flush=True)
-    print(f"Function: Leo's exact process() — ~20 lines", flush=True)
+    print(f"Function: the exact process() — ~20 lines", flush=True)
     print(f"S1: label=None -> target=prediction -> same code path. VERIFIED.", flush=True)
     print(f"S2: class vote required for update; attract required for future votes.", flush=True)
     print(flush=True)

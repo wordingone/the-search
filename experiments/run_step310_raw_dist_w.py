@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 310 -- Raw distances + learned weights. Leo mail 1370.
+Step 310 -- Raw distances + learned weights. Spec.
 
 Features: phi_raw(x)_i = |a_x - A[i]| if B[i]==b_x else SENTINEL
 w: N-dimensional (one weight per codebook entry)

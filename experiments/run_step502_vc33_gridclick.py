@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 502 — VC33 grid-click sweep. Leo's spec (mail 1994).
+Step 502 — VC33 grid-click sweep. Spec.
 Step 500: VC33 = 1 action (ACTION6 complex), 50-state cycle, dies every 50 steps.
 Test: use 8x8 grid of ACTION6 click positions.
 Strategy: each cycle (~50 steps), use ONE click position. Rotate through all 64.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 315 -- Grow-and-refine loop. Leo mail 1381.
+Step 315 -- Grow-and-refine loop. Spec.
 
 Each turn:
 1. GROW: for each b-group, reflect boundary of each class outward.

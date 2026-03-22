@@ -108,4 +108,4 @@ r_argmin = run_ls20(SelfRefArgmin, "argmin (exploration)")
 print()
 print(f"argmax={r_argmax}  argmin={r_argmin}")
 if r_argmin is not None and r_argmax is not None:
-    print(f"Leo's hypothesis: {'CONFIRMED' if r_argmin > r_argmax else 'REFUTED'}")
+    print(f"Hypothesis: {'CONFIRMED' if r_argmin > r_argmax else 'REFUTED'}")

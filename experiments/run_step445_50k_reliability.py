@@ -4,7 +4,7 @@ Step 445 — Graph Substrate: 10 seeds × 50K steps.
 Apples-to-apples comparison with codebook baseline (Step 434b: 6/10 at 50K).
 Codebook 434b steps-to-level: [1548, 1892, 13863, 24142, 41260, 47749]
 
-Leo's predictions:
+Predictions:
 - Reliability: 4-5/10 (25.7K threshold means most 30K-misses hit by 50K)
 - Steps: clustered 25-30K (unlike codebook's bimodal 2K/25K+)
 - Graph advantage: perpetual frontier past 5K
