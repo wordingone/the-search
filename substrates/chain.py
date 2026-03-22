@@ -10,11 +10,13 @@ import numpy as np
 import sys
 import os
 
-# LS20/FT09/VC33 action counts (confirmed from game metadata)
+# LS20/FT09/VC33 action counts — detected at runtime from env._action_space
+# Current game version: 4 actions (changed from 68 in older versions)
+# chain.py detects actual action count from env rather than hardcoding.
 GAME_N_ACTIONS = {
-    "LS20": 68,   # 4 dir + 64 grid clicks
-    "FT09": 68,   # same action space structure
-    "VC33": 68,   # same
+    "LS20": 4,
+    "FT09": 4,
+    "VC33": 4,
 }
 
 PER_SEED_TIME = 300   # 5 minutes
@@ -68,7 +70,9 @@ class ArcGameWrapper:
                 continue
 
             action = substrate.process(np.array(obs, dtype=np.float32))
-            obs, reward, done, info = self._env.step(action)
+            # Clamp to env action space (game may have fewer actions than substrate.n_actions)
+            n_valid = len(self._env._action_space) if hasattr(self._env, '_action_space') else substrate.n_actions
+            obs, reward, done, info = self._env.step(action % n_valid)
             steps += 1
 
             if fresh_episode:

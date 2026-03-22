@@ -26,10 +26,18 @@ def _enc_frame(frame: np.ndarray) -> np.ndarray:
     a = np.array(frame, dtype=np.float32).reshape(-1)
     # Handle variable input shapes: take first channel if 3D, else flatten
     if frame.ndim == 3:
+        # Normalize: channel-first (C,H,W) if first dim is small (ARC games give (1,64,64))
+        if frame.shape[0] <= 4 and frame.shape[1] > 4 and frame.shape[2] > 4:
+            frame = frame.transpose(1, 2, 0)  # (C,H,W) -> (H,W,C)
         a = frame[:, :, 0].astype(np.float32) / 15.0 if frame.max() > 1 else frame[:, :, 0].astype(np.float32)
-        # Avgpool to 16x16
+        # Avgpool to 16x16: pad to next multiple of 16 if needed
         h, w = a.shape
         ph, pw = max(h // 16, 1), max(w // 16, 1)
+        pad_h, pad_w = ph * 16, pw * 16
+        if h < pad_h or w < pad_w:
+            buf = np.zeros((pad_h, pad_w), dtype=np.float32)
+            buf[:min(h, pad_h), :min(w, pad_w)] = a[:min(h, pad_h), :min(w, pad_w)]
+            a = buf
         pooled = a[:ph*16, :pw*16].reshape(16, ph, 16, pw).mean(axis=(1, 3))
         x = pooled.flatten()[:DIM]
         if len(x) < DIM:
@@ -51,7 +59,7 @@ class TransitionTriggered674(BaseSubstrate):
     Argmin selects least-visited (cell, action) pair.
     """
 
-    def __init__(self, n_actions: int = 68, seed: int = 0):
+    def __init__(self, n_actions: int = 4, seed: int = 0):
         self._n_actions = n_actions
         self._seed = seed
         self._init_state(seed)
