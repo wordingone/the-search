@@ -1244,3 +1244,24 @@ Step 706: Plain k=12 FT09 baseline, 20 seeds, 120K, game ft09/0d8bbf25. **L1=8/2
   The transition-triggered fine hash provides disambiguation signal that plain k=12 lacks.
 
 Step 707: VC33 running-mean 674 = 0/5. KILL. Zone discovery, not aliasing.
+
+Step 708: Running-mean 674, 20 seeds, 120K, LS20 9607627b. L1=20/20.
+  Matches frame-local 674 at 120K. Speed trade: 11 seeds faster (up to 12.2x s12),
+  9 seeds slower (up to 52x s8/s10). Aliased 642-1078 (vs frame-local 50-337).
+  At 120K both centering modes reach 20/20. Running-mean advantage is at 25s only.
+
+  **FINAL COMPLETE TABLE (all verified, game versions confirmed):**
+  | Game | Method               | Budget | L1     | vs plain |
+  |------|----------------------|--------|--------|----------|
+  | LS20 | Plain k=12 (697)     | 25s    | 11/20  | —        |
+  | LS20 | 674 frame-local (690)| 25s    | 17/20  | +6       |
+  | LS20 | 674 running-mean(705)| 25s    | 20/20  | +9       |
+  | LS20 | Plain k=12 (701)     | 120K   | 16/20  | —        |
+  | LS20 | 674 frame-local (699)| 120K   | 20/20  | +4       |
+  | LS20 | 674 running-mean(708)| 120K   | 20/20  | +4       |
+  | LS20 | 674 chain (700)      | 120K   | 20/20  | +4       |
+  | FT09 | Plain k=12 (706)     | 120K   | 8/20   | —        |
+  | FT09 | 674 frame-local (702)| 120K   | 17/20  | +9       |
+  | FT09 | 674 chain (703)      | 120K   | 5/5*   | —        |
+  | VC33 | 674 any centering     | 25s    | 0/5    | —        |
+  *5 seeds only
