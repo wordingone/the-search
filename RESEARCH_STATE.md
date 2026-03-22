@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 651 (mgu vs argmin diagnostic — L2-targeting series)
+CURRENT STEP: 690 (20-seed definitive L1 sweep)
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -431,6 +431,19 @@ Step 689: Survival bonus (inverted death penalty, BONUS=10). KILL. Seed 8, 300s.
   unresolved aliasing, not one that resolves all aliasing before navigating. This connects
   to the L2 energy mechanic (iri sprites, Step 556-557) — L2 requires PURPOSEFUL navigation
   to energy sources, not exhaustive coverage.
+
+Step 681: 674 on VC33 (8×8 click grid, 5 seeds, 25s). KILL 0/5. VC33 requires precise
+  pixel-level click targeting (canal lock mechanics). 674's transition-triggered dual-hash
+  is irrelevant — VC33's challenge is action decomposition, not perceptual aliasing. Seeds 2-4
+  had 0 aliased cells (game not looping in ambiguous way). Confirms: action space IS the variable
+  for VC33, not observation mapping.
+
+Step 690: 674 on LS20, 20 seeds, 25s. DEFINITIVE: L1=17/20 (85%). L2=0/20.
+  Missing: s7 (184 aliased), s12 (181), s16 (214) — high aliasing, likely budget-limited.
+  Fastest: s8=126, s10=151, s18=746. Slowest: s11=40442, s4=24968.
+  Confirms 674 mechanism at scale. Compare: Step 674 was 9/10 on seeds 0-9. Adding seeds 10-19
+  gives 8/10 on new seeds (s12, s16 miss). Consistent mechanism across all 20 seeds.
+  Step 692 (120K budget, 20 seeds) will test if missing 3 reach L1 with more time.
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
