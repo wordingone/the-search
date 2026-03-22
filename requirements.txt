@@ -1,0 +1,22 @@
+# the-search — Python dependencies
+# Python 3.10+
+# Install: pip install -r requirements.txt
+# Full setup (including Atari ROMs): bash setup.sh
+
+# Core numerical
+numpy>=1.24
+
+# Game environments
+gymnasium>=1.0          # ARC-AGI-3 game interface
+gymnasium[atari]        # Atari (Montezuma's Revenge baseline)
+ale-py>=0.10            # Atari Learning Environment
+autorom                 # Atari ROM installer (run: autorom --accept-license)
+
+# Vision / CIFAR-100 benchmark
+torchvision>=0.15       # Split-CIFAR-100 dataset loader
+torch>=2.0              # Required by torchvision
+
+# ARC game engine (install separately — not on PyPI)
+# arc_agi and arcengine come from the ARC-AGI-3 SDK
+# Source: https://three.arcprize.org (API key required)
+# The experiments directory includes arcagi3.py / util_arcagi3.py as wrappers

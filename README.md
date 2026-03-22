@@ -15,8 +15,19 @@ Can a system improve itself by criteria it generates?
 ## Quick Start
 
 ```bash
-# Run an experiment
-python experiments/run_step674_transition_triggered.py
+# 1. Set up environment (one command)
+bash setup.sh
+
+# 2. Activate venv
+source .venv/Scripts/activate   # Windows (Git Bash / MSYS2)
+# or:
+source .venv/bin/activate        # Linux / Mac
+
+# 3. Run an experiment
+PYTHONPATH=. python experiments/step0720_cifar_dynamic_r3.py
+
+# 4. Run reference substrate validation
+PYTHONPATH=. python substrates/step0674.py
 
 # Rebuild the paper
 cd paper && python build.py --pdf
