@@ -293,7 +293,7 @@ Step 671: Splatter substrate (1-step world model, argmax frame difference). L1=0
 
   **The honest conclusion (revised by Steps 672-674):** No ACTION SELECTION mechanism
   consistently improves on argmin. But PERCEPTION REFINEMENT does: Step 674 achieves 9/10
-  (best L1 count in the search) via transition-triggered dual-hash. Proposition 15 confirmed.
+  (best L1 speed at 25s budget — matches Step 485's 9/10 at 120K but via π-refinement, not budget) via transition-triggered dual-hash. Proposition 15 confirmed.
 
 Step 672: Dual-hash diagnostic (k=12 nav + k=20 passive). L1=5/10 (same as k=12 baseline — k=20
   is passive). avg_k20_subcells_per_k12 = 6.79. DIAGNOSTIC CONFIRMED: at exit cell, slow seeds
