@@ -286,6 +286,56 @@ the modification rule). Whether this constitutes genuine \(\ell_F\)
 depends on whether the rate-modification mechanism is itself fixed
 (frozen frame) or adaptive.
 
+\subsubsection{2.10 Retinal contrast adaptation and selective
+π-refinement}\label{retinal-contrast-adaptation-and-selective-ux3c0-refinement}
+
+Retinal ganglion cells (RGCs) solve Proposition 15's open question ---
+targeted observation-mapping refinement without foreknowledge of what's
+important --- via local contrast adaptation. Each RGC independently
+adjusts its receptive field based on recent stimulus statistics (Baccus
+\& Meister, 2002, \emph{Neuron}; Gollisch \& Meister, 2010). Two
+mechanisms operate at the same spatial location: \textbf{adaptation}
+(reduce sensitivity at familiar stimuli, via bipolar cell synaptic
+depression) and \textbf{sensitization} (increase sensitivity at
+novel/variable stimuli, via amacrine cell inhibition --- Kastner \&
+Bhatt, 2018, PMC). Dynamic receptive fields are ``flexible and fluid''
+(Rivlin-Etzion et al., 2018), adjusting shape based on stimulus content.
+
+\textbf{Connection to Proposition 15:} The substrate's bottleneck is
+hash resolution at critical cells (\(k_{n^*}\), the number of aliased
+hidden states). Step 669 attempted local variance-driven refinement ---
+running variance per cell, fine hash of high-variance pixels. Result:
+MARGINAL 5/10. Seeds with few high-variance cells (91) solved 285x
+faster; seeds with many (286) lost L1. The mechanism WORKS locally but
+fails to SELECT which cells to refine.
+
+The retina's solution has three features the substrate lacks: 1.
+\textbf{Cell-type diversity} --- different RGC types have different
+adaptation profiles (Kastner \& Baccus, 2017). Multiple ``hash
+functions'' at different resolutions operate SIMULTANEOUSLY, not one
+function that switches. The substrate analog: maintain LSH at multiple k
+values (e.g., k=12 for navigation, k=20 for refinement at variable
+cells) and let local statistics determine which resolution to read from.
+2. \textbf{Spatially segregated adaptation/sensitization} --- adaptation
+at the center, sensitization at the surround (Baccus \& Meister, 2002).
+The cell refines its resolution at the BOUNDARY of its receptive field,
+not uniformly. For the substrate: refine hash at cells where transition
+outcomes are MOST variable, not where pixel variance is highest. 3.
+\textbf{No foreknowledge} --- each RGC adapts based on its own stimulus
+history. No global controller identifies ``critical cells.'' The retina
+doesn't know which locations will be important --- it maintains
+resolution everywhere and INCREASES it where variability is detected.
+This is exactly the R1-compliant \(\pi\)-refinement Proposition 15
+requires.
+
+\textbf{Degree of freedom concretized:} Recode (Step 542) refines
+\(\pi\) from transition statistics but treats all cells equally. The
+retinal insight suggests SELECTIVE refinement: cells with high
+transition variability get finer resolution (sensitization), cells with
+low variability maintain coarse resolution (adaptation). The
+intervention is determined by local cell statistics, not global analysis
+--- R1-compliant by construction.
+
 \subsection{3. Formal Framework}\label{formal-framework}
 
 \textbf{On the status of R1-R6:} The six rules began as philosophical
@@ -1235,6 +1285,59 @@ statistics. The POMDP literature suggests belief-state estimation
 achieve targeted \(\pi\)-refinement at the exit cell --- without knowing
 which cells are critical --- is open.
 
+\paragraph{Corollary: L1/L2 Asymmetry}\label{corollary-l1l2-asymmetry}
+
+\textbf{Finding (Steps 682-686, empirical):} Proposition 15's
+perception-action decoupling holds for L1 but NOT for L2. The
+qualitative difference:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{L1 aliasing is bounded.} The number of aliased cells (cells
+  with inconsistent transitions) plateaus at 83-313 depending on seed.
+  The fine graph (k=20 at aliased cells) accumulates useful counts
+  within the 25s budget. Step 674: 9/10 L1.
+\item
+  \textbf{L2 aliasing is unbounded.} After L1, aliased cells grow
+  monotonically: 2→439 (seed 8, 572K steps), 48→445 (seed 3, 535K
+  steps). The fine graph becomes sparser as more cells compete for
+  budget. The mechanism adapts (detects new aliased cells post-L1) but
+  the adaptation diverges --- count accumulation can never keep pace
+  with the growing aliased set.
+\end{itemize}
+
+\textbf{Formalization:} Let
+\(A(t) = |\{n \in N : |\text{succ}(n, a)| \geq 2 \text{ for some } a\}|\)
+be the aliased cell count at step \(t\). For L1: \(A(t) \to A^*\)
+(bounded, seed-dependent). For L2: \(A(t) \sim c \cdot t^\alpha\) for
+\(\alpha > 0\) (unbounded growth). The per-aliased-cell visit rate is
+\(\sim 1/A(t)\). Count-based action selection requires
+\(\Omega(\log |\mathcal{A}|)\) visits per cell to distinguish actions.
+When \(A(t) \gg A^*_{L1}\), the per-cell visit rate drops below the
+threshold for useful count accumulation.
+
+\textbf{Implication:} L2 requires a mechanism that can navigate toward a
+goal region DESPITE unresolved perceptual aliasing --- not one that
+resolves all aliasing before navigating. This is the L2 energy mechanic
+(iri sprites, Steps 556-557): the agent must navigate TO energy sources
+before dying, then proceed to the exit. Exhaustive coverage via argmin
+(which works for L1 because L1's exit is findable by random coverage)
+fails for L2 because the energy constraint imposes a TIME LIMIT per
+episode.
+
+\textbf{Connection to Proposition 13 (Eigenform Inertness):}
+Self-observation identifies structure in visited states but cannot guide
+navigation to unvisited states. For L2, the unvisited states include
+energy sources. The mechanism must predict WHERE energy sources are from
+partial observations --- a world model, not a coverage strategy. This
+sharpens the L2 problem: the bottleneck is not perception (\(\pi\)) and
+not action selection (\(g\)), but prediction of unvisited states from
+partial observations. This is the transition from \(\ell_\pi\)
+(perception refinement) to \(\ell_F\) (rule modification) --- the system
+must modify its UPDATE RULE to incorporate predictions, not just refine
+its mapping.
+
 \subsubsection{4.6 Constructive Characterization of the Feasible
 Region}\label{constructive-characterization-of-the-feasible-region}
 
@@ -1415,15 +1518,53 @@ system produces its own components at runtime (constructive closure).
 Our abstract entailment asks whether the components are logically
 necessary (deductive closure). These are different questions. Logical
 necessity does not imply constructive production. A system can require
-an interpreter without being able to build one.
+an interpreter without being able to build one. The parallel is precise:
+Letelier et al.~(2006) showed that for Rosen's closure to have a
+solution, the set of admissible metabolism functions must be
+``drastically smaller'' than Rosen assumed. Our Theorem 1 (no fixed
+points) is the analogous result --- not every state-update rule is
+compatible with R1-R6. Both frameworks converge: self-referential
+closure constrains the space of valid systems far more than naive
+analysis suggests.
 
-\textbf{Connection to Bauer:} If our system's dynamics were total
-(always halting), the concrete interpreter could not be self-produced
-(Bauer, 2016). Our system is non-total (\(s_t\) evolves indefinitely),
-so the Bauer obstruction doesn't apply directly. But Rosen's
-computability conjecture suggests concrete self-interpretation may
-require capabilities beyond standard computation --- this remains
-contested.
+\textbf{Connection to computability:} Rosen conjectured that closure to
+efficient causation has no computable models. Mossio \& Longo (2009)
+resolved this: closure IS computable. They exhibited an expression of
+closure to efficient causation in lambda calculus, using reflexive
+objects in Cartesian closed categories (Scott's \(D_\infty\) models).
+The construction is fully effective --- self-referential closure
+requires reflexive domains (spaces where functions are elements), not
+non-computability. Our system is computable and operates in a reflexive
+domain: the state space \(S\) contains edge counts that the interpreter
+reads as instructions. The Rosen conjecture, as originally stated, is
+false. The real barrier is not computability but EXPRESSIVENESS ---
+whether the reflexive domain is rich enough to encode the operations
+needed (Q21).
+
+\textbf{Connection to Bauer and Brown-Palsberg:} If our system's
+dynamics were total (always halting), the concrete interpreter could not
+be self-produced (Bauer's result for System T). Our system is non-total
+(\(s_t\) evolves indefinitely), so the Bauer obstruction doesn't apply
+directly. Brown \& Palsberg (2016) showed that self-representation IS
+achievable in sufficiently powerful total type systems (System U),
+demonstrating the obstruction is about type-system expressiveness, not
+totality per se. For our framework: the question is not whether
+self-interpretation is possible in principle (it is, in reflexive
+domains) but whether our SPECIFIC interpreter + state space combination
+has sufficient expressiveness.
+
+\textbf{Connection to constraint closure:} Montévil \& Mossio (2015)
+formalize biological organization as ``closure of constraints'' --- a
+regime where each constraint maintains the conditions for other
+constraints' existence. Our constraint map (U1-U26, I1-I9) is
+structurally analogous: each validated constraint narrows the feasible
+region, and the constraints collectively define what a satisfying system
+must be. The key difference: our constraints are EXTERNALLY imposed
+(R1-R6 by Jun, U-constraints by experimental evidence). Montévil-Mossio
+closure is INTERNALLY maintained (the system produces its own
+constraints). A system achieving R3 would need to transition from
+external to internal constraint maintenance --- discovering not just
+implementations but the REASONS those implementations are required.
 
 \textbf{The synthesis:} Abstract entailment + R3 creates a constructive
 demand: the system must discover concrete implementations of operations
@@ -1447,6 +1588,23 @@ the central open question. Rosen says no (for biological systems,
 contested). Bauer says no (for total systems, proved). Our evidence
 (612+ experiments, 0 substrates at \(\ell_F\)) is consistent with both
 pessimistic answers but has not established impossibility.
+
+\textbf{Corollary (Dissolution of the R3-Navigation Coupling):}
+Proposition 11 found that the frozen frame and navigation capability are
+``structurally coupled'' --- the 5 unjustified elements that enable
+navigation ARE the elements R3 requires the system to self-modify.
+Interpreter entailment dissolves this tension. The abstract operations
+\{compare, select, store\} are BOTH the frozen frame AND the navigation
+mechanism. They are coupled because they are the SAME thing at the
+abstract level. R3 does not require modifying these abstract operations
+(which would destroy navigation). R3 requires discovering
+IMPLEMENTATIONS of these operations --- concrete comparison functions,
+selection policies, storage formats --- that are distinct from the
+abstract structure. The Proposition 11 coupling is between abstract
+structure (fixed, entailed) and concrete implementation (variable,
+discoverable). This is not a conflict to be resolved but a design
+constraint: the system must search within the space of implementations,
+not within the space of operations.
 
 \textbf{Degrees of freedom:} The representational capacity of \(S\) ---
 what operations can be encoded as state that the interpreter reads and
@@ -1504,6 +1662,21 @@ actions was the key unsolved problem from Steps 467-502. Zone discovery
 (Steps 459-483) was a step budget artifact. Hard seeds need 35K-115K
 steps vs 5-20K for easy seeds. Step 484 confirmed 10/10 at 200K. The
 6/10 figure should not be cited as a fundamental limit.
+
+\textbf{POMDP reframing and selective π-refinement (Steps 652-674).} L1
+is a hidden-state conjunction problem: the agent visits the exit cell
+avg 152 times before L1 triggers (Step 652). The bottleneck is hash
+resolution at the exit cell, not action selection (Proposition 15). Step
+672 (diagnostic): k=20 separates hidden states that k=12 conflates ---
+slow seeds have 20-43 k=20 sub-cells at the exit cell vs 6.79 average.
+\textbf{Step 674 (transition-triggered dual-hash): 9/10 L1 --- best
+autonomous L1 speed at 25s budget (matches Step 485's 9/10 at 120K via
+π-refinement rather than budget).} Cells with inconsistent transitions
+(\textbar successor\_set\textbar{} ≥ 2) get fine k=20 hash; all others
+use k=12. Seed 8: 192x faster (24235→126). The aliased-cell count
+determines success: \textless130 aliased cells → faster, \textgreater180
+→ slower or fails. This is ℓ\_π: the observation mapping is refined from
+the system's own transition statistics, R1-compliantly.
 
 \textbf{Encoding requirements:} centered\_enc (\(x - \text{mean}(x)\))
 is load-bearing across 2 families (codebook: prevents cosine saturation;
@@ -2175,7 +2348,10 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   (Proposition 11, R3\_AUDIT.md). The 5 unjustified elements that enable
   navigation are the same elements R3 requires the system to
   self-modify. R3 requires exploring modifications to load-bearing
-  components.
+  components. \textbf{Dissolved by Proposition 14 corollary:} the
+  coupling is between abstract structure (entailed, fixed) and concrete
+  implementation (variable, discoverable). R3 searches implementations,
+  not operations.
 \item
   The minimal frozen frame of any self-modifying substrate is the
   interpreter (compare-select-store) + the ground truth (R5)
@@ -2184,7 +2360,9 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   regress (Von Neumann, Kleene, Schmidhuber). But \(\ell_F\) is
   achievable IN EFFECT via expressive \(\ell_1\): if the state space
   encodes operations the interpreter executes, the system's behavior is
-  indistinguishable from \(\ell_F\).
+  indistinguishable from \(\ell_F\). Closure to efficient causation IS
+  computable (Mossio \& Longo 2009) --- the barrier is expressiveness,
+  not computability.
 \item
   Self-observation via the eigenform \(F(s)(\text{enc}(s))\) converges
   to a fixed point and is inert for navigation (Proposition 13, Steps
@@ -2242,13 +2420,17 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   accuracy without external labels.
 \item
   \textbf{Interpreter entailment (Proposition 14).} The abstract
-  interpreter is entailed by R1-R6. The concrete interpreter is not.
-  Whether the constructive gap is bridgeable --- whether a system can
-  discover its own implementations of compare-select-store from
-  interaction alone --- connects to Rosen's (M,R) closure (β-map must be
-  postulated) and Bauer's self-interpreter impossibility (total systems
-  cannot self-interpret). The intersection of organizational closure and
-  self-modification in non-total dynamical systems appears open.
+  interpreter is entailed by R1-R6. The concrete interpreter is not. The
+  computability question is resolved: Mossio \& Longo (2009) showed
+  closure to efficient causation IS computable in reflexive domains. The
+  remaining question is expressiveness: can a specific interpreter +
+  state space combination encode enough operations to discover its own
+  implementations? Rosen's β-map must be postulated (Letelier et
+  al.~2006); our interpreter is analogously postulated. Whether the
+  constructive gap is bridgeable --- transitioning from externally
+  imposed constraints (R1-R6) to internally maintained constraint
+  closure (Montévil \& Mossio 2015) --- connects to the ℓ\_1 → ℓ\_F
+  bridge and remains the central open problem.
 \item
   \textbf{Targeted π-refinement without foreknowledge (Proposition 15).}
   The POMDP reframing shows the bottleneck is hash resolution at
