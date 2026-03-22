@@ -66,7 +66,19 @@ Two R3 mechanisms tested for autonomous action-space discovery with 68 universal
 
 - **candidate.c characterization (Step 718):** 57-line CA substrate plays blind — output determined by XorShift seed, not game observations. ℓ₁ mechanism exists (memory grid modified by dynamics) but decoupled from environment. Action distribution uniform across seeds. KILL.
 
-**Conclusion (updated 2026-03-22):** ALL three levels of self-modification hierarchy tested for action discovery — ℓ₀ (observation statistics), ℓ_π (graph topology), ℓ₁ (episode outcome) — ALL insufficient. Argmin equalizes action usage, preventing any outcome-based discrimination. The coupling is structural: the mechanism that makes navigation work (argmin = try everything equally) is the mechanism that prevents learning which actions are better. R3 for action selection requires BREAKING this equalization, but every alternative tested (6 targeted strategies + 3 outcome-based) performed worse than argmin for navigation.
+**Conclusion (updated 2026-03-22):** ALL three levels of self-modification hierarchy tested for action discovery — ℓ₀ (observation statistics), ℓ_π (graph topology), ℓ₁ (episode outcome) — ALL insufficient at the GLOBAL level. Argmin equalizes action usage, preventing any outcome-based discrimination. The coupling is structural: the mechanism that makes navigation work (argmin = try everything equally) is the mechanism that prevents learning which actions are better. R3 for action selection requires BREAKING this equalization, but every alternative tested (6 targeted strategies + 3 outcome-based) performed worse than argmin for navigation.
+
+**Gap analysis (2026-03-22 compression):** Five untested angles identified:
+
+1. **Per-cell action discrimination on VC33.** 674's G[(cell, action)] → {successor: count} already stores per-cell per-action successor distributions. Steps 713-716 tested GLOBAL action classification (all cells aggregated). VC33's delta=3.0 uniform is a global measurement. At the per-cell level, room-boundary cells may show action-dependent successors (door-click → room transition) while clock-display cells show action-independent successors (clock ticks regardless). This data exists in the G dict. The per-cell analysis has not been done.
+
+2. **674 + raw 64×64 (no avgpool).** Step 574: raw 64×64 achieves L1 reliably (1191-1418 steps/seed) without avgpool. Step 713_raw: raw 64×64 matches avgpool for action discovery. But 674's mechanism (transition-triggered refinement) has not been tested with raw input. If 674+raw achieves comparable L1 rates to 674+avgpool16, then avgpool16 is not load-bearing and T1 can be reclassified.
+
+3. **674 baselines on established benchmarks.** The gym (BaseSubstrate + ChainRunner + SplitCIFAR100Wrapper + AtariWrapper) exists. 674 is wrapped (step0674.py). No baseline results have been collected on Split-CIFAR-100 or Atari 100K.
+
+4. **Clean Recode test (same K).** Recode (33 experiments) tested encoding self-modification but K confound invalidated the result. Clean test: same K, learned hyperplanes vs random, on the chain. One variable.
+
+5. **Non-argmin alternatives with running-mean centering.** Steps 477-482 tested 6 alternatives under frame-local centering at k=12, 50K. Running-mean centering changes the dynamics fundamentally (19/20 vs 16/20 baseline). Whether non-argmin strategies still hurt L1 under running-mean is untested.
 
 **Level 2 reward disconnect.** Dedicated L2 investigations (LSH Steps 486-493/528-529/532, k-means Step 493) confirm: L2's reward region is beyond the argmin-reachable frontier at all tested budgets and partition granularities. Incidental confirmation in codebook (Phase 1) and Recode (Step 542, 0/5 L2). The reachable set grows sublinearly but never includes L2 reward. Growing the mapping (more cells, finer partition, self-refinement) does not unlock L2.
 
