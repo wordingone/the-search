@@ -532,7 +532,8 @@ All 3 ARC-AGI-3 games solved at Level 1:
 | Game | Mechanism | Result | Steps |
 |---|---|---|---|
 | LS20 Level 1 | LSH k=12 + centered_enc + avgpool16, 4 actions, argmin | Plain: 11/20 at 25s, 16/20 at 120K. **674+running-mean: 20/20 at 25s.** 674 frame-local: 17/20 at 25s, 20/20 at 120K. | 126 (easy) to 27K (hard) |
-| FT09 | k-means n=300, 69 actions (64 click grid + 5 simple), argmin | 3/3 at 50K | 157, 2035, 3840 |
+| FT09 Level 1 | LSH k=12 + centered_enc + avgpool16, 6 actions, argmin | Plain: 8/20 at 25s = 8/20 at 120K (binary). 674 frame-local: 17/20. **674+running-mean: 20/20.** | 566-12603 |
+| FT09 Level 1 | k-means n=300, 69 actions (64 click grid + 5 simple), argmin | 3/3 at 50K | 157, 2035, 3840 |
 | VC33 | k-means n=50, 3 actions (zone discovery), argmin | 3/3 at 30K | 18, 82, 144 |
 
 **Unifying mechanism:** graph + edge-count argmin + correct action decomposition. The mapping (observation → node) and action space decomposition are the variables. The graph + argmin is the constant across all winning configurations.
