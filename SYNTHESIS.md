@@ -120,17 +120,19 @@ Formally: does there exist a substrate (f, g, F) where F: S → (X → S) is non
 
 ---
 
-## WHAT'S OPEN
+## WHAT'S OPEN (revised 2026-03-22 compression)
 
-1. **Can compare-select-store encode arbitrary self-modification via state?** The interpreter is fixed but the state can encode WHAT to compare, select, and store. Is this expressively sufficient? (Proposition 12, DoF 8-9)
+1. **Can compare-select-store encode arbitrary self-modification via state?** The interpreter is fixed but the state can encode WHAT to compare, select, and store. 674's R3 audit shows: 7 of 9 U elements have clear ℓ_π paths to M (parameter discovery from transition statistics). All use the same compare-select-store on different state — no new operations needed. ℓ_F may not be required for R3 if every U element can be converted via ℓ_π. (Proposition 12, DoF 8-9)
 
-2. **What is the minimum frozen frame?** We know compare-select-store is irreducible (Step 658). But what ELSE must be frozen? The encoding? The action-selection rule? The update rule?
+2. **What is the minimum frozen frame?** 674 audit: compare-select-store (I, Step 658) + binary hash (I) + argmin (I, dual role) + multi-successor criterion (I) = 4 irreducible elements. Everything else has a path to M or needs testing. The minimum frozen frame may be these 4 operations. (Pending: hash planes T4-T5 need clean Recode test.)
 
-3. **Can the interpreter be ENTAILED by the system?** Not forced by constraints, but arising necessarily from the dynamics. Rosen's question. (Q21, open)
+3. **Can the interpreter be ENTAILED by the system?** Not forced by constraints, but arising necessarily from the dynamics. Rosen's question. (Q21, open — no new evidence this session.)
 
-4. **What R3 mechanism works WITHOUT destroying navigation?** The coupling between the frozen frame and navigation is the central structural tension. Every R3 attempt killed L1. Is there a mechanism that modifies operations WITHOUT disrupting the graph dynamics?
+4. ~~What R3 mechanism works WITHOUT destroying navigation?~~ **PARTIALLY RESOLVED.** The coupling was through g (action selection). L1 is perception-limited (Step 653: argmin ≈ random, 3/20 each; Step 712: centering = 75% of gain). Encoding modification (ℓ_π) doesn't destroy navigation — Recode Step 542 showed encoding self-modification + navigation success (5/5 L1). 674 already self-modifies encoding at layer 2 (refinement hyperplanes, M). The remaining question: does extending self-modification to layer 1 (input encoding) preserve navigation on the chain?
 
-5. **Can action selection become state-dependent without phase prescription?** Phase-conditional g = prescribed phase structure. Can the substrate DISCOVER when to change its action-selection strategy from its own dynamics?
+5. ~~Can action selection become state-dependent without phase prescription?~~ **DEPRIORITIZED.** Action selection doesn't matter for L1 (perception-limited). R3 for action selection is structurally blocked within the argmin framework (Step 717: argmin equalizes usage). Whether a non-argmin substrate could avoid this barrier is untested but not the productive R3 target. Encoding self-modification is.
+
+6. **Structural R3 vs Dynamic R3.** Structural R3 (0U in frozen_elements()) is necessary but not sufficient. Anti-inflation rule 2: "If a rule can't be tested, the system hasn't passed it." Dynamic R3 (measure_r3_dynamics(): encoding at t=0 ≠ encoding at t=N, AND change correlates with performance improvement) is the real test. The gym measures both. No published system reports dynamic R3.
 
 ---
 
