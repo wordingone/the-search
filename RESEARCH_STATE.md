@@ -519,6 +519,16 @@ Step 697: Plain k=12 baseline on current game (ls20/9607627b), 20 seeds, 25s. L1
   The mechanism is a TRADE: helps high-aliasing-at-exit seeds, hurts low-aliasing seeds.
   Net: +6 seeds (17 vs 11). Clear positive on current game.
 
+Step 700: Chain 20-seed sweep with 674, 120K LS20 steps. Game: ls20/9607627b.
+  **L1=20/20. CIFAR avg 1.4%.** Complete chain coverage.
+  s4: L1=2002 in chain (vs 24968 standalone). Chain centering + CIFAR pre-population fixes s4.
+  s8: L1=19961 in chain (vs 126 standalone) — SLOWER in chain! Centering context changes
+  which seeds are fast/slow. Not universally better, just different aliasing landscape.
+  Fastest: s10=840, s9=1462, s0=1526. Slowest: s11=32006, s6=22222.
+  CIFAR contamination: 3-14 aliased cells (consistent with 693). Near-chance accuracy.
+  Chain vs standalone: both 20/20 at 120K. Chain doesn't add L1 count but changes speed
+  distribution across seeds. s4 massively helped, s8 massively hurt by chain context.
+
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
   2/5 seeds 2-3x faster (286-399 cells — L1 in unexplored territory). Same failure mode as delta
