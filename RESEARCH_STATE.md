@@ -164,11 +164,25 @@ Step 651: mgu vs argmin gap diagnostic (seed=0, 90s). MOST INFORMATIVE.
   Tempest: 3-bit history per cell + pattern-dependent transition + neighbor context = emergent
   behavior from fixed rules.)
 
-  Next experiments test the composition hypothesis directly:
-  - Does the graph implicitly encode game hidden state? (MI diagnostic)
-  - Is L1 about exploration or recognition? (exit cell visit count before trigger)
-  - Does argmin prevent some solutions? (seed-matched argmin vs random comparison)
-  - Tempest graph: node-level temporal patterns + pattern-sensitive selection
+Step 652: Exit cell visit count diagnostic. 6/10 L1 at 30s cap. RECOGNITION CONFIRMED.
+  avg_visits_before_trigger=152 (min=0, max=420). First visit to exit cell at step 37-82.
+  Trigger at step 22729-24235. Gap: 9841 steps avg between first visit and trigger.
+  L1 is NOT a navigation bottleneck for most seeds — the agent finds the exit cell EARLY.
+  The bottleneck is being in the right hidden state WHEN at the exit cell.
+  BIMODAL: s0 had 0 prior visits (pure exploration), s8/s9 had 228-420 (recognition).
+  **This reframes 648 experiments.** Exploration improvement (coverage, frontier detection,
+  attractor escape) targets the MINORITY mechanism. The MAJORITY mechanism is recognition —
+  right place + right state conjunction. The interpreter visits the right cell repeatedly
+  but can't encode the conjunction condition.
+
+  Next experiments testing the composition hypothesis directly:
+  - Does the graph implicitly encode game hidden state? (MI diagnostic, Step 654)
+  - Does argmin prevent some solutions? (seed-matched comparison, Step 653)
+  - Tempest graph: node-level temporal patterns + pattern-sensitive selection (Step 655)
+  - N-gram retest with N=3 pattern processing (Step 656)
+  - Action sequence entropy before L1 (Step 657)
+  - Interpreter decomposition test (Step 658)
+  - Spatial composition via betweenness centrality (Step 659)
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
