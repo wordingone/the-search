@@ -1236,3 +1236,11 @@ The codebook family is fully mapped. Phase 2b explores the temporal dual: self-m
 - **608b FT09 6 levels** — Deterministic source analysis. Should reproduce exactly. Verify.
 - **610 VC33 7 levels** — Analytical BFS. Should reproduce exactly. Verify.
 - **572j L2=5/5** — Same pipeline as 572u. If 572u fails, 572j may also fail to reproduce.
+
+Step 706: Plain k=12 FT09 baseline, 20 seeds, 120K, game ft09/0d8bbf25. **L1=8/20.**
+  674 FT09 = 17/20 (Step 702). 674 advantage on FT09: +9 seeds.
+  Even bigger advantage than on LS20 (+4). The aliasing mechanism helps even when
+  aliased cell count is minimal (1-4). Plain argmin fails 12/20 seeds on FT09 at 120K.
+  The transition-triggered fine hash provides disambiguation signal that plain k=12 lacks.
+
+Step 707: VC33 running-mean 674 = 0/5. KILL. Zone discovery, not aliasing.
