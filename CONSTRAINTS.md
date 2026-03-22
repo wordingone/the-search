@@ -84,12 +84,21 @@ LS20 is a POMDP: hidden state variables (snw, tmx, tuv) are inaccessible to the 
 
 **Pattern across all interventions (Steps 668-670):** Every mechanism helps some seeds and LOSES others. The intervention disrupts argmin's gradient for seeds where argmin was already succeeding. No intervention captures the full union of argmin + random seeds.
 
-**Implications for the constraint map:**
-1. L1 speed variance across seeds strongly correlates with hash resolution at the exit cell (664-665, correlation only).
-2. **Argmin is locally optimal for LS20 L1 within the graph framework.** 20+ experiments across 6 intervention types (477-482, 581d, 620-639, 652-671) — none consistently beats argmin. Improvements are seed-specific, not mechanism-general. The remaining lever is perception quality (k, mapping), not action selection.
-3. **Prospective prediction = noisy TV** for navigation (Steps 477-482, 671). Retrospective avoidance works sparsely (581d, 5% firing rate). This is an LS20-specific finding until tested on other games.
+**Selective π-refinement series (Steps 672-686, 15 experiments):**
 
-**Honest framing (revised 2026-03-22):** For graph-based approaches, local continuity + persistence explain L1 failures. L1's actual constraint is HIDDEN-STATE CONJUNCTION: the substrate must be at the right cell in the right game state. For graph approaches, hash resolution at the exit cell strongly predicts L1 speed (664-665, correlation only). Level 2 failures remain explained by REWARD DISCONNECT. **Caveat: cross-game claims (LS20/FT09/VC33 all solved) need re-verification.** Only LS20 L1 confirmed on current game (Step 620). VC33 unchanged. FT09 not yet re-tested. **Audit queue (027a5b0) unresolved:** 572u L3=5/5, 608b FT09 6 levels, 610 VC33 7 levels, 572j L2=5/5 — all flagged for independent verification, none verified.
+**Proposition 15 CONFIRMED:** Perception quality (π-refinement) IS the L1 lever. Step 674 (transition-triggered dual-hash: k=12 coarse + k=20 fine at cells with inconsistent transitions) reaches 9/10 L1 at 25s — matching Step 485's 9/10 at 120K via mechanism, not budget. Seed 8: 192x faster (24235→126). The binary aliasing criterion (|successor_set|≥2, min_visits=3) finds the right cells naturally. Capping HURTS (674b/c/d all 8/10 — ranking by inconsistency score loses critical cells). FT09 cross-game: 5/5 L1, aliased=1-4 (Step 680).
+
+**Series ranking:** 674 (transition-triggered) 9/10 > 673 (entropy) 8/10 = 677 (multi-res vote) 8/10 > 675/678/679 all 7/10 > 672/676 5/10.
+
+**L1 vs L2 asymmetry (Steps 682-686).** L1 aliasing is BOUNDED — seed 8 has 87 aliased cells, sufficient for count accumulation. L2 aliasing is UNBOUNDED — aliased cells grow monotonically (2→439 over 572K steps, seed 8; 48→445, seed 3). The transition-triggered mechanism detects new aliased cells post-L1 (dynamic adaptation), but the cell count never plateaus. Fine graph becomes too sparse for argmin when 400+ cells compete for budget. **L2 requires navigation DESPITE unresolved aliasing, not resolution of all aliasing before navigation.** This connects to the energy mechanic (iri sprites, Steps 556-557) — L2 requires purposeful energy-seeking, not exhaustive coverage.
+
+**Implications for the constraint map:**
+1. **Hash resolution at exit cell CAUSALLY determines L1 speed** — upgraded from "correlation only." Step 674's 9/10 via targeted resolution increase at aliased cells confirms the causal mechanism. Fast seeds: aliased<120 (bounded, counts accumulate). Slow seeds: aliased>170 (sparse, counts diluted).
+2. **Argmin is locally optimal for L1** within the graph framework. 35+ experiments across 8 intervention types (477-482, 581d, 620-639, 652-686) — only π-refinement (not g-modification) consistently improves L1.
+3. **Prospective prediction = noisy TV** for navigation (477-482, 671). Retrospective avoidance works sparsely (581d). Confirmed on LS20.
+4. **L1 and L2 have qualitatively different walls.** L1 = bounded aliasing (solvable by π-refinement). L2 = unbounded aliasing + energy mechanic (requires purposeful navigation). No mechanism tested so far addresses L2.
+
+**Honest framing (revised 2026-03-22):** For graph-based approaches, local continuity + persistence explain L1 failures. L1's actual constraint is HIDDEN-STATE CONJUNCTION at bounded-aliasing cells. Transition-triggered π-refinement resolves the aliasing and reaches 9/10 (Step 674). L2 requires a qualitatively different mechanism — purposeful navigation toward energy sources despite growing aliased cell count. FT09 cross-game validated (Step 680: 5/5). **Caveat: cross-game claims (LS20/FT09/VC33 all solved) need re-verification.** FT09 re-tested on current version 0d8bbf25 (Step 680: 5/5 confirmed). VC33 unchanged. **Audit queue (027a5b0) partially resolved:** FT09 re-verified. 572u L3=5/5, 610 VC33 7 levels, 572j L2=5/5 — still flagged.
 
 ### Classification (P-MNIST)
 
