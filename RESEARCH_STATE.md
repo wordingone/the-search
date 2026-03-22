@@ -546,6 +546,10 @@ Step 699: 674 standalone 120K, 20 seeds, game ls20/9607627b. L1=20/20, L2=0/20. 
   Centering (running-mean vs frame-local) + CIFAR pre-population are two separable effects.
   L2=0/20 in all configurations. L2 wall is universal.
 
+Step 703: FT09 chain, 5 seeds, game ft09/0d8bbf25. L1=5/5, CIFAR 1.7%.
+  Aliasing UNFREEZES in chain: standalone FT09 aliased=1-4 (frozen), chain aliased=6-17.
+  Running-mean centering changes hash embeddings cross-game. Centering effect confirmed on FT09.
+
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
   2/5 seeds 2-3x faster (286-399 cells — L1 in unexplored territory). Same failure mode as delta
