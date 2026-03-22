@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 708 (674 characterization complete — running-mean sweep pending)
+CURRENT STEP: 711 (674 FT09 characterization complete — Steps 710, 712 pending)
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -1263,5 +1263,20 @@ Step 708: Running-mean 674, 20 seeds, 120K, LS20 9607627b. L1=20/20.
   | FT09 | Plain k=12 (706)     | 120K   | 8/20   | —        |
   | FT09 | 674 frame-local (702)| 120K   | 17/20  | +9       |
   | FT09 | 674 chain (703)      | 120K   | 5/5*   | —        |
+  | FT09 | 674 running-mean(709)| 120K   | 20/20  | +12      |
+  | FT09 | Plain k=12 (711)     | 25s    | 8/20   | —        |
   | VC33 | 674 any centering     | 25s    | 0/5    | —        |
   *5 seeds only
+
+Step 709: Running-mean 674 on FT09, 20 seeds, 120K, ft09/0d8bbf25. L1=20/20.
+  Compare: frame-local 674 FT09 120K = 17/20 (Step 702). Running-mean rescues
+  s11, s13, s18 (aliased=0 under frame-local, now aliased=2-3 under running-mean).
+  Running-mean creates aliasing even on previously frozen seeds. Low aliasing throughout
+  (0-6 cells per seed). FINDING: Running-mean universally rescues deterministic seeds.
+
+Step 711: Plain k=12 on FT09, 20 seeds, 25s, ft09/0d8bbf25. L1=8/20.
+  Identical seeds to plain k=12 at 120K (Step 706): s0,s2,s3,s8,s9,s12,s14,s17.
+  FINDING: FT09 plain k=12 coverage is binary — solvable seeds are solved fast,
+  unsolvable seeds never get solved with more budget. Budget is not the variable.
+
+PENDING: Step 710 (frame-local chain, 20 seeds, 120K), Step 712 (plain+running-mean LS20 120K).
