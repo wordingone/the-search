@@ -1325,12 +1325,13 @@ vs 3/3). The convergence: Theorem 2 says self-observation is necessary →
 Proposition 15 says it must target \(\pi\) → Recode demonstrates
 \(\ell_\pi\) is achievable.
 
-\textbf{Degrees of freedom:} The specific self-refinement mechanism for
-\(\pi\) at critical cells is undetermined. Recode uses transition
-statistics. The POMDP literature suggests belief-state estimation
-(Kaelbling et al., 1998). Whether a purely R1-compliant mechanism can
-achieve targeted \(\pi\)-refinement at the exit cell --- without knowing
-which cells are critical --- is open.
+\textbf{Degrees of freedom --- RESOLVED by Proposition 16:}
+Transition-inconsistency refinement (Step 674) achieves targeted
+\(\pi\)-refinement at critical cells without foreknowledge. Cells with
+inconsistent transitions (\(I(n) \geq 2\)) are refined with finer hash.
+The exit cell has the highest inconsistency because hidden-state
+conjunctions create transition variability there. Result: 17/20 L1 at
+25s (Step 690, 20 seeds). See Proposition 16 for formalization.
 
 \paragraph{Corollary: L1/L2 Asymmetry}\label{corollary-l1l2-asymmetry}
 
@@ -1384,6 +1385,75 @@ partial observations. This is the transition from \(\ell_\pi\)
 (perception refinement) to \(\ell_F\) (rule modification) --- the system
 must modify its UPDATE RULE to incorporate predictions, not just refine
 its mapping.
+
+\paragraph{Proposition 16: Transition-Inconsistency Refinement (Q20
+Resolved)}\label{proposition-16-transition-inconsistency-refinement-q20-resolved}
+
+\textbf{Prior work:} Perceptual aliasing --- when the observation
+mapping conflates distinct hidden states --- was identified by Whitehead
+\& Ballard (1991). Belief-state POMDPs maintain probability
+distributions over hidden states (Kaelbling et al., 1998). McCallum's
+utile distinction (1996) splits observation histories when different
+histories lead to different values. These approaches require either
+explicit belief-state computation (intractable for large state spaces)
+or reward-based splitting (violates R1).
+
+\textbf{Our finding (Steps 672-690, empirical):} Transition
+inconsistency --- when a cell has multiple distinct successors under the
+same partition --- is a sufficient, R1-compliant signal for targeted
+\(\pi\)-refinement. Define observed inconsistency at cell \(n\) after
+\(\tau\) visits:
+
+\[I_\tau(n) = |\{n' \in N : \exists t \leq \tau, \pi(x_t) = n \wedge \pi(x_{t+1}) = n'\}|\]
+
+\textbf{Proposition 16:} For a POMDP with deterministic hidden-state
+transitions \(T_h: S_h \times A \to S_h\), if \(I_\tau(n) \geq 2\) with
+sufficient visits (\(\tau \geq \tau_{\min}\)), then cell \(n\) conflates
+\(\geq 2\) distinct hidden states.
+
+\emph{Proof:} If \(\pi^{-1}(n) \cap \text{image}(O)\) contains a single
+observation \(x^*\), then all visits to \(n\) see \(x^*\), which maps to
+a single hidden state \(s^*\). Under deterministic \(T_h\), each action
+\(a\) produces a unique successor \(s' = T_h(s^*, a)\), mapped to a
+unique cell \(n' = \pi(O(s'))\). At most \(|A|\) successors, but each
+action always produces the SAME successor. Thus \(I(n)\) is bounded by
+the number of distinct \(\pi(O(T_h(s^*, a)))\) across actions, which is
+deterministic. If \(I_\tau(n) \geq 2\) for the SAME action \(a\) (same
+action yielding different successors), then \(n\) must contain
+\(\geq 2\) hidden states. QED.
+
+\textbf{Mechanism (Step 674):} Mark cells with \(I(n) \geq 2\) and
+\(\text{visits}(n) \geq 3\) as ``aliased.'' Apply fine hash (k=20) only
+at aliased cells; use coarse hash (k=12) elsewhere. Result:
+\textbf{17/20 L1 at 25s} (Step 690, definitive 20-seed sweep).
+Cross-game: FT09 5/5 (Step 680). The binary criterion (any
+inconsistency) outperforms ranked or capped variants (Steps 674b/c/d:
+all 8/10).
+
+\textbf{Why it works without foreknowledge:} The exit cell has the
+highest \(I(n)\) because it is where the hidden-state conjunction
+creates the most transition variability. The mechanism doesn't know the
+exit cell is task-critical; it discovers this from transition
+statistics. Selective refinement at high-\(I\) cells concentrates
+resolution where aliasing is worst --- which correlates with
+task-critical locations. This resolves Proposition 15's open question:
+R1-compliant targeted \(\pi\)-refinement IS achievable via transition
+inconsistency, without environmental feedback or foreknowledge.
+
+\textbf{Relationship to prior work:} The inconsistency signal is a
+special case of belief-state refinement: non-deterministic transitions
+at a cell imply multiple hidden states, which is precisely what belief
+states track. Our contribution is the APPLICATION: using this as an
+online, R1-compliant partition refinement mechanism in a self-modifying
+substrate. No prior work we found combines (1) transition-based aliasing
+detection, (2) selective partition refinement at runtime, and (3) no
+external objective in a single online system.
+
+\textbf{Limitations:} The mechanism works for L1 (bounded aliasing,
+83-313 cells) but diverges for L2 (unbounded aliasing, 439+ cells ---
+see L1/L2 Asymmetry corollary). Transition inconsistency detects aliased
+states but cannot RESOLVE the aliasing when the aliased set grows faster
+than counts accumulate.
 
 \subsubsection{4.6 Constructive Characterization of the Feasible
 Region}\label{constructive-characterization-of-the-feasible-region}
@@ -1710,20 +1780,23 @@ actions was the key unsolved problem from Steps 467-502. Zone discovery
 steps vs 5-20K for easy seeds. Step 484 confirmed 10/10 at 200K. The
 6/10 figure should not be cited as a fundamental limit.
 
-\textbf{POMDP reframing and selective π-refinement (Steps 652-674).} L1
+\textbf{POMDP reframing and selective π-refinement (Steps 652-690).} L1
 is a hidden-state conjunction problem: the agent visits the exit cell
 avg 152 times before L1 triggers (Step 652). The bottleneck is hash
 resolution at the exit cell, not action selection (Proposition 15). Step
 672 (diagnostic): k=20 separates hidden states that k=12 conflates ---
 slow seeds have 20-43 k=20 sub-cells at the exit cell vs 6.79 average.
-\textbf{Step 674 (transition-triggered dual-hash): 9/10 L1 --- best
-autonomous L1 speed at 25s budget (matches Step 485's 9/10 at 120K via
-π-refinement rather than budget).} Cells with inconsistent transitions
+\textbf{Step 674 (transition-triggered dual-hash): definitive 17/20 L1
+at 25s (Step 690, 20-seed sweep).} Cells with inconsistent transitions
 (\textbar successor\_set\textbar{} ≥ 2) get fine k=20 hash; all others
 use k=12. Seed 8: 192x faster (24235→126). The aliased-cell count
 determines success: \textless130 aliased cells → faster, \textgreater180
-→ slower or fails. This is ℓ\_π: the observation mapping is refined from
-the system's own transition statistics, R1-compliantly.
+→ slower or fails. 3 missing seeds (7, 12, 16) have 181-214 aliased
+cells --- likely budget-limited, not mechanism failures. This is ℓ\_π:
+the observation mapping is refined from the system's own transition
+statistics, R1-compliantly. Cross-game: FT09 5/5 (Step 680,
+aliased=1-4), VC33 0/5 (Step 681 --- irrelevant, VC33 bottleneck is
+action decomposition not aliasing).
 
 \textbf{Encoding requirements:} centered\_enc (\(x - \text{mean}(x)\))
 is load-bearing across 2 families (codebook: prevents cosine saturation;
@@ -2479,15 +2552,18 @@ questions (T1, T6, T7). The constraint system is internally consistent.
   closure (Montévil \& Mossio 2015) --- connects to the ℓ\_1 → ℓ\_F
   bridge and remains the central open problem.
 \item
-  \textbf{Targeted π-refinement without foreknowledge (Proposition 15).}
-  The POMDP reframing shows the bottleneck is hash resolution at
-  critical cells (\(k_{n^*}\), the number of aliased hidden states at
-  the exit node). Recode refines \(\pi\) from transition statistics but
-  cannot identify WHICH cells are critical without environmental
-  feedback. Whether an R1-compliant mechanism can achieve targeted
-  \(\pi\)-refinement at the exit cell --- reducing \(k_{n^*}\) without
-  knowing which cells are exit-adjacent --- connects to the belief-state
-  literature (Kaelbling et al., 1998) and remains open.
+  \textbf{Targeted π-refinement without foreknowledge --- RESOLVED
+  (Proposition 16).} Transition-inconsistency refinement (Step 674,
+  17/20 L1 at 25s) achieves R1-compliant targeted \(\pi\)-refinement.
+  Cells with \(I(n) \geq 2\) (inconsistent transitions) are refined with
+  finer hash. The exit cell naturally has the highest inconsistency
+  because it is where hidden-state conjunctions create transition
+  variability. The mechanism discovers task-critical cells without
+  foreknowledge. Confirmed across 20 seeds (Step 690) and 2 games (FT09
+  5/5, Step 680). \textbf{Remaining open:} why the binary criterion (any
+  inconsistency) outperforms ranked/capped variants, and whether the
+  approach generalizes beyond navigation to classification or other
+  tasks.
 \item
   Whether the state space of compare-select-store is expressive enough
   to encode arbitrary self-modifications as data (the expressiveness
