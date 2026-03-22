@@ -76,9 +76,18 @@ LS20 is a POMDP: hidden state variables (snw, tmx, tuv) are inaccessible to the 
 
 **Out-of-framework result (Step 662).** Evolutionary sequence search (R3-violating: mutation operator frozen) achieves L1 7/10 on LS20 — NO graph, NO hash, NO perception. Fitness = L1/death (R1-compliant). 58 unique sequences, 595 episodes. Budget not directly comparable to graph argmin. This demonstrates L1 is solvable by brute-force sequence search, but does not inform constraints on R1-R6-compliant substrates. The three mapping properties remain necessary within the graph/LSH framework.
 
+**POMDP intervention results (Steps 668-671):**
+- **Visit-count belief (668).** MARGINAL 5/10. Random break at >=20 visits disrupts argmin gradient. Lost 3 baseline seeds. Signal real, intervention too coarse.
+- **Gaussian variance (669).** MARGINAL 5/10, 145x speedup on successes. Variance identifies exit cell for fast seeds (s3: 285x). But too many hi_var cells for other seeds → floods argmin with novelty.
+- **Alternating argmin/random (670).** 5/20. Finds 3 NEW seeds (2,5,18) that neither pure approach found — temporal interleaving creates a genuinely different exploration regime. But loses 5 union seeds. Budget-limited at 5s cap.
+- **Splatter world model (671).** KILL 0/10. Noisy TV: death = max frame difference. Same wall as Steps 477-482. Prospective prediction fails; retrospective avoidance (581d) works.
+
+**Pattern across all interventions (Steps 668-670):** Every mechanism helps some seeds and LOSES others. The intervention disrupts argmin's gradient for seeds where argmin was already succeeding. No intervention captures the full union of argmin + random seeds.
+
 **Implications for the constraint map:**
-1. L1 speed variance across seeds is NOT random — it strongly correlates with hash resolution at the exit cell (664-665). This is a measurable, per-seed property.
-2. Steps 668-671 are pending with Eli (visit-count-dependent behavior, variance-driven refinement, alternating exploration, 1-step world model).
+1. L1 speed variance across seeds strongly correlates with hash resolution at the exit cell (664-665, correlation only).
+2. **Argmin is locally optimal for LS20 L1 within the graph framework.** 20+ experiments across 6 intervention types (477-482, 581d, 620-639, 652-671) — none consistently beats argmin. Improvements are seed-specific, not mechanism-general. The remaining lever is perception quality (k, mapping), not action selection.
+3. **Prospective prediction = noisy TV** for navigation (Steps 477-482, 671). Retrospective avoidance works sparsely (581d, 5% firing rate). This is an LS20-specific finding until tested on other games.
 
 **Honest framing (revised 2026-03-22):** For graph-based approaches, local continuity + persistence explain L1 failures. L1's actual constraint is HIDDEN-STATE CONJUNCTION: the substrate must be at the right cell in the right game state. For graph approaches, hash resolution at the exit cell strongly predicts L1 speed (664-665, correlation only). Level 2 failures remain explained by REWARD DISCONNECT. **Caveat: cross-game claims (LS20/FT09/VC33 all solved) need re-verification.** Only LS20 L1 confirmed on current game (Step 620). VC33 unchanged. FT09 not yet re-tested. **Audit queue (027a5b0) unresolved:** 572u L3=5/5, 608b FT09 6 levels, 610 VC33 7 levels, 572j L2=5/5 — all flagged for independent verification, none verified.
 
