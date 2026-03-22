@@ -72,6 +72,14 @@ The retina's solution has three features the substrate lacks:
 
 **Degree of freedom concretized:** Recode (Step 542) refines $\pi$ from transition statistics but treats all cells equally. The retinal insight suggests SELECTIVE refinement: cells with high transition variability get finer resolution (sensitization), cells with low variability maintain coarse resolution (adaptation). The intervention is determined by local cell statistics, not global analysis — R1-compliant by construction.
 
+### 2.11 Work hardening and the strength-ductility coupling
+
+Metals under stress face a structural analog of the R3-navigation coupling. Work hardening increases yield strength (via dislocation pile-up at grain boundaries) but decreases ductility — the modification that improves one capability degrades another. The frozen frame is the crystal lattice type (FCC/BCC/HCP); the state is the microstructure (grain size, dislocation density, boundary configuration). The microstructure determines HOW the material responds to stress, and stress modifies the microstructure — a self-referential update rule $F(s)$.
+
+Recent work (Li et al., 2025, *Nature Communications*) demonstrates that segregation-dislocation self-organized structures at grain boundaries can increase strength WITHOUT compromising ductility. The resolution to the coupling is LOCAL self-organization at boundaries where dislocations interact with segregated solutes, creating configurations that accommodate both properties simultaneously.
+
+**Connection to the search:** Every R3 attempt that modified action selection globally (Steps 477-482, 713-719) killed navigation. The metallurgical precedent suggests the resolution may be LOCAL modification at the boundaries where the encoding fails (aliased cells, high-entropy transitions) rather than global modification of the selection rule. The material doesn't change its crystal structure everywhere — it self-organizes at the grain boundaries where stress concentrates.
+
 ### 2.11 Renormalization group and the Level 2 phase transition
 
 The renormalization group (RG; Kadanoff 1966, Wilson 1971) formalizes how physical systems behave across scales. The core operation — "block spinning" — averages microscopic variables into blocks and asks: does the effective Hamiltonian at the coarser scale have the same structure? At critical points, the answer is yes (scale invariance), and the system flows along a universality class determined by symmetries, not by microscopic details.
