@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 694 (baseline stale — 674 regression diagnosed)
+CURRENT STEP: 696 (674 variants killed — s4 persistently broken by fine hash)
 
 Step 640: Meta-graph tie-breaking. L1=1/5 (s1 only, 1499 steps = 2.2x faster). tie_rate=75.7%,
   changed=8%. Ties extremely common (argmin keeps most actions at count 0 early, near-equal later).
@@ -472,8 +472,22 @@ Step 694: Plain k=12 on seeds 0, 4 (regression diagnosis). **STEP 485 BASELINE S
   s4 is now trivially easy with plain k=12 (L1@132) but 674 makes it 189x harder.
   337 aliased cells on s4 cause fine hash CONFUSION, not disambiguation.
   The 20/20 at 120K (Step 692) remains valid. Speed comparisons to Step 485 are NOT.
-  Game change CONFIRMED (Jun). LS20 version changed between Step 485 (March 19) and
-  current runs. All pre-change baselines are invalid. Comparisons must use current game only.
+  Game change CONFIRMED (Jun). LS20 version changed. Both versions are valid tasks.
+  The substrate must win ANY version. Compare mechanisms on same version only.
+
+Step 695: Freeze aliased at 150. KILL — L1=8/10 (worse than 674's 9/10).
+  s0: 11431 (1.6x better). s4: NO_L1 (first 150 cells include bad ones). s7: NO_L1.
+  Freeze helped s0 slightly but s4/s7 persistently broken. KILL.
+
+Step 696: 674 + death penalty (BONUS=1000). KILL — L1=6/10.
+  Rescued s7 (1321) but KILLED s0, s2, s9 (were L1 in 674). Penalty too aggressive.
+  s3: 422 (5.7x faster). s4: NO_L1 (persistent). KILL.
+
+  **s4 pattern across 694-696:**
+  Plain k=12: L1=132 (fastest). 674: 24968 (189x slower). Freeze: NO_L1. Death: NO_L1.
+  Fine hash at 337 aliased cells causes CONFUSION on s4. Binary criterion misfires —
+  marks cells as ambiguous that are deterministic for navigation. No post-hoc fix helps.
+  674 uncapped (9/10 at 25s, 20/20 at 120K) remains best variant. All modifications worse.
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
