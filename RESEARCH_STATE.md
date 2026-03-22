@@ -291,11 +291,31 @@ Step 671: Splatter substrate (1-step world model, argmax frame difference). L1=0
   7. All interventions help some seeds, lose others (Steps 668-670)
   8. Prospective prediction = noisy TV (Step 671, same as 477-482)
 
-  **The honest conclusion:** No mechanism consistently improves on argmin for LS20 L1.
-  Argmin is locally optimal within the graph framework. Every intervention tested (20+
-  experiments: 477-482, 581d, 620-639, 652-671) either matches argmin or trades seeds.
-  The only consistent improvement is BUDGET (more time → more seeds, Steps 459→485→542).
-  The remaining lever is PERCEPTION QUALITY (k, centering, mapping) not ACTION SELECTION.
+  **The honest conclusion (revised by Steps 672-674):** No ACTION SELECTION mechanism
+  consistently improves on argmin. But PERCEPTION REFINEMENT does: Step 674 achieves 9/10
+  (best L1 count in the search) via transition-triggered dual-hash. Proposition 15 confirmed.
+
+Step 672: Dual-hash diagnostic (k=12 nav + k=20 passive). L1=5/10 (same as k=12 baseline — k=20
+  is passive). avg_k20_subcells_per_k12 = 6.79. DIAGNOSTIC CONFIRMED: at exit cell, slow seeds
+  s8/s9 have 43/20 k=20 sub-cells (vs 6.79 avg). Hidden state IS visible at k=20. k=12 conflates
+  the hidden states; k=20 would separate them. Fast seeds s3/s4 have only 4/1 sub-cells (already
+  resolved at k=12). **The POMDP is breakable by finer hashing at the exit cell.**
+
+Step 674: Transition-triggered refinement (aliased cells only). L1=9/10. **BEST L1 COUNT IN THE
+  SEARCH.** avg_speedup=5.95x. Binary aliasing criterion: if |successor_set| >= 2 for ANY action
+  at a cell, mark as aliased → use k=20 fine hash at that cell.
+  s8: 24235→126 (192x faster). s3: 62727→2402 (26x faster). s2: 48391→20158 (2.4x faster).
+  s0: 13.5x SLOWER (aliased=230, too many). s4: 29.5x SLOWER (aliased=313). s7: NO_L1 (aliased=184).
+  **Pattern: aliased_cells < 130 → faster. aliased_cells > 180 → slower or fails.**
+  Same failure mode as 668/669 but at a MUCH HIGHER success rate.
+  **FIX: top-N or min-visit threshold to concentrate fine graph on most critical cells.**
+  Steps 673-678 running to test variants.
+
+  **Proposition 15 CONFIRMED empirically.** Perception quality (π-refinement) IS the lever.
+  Action selection (g-modification) is NOT. The transition-triggered criterion identifies
+  aliased cells from data (R1-compliant). The dual-hash approach separates hidden states
+  that k=12 conflates. This is ℓ_π in the self-modification hierarchy — the observation
+  mapping is modified from the system's own transition statistics.
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
