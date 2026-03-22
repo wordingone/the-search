@@ -80,6 +80,14 @@ Recent work (Li et al., 2025, *Nature Communications*) demonstrates that segrega
 
 **Connection to the search:** Every R3 attempt that modified action selection globally (Steps 477-482, 713-719) killed navigation. The metallurgical precedent suggests the resolution may be LOCAL modification at the boundaries where the encoding fails (aliased cells, high-entropy transitions) rather than global modification of the selection rule. The material doesn't change its crystal structure everywhere — it self-organizes at the grain boundaries where stress concentrates.
 
+### 2.12 Dissipative structures and far-from-equilibrium dynamics
+
+Prigogine's dissipative structures (1977 Nobel) are systems that maintain order through continuous energy/matter exchange with their environment while existing far from thermodynamic equilibrium. They self-organize through local fluctuations that get amplified via nonlinear interactions. At equilibrium, no structure. Far from equilibrium, spontaneous symmetry breaking and complex order.
+
+**Connection to Theorem 1:** R3 + U7 + U22 + U17 → no fixed point. The substrate CANNOT reach equilibrium — convergence kills exploration (U22), but growth must be unbounded (U17). This is the thermodynamic signature of a dissipative structure: the system must stay far from equilibrium to function. The continuous input of observations is the energy flux that maintains the structure. If input stops, the graph stops growing, exploration ceases, the system equilibrates — and dies (per U17).
+
+**Connection to level transitions:** Dissipative structures transition between ordered states via bifurcations — small fluctuations amplified by nonlinear dynamics. Level transitions in our substrate (L1 → L2) may be analogous: a small state change (finding the right action sequence) cascades into a qualitatively different exploration regime. The substrate doesn't gradually improve toward L2 — it bifurcates when sufficient structure accumulates. This is consistent with the empirical observation that L1 occurs after ~97% graph coverage (Step 600), not via gradual approach.
+
 ### 2.11 Renormalization group and the Level 2 phase transition
 
 The renormalization group (RG; Kadanoff 1966, Wilson 1971) formalizes how physical systems behave across scales. The core operation — "block spinning" — averages microscopic variables into blocks and asks: does the effective Hamiltonian at the coarser scale have the same structure? At critical points, the answer is yes (scale invariance), and the system flows along a universality class determined by symmetries, not by microscopic details.
