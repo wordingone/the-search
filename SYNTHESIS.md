@@ -80,20 +80,19 @@ Formally: does there exist a substrate (f, g, F) where F: S → (X → S) is non
 6. **Episode-outcome correlation** (Step 717): argmin ensures every action appears in every episode. No discrimination possible.
 7. **Subset bandit** (Step 719): LS20 signal reversed (survival ≠ progress). FT09 no signal (all timeout).
 
-### The Deepest Insight (Step 717 + Eli's structural observation)
-**Argmin is the obstacle to R3.** It equalizes action usage by design. You can't learn which actions are better by ensuring they're all tried equally. R3 for action selection requires BREAKING argmin's equalization — but every alternative tested (targeted exploration, prediction error, entropy, UCB) performed WORSE than argmin for L1 navigation.
-
-**The encoding, memory, and action selection are ONE INDIVISIBLE MECHANISM.** The graph IS the memory — modifying how you traverse it erases what it stored. LSH (encoding), graph (memory), argmin (selection) are three views of one coupled system. You can't modify one without the other two re-interpreting everything stored. This is deeper than "R3 kills navigation."
-
-**Aliased-cell detection is R3-adjacent.** The substrate already observes "my encoding is degrading" via hash collisions. If it tracked WHICH dimensions saturate → retired those planes → spawned new ones, that's ℓ_π: encoding-modification from substrate-observable state. Local modification (saturating region only) might dissolve the coupling.
-
-**Encoding-as-action hypothesis (Eli):** If the substrate chose which LSH planes to apply — not just which action to take — then encoding IS action. R3 satisfied structurally. Hash planes are the policy. Game frames are environment.
+### Observations from R3 Attempts
+- Argmin equalizes action usage by design (Step 717). Every alternative tested performed worse for L1.
+- Modifying graph traversal erases what the graph stored (Steps 477-482, 664-667).
+- LSH encoding, graph memory, and argmin selection are coupled through shared state.
+- Aliased-cell detection already exists — the substrate observes hash collisions in its own state.
+- candidate.c (57-line CA): ℓ₁ mechanism exists but output determined by seed, not observations. Plays blind.
+- Steps 664-667: outcome-conditioned action values showed signal but drowned in noise (L2 never unlocks, 68 actions).
 
 ---
 
 ## WHAT CONTRADICTS
 
-1. **R3 vs Navigation:** Self-modification of g kills navigation (Steps 477-482). But R3 requires self-modification of g. → The modification must be CONDITIONAL on exploration phase (but phase-conditional = prescribed phase structure = frozen frame).
+1. **R3 vs Navigation:** Self-modification of g kills navigation (Steps 477-482). R3 requires self-modification of g. Both are empirically confirmed.
 
 2. **U3 vs R6:** Never delete (U3) vs no redundancy (R6). BMR (Heins 2025) resolves: merge, don't delete.
 
@@ -171,10 +170,8 @@ Formally: does there exist a substrate (f, g, F) where F: S → (X → S) is non
 6. Memory MCP patterns (requires daemon): reasoning habits, Jun's corrections, blind spots
 
 **The question for the session:**
-What mechanism allows compare-select-store to encode its own modification via state, without the encoding being prescribed?
+Given everything above — what do you see?
 
-Not "what substrate passes the chain." The chain is a LENS — it reveals whether self-modification of operations is happening. Designing FOR the chain is the same trap as designing for a level, one abstraction up. ARC-AGI-3 is a data point. LS20 is a data point. The substrate that genuinely modifies its own operations will handle them all. But a substrate designed to handle them won't necessarily modify its own operations. Direction matters.
-
-719 experiments, 12 families, 3 theorems — all say the same thing: the frozen frame and navigation are coupled. Every R3 attempt killed L1. The question isn't how to avoid this. The question is what KIND of self-modification doesn't destroy the dynamics it modifies.
+The chain (CIFAR-100 → LS20 → FT09 → VC33 → CIFAR-100) validates. It doesn't motivate. Each benchmark is a data point. The substrate that genuinely modifies its own operations will handle them. A substrate designed to handle them won't necessarily modify its own operations.
 
 The L1 ban lifts when R3 produces its first M reclassification.
