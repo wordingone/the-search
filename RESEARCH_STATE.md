@@ -200,10 +200,18 @@ Step 655: Tempest graph (3-bit recency pattern). 9/10 L1 (vs 6/10 baseline Step 
   Next experiments testing the composition hypothesis directly:
   - Does argmin prevent some solutions? (seed-matched comparison, Step 653)
   - Tempest graph: node-level temporal patterns + pattern-sensitive selection (Step 655)
-  - N-gram retest with N=3 pattern processing (Step 656)
-  - Action sequence entropy before L1 (Step 657)
-  - Interpreter decomposition test (Step 658)
-  - Spatial composition via betweenness centrality (Step 659)
+Step 656: N-gram buffer (N=3,5,10,20). 0/10 at ALL window sizes. GRAPH NECESSARY.
+  Buffer-only fails — persistent cell identity across episodes matters. U3 validated.
+
+Step 657: Action entropy before L1 (50-action window). H=1.948/2.0. RANDOM COVERAGE.
+  No structured action sequence precedes L1. The conjunction is stumbled into.
+  L2 wall is NOT in action-sequence space.
+
+Step 658: Decoupled compare/select. 0/10. INTERPRETER IS ONE OPERATION.
+  Storing at frame cell while selecting from delta cell kills everything.
+  Compare and select are coupled — the decomposition is a theoretical artifact.
+
+  Remaining: Step 659 (spatial composition), Steps 660-663 (doubting the graph)
 
 Step 635: Frontier-gradient action selection. L1=5/5, avg_speedup=1.15x (marginal). Frontier bias
   fires 94-98% of steps — unconditionally. 3/5 seeds 5-20x SLOWER (over-exploration: 812-938 cells).
