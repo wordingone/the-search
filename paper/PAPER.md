@@ -947,6 +947,20 @@ The attention weights $\alpha_d \propto \sqrt{\bar{e}_d}$ therefore concentrate 
 
 **Implication:** The Proposition 21 gap is NOT closed by prediction accuracy (as originally theorized). It remains structural: accurate local predictions would enable per-state action selection, but $W$ does not achieve this accuracy even with $\alpha$ concentration. The $\alpha$ mechanism's contribution to navigation is through the CHANGE DETECTION metric (800b weighted by $\alpha$), not through prediction-guided action selection.
 
+### 4.12 Game Taxonomy by Progress Structure (Proposition 23)
+
+**Proposition 23 (Monotonic vs Sequential Progress).** Interactive environments partition into two classes by progress structure:
+
+(a) **Observation-sufficient (monotonic) games.** Progress produces observable change: any action that changes the observation is (probabilistically) progressive. Navigation reduces to maximizing observation change. Change-tracking ($\delta_a = \text{EMA}(\|\Delta x\|)$ per action) is sufficient. LS20 is observation-sufficient: moving the avatar changes the observation, and any movement direction that produces change leads toward unexplored territory.
+
+(b) **History-dependent (sequential) games.** Progress requires specific action sequences: individual actions produce observable change, but only PARTICULAR ORDERINGS of those actions constitute progress. Change-tracking identifies the action VOCABULARY (which actions produce change) but not the GRAMMAR (which orderings constitute progress). FT09 is history-dependent: any tile-adjacent click produces change, but only a specific 7-click sequence solves the puzzle.
+
+**Experimental evidence:** $\alpha$-weighted 800b achieves +32% over baseline on LS20 (observation-sufficient) and L1=0 on FT09 (sequential), despite $\alpha$ successfully identifying the informative dimensions on BOTH games (dims [250,249,251] on LS20, dims [60,51,52] on FT09 — universal across all seeds). The encoding problem is solved on both; the action selection problem diverges by game class.
+
+**Implication for the graph ban:** The pre-ban graph (argmin over per-state-action visit counts) solved BOTH classes: on LS20 by systematic coverage, on FT09 by exhaustive sequence enumeration. Post-ban, change-tracking only solves the monotonic class. Sequential games require a mechanism that can represent and explore ACTION SEQUENCES without per-state memory — equivalent to sequence search without a stack. Whether this is achievable under the graph ban is open.
+
+**Connection to formal language theory:** Monotonic games are "regular" — a memoryless automaton (change-tracking) can navigate them. Sequential games are "context-free" or higher — they require stack-like memory to track partial progress through a sequence. The graph ban removes the stack. The question is whether prediction (the forward model) can substitute for stack memory by predicting the consequences of action sequences. This would require accurate MULTI-STEP prediction ($W^n$: predict $n$ steps ahead), which is beyond the current single-step $W$.
+
 ## 5. Experimental Evidence
 
 ### 5.1 Navigation (720+ experiments)
