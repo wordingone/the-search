@@ -124,7 +124,13 @@ Step 922 - Long phase 1 (15K) + filtered K=6. FT09 L1=0, 10/10 zeros. DEFINITIVE
 Step 923 - VC33 diagnostic. L1=0 both 916 and 895h (0/10 zeros each). Same root cause as FT09: magic pixel interactions context-dependent. Delta identifies wrong actions (0/7 baseline overlap).
 Step 925 - Scalar forward model on recurrent h. LS20 L1=164.7 (BELOW baseline, -43% vs 916). FT09/VC33=0. **KILLED by chain criterion: hurts LS20 without helping any game.** ANY addition to 800b action selection degrades LS20. Encoding modifications help; action modifications hurt.
 **ARCHITECTURE LOCKED (2026-03-23): 916 = recurrent h (64D echo-state) + clamped alpha (0.1-5.0) + pure 800b (L2 delta EMA + softmax T=0.1).** No additions to action selector. Encoding-only modifications.
-Step 926 RUNNING - Full chain with 916 architecture (h persists across games, W_scalar excluded).
+Step 926 - Full chain with 916 (h persists, no W_scalar). CIFAR=chance, LS20=212.6/seed (BELOW 914's 248.6 — h hurts from CIFAR interference), FT09=0, VC33=0. h is double-edged: helps standalone LS20 (+8.5%) but hurts chain LS20 (-14%) due to CIFAR topology disrupting h state.
+Step 927 - Baseline chain (10K, 5 seeds). Random=26.2, Count=32.6, RND=38.2, ICM=44.8. All FT09/VC33=0. 916 chain still dominates baselines on LS20.
+Step 928 - CIFAR self-clustering (alpha-weighted L2 NN, thresh=0.5). avg_acc=0.2024 (chance). 10374 clusters for 10K images. Alpha-weighted space too sparse for classification.
+Step 929 - FT09 alpha-indexed action grouping. L1=0. ALL 68 actions map to dim 51 (degenerate). Alpha dims don't differentiate actions, only states. Sequential ordering invisible from random exploration.
+Step 930 - Game-only chain (no CIFAR), 895h, 10K. LS20=58.4/seed. Beats baselines (44.8 ICM) but below standalone estimate. Budget mismatch (10K vs 25K), not CIFAR interference.
+Step 931 - Observation-action memory. **KILLED BEFORE RUN — graph-banned.** Per-observation action memory IS per-state conditioning. "If you have to ask about the ban, you're reaching." (Jun, 2026-03-23).
+Step 932 RUNNING - Unclamped alpha (clip 0.0-5.0, dims can die). PRISM-light chain. Tests adaptive encoding dimensionality.
 **Step 920 — Graph+argmin pre-ban ceiling (n_eff=10). LANDMARK RESULT.**
   LS20: L1=129.9/seed, std=124, 4/10 zeros. **895h cold (268.0) BEATS graph+argmin by 2.1×.**
   FT09: L1=0, 10/10 zeros. **Even graph can't solve FT09 at 68 actions.** Bottleneck is action space size (68^7), not graph ban.
