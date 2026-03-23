@@ -51,3 +51,32 @@ Now using substrate_seed=seed (varied). 10 seeds, 25K steps.
 2026-03-23 06:57:17 | INFO | Created new scorecard: 97b4e8b5-7225-4653-8977-3e254c063360
 2026-03-23 06:57:17 | INFO | Successfully fetched metadata for game ls20
 2026-03-23 06:57:17 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=  7 (sub_seed=7): L1= 200
+2026-03-23 06:57:32 | INFO | Got anonymous API key: d937fb80-c22c-44c0-aa38-7e6e4d79c625
+2026-03-23 06:57:32 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 06:57:32 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 06:57:32 | INFO | Created new scorecard: c195cc49-e5ed-443d-896a-68377f576beb
+2026-03-23 06:57:33 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 06:57:33 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=  8 (sub_seed=8): L1= 288
+2026-03-23 06:57:47 | INFO | Got anonymous API key: a4c0cf84-8e64-4de8-8118-94a4c8c17cc0
+2026-03-23 06:57:47 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 06:57:47 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 06:57:47 | INFO | Created new scorecard: 89768d97-4209-4b1a-b687-da6734b7933f
+2026-03-23 06:57:47 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 06:57:47 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=  9 (sub_seed=9): L1=   0
+2026-03-23 06:58:04 | INFO | Got anonymous API key: 36757fbb-7acb-458b-ac63-3f82460b8eae
+2026-03-23 06:58:04 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 06:58:04 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 06:58:04 | INFO | Created new scorecard: 78540bba-21be-4d28-9ae5-78a73052f7e3
+2026-03-23 06:58:04 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 06:58:04 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed= 10 (sub_seed=10): L1=   0
+
+Mean L1 (varied seeds): 72.1/seed  ([199, 7, 0, 0, 0, 27, 200, 288, 0, 0])
+Step 868 baseline: softmax_01 seed=0 = 379/seed
+Validation: DISCREPANCY — n_eff issue
+
+Total elapsed: 167.9s
+STEP 868b DONE
