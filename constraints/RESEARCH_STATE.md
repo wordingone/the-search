@@ -96,7 +96,15 @@ Step 895h — n_eff=10 validation of clamped alpha. **COLD > WARM by 58.8/seed.*
   **R3 cold self-modification: CONFIRMED.** Cold clamped alpha = best post-ban mechanism (+32%, 0/10 zeros).
   Alpha is an INDIVIDUAL ADAPTATION mechanism (helps within-episode) not a TRANSFER mechanism (hurts across seeds).
 **Step 895g — DUAL-STREAM ≈ BASELINE (213.9 ≈ 203.9).** Decoupling alpha from navigation adds nothing. The coupling IS the benefit.
-EMERGING ARCHITECTURE: Clamped alpha-weighted 800b. (1) Alpha from prediction error, clamped 0.1-5.0 (R3 encoding self-modification). (2) 800b per-action L2 delta EMA + softmax T=0.1 on ALPHA-WEIGHTED encoding (navigation). (3) Linear W forward model in alpha-weighted space (prediction transfer). Alpha couples to both navigation and prediction.
+EMERGING ARCHITECTURE: Clamped alpha-weighted 800b. (1) Alpha from prediction error, clamped 0.1-5.0 (R3 encoding self-modification). (2) 800b per-action L2 delta EMA + softmax T=0.1 on ALPHA-WEIGHTED encoding (navigation). (3) Linear W forward model in alpha-weighted space (signal generator for alpha, NOT predictor). Alpha couples to navigation.
+Step 910a - Alpha-weighted compression progress, LS20. L1=99.8/seed (BELOW 203.9 baseline). 4/10 zeros. W cross-action interference corrupts delta_E signal. KILLED.
+Step 910b - Alpha-weighted compression progress, FT09. L1=0. Same failure. KILLED.
+COMPRESSION PROGRESS FAMILY DEAD: Steps 855, 855b, 910a, 910b all fail. Shared W violates the independent-learning-signal assumption. Action collapse persists in every variant.
+**SESSION FINAL RANKING (LS20, 25K, n_eff=10):**
+  895h cold (clamped alpha + 800b): 268.0/seed, 0/10 zeros, +32% ← BEST POST-BAN
+  868d (raw L2 baseline): 203.9/seed, 1/10 zeros
+  910a (compression progress): 99.8/seed, 4/10 zeros ← BELOW BASELINE
+  FT09 all mechanisms: 0/seed (sequential games unsolved, Proposition 23)
 Step 899 - Population predictors. Functionally DEAD (L1=0, hash issue). Diversity=0.37 (alive by criterion but useless).
 Step 896 - SDM. BROKEN (Hamming radius=80 too small for 256-bit, zero addresses activated). Deprioritized.
 Step 900 - Attractor landscape. Running but slow. Deprioritized.
