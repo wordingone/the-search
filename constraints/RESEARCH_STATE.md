@@ -104,6 +104,11 @@ Step 912 - Delta direction novelty. LS20 L1=166.8 (BELOW baseline). FT09 L1=0. D
 Step 913 - Recency cycling. LS20 L1=51.5 (catastrophic, 7/10 zeros). FT09 L1=0. Recency overwhelms delta → round-robin.
 Step 914 - Full chain test (895h cold). CIFAR=chance, LS20=237.6 (degraded by CIFAR alpha inflation), FT09=0, VC33=0, CIFAR-2=chance. Chain: 1/4 at best.
 Step 915 - Temporal action patterns (K=3, FT09). L1=0. 8711 sequences learned but no discovery of 7-click solution. Exploitation without discovery.
+**Step 920 — Graph+argmin pre-ban ceiling (n_eff=10). LANDMARK RESULT.**
+  LS20: L1=129.9/seed, std=124, 4/10 zeros. **895h cold (268.0) BEATS graph+argmin by 2.1×.**
+  FT09: L1=0, 10/10 zeros. **Even graph can't solve FT09 at 68 actions.** Bottleneck is action space size (68^7), not graph ban.
+  The graph ban cost is NEGATIVE on LS20: alpha-weighted change signal > visit-count argmin. Graph wastes effort on dead ends.
+  FT09 reframed: pre-ban 674 solved with 6 actions (6^7 tractable). 68 actions → exponentially harder. Need ACTION SPACE FILTERING, not per-state memory.
 **FINDING (Steps 911-915): FT09 bottleneck is ACTION ORDERING, not coverage or identification.** All approaches confirm: substrate finds the tiles (alpha universal), tracks which ones change (800b), even visits all 68 (recency coverage=1.0). Cannot discover the required ORDER. Sequential games post-ban require a mechanism for conditional action selection based on trajectory position — not per-state (banned) but per-trajectory (allowed).
 **SESSION FINAL RANKING (LS20, 25K, n_eff=10):**
   895h cold (clamped alpha + 800b): 268.0/seed, 0/10 zeros, +32% ← BEST POST-BAN
