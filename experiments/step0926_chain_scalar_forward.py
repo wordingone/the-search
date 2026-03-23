@@ -1,22 +1,25 @@
 """
 step0926_chain_scalar_forward.py -- Full chain: CIFAR→LS20→FT09→VC33→CIFAR.
 
-R3 hypothesis: Recurrent h encodes cross-game trajectory context. W_scalar
-conditioned on h adapts action selection to game type without explicit game
-identification. h "changes character" per game → W_scalar predicts per-game
-change → mechanism adapts.
+R3 hypothesis: Recurrent h encoding generalizes across game domains.
+h encodes trajectory context; alpha concentrates on informative dims.
+Both persist across game phases within a seed — game-adaptive WITHOUT
+knowing game type.
 
-Kill criterion (Jun via Leo mail 2670): if 925 helps one game but hurts
-another → KILL (per-game tuning, not game-adaptive).
+Architecture LOCKED (per Leo mail 2673):
+  Encoding: avgpool16 + centered + alpha-weighted (0.1-5.0) + recurrent h (64D echo)
+  Action:   800b per-action L2 delta EMA + softmax T=0.1 — PURE, NO ADDITIONS
+  Prediction: W trains for alpha signal only (not used for action)
 
-Architecture: 916 recurrent h (fixed W_h/W_x) + W_scalar (h + action → scalar)
-+ alpha + 800b delta. Compare to Step 914 (895h cold, no h, no W_scalar).
+Step 925 (W_scalar) KILLED: hurts LS20 (-43%) with no FT09/VC33 gains.
+Rule: any competing signal in action selector degrades. Only encoding changes help.
 
-Chain: CIFAR (100 actions, 25K) → LS20 (4, 25K) → FT09 (68, 25K)
-       → VC33 (68, 25K) → CIFAR (100, 25K). 5 seeds.
+Compare to Step 914 (895h cold, no h): chain LS20=248.6/seed.
+Step 916 standalone LS20=290.7/seed (new SOTA). Chain should be ≥914.
 
-Persistent across games: alpha, h, running_mean, W_h, W_x (fixed).
-Reset per game: W_pred, W_scalar, delta_per_action.
+Chain: CIFAR(100) → LS20(4) → FT09(68) → VC33(68) → CIFAR(100), 5 seeds.
+Persistent: alpha (320D), h, running_mean, W_h, W_x (fixed).
+Reset per game: W_pred, delta_per_action.
 """
 import sys, time
 sys.path.insert(0, 'B:/M/the-search')
@@ -28,8 +31,8 @@ from substrates.step0674 import _enc_frame
 
 ENC_DIM = 256
 H_DIM = 64
-ETA_W_PRED = 0.01
-ETA_SCALAR = 0.01
+EXT_DIM = ENC_DIM + H_DIM   # 320
+ETA_W = 0.01
 ALPHA_EMA = 0.10
 INIT_DELTA = 1.0
 ALPHA_UPDATE_DELAY = 50
@@ -37,7 +40,6 @@ EPSILON = 0.20
 SOFTMAX_TEMP = 0.10
 ALPHA_LO = 0.10
 ALPHA_HI = 5.00
-SCALAR_WEIGHT = 0.5
 
 TEST_SEEDS = list(range(1, 6))
 PHASE_STEPS = 25_000
@@ -50,43 +52,35 @@ GAME_SEQUENCE = [
     ("CIFAR", 100),
 ]
 
-# Step 914 chain baseline (895h cold, 5 seeds)
-BASELINE_914 = {
-    "CIFAR-1": 0.0100,  # ~chance
-    "LS20":    248.6,
-    "FT09":    0.0,
-    "VC33":    0.0,
-    "CIFAR-2": 0.0110,
-}
-
 
 def one_hot(a, n):
     v = np.zeros(n, dtype=np.float32); v[a] = 1.0; return v
 
 
-def softmax_action(scores, temp, rng):
-    x = np.array(scores) / temp; x -= np.max(x); e = np.exp(x)
+def softmax_action(delta, temp, rng):
+    x = np.array(delta) / temp; x -= np.max(x); e = np.exp(x)
     probs = e / (e.sum() + 1e-12)
-    return int(rng.choice(len(scores), p=probs))
+    return int(rng.choice(len(delta), p=probs))
 
 
-class ChainScalarForward926:
-    """916 recurrent h + W_scalar chain substrate.
+class Chain916:
+    """916 recurrent h chain substrate.
 
-    Persistent across games: alpha, h, running_mean, W_h, W_x (fixed random).
-    Reset per game: W_pred, W_scalar, delta_per_action (n_actions changes).
+    Persistent across games: alpha (320D), h, running_mean, W_h, W_x (fixed).
+    Reset per game: W_pred, delta_per_action (n_actions changes per game).
+    Action selection: PURE 800b — no W_scalar, no competing signal.
     """
 
     def __init__(self, seed):
         self._rng = np.random.RandomState(seed)
         rs = np.random.RandomState(seed + 10000)
 
-        # Fixed recurrent weights — PERSISTENT across games
+        # Fixed recurrent weights — PERSISTENT
         self.W_h = rs.randn(H_DIM, H_DIM).astype(np.float32) * 0.1
         self.W_x = rs.randn(H_DIM, ENC_DIM).astype(np.float32) * 0.1
 
         # Persistent state
-        self.alpha = np.ones(ENC_DIM, dtype=np.float32)
+        self.alpha = np.ones(EXT_DIM, dtype=np.float32)
         self.h = np.zeros(H_DIM, dtype=np.float32)
         self._running_mean = np.zeros(ENC_DIM, dtype=np.float32)
         self._n_obs = 0
@@ -95,44 +89,32 @@ class ChainScalarForward926:
         # Game-specific (set via set_game)
         self._n = None
         self.W_pred = None
-        self.W_scalar = None
         self.delta_per_action = None
-        self._prev_enc = None
         self._prev_ext = None
-        self._prev_h = None
         self._prev_action = None
 
     def set_game(self, n_actions):
-        """Switch to new game. Reset game-specific weights, preserve h + alpha."""
         self._n = n_actions
-        EXT = ENC_DIM + H_DIM
-        self.W_pred = np.zeros((EXT, EXT + n_actions), dtype=np.float32)
-        self.W_scalar = np.zeros(H_DIM + n_actions, dtype=np.float32)
+        self.W_pred = np.zeros((EXT_DIM, EXT_DIM + n_actions), dtype=np.float32)
         self.delta_per_action = np.full(n_actions, INIT_DELTA, dtype=np.float32)
         self._pred_errors.clear()
-        self._prev_enc = None
         self._prev_ext = None
-        self._prev_h = None
         self._prev_action = None
 
     def reset_seed(self, seed):
-        """Full reset for new seed (alpha, h, running_mean all reset)."""
         self._rng = np.random.RandomState(seed)
         rs = np.random.RandomState(seed + 10000)
         self.W_h = rs.randn(H_DIM, H_DIM).astype(np.float32) * 0.1
         self.W_x = rs.randn(H_DIM, ENC_DIM).astype(np.float32) * 0.1
-        self.alpha = np.ones(ENC_DIM, dtype=np.float32)
+        self.alpha = np.ones(EXT_DIM, dtype=np.float32)
         self.h = np.zeros(H_DIM, dtype=np.float32)
         self._running_mean = np.zeros(ENC_DIM, dtype=np.float32)
         self._n_obs = 0
         self._pred_errors.clear()
         self._n = None
         self.W_pred = None
-        self.W_scalar = None
         self.delta_per_action = None
-        self._prev_enc = None
         self._prev_ext = None
-        self._prev_h = None
         self._prev_action = None
 
     def _encode(self, obs):
@@ -142,8 +124,7 @@ class ChainScalarForward926:
         self._running_mean = (1 - a) * self._running_mean + a * enc_raw
         enc = enc_raw - self._running_mean
         self.h = np.tanh(self.W_h @ self.h + self.W_x @ enc)
-        ext = np.concatenate([enc, self.h]).astype(np.float32)
-        return enc, ext
+        return np.concatenate([enc, self.h]).astype(np.float32)
 
     def _update_alpha(self):
         if len(self._pred_errors) < ALPHA_UPDATE_DELAY: return
@@ -154,10 +135,9 @@ class ChainScalarForward926:
         self.alpha = np.clip(ra / mr, ALPHA_LO, ALPHA_HI)
 
     def process(self, obs):
-        enc, ext = self._encode(obs)
+        ext = self._encode(obs)
 
-        if self._prev_enc is not None and self._prev_action is not None:
-            # Alpha signal via forward model on ext
+        if self._prev_ext is not None and self._prev_action is not None:
             inp = np.concatenate([self._prev_ext * self.alpha,
                                    one_hot(self._prev_action, self._n)])
             pred = self.W_pred @ inp
@@ -165,57 +145,35 @@ class ChainScalarForward926:
             en = float(np.linalg.norm(error))
             if en > 10.0: error *= 10.0 / en
             if not np.any(np.isnan(error)):
-                self.W_pred -= ETA_W_PRED * np.outer(error, inp)
-                self._pred_errors.append(np.abs(error[:ENC_DIM]))  # alpha on enc dims only
+                self.W_pred -= ETA_W * np.outer(error, inp)
+                self._pred_errors.append(np.abs(error))
                 self._update_alpha()
 
-            # 800b change tracking
-            weighted_delta = (ext - self._prev_ext) * np.concatenate([self.alpha, np.ones(H_DIM)])
+            # Pure 800b: L2 delta EMA per action
+            weighted_delta = (ext - self._prev_ext) * self.alpha
             change = float(np.linalg.norm(weighted_delta))
             a = self._prev_action
             self.delta_per_action[a] = (1 - ALPHA_EMA) * self.delta_per_action[a] + ALPHA_EMA * change
 
-            # Scalar model update
-            actual_change = float(np.linalg.norm(enc - self._prev_enc))
-            if self._prev_h is not None:
-                scalar_inp = np.concatenate([self._prev_h, one_hot(self._prev_action, self._n)])
-                pred_change = float(self.W_scalar @ scalar_inp)
-                scalar_error = actual_change - pred_change
-                self.W_scalar += ETA_SCALAR * scalar_error * scalar_inp
-
-        # Action selection
+        # Pure 800b action selection — NO competing signal
         if self._rng.random() < EPSILON:
             action = int(self._rng.randint(0, self._n))
         else:
-            h_now = self.h.copy()
-            scalar_scores = np.array([
-                float(self.W_scalar @ np.concatenate([h_now, one_hot(a, self._n)]))
-                for a in range(self._n)
-            ], dtype=np.float32)
-            combined = SCALAR_WEIGHT * scalar_scores + (1 - SCALAR_WEIGHT) * self.delta_per_action
-            action = softmax_action(combined, SOFTMAX_TEMP, self._rng)
+            action = softmax_action(self.delta_per_action, SOFTMAX_TEMP, self._rng)
 
-        self._prev_enc = enc.copy()
         self._prev_ext = ext.copy()
-        self._prev_h = self.h.copy()
         self._prev_action = action
         return action
 
     def on_level_transition(self):
-        self._prev_enc = None; self._prev_ext = None
-        self._prev_h = None; self._prev_action = None
+        self._prev_ext = None; self._prev_action = None
 
     def alpha_conc(self):
         return float(np.max(self.alpha) / (np.min(self.alpha) + 1e-8))
 
-    def scalar_top_k(self, k=5):
-        if self.W_scalar is None or self._n is None: return []
-        h_now = self.h.copy()
-        scores = np.array([
-            float(self.W_scalar @ np.concatenate([h_now, one_hot(a, self._n)]))
-            for a in range(self._n)
-        ])
-        return list(np.argsort(scores)[-k:])
+    def top_delta_actions(self, k=5):
+        if self.delta_per_action is None: return []
+        return list(np.argsort(self.delta_per_action)[-k:])
 
 
 def make_env(game_name):
@@ -276,10 +234,10 @@ def run_cifar_phase(sub, n_actions, images, labels, rng_seed, n_steps):
 
 
 print("=" * 70)
-print("STEP 926 — FULL CHAIN: CIFAR→LS20→FT09→VC33→CIFAR (SCALAR FORWARD MODEL)")
+print("STEP 926 — FULL CHAIN: CIFAR→LS20→FT09→VC33→CIFAR (916 RECURRENT h)")
 print("=" * 70)
-print("Architecture: 916 recurrent h (persistent) + W_scalar (game-reset) + 800b")
-print("Kill criterion: scalar helps one game but hurts another → KILL")
+print("Architecture: 916 recurrent h (persistent) + alpha (320D persistent) + pure 800b")
+print("W_scalar KILLED (925). Action selector untouched.")
 t0 = time.time()
 cifar_images, cifar_labels = load_cifar()
 cifar_ok = cifar_images is not None
@@ -289,25 +247,28 @@ cifar1_results = []; cifar2_results = []
 ls20_results = []; ft09_results = []; vc33_results = []
 
 for ts in TEST_SEEDS:
-    sub = ChainScalarForward926(seed=ts)
+    sub = Chain916(seed=ts)
     sub.reset_seed(ts)
     print(f"\n  Seed {ts}:")
 
     c1, s1, acc1 = run_cifar_phase(sub, 100, cifar_images, cifar_labels, ts * 1000, PHASE_STEPS)
     cifar1_results.append(acc1)
-    print(f"    CIFAR-1: acc={acc1:.4f} ({c1}/{s1})  alpha_conc={sub.alpha_conc():.2f}  h_norm={float(np.linalg.norm(sub.h)):.3f}")
+    print(f"    CIFAR-1: acc={acc1:.4f} ({c1}/{s1})  alpha_conc={sub.alpha_conc():.2f}")
 
     ls20_l1 = run_arc_phase(sub, "LS20", 4, ts * 1000, PHASE_STEPS)
     ls20_results.append(ls20_l1)
-    print(f"    LS20:    L1={ls20_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  scalar_top5={sub.scalar_top_k(5)}")
+    top5 = sub.top_delta_actions(5)
+    print(f"    LS20:    L1={ls20_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  top5_delta={top5}")
 
     ft09_l1 = run_arc_phase(sub, "FT09", 68, ts * 1000, PHASE_STEPS)
     ft09_results.append(ft09_l1)
-    print(f"    FT09:    L1={ft09_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  scalar_top5={sub.scalar_top_k(5)}")
+    top5 = sub.top_delta_actions(5)
+    print(f"    FT09:    L1={ft09_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  top5_delta={top5}")
 
     vc33_l1 = run_arc_phase(sub, "VC33", 68, ts * 1000, PHASE_STEPS)
     vc33_results.append(vc33_l1)
-    print(f"    VC33:    L1={vc33_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  scalar_top5={sub.scalar_top_k(5)}")
+    top5 = sub.top_delta_actions(5)
+    print(f"    VC33:    L1={vc33_l1:4d}  alpha_conc={sub.alpha_conc():.2f}  top5_delta={top5}")
 
     c2, s2, acc2 = run_cifar_phase(sub, 100, cifar_images, cifar_labels, ts * 1000 + 1, PHASE_STEPS)
     cifar2_results.append(acc2)
@@ -320,13 +281,11 @@ print(f"  LS20  L1:    {np.mean(ls20_results):.1f}/seed  std={np.std(ls20_result
 print(f"  FT09  L1:    {np.mean(ft09_results):.1f}/seed  std={np.std(ft09_results):.1f}  zero={sum(1 for x in ft09_results if x==0)}/5  {ft09_results}")
 print(f"  VC33  L1:    {np.mean(vc33_results):.1f}/seed  std={np.std(vc33_results):.1f}  zero={sum(1 for x in vc33_results if x==0)}/5  {vc33_results}")
 print(f"  CIFAR-2 acc: {np.mean(cifar2_results):.4f}  {[f'{x:.3f}' for x in cifar2_results]}")
-print(f"\nComparison vs Step 914 (895h cold, 5 seeds):")
-print(f"  914 LS20:  248.6/seed  (926: {np.mean(ls20_results):.1f})")
-print(f"  914 FT09:    0.0/seed  (926: {np.mean(ft09_results):.1f})")
-print(f"  914 VC33:    0.0/seed  (926: {np.mean(vc33_results):.1f})")
+print(f"\nComparison vs Step 914 (895h cold chain, 5 seeds):")
+print(f"  914 LS20 chain: 248.6/seed  (926: {np.mean(ls20_results):.1f})")
+print(f"  914 FT09 chain:   0.0/seed  (926: {np.mean(ft09_results):.1f})")
+print(f"  914 VC33 chain:   0.0/seed  (926: {np.mean(vc33_results):.1f})")
+print(f"  916 LS20 standalone: 290.7/seed  (chain context effect: {np.mean(ls20_results)-290.7:+.1f})")
 print(f"  CIFAR transfer delta: {np.mean(cifar2_results) - np.mean(cifar1_results):+.4f}")
-print(f"\nKill criterion check (helps one, hurts another):")
-ls20_delta = np.mean(ls20_results) - 248.6
-print(f"  LS20 delta vs 914: {ls20_delta:+.1f}")
 print(f"Total elapsed: {time.time()-t0:.1f}s")
 print("STEP 926 DONE")

@@ -1,18 +1,17 @@
-B:\M\the-search\experiments\step0926_chain_scalar_forward.py:235: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+B:\M\the-search\experiments\step0926_chain_scalar_forward.py:193: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
   images = np.array([np.array(ds[i][0]).transpose(1, 2, 0) for i in range(len(ds))],
 ======================================================================
-STEP 926 — FULL CHAIN: CIFAR→LS20→FT09→VC33→CIFAR (SCALAR FORWARD MODEL)
+STEP 926 — FULL CHAIN: CIFAR→LS20→FT09→VC33→CIFAR (916 RECURRENT h)
 ======================================================================
-Architecture: 916 recurrent h (persistent) + W_scalar (game-reset) + 800b
-Kill criterion: scalar helps one game but hurts another → KILL
+Architecture: 916 recurrent h (persistent) + alpha (320D persistent) + pure 800b
+W_scalar KILLED (925). Action selector untouched.
 CIFAR-100: loaded
 
   Seed 1:
-Traceback (most recent call last):
-  File "B:\M\the-search\experiments\step0926_chain_scalar_forward.py", line 296, in <module>
-    c1, s1, acc1 = run_cifar_phase(sub, 100, cifar_images, cifar_labels, ts * 1000, PHASE_STEPS)
-  File "B:\M\the-search\experiments\step0926_chain_scalar_forward.py", line 272, in run_cifar_phase
-    action = sub.process(obs) % n_actions
-  File "B:\M\the-search\experiments\step0926_chain_scalar_forward.py", line 161, in process
-    inp = np.concatenate([self._prev_ext * self.alpha,
-ValueError: operands could not be broadcast together with shapes (320,) (256,) 
+    CIFAR-1: acc=0.0101 (101/10000)  alpha_conc=18.35
+2026-03-23 09:52:12 | INFO | Got anonymous API key: c2339b7b-7ee9-46a6-9fce-4072ac851d70
+2026-03-23 09:52:12 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:52:12 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:52:12 | INFO | Created new scorecard: b74dc198-fe54-4b0a-9feb-e8911b972ffa
+2026-03-23 09:52:12 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 09:52:12 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py

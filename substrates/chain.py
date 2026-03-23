@@ -441,19 +441,26 @@ class ChainRunner:
                   f"Using n_seeds={self.MIN_SEEDS}.")
 
     def run(self, substrate_cls: type, substrate_kwargs: dict = None) -> dict:
-        """Run full chain. Returns structured results dict."""
+        """Run full chain. ONE substrate per seed, persists across all games.
+
+        Outer loop = seeds. Inner loop = games. The substrate accumulates
+        state across the entire chain trajectory. This IS the chain test:
+        does experience on game A help or hurt game B?
+        """
         if substrate_kwargs is None:
             substrate_kwargs = {}
 
-        results = {}
-        for (name, wrapper) in self.chain:
+        # Collect per-game results across all seeds
+        results = {name: [] for name, _ in self.chain}
+
+        for seed in range(self.n_seeds):
+            sub = substrate_cls(**substrate_kwargs)  # ONE substrate per seed
             if self.verbose:
-                print(f"\n--- {name} ---")
-            task_results = []
-            for seed in range(self.n_seeds):
-                sub = substrate_cls(**substrate_kwargs)
-                r = wrapper.run_seed(sub, seed)
-                task_results.append(r)
+                print(f"\n=== Seed {seed} ===")
+
+            for (name, wrapper) in self.chain:
+                r = wrapper.run_seed(sub, seed)  # SAME substrate persists
+                results[name].append(r)
                 if self.verbose:
                     l1 = r.get('l1')
                     acc = r.get('accuracy') or r.get('avg_accuracy')
@@ -464,8 +471,12 @@ class ChainRunner:
                         metric = f"reward={reward:.0f}"
                     else:
                         metric = f"l1={l1}"
-                    print(f"  s{seed}: {metric} steps={r['steps']} t={r['elapsed']}s")
-            results[name] = {
+                    print(f"  {name}: {metric} steps={r['steps']} t={r['elapsed']}s")
+
+        # Aggregate per game
+        aggregated = {}
+        for name, task_results in results.items():
+            aggregated[name] = {
                 "seeds": task_results,
                 "l1_rate": sum(1 for r in task_results if r.get('l1')) / self.n_seeds,
                 "l2_rate": sum(1 for r in task_results if r.get('l2')) / self.n_seeds,
@@ -473,10 +484,10 @@ class ChainRunner:
                 "mean_elapsed": np.mean([r['elapsed'] for r in task_results]),
             }
             if self.verbose:
-                print(f"  L1={results[name]['l1_rate']:.0%} "
-                      f"avg_t={results[name]['mean_elapsed']:.1f}s")
+                print(f"\n{name}: L1={aggregated[name]['l1_rate']:.0%} "
+                      f"avg_t={aggregated[name]['mean_elapsed']:.1f}s")
 
-        return results
+        return aggregated
 
 
 def make_standard_chain(n_steps: int = DEFAULT_STEPS,
