@@ -1056,6 +1056,40 @@ Recode is LSH k=16 with passive self-refinement: when a cell produces inconsiste
 
 **Non-codebook experiment count:** ~177 (vs ~435 codebook). Ongoing scale-up.
 
+### 5.5 Post-Ban Experiments (Steps 778-812, Phase 3)
+
+The graph ban (post Step 777, permanent) and codebook ban (Step 416) remove both known-working mechanisms. Phase 3 tests D-only substrates: forward models, Hebbian networks, reservoir computing, population mechanisms, compression progress — all without per-(state, action) tracking.
+
+**Baselines established (Steps 807, 817):**
+- Random + 674 encoding on LS20: 36.4 L1/seed at 25K steps. Post-ban navigation floor.
+- 674 encoding vs random projection: identical L1 (encoding irrelevant without action mechanism).
+- Random + 68 actions on FT09: 0 L1 at 25K (FT09 not navigable by random).
+
+**D(s) prediction transfer — confirmed (5/7 PASS, Steps 778v5, 780v5, 855b, 809b, 855v3):**
+
+| Substrate | Cold acc. | Warm acc. | Transfer | Action mechanism |
+|-----------|-----------|-----------|----------|-----------------|
+| 778v5 (random action) | 27.7% | 31.9% | +15% | Random |
+| 780v5 (prediction-contrast) | 11.5% | 19.9% | +73% | Novelty-seeking |
+| 809b (cycling + W) | 21.2% | 25.8% | +22% | Deterministic cycling |
+| 855b (epsilon-compression) | 50.2% | 54.6% | +9% | 80% compression, 20% random |
+| 855v3 (compression progress) | 90.1% | 99.7% | +10% | Learning-progress-seeking |
+
+Forward model W (delta rule, not Hebbian) trained on LS20 seeds 1-5 predicts better on unseen seeds 6-10 across all five action mechanisms. D(s) transfer is robust and independent of action selection.
+
+**Negative findings (2/7 FAIL):** Step 856 (state entropy): warm DEGRADES prediction (cold 53% → warm 26%). Entropy-maximizing actions create unstructured trajectories that hurt forward model learning. Step 840 (anti-pheromone): FAIL. Not all action mechanisms produce learnable trajectories.
+
+**L1 navigation transfer — one candidate (Step 806v2, pending control):**
+806v2 (80% random + 20% prediction-contrast): cold=0, warm=78/seed ($p \approx 0$). First L1 R3_cf PASS. Mechanism: warm W breaks cold W's action-0 tie-breaking bias, adding productive diversity to the 20% W-guided actions. **Caveat:** warm=78 identical across all test seeds (substrate\_seed=0 artifact). The mechanism is shallow (action differentiation, not dynamics understanding). Control with varied substrate seeds pending.
+
+**Compression progress action collapse (Step 855):** 0 L1. The compression progress gradient creates action collapse (U22 variant) — the substrate locks onto a single action with the highest learning rate. Epsilon-compression (80/20) fixes the collapse but still achieves 0 L1 on LS20.
+
+**LS20 rewards persistence (Steps 778-788):** All novelty-seeking mechanisms (prediction-contrast, ensemble disagreement, cycling, round-robin, compression progress) achieve 0 L1 on LS20. Only substrates with near-random or momentum-based action selection navigate. LS20 requires sustained repetition of specific actions (action persistence), not diversity. This is a game-specific property, not a universal constraint.
+
+**Hebbian W diverges (all pre-delta-rule results invalid):** The Hebbian update ($W \mathrel{+}= \eta \cdot x \otimes \text{inp}$) grows unboundedly. After 25K steps, $\|W\| \gg 1$ and predictions explode. The delta rule ($W \mathrel{-}= \eta \cdot (W \cdot \text{inp} - x) \otimes \text{inp}$) converges. R2 tension: the delta rule IS a gradient on prediction error, but it is self-supervised (target = next environmental observation), not externally supervised.
+
+**Corollary 20.1 confirmed (Steps 776, 803, 788):** Negative transfer extends beyond visit counts to ANY accumulated state that couples to action selection: per-(state, action) visit counts (Step 776), per-observation cycling counters (Step 803), global round-robin index (Step 788). The forward model is the unique candidate for positive transfer because it accumulates dynamics (environment-general) without coupling to action selection during training (random actions).
+
 ## 6. Degrees of Freedom
 
 The formalization identifies what the constraints REQUIRE but also what they leave UNDETERMINED. These degrees of freedom define the experiment space for the next phase.
