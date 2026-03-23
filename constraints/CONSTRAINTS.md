@@ -385,8 +385,64 @@ Outstanding: Finding 2 (no CL head-to-head comparison — HIGH), Finding 3 (rand
 ### What's Changed Since Phase 1 Assessment
 
 - "The next substrate is defined by what passes ALL constraints simultaneously" → **Constraint map was biased.** After adversarial review: 2 former U-constraints confirmed S-class (U6, U23), 3 reverted to Validated Universal with better wording (U1, U16, U17), 1 moved to Provisional (U25), 12 others marked provisional. The feasible region is LARGER than we thought, but not as large as the initial compression claimed — the adversarial review caught overcorrection.
-- "LVQ is not the atomic substrate" → **The graph + edge mechanism may be.** It's the constant across all navigation successes. The mapping is the variable.
+- "LVQ is not the atomic substrate" → **The graph + edge mechanism may be.** It's the constant across all navigation successes. The mapping is the variable. **POST-BAN: the graph is now banned. The constant is gone. The search restarts.**
 - "Self-modifying metric is needed" → **Yes, but the metric is the MAPPING, not cosine.** R3 requires adaptive mapping. Cosine is one mechanism (banned). Others unexplored.
+
+---
+
+## Post-Ban Constraint Re-evaluation (2026-03-23)
+
+*The graph ban (permanent, post Step 777) removes per-(state, action) data structures. The codebook ban (Step 416) removed cosine+attract. Together, they invalidate both known navigation mechanisms. This section traces which constraints survive, which are invalidated, and which need re-testing.*
+
+### Constraints that survive unchanged (graph-independent)
+
+| Constraint | Why it survives |
+|---|---|
+| U7 (dominant amplification) | Mathematical property of iterative systems. Applies to any substrate. |
+| U11 (discrimination ≠ navigation) | Task-level truth. Architecture-independent. |
+| U16 (encode differences from expectation) | Centering is about encoding, not graph. Still load-bearing for any hash-based mapping. |
+| U20 (local continuity) | Topological requirement on observation-to-state mapping. Graph-independent. |
+| U22 (convergence kills exploration) | Mathematical. Applies to forward models, Hebbian networks, any convergent system. |
+| U1 (no separate learn/infer modes) | Task requirement. Interactive environments demand online learning. |
+| U4 (minimal description) | Design principle. Graph-independent. |
+| I1-I9 (all intent constraints) | Capability requirements. What the task needs hasn't changed. |
+
+### Constraints that are invalidated or need re-testing
+
+| Constraint | Issue | Post-ban status |
+|---|---|---|
+| **Algorithm invariance** (Task Req) | "Action selection IS argmin over visit frequency." Argmin requires per-(state, action) visit counts = BANNED. | **INVALIDATED.** No known post-ban action selection mechanism. Must be re-derived. |
+| **U3 (zero forgetting)** | Evidence: "edges accumulate" (graph), "entries grow" (codebook, banned). | **Needs re-testing.** What accumulates post-ban? Forward model parameters? If D(s) grows but doesn't forget, U3 may survive via a different mechanism. |
+| **U17 (unbounded accumulation)** | "LSH satisfies it via edge growth." Edge growth = graph. | **Needs re-testing.** Post-ban accumulation must be in D(s) (dynamics), not L(s) (location). Can a forward model accumulate unbounded information? Or do W matrices saturate? |
+| **U24 (explore ≠ exploit)** | "argmin explores, argmax classifies." Both require visit counts. | **Reframe needed.** Post-ban, the explore/exploit distinction may manifest differently. Prediction error (explore) vs prediction confidence (exploit)? But prediction-error exploration = noisy TV problem (U22 tension). |
+| **U25 (convergent action kills exploration)** | "Edge-count ratios converge." | **Mechanism invalidated.** But the PRINCIPLE may survive: any action-selection mechanism that converges will eventually stop exploring. Needs new evidence from post-ban architectures. |
+| **U28 (no signal improves argmin)** | Entirely about argmin modification. | **INVALIDATED.** Argmin is gone. Auxiliary signals may matter for non-argmin action selection. |
+| **Three mapping properties** | Deterministic, locally continuous, persistent — still valid for obs→state mapping. But the graph they feed into is banned. | **Partially valid.** The mapping requirements survive. What USES the mapping changes entirely. |
+| **Argmin purity (Step 759)** | "Any stochasticity degrades argmin." | **INVALIDATED.** Argmin doesn't exist post-ban. Post-ban action selection may benefit from stochasticity. |
+| **L1 as perception-limited** | "Action selection doesn't matter, encoding does." Based on argmin vs random equivalence (Step 653). | **Needs re-testing.** Without argmin, a better action selector COULD make action selection matter. The perception limitation was within the argmin framework. |
+
+### Constraints whose evidence base shrinks
+
+| Constraint | Issue |
+|---|---|
+| **Argmin robustness (Proposition 3)** | All 4 representation-invariance tests used graph-based argmin. No post-ban equivalent tested. |
+| **Targeted exploration kills navigation (Steps 477-482)** | All 6 strategies tested against argmin. Whether targeted exploration beats RANDOM (not argmin) is a different question. Post-ban, the baseline is random, not argmin. |
+| **Noisy TV barrier (Steps 477-482, 671)** | Tested under argmin framework. Forward models face the same problem (Burda et al. 2018) but the severity may differ when there's no argmin to compete against. |
+
+### New post-ban constraints (predicted, untested)
+
+| # | Prediction | Source |
+|---|---|---|
+| PB1 | **Location state transfers negatively.** Any substrate that accumulates L(s) (visit counts, per-state history) will fail R3_cf. | Proposition 20(a), Step 776. |
+| PB2 | **Global state must avoid convergence.** W matrices under Hebbian update converge (rank-1 collapse, U7). Anti-convergence mechanisms (decay, noise, normalization) are required. | U22 + reservoir kill (Steps 437d+). |
+| PB3 | **Forward models face the noisy TV problem.** Prediction-error-based exploration will be attracted to stochastic transitions. | Burda et al. 2018, Steps 477-482. |
+| PB4 | **Action selection without visit counts is the open problem.** No known R1-compliant mechanism selects actions effectively without per-(state, action) tracking. | Graph ban + R1. |
+
+### What the graph ban means for the feasible region
+
+The feasible region was already unoccupied (0/777 substrates inside all walls). The graph ban REMOVES the region of state space where all tested navigation successes lived. This is intentional: graph navigation is ℓ₀ (fixed mechanism). R3 requires ℓ_π or higher. The ban forces the search into unexplored territory where R3-compliance is possible but navigation is unproven.
+
+**Proposition 20 (paper Section 4.10) predicts:** D-only substrates (dynamics state, no location state) are the minimal viable candidates. Steps 778-797 test this.
 
 ---
 

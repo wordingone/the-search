@@ -57,7 +57,11 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 752 running (K sweep). Steps 720-751 complete. Steps 760-775 (SOTA suite) queued, priority. Steps 753-759 (batch 4) paused.
+CURRENT STEP: 777 complete. Phase 3 begins (post-ban). Steps 778-787 spec'd (post-ban D-only substrates). Target: step 888.
+  Graph ban (permanent, 2026-03-23): no per-(state,action) data. Codebook ban (2026-03-18): no cosine+attract.
+  Both crutches removed. Proposition 20: L(s) transfers negatively, D(s) could transfer positively.
+  R3_cf is the headline metric for all post-ban work. Forward models, Hebbian, reservoir, population, ensemble.
+  Steps 720-777 complete (Phase 2 wrap: SOTA baselines, killed family audit, R3 counterfactual, graph ban).
 Step 750 - K grows from entropy signal on LS20. L1=17/20 PASS. K_final avg=22.5 (range 19-24). Entropy never stabilized — measures sparsity, not collision. G-clearing → fresh entropy → K always grows to K_MAX. ~40K steps wasted in resets per seed. K_NAV cannot be derived from entropy.
 Step 751 - K grows from aliasing rate on LS20. L1≈14-16/20 (estimate). K_final range 16-24. alias_rate=0.28-0.43 even at K=24. Aliasing is STRUCTURAL in LS20 — 674 uses it by design. Cannot use aliasing rate to find natural K.
 Step 752 - K sweep K∈{4,6,8,10,12,16} on LS20 (10 seeds, 25s). K=4:2/10, K=6:7/10, K=8:8/10, K=10:8/10, K=12:9/10, K=16:10/10. Monotonically improves. Minimum sufficient K=6. K_NAV=12 is near-optimal (justified headroom, not arbitrary). K=16 leaves 1 seed on the table at K=12.
