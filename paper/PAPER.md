@@ -757,6 +757,35 @@ Self-directed attention (Proposition 17) operates on the encoding $\pi_s: X \to 
 
 **Caveat 4: T6 dissolution is theoretical.** The claim that U11 + U24 + U1 are dissolved by composite edge data has no empirical support yet. No substrate has implemented state-dependent edge-data composition. The dissolution is a prediction from Proposition 17 applied to action selection. Experiments E5 and D2 test this directly.
 
+### 4.9 R3 Counterfactual Requirement (Proposition 19)
+
+**Prior work:** Schmidhuber (2003) requires provably optimal self-improvement: the Gödel Machine rewrites its own code only when it can prove the rewrite increases expected utility. This is theoretically clean but practically intractable (Gödel's incompleteness limits provable improvements). The Darwin Gödel Machine (Sakana AI, 2025) relaxes provability to empirical improvement via evolutionary search on SWE-bench, achieving 20%→50% over 80 self-modification iterations. Off-policy evaluation (Oberst & Sontag 2019; review: Uehara et al. 2022, arXiv 2212.06355) formalizes counterfactual comparison between policies using structural causal models. Our R3 counterfactual is closest to the Darwin GM's empirical approach, but operates within R1 constraints (no external objective).
+
+**Our formalization:**
+
+**Proposition 19 (R3 Counterfactual Requirement).** Let $\mathcal{T}$ be a task distribution and $P(s, \tau)$ the performance of a substrate starting from state $s$ on task $\tau \in \mathcal{T}$. Let $s_0$ be the initial state and $s_N = F^N(s_0, x_{1:N})$ the state after $N$ steps of interaction. R3 requires:
+
+$$\mathbb{E}_{\tau \sim \mathcal{T}}[P(s_N, \tau)] > \mathbb{E}_{\tau \sim \mathcal{T}}[P(s_0, \tau)]$$
+
+That is: self-modification must produce state that outperforms the initial state on average across the task distribution, not just on the specific tasks encountered during modification.
+
+*R3_dynamic* (state change: $s_N \neq s_0$) is necessary but not sufficient. Both self-directed and random modification produce $s_N \neq s_0$ (Step 739: both score R3_dynamic=1.0). R3_counterfactual is the discriminator.
+
+**Relationship to prior work:**
+- Schmidhuber (2003): requires $\text{prove}(P(s_N) > P(s_0))$ before modification. Ours requires $\text{measure}(P(s_N) > P(s_0))$ after modification. Weaker (empirical, not provable) but testable.
+- Darwin GM (2025): uses test pass/fail as the performance metric — an external objective (R1 violation). Our R3_counterfactual uses task completion (environmental ground truth, R5-compliant).
+- Off-policy evaluation: estimates counterfactual performance from logged data via importance weighting. Our protocol uses direct comparison (run both $s_N$ and $s_0$ on the same task), which is simpler but requires re-execution.
+
+**Experimental result (Step 776, n=20, p<0.0001):** For the 674 substrate, $\mathbb{E}[P(s_N)] = 2899 < \mathbb{E}[P(s_0)] = 4054$ level completions across 500K test steps. R3_counterfactual: FAIL. The G graph stores WHERE the substrate has been (visit counts per state-action pair), producing negative transfer when tested on new environment seeds. Hypothesized mechanism: visit counts bias argmin away from actions common during pretraining — consistent with negative transfer in continual RL (ICLR 2025, arXiv 2403.05066) — but not experimentally isolated.
+
+**Implications:**
+1. R3_dynamic alone is a trivially satisfiable condition. Any non-stationary system passes it. R3_counterfactual is the meaningful test.
+2. The graph ban (post Step 777) is a consequence: per-(state, action) tracking produces negative counterfactual, so it cannot be part of an R3-compliant substrate.
+3. A forward model $\hat{f}: S \times A \to S$ that stores transition DYNAMICS rather than visit COUNTS could in principle produce positive counterfactual (dynamics generalize across environments; counts do not). This is the critical open question for post-ban work.
+4. The R3_counterfactual protocol (pretrain on task distribution A, test on task distribution B, compare to cold start on B) is implemented in the ConstitutionalJudge and can be applied to any BaseSubstrate.
+
+**Degrees of freedom:** The task distribution $\mathcal{T}$, the pretraining budget $N$, and the performance metric $P$ are all choices. Step 776 used $\mathcal{T}$ = LS20 with different environment seeds, $N$ = 25K steps, $P$ = level completion count. Whether positive counterfactual is achievable under ANY $(\mathcal{T}, N, P)$ for an R1-compliant substrate remains open.
+
 ## 5. Experimental Evidence
 
 ### 5.1 Navigation (720+ experiments)
