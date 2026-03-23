@@ -583,6 +583,53 @@ grows and reinforces; tubes that carry no flow eventually shrink but are
 never deleted. The structural trace of past encounters persists as a
 diameter pattern, readable by future flows.
 
+\subsubsection{2.15 Forward models, the noisy TV problem, and the graph
+ban}\label{forward-models-the-noisy-tv-problem-and-the-graph-ban}
+
+The graph ban (2026-03-23, post Step 777) removes per-(state, action)
+data structures --- the mechanism that made all tested navigation work.
+What remains? The dominant alternative in the literature is forward
+model exploration: build a model \(\hat{f}: S \times A \to S\) that
+predicts the next state, then navigate toward states where the model is
+uncertain (Schmidhuber 1991; Pathak et al.~2017; Burda et al.~2018).
+Recent world model approaches (DreamerV3: Hafner et al.~2023; Navigation
+World Models: Bar et al.~CVPR 2025) use learned forward models for
+planning in latent space.
+
+\textbf{The noisy TV problem} (Burda et al.~2018): uncertainty-seeking
+agents are attracted to stochastic transitions (maximum irreducible
+entropy) rather than novel learnable transitions. Our experiments
+confirm this independently: Steps 477-482 (6 targeted strategies all
+worse than argmin), Step 671 (splatter world model KILL --- death = max
+frame difference). Entropy-seeking drives the agent into lethal states
+because death transitions have maximum irreducible entropy.
+
+\textbf{The convergence problem} (U22): TemporalPrediction (Steps 437d+)
+converged ---
+\(\text{pred\_err} \to 0 \Rightarrow W \text{ frozen} \Rightarrow\)
+action locked. Any convergent forward model makes the environment
+stationary from the model's perspective, killing exploration. The model
+must maintain uncertainty to keep exploring --- but if it maintains
+uncertainty everywhere, it can't distinguish novel from noisy.
+
+\textbf{The R1 tension:} Forward model exploration typically uses
+prediction error as an intrinsic reward signal (Pathak et al.~2017).
+Under strict R1, any optimization signal --- even internally generated
+--- functions as an objective. Whether prediction-uncertainty-driven
+action selection violates R1 depends on interpretation: is it ``the
+substrate optimizes toward uncertain predictions'' (R1 violation) or
+``the substrate's dynamics happen to favor uncertain states'' (R1
+compliant)? This distinction --- between optimization and dynamics ---
+is the theoretical frontier for post-ban substrates.
+
+\textbf{Connection to Step 776 (R3 counterfactual FAIL):} The graph
+stored WHERE the substrate has been (visit counts), producing negative
+transfer when the destination changed. A forward model stores HOW things
+change (transition dynamics), which could generalize across environments
+--- the same physics applies in different rooms. Whether a forward
+model's state produces positive R3 counterfactual (warm \textgreater{}
+cold) is the critical open question for post-ban work.
+
 \textbf{The deepest connection:} In Physarum, the network IS both the
 memory AND the processor. There is no separate ``brain'' that interprets
 the network --- the tube topology IS the computation. CSE is performed
@@ -2520,6 +2567,83 @@ U24 + U1 are dissolved by composite edge data has no empirical support
 yet. No substrate has implemented state-dependent edge-data composition.
 The dissolution is a prediction from Proposition 17 applied to action
 selection. Experiments E5 and D2 test this directly.
+
+\subsubsection{4.9 R3 Counterfactual Requirement (Proposition
+19)}\label{r3-counterfactual-requirement-proposition-19}
+
+\textbf{Prior work:} Schmidhuber (2003) requires provably optimal
+self-improvement: the Gödel Machine rewrites its own code only when it
+can prove the rewrite increases expected utility. This is theoretically
+clean but practically intractable (Gödel's incompleteness limits
+provable improvements). The Darwin Gödel Machine (Sakana AI, 2025)
+relaxes provability to empirical improvement via evolutionary search on
+SWE-bench, achieving 20\%→50\% over 80 self-modification iterations.
+Off-policy evaluation (Oberst \& Sontag 2019; review: Uehara et
+al.~2022, arXiv 2212.06355) formalizes counterfactual comparison between
+policies using structural causal models. Our R3 counterfactual is
+closest to the Darwin GM's empirical approach, but operates within R1
+constraints (no external objective).
+
+\textbf{Our formalization:}
+
+\textbf{Proposition 19 (R3 Counterfactual Requirement).} Let
+\(\mathcal{T}\) be a task distribution and \(P(s, \tau)\) the
+performance of a substrate starting from state \(s\) on task
+\(\tau \in \mathcal{T}\). Let \(s_0\) be the initial state and
+\(s_N = F^N(s_0, x_{1:N})\) the state after \(N\) steps of interaction.
+R3 requires:
+
+\[\mathbb{E}_{\tau \sim \mathcal{T}}[P(s_N, \tau)] > \mathbb{E}_{\tau \sim \mathcal{T}}[P(s_0, \tau)]\]
+
+That is: self-modification must produce state that outperforms the
+initial state on average across the task distribution, not just on the
+specific tasks encountered during modification.
+
+\emph{R3\_dynamic} (state change: \(s_N \neq s_0\)) is necessary but not
+sufficient. Both self-directed and random modification produce
+\(s_N \neq s_0\) (Step 739: both score R3\_dynamic=1.0).
+R3\_counterfactual is the discriminator.
+
+\textbf{Relationship to prior work:} - Schmidhuber (2003): requires
+\(\text{prove}(P(s_N) > P(s_0))\) before modification. Ours requires
+\(\text{measure}(P(s_N) > P(s_0))\) after modification. Weaker
+(empirical, not provable) but testable. - Darwin GM (2025): uses test
+pass/fail as the performance metric --- an external objective (R1
+violation). Our R3\_counterfactual uses task completion (environmental
+ground truth, R5-compliant). - Off-policy evaluation: estimates
+counterfactual performance from logged data via importance weighting.
+Our protocol uses direct comparison (run both \(s_N\) and \(s_0\) on the
+same task), which is simpler but requires re-execution.
+
+\textbf{Experimental result (Step 776, n=20, p\textless0.0001):} For the
+674 substrate, \(\mathbb{E}[P(s_N)] = 2899 < \mathbb{E}[P(s_0)] = 4054\)
+level completions across 500K test steps. R3\_counterfactual: FAIL. The
+G graph stores WHERE the substrate has been (visit counts per
+state-action pair), producing negative transfer when tested on new
+environment seeds. Hypothesized mechanism: visit counts bias argmin away
+from actions common during pretraining --- consistent with negative
+transfer in continual RL (ICLR 2025, arXiv 2403.05066) --- but not
+experimentally isolated.
+
+\textbf{Implications:} 1. R3\_dynamic alone is a trivially satisfiable
+condition. Any non-stationary system passes it. R3\_counterfactual is
+the meaningful test. 2. The graph ban (post Step 777) is a consequence:
+per-(state, action) tracking produces negative counterfactual, so it
+cannot be part of an R3-compliant substrate. 3. A forward model
+\(\hat{f}: S \times A \to S\) that stores transition DYNAMICS rather
+than visit COUNTS could in principle produce positive counterfactual
+(dynamics generalize across environments; counts do not). This is the
+critical open question for post-ban work. 4. The R3\_counterfactual
+protocol (pretrain on task distribution A, test on task distribution B,
+compare to cold start on B) is implemented in the ConstitutionalJudge
+and can be applied to any BaseSubstrate.
+
+\textbf{Degrees of freedom:} The task distribution \(\mathcal{T}\), the
+pretraining budget \(N\), and the performance metric \(P\) are all
+choices. Step 776 used \(\mathcal{T}\) = LS20 with different environment
+seeds, \(N\) = 25K steps, \(P\) = level completion count. Whether
+positive counterfactual is achievable under ANY \((\mathcal{T}, N, P)\)
+for an R1-compliant substrate remains open.
 
 \subsection{5. Experimental Evidence}\label{experimental-evidence}
 
