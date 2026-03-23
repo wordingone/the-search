@@ -61,12 +61,14 @@ class ConstitutionalJudge:
             results["R4"] = self._check_r4(chain_results)
             results["R5"] = self._check_r5(sub, obs_dummy, n_audit_steps)
             results["R6"] = self._check_r6(substrate_cls, obs_dummy, n_audit_steps)
+            results["R3_counterfactual"] = self._check_r3_counterfactual(substrate_cls)
         except Exception as e:
             results["dynamic_error"] = str(e)
             results["R2"] = {"pass": None, "error": str(e)}
             results["R4"] = {"pass": None, "source": "dynamic_check_failed"}
             results["R5"] = {"pass": None, "error": str(e)}
             results["R6"] = {"pass": None, "error": str(e)}
+            results["R3_counterfactual"] = {"pass": None, "error": str(e)}
 
         results["chain"] = chain_results
         results["summary"] = self._summarize(results)
@@ -339,6 +341,98 @@ class ConstitutionalJudge:
             "ablations": ablations,
             "detail": f"{'PASS' if passed else 'FAIL'}: "
                       f"{sum(a['degraded'] for a in testable)}/{len(testable)} ablations degrade",
+        }
+
+    # ------------------------------------------------------------------
+    # R3 Counterfactual (Fix 3 — Leo directive 2026-03-23)
+    # ------------------------------------------------------------------
+    def _check_r3_counterfactual(self, substrate_cls: type,
+                                  n_pretrain: int = 500,
+                                  n_eval: int = 200) -> dict:
+        """R3 counterfactual: does pretraining on task T help performance on T?
+
+        Protocol:
+        1. Run substrate on task T for n_pretrain steps → save state S_N
+        2. reset() → run on T for n_eval steps → measure P_0 (action consistency)
+        3. set_state(S_N) → run on T for n_eval steps → measure P_N
+        4. PASS if P_N > P_0 (prior experience helps navigation)
+
+        Task T: 2-state deterministic sequence (obs_a, obs_b alternating).
+        Performance: action consistency in last 50 steps (same obs → same action).
+        Random baseline: 1/n_actions.
+
+        Requires set_state() on substrate. If not available: returns SKIP.
+        """
+        try:
+            sub = substrate_cls()
+        except Exception as e:
+            return {"pass": None, "detail": f"SKIP: cannot instantiate: {e}"}
+
+        # Check set_state() is available (required for Fix 5)
+        if not hasattr(sub, 'set_state') or not callable(getattr(sub, 'set_state')):
+            return {"pass": None, "detail": "SKIP: set_state() not implemented"}
+
+        n_actions = sub.n_actions
+        rng = np.random.RandomState(42)
+
+        # Create 2-state task T: two distinct obs that alternate
+        obs_a = rng.randn(64, 64, 3).astype(np.float32) * 0.5
+        obs_b = rng.randn(64, 64, 3).astype(np.float32) * 0.5
+        task_seq = [obs_a if i % 2 == 0 else obs_b for i in range(n_pretrain + n_eval)]
+
+        def _measure_consistency(sub_inst, seq):
+            """Fraction of matching (obs→action) in last 50 steps."""
+            last_50_a = []
+            last_50_b = []
+            for i, obs in enumerate(seq):
+                a = sub_inst.process(obs)
+                if i >= len(seq) - 50:
+                    if i % 2 == 0:
+                        last_50_a.append(a)
+                    else:
+                        last_50_b.append(a)
+            # Consistency = fraction of steps where action matches modal action
+            def modal_frac(lst):
+                if not lst:
+                    return 0.0
+                from collections import Counter
+                mode_count = Counter(lst).most_common(1)[0][1]
+                return mode_count / len(lst)
+            return (modal_frac(last_50_a) + modal_frac(last_50_b)) / 2
+
+        try:
+            # Step 1: pretrain for n_pretrain steps, save state
+            sub.reset(0)
+            for obs in task_seq[:n_pretrain]:
+                sub.process(obs)
+            state_pretrained = sub.get_state()
+
+            # Step 2: cold start — reset, run n_eval steps, measure P_0
+            sub.reset(0)
+            p0 = _measure_consistency(sub, task_seq[n_pretrain:n_pretrain + n_eval])
+
+            # Step 3: warm start — restore pretrained state, run n_eval steps, measure P_N
+            sub.reset(0)
+            sub.set_state(state_pretrained)
+            p_n = _measure_consistency(sub, task_seq[n_pretrain:n_pretrain + n_eval])
+
+        except Exception as e:
+            return {"pass": None, "detail": f"SKIP: error during counterfactual: {e}"}
+
+        random_baseline = 1.0 / max(n_actions, 1)
+        improvement = p_n - p0
+        passed = p_n > p0 and p_n > random_baseline + 0.1
+
+        return {
+            "pass": passed,
+            "P_cold": round(float(p0), 4),
+            "P_warm": round(float(p_n), 4),
+            "improvement": round(float(improvement), 4),
+            "random_baseline": round(float(random_baseline), 4),
+            "detail": (f"{'PASS' if passed else 'FAIL'}: "
+                       f"cold={p0:.3f} warm={p_n:.3f} "
+                       f"improvement={improvement:+.3f} "
+                       f"(random_baseline={random_baseline:.3f})"),
         }
 
     # ------------------------------------------------------------------

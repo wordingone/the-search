@@ -70,12 +70,30 @@ class PlainLSH(BaseSubstrate):
         return best_a
 
     def get_state(self) -> dict:
+        import copy
         return {
             "G_size": len(self.G),
             "live_count": len(self.live),
             "t": self.t,
             "H_nav": self.H_nav.copy(),
+            # Full state for set_state / R3 counterfactual
+            "G": copy.deepcopy(self.G),
+            "live": set(self.live),
+            "_pn": self._pn,
+            "_pa": self._pa,
+            "_cn": self._cn,
         }
+
+    def set_state(self, state: dict) -> None:
+        """Restore full internal state from get_state() snapshot."""
+        import copy
+        self.H_nav = state["H_nav"].copy()
+        self.G = copy.deepcopy(state["G"])
+        self.live = set(state["live"])
+        self.t = state["t"]
+        self._pn = state["_pn"]
+        self._pa = state["_pa"]
+        self._cn = state["_cn"]
 
     def frozen_elements(self) -> list:
         return [

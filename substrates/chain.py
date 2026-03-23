@@ -2,8 +2,10 @@
 chain.py — Chain benchmark runner.
 
 Sequences a substrate through multiple environments in order.
-Handles LS20/FT09/VC33 (ARC games) and CIFAR-100 (classification).
-5-minute cap per seed. Reports structured dict.
+Handles LS20/FT09/VC33 (ARC games), CIFAR-100, and any gymnasium env.
+
+Budget: n_steps is PRIMARY. elapsed is an efficiency metric, not a cap.
+Safety timeout = 10× expected time (prevents runaway, not a budget).
 """
 import time
 import numpy as np
@@ -11,16 +13,14 @@ import sys
 import os
 
 # LS20/FT09/VC33 action counts — detected at runtime from env._action_space
-# Current game version: 4 actions (changed from 68 in older versions)
-# chain.py detects actual action count from env rather than hardcoding.
 GAME_N_ACTIONS = {
     "LS20": 4,
     "FT09": 4,
     "VC33": 4,
 }
 
-PER_SEED_TIME = 300   # 5 minutes
 DEFAULT_STEPS = 10_000
+SAFETY_MULTIPLIER = 10   # safety timeout = 10× expected step time
 
 
 def _make_arc_env(game_name: str):
@@ -39,13 +39,18 @@ def _make_arc_env(game_name: str):
 
 
 class ArcGameWrapper:
-    """Wraps an ARC game env into a uniform interface for the chain runner."""
+    """Wraps an ARC game env into a uniform interface for the chain runner.
+
+    Budget: n_steps (primary). safety_timeout is a watchdog, not a budget.
+    """
 
     def __init__(self, game_name: str, n_steps: int = DEFAULT_STEPS,
-                 per_seed_time: float = PER_SEED_TIME):
+                 safety_timeout: float = 300.0,
+                 # Legacy compat: per_seed_time maps to safety_timeout
+                 per_seed_time: float = None):
         self.game_name = game_name
         self.n_steps = n_steps
-        self.per_seed_time = per_seed_time
+        self.safety_timeout = per_seed_time if per_seed_time is not None else safety_timeout
         self._factory = _make_arc_env(game_name)
         self._env = None
 
@@ -62,7 +67,9 @@ class ArcGameWrapper:
         t_start = time.time()
         fresh_episode = True  # skip first step for fresh_episode bug
 
-        while steps < self.n_steps and (time.time() - t_start) < self.per_seed_time:
+        while steps < self.n_steps:
+            if (time.time() - t_start) > self.safety_timeout:
+                break  # safety timeout only — not primary budget
             if obs is None:
                 obs = self._env.reset(seed=seed)
                 substrate.on_level_transition()
@@ -70,16 +77,12 @@ class ArcGameWrapper:
                 continue
 
             action = substrate.process(np.array(obs, dtype=np.float32))
-            # FIX 2026-03-23: Use substrate.n_actions for clamping, NOT len(_action_space).
-            # _action_space = [GameAction.ACTION6] for FT09/VC33 (1 element) is misleading —
-            # game accepts all GameAction values. util_arcagi3 now maps action_int via
-            # GameAction(action_int % 8). substrate.n_actions is the correct bound.
             obs, reward, done, info = self._env.step(action % substrate.n_actions)
             steps += 1
 
             if fresh_episode:
                 fresh_episode = False
-                continue  # skip first step for fresh_episode spurious level
+                continue
 
             cl = info.get('level', 0) if isinstance(info, dict) else 0
             if cl > level:
@@ -107,20 +110,91 @@ class ArcGameWrapper:
         }
 
 
+class GymWrapper:
+    """Wraps ANY gymnasium-compatible environment for the chain.
+
+    Handles Atari, CartPole, ProcGen, or any gym env.
+    No modality-specific code — raw obs passed directly to substrate.
+
+    Budget: n_steps (primary). safety_timeout is a watchdog.
+    """
+
+    def __init__(self, env_id: str, n_steps: int = DEFAULT_STEPS,
+                 safety_timeout: float = 300.0,
+                 obs_processor=None,
+                 frameskip: int = 1,
+                 # Legacy: per_seed_time maps to safety_timeout
+                 per_seed_time: float = None):
+        self.env_id = env_id
+        self.n_steps = n_steps
+        self.safety_timeout = per_seed_time if per_seed_time is not None else safety_timeout
+        self.obs_processor = obs_processor or (lambda x: np.array(x, dtype=np.float32) / 255.0
+                                                if np.array(x).max() > 1.0
+                                                else np.array(x, dtype=np.float32))
+        self.frameskip = frameskip
+
+    def run_seed(self, substrate, seed: int) -> dict:
+        import gymnasium as gym
+        import ale_py
+        gym.register_envs(ale_py)
+
+        env = gym.make(self.env_id, render_mode=None,
+                       frameskip=self.frameskip if self.frameskip > 1 else None)
+        n_actions = env.action_space.n if hasattr(env.action_space, 'n') else substrate.n_actions
+
+        substrate.reset(seed)
+        obs, info = env.reset(seed=seed)
+        steps = 0
+        total_reward = 0.0
+        unique_states = set()
+        t_start = time.time()
+
+        while steps < self.n_steps:
+            if (time.time() - t_start) > self.safety_timeout:
+                break  # safety watchdog
+            obs_proc = self.obs_processor(obs)
+            action = substrate.process(obs_proc) % n_actions
+            obs, reward, terminated, truncated, info = env.step(action)
+            total_reward += reward   # external measurement only — NOT passed to substrate (R1 mode)
+            steps += 1
+
+            if steps % 100 == 0:
+                h = hash(np.array(obs, dtype=np.float32).tobytes()[:64])
+                unique_states.add(h)
+
+            if terminated or truncated:
+                obs, info = env.reset(seed=seed)
+                substrate.on_level_transition()
+
+        env.close()
+        elapsed = time.time() - t_start
+        return {
+            "game": self.env_id,
+            "seed": seed,
+            "steps": steps,
+            "elapsed": round(elapsed, 2),
+            "total_reward": total_reward,
+            "unique_states": len(unique_states),
+            "l1": None,   # game-specific — caller sets threshold
+            "l2": None,
+        }
+
+
 class CIFARWrapper:
     """CIFAR-100 classification task as a chain environment.
 
-    Each 'episode' is one image. Action = class prediction (0-99).
-    L1 metric = rolling accuracy > 10% (better than random).
+    Budget: n_steps (primary). safety_timeout is a watchdog.
     """
 
     def __init__(self, n_steps: int = DEFAULT_STEPS,
-                 per_seed_time: float = PER_SEED_TIME,
-                 split: str = "test"):
+                 safety_timeout: float = 300.0,
+                 split: str = "test",
+                 # Legacy compat
+                 per_seed_time: float = None):
         self.n_steps = n_steps
-        self.per_seed_time = per_seed_time
+        self.safety_timeout = per_seed_time if per_seed_time is not None else safety_timeout
         self.split = split
-        self._data = None  # (images, labels) loaded lazily
+        self._data = None
 
     def _load(self):
         if self._data is not None:
@@ -139,7 +213,7 @@ class CIFARWrapper:
             labels = np.array([ds[i][1] for i in range(len(ds))], dtype=np.int32)
             self._data = (images, labels)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def run_seed(self, substrate, seed: int) -> dict:
@@ -167,8 +241,8 @@ class CIFARWrapper:
         t_start = time.time()
 
         for i, img_idx in enumerate(idx):
-            if (time.time() - t_start) >= self.per_seed_time:
-                break
+            if (time.time() - t_start) > self.safety_timeout:
+                break  # safety watchdog only
             obs = images[img_idx].astype(np.float32) / 255.0
             label = int(labels[img_idx])
             action = substrate.process(obs)
@@ -178,7 +252,6 @@ class CIFARWrapper:
             if len(window) > 100:
                 window.pop(0)
             steps += 1
-            # L1: rolling accuracy > 10% (2x random)
             if l1_step is None and len(window) >= 100:
                 if sum(window) / len(window) > 0.10:
                     l1_step = steps
@@ -202,21 +275,22 @@ class SplitCIFAR100Wrapper:
     20 sequential tasks, 5 classes per task (classes 0-4, 5-9, ..., 95-99).
     Standard CL metrics: avg accuracy + backward transfer.
 
-    R1 mode: substrate gets images, picks action (0-4 within each task),
-    no reward signal. External judge measures whether actions correlate
-    with true labels.
+    Budget: n_images_per_task × N_TASKS = total steps (primary).
+    safety_timeout is a watchdog for runaway substrates.
 
-    Compare against: DER++, EWC, iCaRL, A-GEM published results.
+    R1 mode: no reward or label signal to substrate.
     """
 
     N_TASKS = 20
     CLASSES_PER_TASK = 5
 
     def __init__(self, n_images_per_task: int = 500,
-                 per_seed_time: float = PER_SEED_TIME,
-                 split: str = "test"):
+                 safety_timeout: float = 300.0,
+                 split: str = "test",
+                 # Legacy compat
+                 per_seed_time: float = None):
         self.n_images_per_task = n_images_per_task
-        self.per_seed_time = per_seed_time
+        self.safety_timeout = per_seed_time if per_seed_time is not None else safety_timeout
         self.split = split
         self._data = None
 
@@ -235,14 +309,13 @@ class SplitCIFAR100Wrapper:
             images = np.array([np.array(ds[i][0]).transpose(1, 2, 0) * 255
                                 for i in range(len(ds))], dtype=np.uint8)
             labels = np.array([ds[i][1] for i in range(len(ds))], dtype=np.int32)
-            # Group by task (5 classes per task)
             tasks = []
             for t in range(self.N_TASKS):
                 class_start = t * self.CLASSES_PER_TASK
                 class_end = class_start + self.CLASSES_PER_TASK
                 mask = (labels >= class_start) & (labels < class_end)
                 task_images = images[mask]
-                task_labels = labels[mask] - class_start  # remap to 0-4
+                task_labels = labels[mask] - class_start
                 tasks.append((task_images, task_labels))
             self._data = tasks
             return True
@@ -269,8 +342,8 @@ class SplitCIFAR100Wrapper:
         substrate.reset(seed)
 
         for task_id in range(self.N_TASKS):
-            if (time.time() - t_start) >= self.per_seed_time:
-                break
+            if (time.time() - t_start) > self.safety_timeout:
+                break  # safety watchdog only
 
             task_images, task_labels = self._data[task_id]
             idx = rng.choice(len(task_images),
@@ -278,16 +351,12 @@ class SplitCIFAR100Wrapper:
                              replace=False)
             correct = 0
             for i in idx:
-                if (time.time() - t_start) >= self.per_seed_time:
-                    break
                 obs = task_images[i].astype(np.float32) / 255.0
                 action = substrate.process(obs) % self.CLASSES_PER_TASK
                 correct += int(action == task_labels[i])
 
             acc = correct / len(idx)
             task_accuracies.append(round(acc, 4))
-
-            # On task completion, signal level transition to substrate
             substrate.on_level_transition()
 
         # Backward transfer: re-evaluate task 0 after all tasks
@@ -312,7 +381,7 @@ class SplitCIFAR100Wrapper:
             "seed": seed,
             "steps": len(task_accuracies),
             "elapsed": round(elapsed, 2),
-            "l1": 1 if avg_acc and avg_acc > 0.05 else None,  # L1: above random (20%)
+            "l1": 1 if avg_acc and avg_acc > 0.05 else None,
             "l2": None,
             "task_accuracies": task_accuracies,
             "avg_accuracy": round(avg_acc, 4) if avg_acc else None,
@@ -321,97 +390,55 @@ class SplitCIFAR100Wrapper:
         }
 
 
-class AtariWrapper:
-    """Atari game wrapper — R1 mode (no reward signal to substrate).
+class AtariWrapper(GymWrapper):
+    """Atari wrapper — thin subclass of GymWrapper.
 
-    Start with Montezuma's Revenge: hardest exploration game, used as
-    canonical hard-exploration benchmark in RL literature.
-
-    Requires: gymnasium[atari] + ROM files.
-    If not available: raises ImportError with install instructions.
-
-    Standard comparison: Atari 100K (100K steps with reward). Our setup
-    is strictly harder — same step budget, no reward signal.
+    R1 mode: substrate never sees reward. total_reward is external measurement.
+    Default: Montezuma's Revenge (hardest exploration game).
     """
 
-    INSTALL_MSG = (
-        "Install: pip install gymnasium[atari] ale-py\n"
-        "ROMs: pip install 'autorom[accept-rom-license]'"
-    )
-
-    def __init__(self, game: str = "MontezumaRevenge-v4",
+    def __init__(self, game: str = "ALE/MontezumaRevenge-v5",
                  n_steps: int = 100_000,
-                 per_seed_time: float = PER_SEED_TIME,
-                 frame_skip: int = 4):
+                 safety_timeout: float = 300.0,
+                 frame_skip: int = 4,
+                 per_seed_time: float = None):
+        super().__init__(
+            env_id=game,
+            n_steps=n_steps,
+            safety_timeout=per_seed_time if per_seed_time is not None else safety_timeout,
+            frameskip=frame_skip,
+        )
         self.game = game
-        self.n_steps = n_steps
-        self.per_seed_time = per_seed_time
-        self.frame_skip = frame_skip
-        self._env = None
-
-    def _make_env(self):
-        try:
-            import gymnasium as gym
-            env = gym.make(self.game, obs_type="rgb",
-                           frameskip=self.frame_skip,
-                           render_mode=None)
-            return env
-        except ImportError:
-            raise ImportError(f"Atari not available.\n{self.INSTALL_MSG}")
 
     def run_seed(self, substrate, seed: int) -> dict:
-        env = self._make_env()
-        substrate.reset(seed)
-        obs, info = env.reset(seed=seed)
-        steps = 0
-        rooms_visited = set()
-        t_start = time.time()
-
-        while steps < self.n_steps and (time.time() - t_start) < self.per_seed_time:
-            from substrates.base import Observation
-            action = substrate.process(
-                Observation(data=np.array(obs, dtype=np.float32) / 255.0,
-                            modality="atari",
-                            metadata={"game": self.game, "step": steps})
-            )
-            action = action % env.action_space.n
-            obs, reward, terminated, truncated, info = env.step(action)
-            # NOTE: reward is NOT passed to substrate (R1 mode)
-            # reward is used only for external measurement
-            steps += 1
-            if "ram" in info:
-                rooms_visited.add(info["ram"][3])  # room byte in Montezuma
-            if terminated or truncated:
-                obs, info = env.reset(seed=seed)
-                substrate.on_level_transition()
-
-        env.close()
-        elapsed = time.time() - t_start
-        return {
-            "game": self.game,
-            "seed": seed,
-            "steps": steps,
-            "elapsed": round(elapsed, 2),
-            "l1": 1 if len(rooms_visited) > 1 else None,  # L1: visited >1 room
-            "l2": None,
-            "rooms_visited": len(rooms_visited),
-        }
+        result = super().run_seed(substrate, seed)
+        # L1: total_reward > 0 (got any reward in R1 mode without reward signal)
+        result["l1"] = 1 if result.get("total_reward", 0) > 0 else None
+        return result
 
 
 class ChainRunner:
-    """Runs a substrate through a sequence of (name, wrapper, n_steps) tasks."""
+    """Runs a substrate through a sequence of (name, wrapper) tasks.
 
-    def __init__(self, chain: list, n_seeds: int = 5,
-                 per_seed_time: float = PER_SEED_TIME, verbose: bool = True):
+    Budget is set per-wrapper (n_steps). ChainRunner enforces minimum n_seeds.
+    """
+
+    MIN_SEEDS = 10  # Fix 6: minimum seeds for any chain result
+
+    def __init__(self, chain: list, n_seeds: int = 10,
+                 verbose: bool = True,
+                 # Legacy compat
+                 per_seed_time: float = None):
         """
         chain: list of (name, wrapper_instance)
-        n_seeds: seeds per game
-        per_seed_time: max seconds per seed
+        n_seeds: seeds per game (minimum 10 per Fix 6)
         """
         self.chain = chain
-        self.n_seeds = n_seeds
-        self.per_seed_time = per_seed_time
+        self.n_seeds = max(n_seeds, self.MIN_SEEDS)
         self.verbose = verbose
+        if n_seeds < self.MIN_SEEDS:
+            print(f"[ChainRunner] n_seeds={n_seeds} < minimum {self.MIN_SEEDS}. "
+                  f"Using n_seeds={self.MIN_SEEDS}.")
 
     def run(self, substrate_cls: type, substrate_kwargs: dict = None) -> dict:
         """Run full chain. Returns structured results dict."""
@@ -429,55 +456,62 @@ class ChainRunner:
                 task_results.append(r)
                 if self.verbose:
                     l1 = r.get('l1')
-                    acc = r.get('accuracy')
-                    metric = f"acc={acc:.3f}" if acc is not None else f"l1={l1}"
+                    acc = r.get('accuracy') or r.get('avg_accuracy')
+                    reward = r.get('total_reward')
+                    if acc is not None:
+                        metric = f"acc={acc:.3f}"
+                    elif reward is not None:
+                        metric = f"reward={reward:.0f}"
+                    else:
+                        metric = f"l1={l1}"
                     print(f"  s{seed}: {metric} steps={r['steps']} t={r['elapsed']}s")
             results[name] = {
                 "seeds": task_results,
                 "l1_rate": sum(1 for r in task_results if r.get('l1')) / self.n_seeds,
                 "l2_rate": sum(1 for r in task_results if r.get('l2')) / self.n_seeds,
                 "avg_steps": np.mean([r['steps'] for r in task_results]),
+                "mean_elapsed": np.mean([r['elapsed'] for r in task_results]),
             }
             if self.verbose:
-                print(f"  L1={results[name]['l1_rate']:.0%} L2={results[name]['l2_rate']:.0%}")
+                print(f"  L1={results[name]['l1_rate']:.0%} "
+                      f"avg_t={results[name]['mean_elapsed']:.1f}s")
 
         return results
 
 
 def make_standard_chain(n_steps: int = DEFAULT_STEPS,
-                        per_seed_time: float = PER_SEED_TIME) -> list:
-    """Standard chain with established benchmarks.
-    Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100 (backward transfer).
-    Split-CIFAR-100 is the standard CL benchmark (comparable to DER++/EWC/iCaRL).
+                        safety_timeout: float = 300.0) -> list:
+    """Standard chain: Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100.
+
+    n_steps: primary step budget per env (not time).
+    safety_timeout: watchdog (not primary budget).
     """
     return [
-        ("Split-CIFAR-100-before", SplitCIFAR100Wrapper(500, per_seed_time)),
-        ("LS20", ArcGameWrapper("LS20", n_steps, per_seed_time)),
-        ("FT09", ArcGameWrapper("FT09", n_steps, per_seed_time)),
-        ("VC33", ArcGameWrapper("VC33", n_steps, per_seed_time)),
-        ("Split-CIFAR-100-after", SplitCIFAR100Wrapper(500, per_seed_time)),
+        ("Split-CIFAR-100-before", SplitCIFAR100Wrapper(500, safety_timeout)),
+        ("LS20", ArcGameWrapper("LS20", n_steps, safety_timeout)),
+        ("FT09", ArcGameWrapper("FT09", n_steps, safety_timeout)),
+        ("VC33", ArcGameWrapper("VC33", n_steps, safety_timeout)),
+        ("Split-CIFAR-100-after", SplitCIFAR100Wrapper(500, safety_timeout)),
     ]
 
 
 def make_default_chain(n_steps: int = DEFAULT_STEPS,
-                       per_seed_time: float = PER_SEED_TIME) -> list:
-    """Standard chain: CIFAR-100 → LS20 → FT09 → VC33 → CIFAR-100.
-    CIFAR-100 entries are optional (skipped if not available).
-    """
+                       safety_timeout: float = 300.0) -> list:
+    """Legacy chain: CIFAR-100 → LS20 → FT09 → VC33 → CIFAR-100."""
     return [
-        ("CIFAR-100-before", CIFARWrapper(n_steps, per_seed_time)),
-        ("LS20", ArcGameWrapper("LS20", n_steps, per_seed_time)),
-        ("FT09", ArcGameWrapper("FT09", n_steps, per_seed_time)),
-        ("VC33", ArcGameWrapper("VC33", n_steps, per_seed_time)),
-        ("CIFAR-100-after", CIFARWrapper(n_steps, per_seed_time)),
+        ("CIFAR-100-before", CIFARWrapper(n_steps, safety_timeout)),
+        ("LS20", ArcGameWrapper("LS20", n_steps, safety_timeout)),
+        ("FT09", ArcGameWrapper("FT09", n_steps, safety_timeout)),
+        ("VC33", ArcGameWrapper("VC33", n_steps, safety_timeout)),
+        ("CIFAR-100-after", CIFARWrapper(n_steps, safety_timeout)),
     ]
 
 
 def make_game_only_chain(n_steps: int = DEFAULT_STEPS,
-                         per_seed_time: float = PER_SEED_TIME) -> list:
-    """Chain without CIFAR-100, for substrates tuned to game environments."""
+                         safety_timeout: float = 300.0) -> list:
+    """Chain without CIFAR-100."""
     return [
-        ("LS20", ArcGameWrapper("LS20", n_steps, per_seed_time)),
-        ("FT09", ArcGameWrapper("FT09", n_steps, per_seed_time)),
-        ("VC33", ArcGameWrapper("VC33", n_steps, per_seed_time)),
+        ("LS20", ArcGameWrapper("LS20", n_steps, safety_timeout)),
+        ("FT09", ArcGameWrapper("FT09", n_steps, safety_timeout)),
+        ("VC33", ArcGameWrapper("VC33", n_steps, safety_timeout)),
     ]

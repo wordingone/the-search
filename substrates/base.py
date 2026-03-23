@@ -81,6 +81,20 @@ class BaseSubstrate(ABC):
         Must set all mutable state to initial conditions.
         """
 
+    @abstractmethod
+    def set_state(self, state: dict) -> None:
+        """Restore internal state from dict (inverse of get_state()).
+
+        Required for R3 counterfactual measurement:
+          1. Run N steps → save state S_N = get_state()
+          2. Reset → run M steps cold → measure P_0
+          3. set_state(S_N) → run M steps → measure P_N
+          4. R3_counterfactual = P_N > P_0
+
+        Implementation: restore every mutable field from state dict.
+        State dict keys must match those returned by get_state().
+        """
+
     @property
     @abstractmethod
     def n_actions(self) -> int:

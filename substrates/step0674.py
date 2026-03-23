@@ -139,16 +139,50 @@ class TransitionTriggered674(BaseSubstrate):
         return action
 
     def get_state(self) -> dict:
+        import copy
         return {
+            # Summary stats (for logging)
             "G_size": len(self.G),
             "G_fine_size": len(self.G_fine),
             "aliased_count": len(self.aliased),
             "live_count": len(self.live),
             "ref_count": len(self.ref),
             "t": self.t,
+            # Full state (for set_state / R3 counterfactual)
             "H_nav": self.H_nav.copy(),
             "H_fine": self.H_fine.copy(),
+            "G": copy.deepcopy(self.G),
+            "G_fine": copy.deepcopy(self.G_fine),
+            "C": copy.deepcopy(self.C),
+            "ref": copy.deepcopy(self.ref),
+            "live": set(self.live),
+            "aliased": set(self.aliased),
+            "_pn": self._pn,
+            "_pa": self._pa,
+            "_px": self._px.copy() if self._px is not None else None,
+            "_pfn": self._pfn,
+            "_cn": self._cn,
+            "_fn": self._fn,
         }
+
+    def set_state(self, state: dict) -> None:
+        """Restore full internal state from get_state() snapshot."""
+        import copy
+        self.H_nav = state["H_nav"].copy()
+        self.H_fine = state["H_fine"].copy()
+        self.G = copy.deepcopy(state["G"])
+        self.G_fine = copy.deepcopy(state["G_fine"])
+        self.C = copy.deepcopy(state["C"])
+        self.ref = copy.deepcopy(state["ref"])
+        self.live = set(state["live"])
+        self.aliased = set(state["aliased"])
+        self.t = state["t"]
+        self._pn = state["_pn"]
+        self._pa = state["_pa"]
+        self._px = state["_px"].copy() if state["_px"] is not None else None
+        self._pfn = state["_pfn"]
+        self._cn = state["_cn"]
+        self._fn = state["_fn"]
 
     def frozen_elements(self) -> list:
         return [
