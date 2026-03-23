@@ -136,7 +136,8 @@ Step 800 FT09 - Per-action change tracking. ALL 68 actions converge to delta=0.0
   80% argmax(delta_per_action) + 20% random. Control: seed=0 327/seed, seed=1 261/seed, seed=2 237/seed, seed=3 377/seed. ALL above random (36.4). Robust.
   L1 R3_cf: INCONSISTENT (2/4 seeds pass, 2/4 warm hurts). Warm transfer direction depends on substrate seed.
   Mechanism: learn which action produces most observation change, use it 80%. On LS20, movement = change → navigates.
-  NOT an R3 finding (no self-modification transfer). Standalone navigation heuristic. LS20-specific (FT09 pending).
+  NOT an R3 finding (no self-modification transfer). Standalone navigation heuristic.
+Step 800b FT09 - L1=0 (confirmed). Delta IS differentiated (0.586-0.776, not uniform like Step 800) — epsilon random creates enough variation. But differentiation doesn't identify productive clicks (position-dependent signal). FT09 remains at floor for all post-ban mechanisms.
 **DEEPEST FINDING (session 888 sprint): Navigation is a per-state problem. Productive actions depend on which state you're in. Without per-state tracking (graph ban), substrates can only learn GLOBAL dynamics — which don't tell you what to do from the current state. Global dynamics ≠ local navigation. This is the structural explanation for why D(s) transfers (global dynamics generalize) but doesn't improve navigation (which requires local, per-state action selection).**
 Step 806v2 FT09 — INCONCLUSIVE. cold=0, warm=0. Pred: cold 90.2% warm 99.9% (uninformative — static background).
 Step 780_fam LS20 — L1=0. Pred PASS (cold 26.7% → warm 32.3%). Go-home policy doesn't navigate.
