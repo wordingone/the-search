@@ -1,0 +1,86 @@
+======================================================================
+STEP 920b — GRAPH+ARGMIN WITH 6 BASELINE ACTIONS (FT09)
+======================================================================
+Baseline actions: [17, 19, 15, 21, 65, 26]
+6^7 = 279,936 sequences (tractable?). Compare: 68^7 ≈ 10^12 (920 got 0/10)
+2026-03-23 09:28:36 | INFO | Got anonymous API key: e7bef4f2-6a7e-434d-9359-7bdd6a69b630
+2026-03-23 09:28:36 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:28:37 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:28:37 | INFO | Created new scorecard: fcdb804c-4086-43bc-ac84-fe6b3ebde9fd
+2026-03-23 09:28:37 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:28:37 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=1: L1=   0  unique_states=84
+2026-03-23 09:28:44 | INFO | Got anonymous API key: 82b70b62-027d-4193-89cc-0bc22758fdb4
+2026-03-23 09:28:44 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:28:44 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:28:44 | INFO | Created new scorecard: 1685b818-4701-416a-9257-4b9b24f6e785
+2026-03-23 09:28:44 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:28:44 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=2: L1=   0  unique_states=83
+2026-03-23 09:28:51 | INFO | Got anonymous API key: 012c9bd5-c321-443c-83e6-1760c30e8ff2
+2026-03-23 09:28:51 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:28:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:28:51 | INFO | Created new scorecard: 1f3542a8-ebc4-45e2-b2d3-6b32754f9764
+2026-03-23 09:28:51 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:28:51 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=3: L1=   0  unique_states=102
+2026-03-23 09:28:58 | INFO | Got anonymous API key: 91eb5d4a-cb6b-467a-98b4-f5208de6a07a
+2026-03-23 09:28:58 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:28:59 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:28:59 | INFO | Created new scorecard: 96dc0af8-a352-4b18-9220-e48daeaef7f2
+2026-03-23 09:28:59 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:28:59 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=4: L1=   0  unique_states=76
+2026-03-23 09:29:06 | INFO | Got anonymous API key: 0a5ae44e-e618-4ffb-9e12-46f0d159e1da
+2026-03-23 09:29:06 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:06 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:06 | INFO | Created new scorecard: 0decce9e-b813-455c-9e42-45cc5af7eed4
+2026-03-23 09:29:06 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:06 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=5: L1=   0  unique_states=70
+2026-03-23 09:29:13 | INFO | Got anonymous API key: 948e3c32-a866-43b4-bf59-a4342623ca11
+2026-03-23 09:29:13 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:13 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:13 | INFO | Created new scorecard: cdc2b8b6-739b-44ad-b927-d568f6588cf0
+2026-03-23 09:29:13 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:13 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=6: L1=   0  unique_states=81
+2026-03-23 09:29:20 | INFO | Got anonymous API key: 2995c12f-2ff6-4080-a47c-c3512251e17a
+2026-03-23 09:29:20 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:20 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:20 | INFO | Created new scorecard: 5834092f-5313-4c67-88ec-323df63bbed1
+2026-03-23 09:29:20 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:20 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=7: L1=   0  unique_states=81
+2026-03-23 09:29:27 | INFO | Got anonymous API key: 43775afb-cc16-401e-9ff7-8d038aa1239e
+2026-03-23 09:29:27 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:27 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:27 | INFO | Created new scorecard: 1006601d-ecb3-4895-9111-8f3c12af3f75
+2026-03-23 09:29:28 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:28 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=8: L1=   0  unique_states=107
+2026-03-23 09:29:35 | INFO | Got anonymous API key: ec445b33-0ba0-4b30-89a3-b7aed6b5ee5d
+2026-03-23 09:29:35 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:35 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:35 | INFO | Created new scorecard: b7a431ea-74bd-4f84-aa8f-754cbf2412c5
+2026-03-23 09:29:35 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:35 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=9: L1=   0  unique_states=78
+2026-03-23 09:29:42 | INFO | Got anonymous API key: c6df7abd-28df-4955-b9e9-0c90a2183deb
+2026-03-23 09:29:42 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:29:42 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:29:42 | INFO | Created new scorecard: a7935ff1-3407-416e-a9b0-471e0f8944fc
+2026-03-23 09:29:42 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:29:42 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=10: L1=   0  unique_states=102
+
+======================================================================
+STEP 920b RESULTS (graph+argmin, 6 baseline actions):
+  FT09: L1=0.0/seed  std=0.0  zero=10/10
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Comparison:
+  920  graph+argmin 68 actions: L1=0.0/seed  10/10 zeros
+  920b graph+argmin  6 actions: L1=0.0/seed  10/10 zeros
+Total elapsed: 73.2s
+STEP 920b DONE
