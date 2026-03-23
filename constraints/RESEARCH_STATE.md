@@ -80,7 +80,9 @@ BATCH 3 RESULTS (Steps 740-749):
   E2 (746): Non-argmin selectors on 674. argmin=5/10, epsilon(0.1)=5/10, random=4/10, softmax(T=1)=3/10. **ARGMIN LOAD-BEARING** — not interchangeable. Compare Step 653 (plain k=12): argmin=random=3/20. With 674 perception: argmin pulls ahead. Perception quality UNLOCKS the argmin advantage. Prop 15 nuanced, not falsified.
   E3 (747): VC33 action diagnostic. All 7 actions equally distributed (72-120 edges each). Edge entropy=0.06-0.12. avgpool16 creates flat hash space — canal lock needs spatial discrimination that random hyperplanes can't provide.
   E5 (749): Composite edge (visits + λ=1.0 deaths). L1=11/20 KILL. Deaths=197.1. Even λ=1.0 hurts. Death penalty at ANY weight disrupts exploration geometry. Confirms U28 + D2 pattern.
-  Still running: B9 (738, D1+D3+D5 combined chain), D5 (744, frontier meta-graph), E4 (748, raw 64x64 vs avgpool16).
+  B9 (738): D1+D3+D5 combined chain. Static R3: M=5, I=3, U=3. CIFAR BWT=+0.007. LS20/FT09/VC33: l1=None, R3_dyn=1.0. Channel weights adapted (ch0=1.0, ch1/2=0.05 — D1 works). But alpha collapsed 2.0→0.10 (D5 kills). **D5 permanently excluded.** Best combination = B8 (D1+D3 only).
+  Still running: D5 (744, frontier meta-graph), E4 (748, raw 64x64 vs avgpool16).
+  Batch 4 specs sent (Steps 750-759): argmin perception-gating, R4 freeze-ablation, K_dynamic (U→M), channel weight dynamics, adaptive REFINE_EVERY, B8+Recode combined, R4 metric, non-argmin at 20 seeds.
 BATCH 3 SYNTHESIS:
   1. Argmin is I (irreducible), not just invariant. Cannot be replaced by stochastic policy. But argmin advantage requires good perception (Step 653 vs E2).
   2. Death penalties universally damage navigation (D2, E5). Visits-only is the correct argmin signal. DEATH_COST frozen element should be removed, not made adaptive.
