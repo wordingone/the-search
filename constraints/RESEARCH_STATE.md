@@ -123,11 +123,14 @@ Step 807-FT09 - Random baseline FT09 (68 actions, 25K). L1=0. FT09 NOT navigable
 Step 780-FT09 - Prediction-contrast on FT09. L1=0. Pred accuracy: cold 99.76% warm 99.98% — UNINFORMATIVE (static background → trivial prediction). Prediction-contrast blind on FT09.
 FINDING: FT09 has a DIFFERENT problem than LS20. Static background = trivial prediction = prediction signals uninformative. FT09 needs per-action change detection (which of 68 actions produce observation changes?). Step 800 (global per-action delta tracking) is the FT09 mechanism.
 FINDING: 856 shows NEGATIVE prediction transfer — entropy-maximizing actions create diverse unstructured trajectories that hurt forward model learning. D(s) transfer depends on action mechanism creating LEARNABLE trajectories.
-**Step 806v2 LS20 — FIRST L1 R3_cf PASS. cold=0, warm=390 (78/seed). Fisher p=0.0000.**
+**Step 806v2 LS20 — L1 R3_cf RETRACTED. Was seed-0 artifact.**
   80% random + 20% argmax predicted change + delta rule W.
-  Mechanism: warm W breaks cold W's action-0 tie-breaking bias → adds diversity to the 20% W-guided actions → balanced persistence + diversity → navigates.
-  CAVEAT: warm=78 identical across ALL 5 test seeds (substrate_seed=0 artifact). The mechanism is "warm W differentiates actions" (shallow learning), not "warm W learned LS20 dynamics" (deep learning). Control with substrate_seeds 1,2,3 needed.
-  Pred R3_cf: ALSO PASS (cold 21.3% → warm 29.7%). DOUBLE PASS.
+  seed=0: cold=0, warm=390 (original claim). seed=1: cold=0, warm=0. seed=2: cold=0, warm=0. seed=3: cold=315, warm=0 (warm HURTS).
+  **L1 PASS was substrate_seed=0 artifact.** Control with seeds 1-3 shows no consistent improvement. Warm can HURT (seed=3: cold=315→warm=0).
+  Pred R3_cf: STILL PASS across all seeds (cold 21-25%, warm 26-30%). D(s) prediction transfer is robust. L1 navigation transfer is NOT.
+Step 800 LS20 - Per-action change tracking (argmax delta). L1=0. ACTION COLLAPSE (same as 855). argmax converges to one direction. Need epsilon variant.
+Step 809 FT09 - Action cycling (68 actions). L1=0. Hash collisions prevent systematic coverage. FT09 may require multi-click sequences.
+**FINDING (806v2 control + step800): NO post-ban mechanism produces consistent L1 improvement over random on LS20 or FT09.** D(s) prediction transfer is confirmed (robust across 4 substrate seeds). Navigation transfer does not exist in any tested post-ban substrate. The gap is structural.
 Step 806v2 FT09 — INCONCLUSIVE. cold=0, warm=0. Pred: cold 90.2% warm 99.9% (uninformative — static background).
 Step 780_fam LS20 — L1=0. Pred PASS (cold 26.7% → warm 32.3%). Go-home policy doesn't navigate.
 Step 812 - Cross-game transfer LS20→FT09. Pred PASS (+7.93%). BUT: W didn't transfer (shape mismatch 260 vs 324 cols — different n_actions). Only running_mean transferred. The +7.93% is observation distribution similarity, not dynamics transfer. Proper cross-game W transfer needs matching action spaces.

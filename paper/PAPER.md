@@ -1079,8 +1079,8 @@ Forward model W (delta rule, not Hebbian) trained on LS20 seeds 1-5 predicts bet
 
 **Negative findings (2/7 FAIL):** Step 856 (state entropy): warm DEGRADES prediction (cold 53% → warm 26%). Entropy-maximizing actions create unstructured trajectories that hurt forward model learning. Step 840 (anti-pheromone): FAIL. Not all action mechanisms produce learnable trajectories.
 
-**L1 navigation transfer — one candidate (Step 806v2, pending control):**
-806v2 (80% random + 20% prediction-contrast): cold=0, warm=78/seed ($p \approx 0$). First L1 R3_cf PASS. Mechanism: warm W breaks cold W's action-0 tie-breaking bias, adding productive diversity to the 20% W-guided actions. **Caveat:** warm=78 identical across all test seeds (substrate\_seed=0 artifact). The mechanism is shallow (action differentiation, not dynamics understanding). Control with varied substrate seeds pending.
+**L1 navigation transfer — ZERO confirmed (Step 806v2 retracted):**
+806v2 (80% random + 20% prediction-contrast): original claim cold=0, warm=78/seed ($p \approx 0$) with substrate\_seed=0. **RETRACTED after control:** seed=1 warm=0, seed=2 warm=0, seed=3 cold=315 warm=0 (warm HURTS). The L1 PASS was a substrate\_seed=0 artifact. Prediction accuracy R3_cf remains PASS across all seeds (cold 21-25%, warm 26-30%). **No post-ban mechanism produces consistent L1 improvement over random on any tested game.** D(s) prediction transfer is real; navigation transfer is not.
 
 **Compression progress action collapse (Step 855):** 0 L1. The compression progress gradient creates action collapse (U22 variant) — the substrate locks onto a single action with the highest learning rate. Epsilon-compression (80/20) fixes the collapse but still achieves 0 L1 on LS20.
 
