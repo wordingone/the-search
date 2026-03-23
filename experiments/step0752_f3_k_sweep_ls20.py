@@ -105,7 +105,6 @@ def run_674_with_k(k_nav, n_seeds, seed_base, per_seed_time):
                         continue
                     ref[n] = (diff / nm).astype(np.float32)
                     live.discard(n)
-                    nonlocal did
                     did += 1
                     if did >= 3:
                         break
