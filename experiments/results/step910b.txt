@@ -1,0 +1,90 @@
+======================================================================
+STEP 910b — ALPHA-WEIGHTED COMPRESSION PROGRESS ON FT09
+======================================================================
+68 click actions. Compression progress should discover correct click order.
+Hypothesis: right tile click → learnable transition → delta_E > 0.
+Wrong tile click → random transition → delta_E ≈ 0.
+Kill check: delta_E_range after 5K steps.
+25K steps, 10 seeds cold, substrate_seed=seed.
+2026-03-23 08:25:42 | INFO | Got anonymous API key: cf0444ad-ca7a-4db9-9dde-baa83098fa9b
+2026-03-23 08:25:42 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:25:42 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:25:42 | INFO | Created new scorecard: f90a9690-bb54-4169-8d5f-5a65422ccfdc
+2026-03-23 08:25:42 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:25:42 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=1: L1=   0  alpha_top=[60, 51, 59]  delta_E_range=592.4902  delta_E_top5=[52, 10, 15, 35, 49]  early_range@5K=130.9634
+2026-03-23 08:25:55 | INFO | Got anonymous API key: 8e21bb96-52a4-4633-81bb-9460765f4259
+2026-03-23 08:25:55 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:25:55 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:25:55 | INFO | Created new scorecard: 3c5fc76c-ec0f-49e2-bdaf-991e87e91860
+2026-03-23 08:25:55 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:25:55 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=2: L1=   0  alpha_top=[60, 51, 52]  delta_E_range=593.1342  delta_E_top5=[37, 17, 25, 50, 59]  early_range@5K=142.8247
+2026-03-23 08:26:09 | INFO | Got anonymous API key: 6623cb16-db7c-4581-af6f-76320d9d4620
+2026-03-23 08:26:09 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:26:09 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:26:09 | INFO | Created new scorecard: 27267cb4-c584-4b23-a56f-5bcd2071a481
+2026-03-23 08:26:09 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:26:09 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=3: L1=   0  alpha_top=[60, 51, 59]  delta_E_range=566.7478  delta_E_top5=[1, 17, 50, 38, 2]  early_range@5K=88.6121
+2026-03-23 08:26:23 | INFO | Got anonymous API key: 16952fa7-0777-4626-854c-0af95c455498
+2026-03-23 08:26:23 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:26:23 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:26:23 | INFO | Created new scorecard: 9f3022b0-97f3-4414-82c1-8a443c1cfc51
+2026-03-23 08:26:23 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:26:23 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=4: L1=   0  alpha_top=[60, 51, 59]  delta_E_range=739.4899  delta_E_top5=[19, 62, 41, 4, 18]  early_range@5K=124.1620
+2026-03-23 08:26:37 | INFO | Got anonymous API key: a5708b06-7472-4969-96a2-d8d61990b266
+2026-03-23 08:26:37 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:26:37 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:26:37 | INFO | Created new scorecard: 0ec8a0ab-6d12-4932-8cb6-042307999243
+2026-03-23 08:26:37 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:26:37 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=5: L1=   0  alpha_top=[60, 51, 52]  delta_E_range=779.8458  delta_E_top5=[48, 67, 22, 56, 50]  early_range@5K=166.6334
+2026-03-23 08:26:50 | INFO | Got anonymous API key: ea450e87-cb86-46a8-a113-d6dae403ee9e
+2026-03-23 08:26:50 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:26:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:26:51 | INFO | Created new scorecard: 933bf03b-2373-4e52-b645-d0888d1a722c
+2026-03-23 08:26:51 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:26:51 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=6: L1=   0  alpha_top=[60, 51, 52]  delta_E_range=783.2018  delta_E_top5=[27, 30, 63, 57, 53]  early_range@5K=179.5278
+2026-03-23 08:27:05 | INFO | Got anonymous API key: d4684166-e198-4ad8-9328-1750db6aa930
+2026-03-23 08:27:05 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:27:05 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:27:05 | INFO | Created new scorecard: 5b28f18c-76b5-4521-9108-98b95193c993
+2026-03-23 08:27:05 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:27:05 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=7: L1=   0  alpha_top=[60, 51, 59]  delta_E_range=539.3397  delta_E_top5=[11, 6, 51, 18, 29]  early_range@5K=111.5102
+2026-03-23 08:27:19 | INFO | Got anonymous API key: abe27129-87a6-4f6b-8de0-944c4cfb27da
+2026-03-23 08:27:19 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:27:19 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:27:19 | INFO | Created new scorecard: f10cbfca-c1ac-44bf-89c2-a8e069dbeafb
+2026-03-23 08:27:19 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:27:19 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=8: L1=   0  alpha_top=[244, 243, 242]  delta_E_range=214.8027  delta_E_top5=[27, 11, 21, 65, 29]  early_range@5K=31.1266
+2026-03-23 08:27:33 | INFO | Got anonymous API key: b32a396b-ba47-4002-b56d-1cf75c2d94c3
+2026-03-23 08:27:33 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:27:33 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:27:33 | INFO | Created new scorecard: 6488a079-3107-4b07-a63f-18f5397f3235
+2026-03-23 08:27:33 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:27:33 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=9: L1=   0  alpha_top=[245, 246, 247]  delta_E_range=162.1567  delta_E_top5=[28, 10, 64, 37, 29]  early_range@5K=15.6839
+2026-03-23 08:27:47 | INFO | Got anonymous API key: f7e70bc4-8275-4691-9aa8-e62b007c70c4
+2026-03-23 08:27:47 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:27:47 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:27:47 | INFO | Created new scorecard: 83ec5952-d4e4-4ce3-856e-a1ed00d902cd
+2026-03-23 08:27:47 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:27:47 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  seed=10: L1=   0  alpha_top=[60, 51, 52]  delta_E_range=467.4777  delta_E_top5=[59, 46, 28, 53, 7]  early_range@5K=78.8964
+
+FT09 910b cold: L1=0.0/seed  std=0.0  zero=10/10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      alpha_conc=13.18  delta_E_range=543.8686
+
+Comparison:
+  895f cold (change-track, 25K):  L1=0.0/seed  zero=10/10  ← baseline
+  910b cold (compression, 25K):   L1=0.0/seed  std=0.0  zero=10/10
+  Actions differentiate but L1=0. Bottleneck persists.
+
+Total elapsed: 138.9s
+STEP 910b DONE
