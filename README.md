@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-777 experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). No R3-compliant substrate found. The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, and a novel R3 counterfactual metric for measuring whether self-modification produces transferable knowledge.
+777+ experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). No R3-compliant substrate found. Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms, forcing the search into genuinely new territory. The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, an R3 counterfactual metric, and a state decomposition theorem (Proposition 20) characterizing when accumulated state helps vs hurts.
 
 ## Results (honest)
 
@@ -18,19 +18,19 @@ Can a system improve itself by criteria it generates?
 | Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most games at/below random |
 
 **Key findings:**
-- Navigation is solved by a trivial mechanism (graph + argmin). Not intelligence.
+- Navigation is solved by a trivial mechanism (graph + argmin). Not intelligence. **Now banned.**
 - Classification = chance without labels. The R1 floor.
-- Zero cross-domain transfer. The substrate accumulates but doesn't learn.
-- Anti-forgetting (BWT>0) is a property of growth-only graphs, not a learned capability.
-- Argmin is load-bearing (14/20 vs random 6/20, n=20). Any stochasticity degrades.
-- R3 metric can't distinguish useful from random self-modification without counterfactual.
+- Zero cross-domain transfer. The substrate accumulates location, not knowledge.
+- R3 counterfactual FAIL: pretraining hurts (cold > warm, p<0.0001). Visit counts bias exploration.
+- Proposition 20: location-dependent state (visit counts) transfers negatively; dynamics-dependent state (forward models) could transfer positively. Post-ban substrates must store dynamics, not location.
+- Argmin was load-bearing (14/20 vs random 6/20, n=20). **Now banned.** Post-ban action selection is the open problem.
 
 ## Structure
 
 ```
 paper/           Research paper (PDF + source)
 constraints/     Constraint map (CONSTRAINTS.md), constitution (R1-R6), experiment log
-experiments/     770+ experiment scripts (chronological, Steps 1-777)
+experiments/     777+ experiment scripts (chronological, Steps 1-888)
 substrates/      Active substrate code:
   base.py          BaseSubstrate interface (5 methods)
   step0674.py      Reference substrate (transition-triggered dual-hash)
@@ -86,7 +86,7 @@ Six rules for recursive self-improvement (R1-R6):
 | R5 | One fixed ground truth | Only environmental signals (death, level transitions) |
 | R6 | No deletable parts | Every component behaviorally load-bearing |
 
-**R3 is the wall.** 0/770 substrates pass. The constraint map characterizes why.
+**R3 is the wall.** 0/777 substrates pass. The constraint map characterizes why. Two bans (codebook + graph) remove both tested mechanisms that satisfy other rules, forcing the search toward genuinely self-modifying architectures.
 
 ## Citation
 
