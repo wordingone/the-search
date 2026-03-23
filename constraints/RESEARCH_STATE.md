@@ -57,9 +57,11 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 938 spec'd. Steps 933-937 exhausted 800b-variant family. Step 938 = NEW FAMILY (novelty-reactive).
-DIRECTION (2026-03-23, REVISED post-birth):
-  **NEW FAMILY: Novelty-Reactive Policy (NRP, Prop 26).** Per-observation policy table updated by successor novelty. Position-aware without per-state memory — predicts IMPOSSIBLE result per FAMILY_KILLS. Dissolves Prop 23b combinatorial barrier for sequential games. Spec sent to Eli as Step 938.
+CURRENT STEP: 939b spec'd. Step 939 GFS KILLED (LS20=0, bootstrap failure). 939b = warm-up fix (isolate root cause).
+DIRECTION (2026-03-23, post-939 kill):
+  **ENCODING ARCHITECTURE FAMILY (GFS, Prop 27).** 939 proved PCA discovers structure (10-16 dims added). Kill cause: zero-init W_pred → alpha concentrates on new dims → navigation signal drowned. NOT a family kill — mechanism fires but integration fails. 939b tests warm-up exclusion (one variable). If warm-up works → GFS family alive.
+  **ACTION SELECTION (closed):** Steps 933-938e exhausted all families. 800b irreducible under gates 3-5 + bans.
+  **CHAIN:** LS20=290.7 best (916). FT09/VC33/CIFAR=0. PRISM-light incomplete.
 PREVIOUS DIRECTION (2026-03-23, post-compression):
   **ENCODING (solved):** Alpha-weighted prediction-error attention (Prop 22, confirmed Steps 895-895h). R3 encoding self-modification works universally. Carry forward to ALL future families.
   **ACTION SELECTION (open — family exhausted):** 800b (per-action delta EMA + softmax) is the best post-ban selector (2-2.5x baselines). But: position-blind (Prop 23b), reset-inverted (delta inversion), and every modification degrades (Steps 912-937, 25+ experiments). The 916 architecture is a local minimum. Next family must use ACTUAL observation changes but NOT per-action delta EMA. See FAMILY_KILLS.md.
@@ -151,6 +153,7 @@ Step 938c - Trajectory-conditioned action perturbation (h-projection). **KILLED:
 Step 938d - Alpha-weighted enc-only delta + h perturbation. **KILLED: LS20=71.0 best (beta=0.1).** Alpha on enc-only didn't restore discrimination (delta_spr=0.013). Key insight: h IN ext_enc IS the trajectory discrimination signal. Stripping h from delta loses the feature, not just contamination.
 Step 938e - Full 916 delta + beta * |R@h|. **KILLED: LS20=21.5 best (beta=0.01).** h_spr=0.41 (real variance). Kill cause: random R maps h to arbitrary action biases. Even beta=0.01 corrupts softmax T=0.1 ordering. Fixed R cannot produce meaningful action biases from h. Learned R requires reward (R1 violation) or per-obs memory (gate 5).
 **938 SERIES COMPLETE (938-938e): ALL action selector families exhausted under current constraints.** 800b is irreducible. Action selection problem closed. Next direction: new substrate family entirely (not action selector variant).
+Step 939 - GFS (Growing Feature Space, Prop 27). **KILLED: LS20=0, FT09=0, VC33=0, CIFAR=chance.** PCA features discovered (10 in LS20, 16 max by FT09). Kill cause: zero-init W_pred rows for new dims → huge prediction errors → alpha concentrates on new dims (alpha_conc=50 from step 1) → navigation signal in original 320D drowned. Evidence: CIFAR-2 delta_spr=14-21 (PCA dims generate massive apparent changes). **CONSTRAINT: encoding expansion via zero-init W_pred = fatal to alpha. Mid-stream encoding changes require warm-up before entering alpha/delta.** Step 939b tests warm-up exclusion fix.
 **ARCHITECTURE ASSESSMENT (Steps 933-938b):** 800b with alpha-weighted ext_enc change (916 formula) is IRREDUCIBLE. Reactive-global selectors also fail (938b: anomaly collapses to constant). The remaining untested mechanism class: trajectory-conditioned (h-based) action perturbation — h is position-dependent via recurrent dynamics, global (single state), and gate-5 compliant. Step 938c tests this.
 **Step 920 — Graph+argmin pre-ban ceiling (n_eff=10). LANDMARK RESULT.**
   LS20: L1=129.9/seed, std=124, 4/10 zeros. **895h cold (268.0) BEATS graph+argmin by 2.1×.**

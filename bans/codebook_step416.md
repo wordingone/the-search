@@ -21,4 +21,4 @@ The codebook/LVQ mechanism and anything sharing its spatial engine:
 - U20 (local continuity) satisfied through a DIFFERENT mechanism
 
 ## Lifting condition
-Only Jun can lift this ban.
+See [Ban Policy](POLICY.md).

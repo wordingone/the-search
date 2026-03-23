@@ -19,4 +19,4 @@ Proposition 19 (R3 counterfactual): graph produces negative transfer — pretrai
 - Population-level mechanisms
 
 ## Lifting condition
-Permanent. No lift condition.
+See [Ban Policy](POLICY.md).
