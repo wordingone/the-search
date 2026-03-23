@@ -1172,11 +1172,13 @@ The architecture triangle (Proposition 22) motivated systematic exploration of t
 | 895c | Alpha-800b softmax (correct spec) | $\alpha$-weighted delta + softmax $T$=0.1 | N/A | LS20 warm=77.8 cold=23.0 | **R3\_cf partial PASS** |
 | 868b | Softmax\_01 varied seeds | 800b + softmax $T$=0.1, substrate\_seed=seed | N/A | 72.1/seed (0–288) | **Baseline RETRACTED** |
 | 890b | MLP higher eta=0.01 | 2-layer MLP, eta 10× | Pending | Pending | Queued |
-| 903 | ELM forward model | Random features + convex readout | N/A | L1=0 all seeds | **KILLED** (MSE novelty dead on LS20 + 9.4 min runtime) |
-| 895d | Alpha-800b 25K | Same as 895c + W pred\_acc tracking | Running | Running | Running |
-| 895e | Alpha-800b clamped | clip(0.1, 5.0) — max/min ≤ 50 | Pending | Pending | Queued |
-| 895g | Dual-stream | $\alpha$→W only, raw enc→nav | −2324 (unconverged) | cold=warm=213.9/seed std=67.4 zero=0/10 | **Cold=Warm** (transfer null; nav independent of $\alpha$) |
-| 868c | Temp annealing | $T$: 1.0→0.1 over 5K steps | N/A | Pending | Queued |
+| 903 | ELM forward model | Random features + convex readout | N/A | L1=0 all seeds | **KILLED** (MSE novelty dead + 9.4 min) |
+| 895d | Alpha-800b 25K + W pred\_acc | $\alpha$-weighted delta + W pred accuracy | −2383 cold / −3382 warm | cold=180.5 zero=3/10; warm=309.7 zero=0/10 (n\_eff=4) | W non-convergent; alpha IS signal generator |
+| 895e | Alpha-800b clamped (n\_eff=4) | clip(0.1, 5.0) — max/min ≤ 50 | −1883 cold / −3382 warm | cold=278.9 zero=0/10; warm=309.7 zero=0/10 | **Clamping fixes cold instability (n\_eff=4 biased)** |
+| 868d | L2-norm baseline | Plain 800b, L2 norm delta (no $\alpha$, no $W$) | N/A | 203.9/seed std=105.8 zero=1/10 (n\_eff=10) | **True 868b baseline; squared-sum was wrong metric** |
+| 895g | Dual-stream | $\alpha$→W only, raw enc→nav | −2324 (unconverged) | cold=warm=213.9/seed (n\_eff=4) | ≈ 868d baseline; nav independent of $\alpha$ |
+| 895h | Alpha-800b clamped (n\_eff=10) | clip(0.1, 5.0) substrate\_seed=seed | −2194 cold / −3355 warm | cold=268.0 zero=0/10; warm=209.2 zero=2/10 | **Cold>Warm (−58.8). R3\_cf NOT confirmed. Alpha = individual adaptation.** |
+| 895f | FT09 clamped alpha | clip(0.1, 5.0) on FT09, 68 actions, n\_eff=10 | Pending | Running | Running |
 
 **Critical bug (enc\_hash):** The hash function used for visited\_set novelty collapses centered encodings to 2-8 unique hashes (quantization of near-zero values). Steps 889, 892, 893, 899 all used this broken hash. MSE-based novelty (L2 distance to a buffer of recent observations) is the correct implementation. The prediction→novelty→action pipeline has never been properly tested.
 
