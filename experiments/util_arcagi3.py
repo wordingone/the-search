@@ -22,7 +22,13 @@ class _Env:
         key = _GAME_IDS.get(game_name, game_name.lower())
         info = next(g for g in games if key in g.game_id.lower())
         self._env = self._arc.make(info.game_id)
-        self._action_space = self._env.action_space
+        # FIX 2026-03-23: _env.action_space = [GameAction.X] (1 element) for FT09/VC33
+        # is the "default" action type, not the full action set. All GameAction values work.
+        # FIX 2026-03-23b: Skip GameAction.RESET (index 0) — sending RESET resets FT09/VC33,
+        # causing degenerate exploration (substrate keeps resetting the game).
+        from arcengine import GameAction
+        _GA_ALL = list(GameAction)  # [RESET, ACTION1..ACTION7]
+        self._action_space = _GA_ALL[1:]  # 7 elements: ACTION1..ACTION7
         self._last_obs = None
 
     def reset(self, seed=None):
@@ -31,7 +37,12 @@ class _Env:
         return self._frame()
 
     def step(self, action_int):
-        obs = self._env.step(self._action_space[action_int])
+        # Map action_int 0..6 → ACTION1..ACTION7 (skip RESET at index 0).
+        # FT09/VC33: RESET resets the game → degenerate exploration if included.
+        from arcengine import GameAction
+        _GA_LIST = list(GameAction)[1:]  # ACTION1..ACTION7, len=7
+        ga = _GA_LIST[action_int % len(_GA_LIST)]
+        obs = self._env.step(ga)
         self._last_obs = obs
         if obs is None:
             return None, 0.0, True, {'level': 0}

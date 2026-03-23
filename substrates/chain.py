@@ -70,9 +70,11 @@ class ArcGameWrapper:
                 continue
 
             action = substrate.process(np.array(obs, dtype=np.float32))
-            # Clamp to env action space (game may have fewer actions than substrate.n_actions)
-            n_valid = len(self._env._action_space) if hasattr(self._env, '_action_space') else substrate.n_actions
-            obs, reward, done, info = self._env.step(action % n_valid)
+            # FIX 2026-03-23: Use substrate.n_actions for clamping, NOT len(_action_space).
+            # _action_space = [GameAction.ACTION6] for FT09/VC33 (1 element) is misleading —
+            # game accepts all GameAction values. util_arcagi3 now maps action_int via
+            # GameAction(action_int % 8). substrate.n_actions is the correct bound.
+            obs, reward, done, info = self._env.step(action % substrate.n_actions)
             steps += 1
 
             if fresh_episode:
