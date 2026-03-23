@@ -786,6 +786,60 @@ That is: self-modification must produce state that outperforms the initial state
 
 **Degrees of freedom:** The task distribution $\mathcal{T}$, the pretraining budget $N$, and the performance metric $P$ are all choices. Step 776 used $\mathcal{T}$ = LS20 with different environment seeds, $N$ = 25K steps, $P$ = level completion count. Whether positive counterfactual is achievable under ANY $(\mathcal{T}, N, P)$ for an R1-compliant substrate remains open.
 
+### 4.10 State Decomposition: Location vs Dynamics (Proposition 20)
+
+**Prior work:** Several frameworks decompose agent state, but none along the location/dynamics axis relevant to self-modification transfer:
+
+- **ExoMDP** (Efroni, Misra & Krishnamurthy, 2022): decomposes $S = S_{\text{endo}} \times S_{\text{exo}}$ by controllability (action-dependent vs action-independent). Binary partition — no gradient, no dynamics-informative category.
+- **Denoised MDP** (Wang et al., ICML 2022): 2×2 grid (controllable × reward-relevant). IFactor (NeurIPS 2023) extends to four categories. Neither includes "dynamics-informative but neither controllable nor reward-relevant."
+- **Successor Features** (Barreto et al., NeurIPS 2017): $Q^\pi(s,a) = \phi^\pi(s,a) \cdot w$ decomposes value into transition structure ($\phi$) and reward ($w$). Transfer when reward changes, dynamics fixed. When dynamics change, $\phi$ must be relearned — exactly the limitation we formalize.
+- **Bisimulation metrics** (Zhang et al., ICLR 2021): collapse location and dynamics into a single equivalence class. No decomposition.
+- **Negative transfer** (ICLR 2025, arXiv 2403.05066): empirically characterized as task-pair dependent. No formal partition of which accumulated state components cause it.
+
+The gap: no published framework formally partitions a substrate's internal state into location-dependent components (WHERE: state identity, visit history) vs dynamics-dependent components (HOW: transition structure, predictive models), with the property that location state transfers negatively while dynamics state could transfer positively across environments.
+
+**Our formalization:**
+
+**Definition (State Decomposition).** For a substrate with state $s \in S$, define:
+- $L(s) \subseteq s$: the **location-dependent** components — all state keyed by state identity or $(state, action)$ pairs. Visit counts $N(n, a)$, edge dictionaries $G[(n, a)]$, cell creation history.
+- $D(s) \subseteq s$: the **dynamics-dependent** components — all state encoding transition structure. Forward model parameters $W$, transition probability estimates $\hat{T}$, predictive statistics.
+- $I(s) \subseteq s$: the **interpreter** state — CSE operations, fixed by Proposition 14b.
+
+The decomposition $s = (L(s), D(s), I(s))$ is defined by information content: a component belongs to $L$ if it changes when state identity changes but dynamics stay the same; to $D$ if it changes when dynamics change but state identity stays the same; to $I$ if it is invariant to both.
+
+**Proposition 20 (Location-Dynamics Decomposition and Negative Transfer).** Let $\mathcal{T}, \mathcal{T}'$ be task distributions with shared transition dynamics but different state-space layouts (e.g., same physics, different rooms). Then:
+
+(a) **Location state transfers negatively.** If $L(s_N) \neq L(s_0)$ and $\mathcal{T}' \neq \mathcal{T}$:
+
+$$\mathbb{E}_{\tau' \sim \mathcal{T}'}[P(L(s_N) \cup D(s_0) \cup I, \tau')] \leq \mathbb{E}_{\tau' \sim \mathcal{T}'}[P(s_0, \tau')]$$
+
+The location component from training on $\mathcal{T}$ imposes visit-count priors that bias exploration on $\mathcal{T}'$ away from optimal. For argmin specifically: $N_\mathcal{T}(n, a) > 0$ penalizes action $a$ at state $n$ on $\mathcal{T}'$, even when $a$ is optimal for $\mathcal{T}'$.
+
+(b) **Dynamics state could transfer positively.** If $D(s_N)$ encodes transition structure $\hat{T} \approx T$ and $T$ is shared across $\mathcal{T}, \mathcal{T}'$:
+
+$$\mathbb{E}_{\tau' \sim \mathcal{T}'}[P(L(s_0) \cup D(s_N) \cup I, \tau')] \geq \mathbb{E}_{\tau' \sim \mathcal{T}'}[P(s_0, \tau')]$$
+
+A dynamics model learned on $\mathcal{T}$ transfers to $\mathcal{T}'$ when the underlying physics is shared. **This is a hypothesis, not proven.** No post-ban substrate exists to test it.
+
+**Experimental evidence (Step 776):** The 674 substrate has $L(s) = \{G, N(n,a)\}$ (the graph with visit counts) and $D(s) = \emptyset$ (no dynamics model). The decomposition is $s = (L(s), \emptyset, I)$. R3_counterfactual: FAIL ($P(s_N) = 2899 < P(s_0) = 4054$, $p < 0.0001$, $n = 20$). This confirms Proposition 20(a): pure location state produces negative transfer. The failure is mechanical: visit counts from seed A bias argmin on seed B.
+
+**Connection to the bans:**
+- The **graph ban** (post Step 777) eliminates $L(s)$ entirely — no per-$(state, action)$ data. This is a direct consequence of Proposition 20(a): if $L$ always transfers negatively, R3-compliant substrates cannot contain $L$.
+- The **codebook ban** (Step 416) eliminated a different family ($\pi$ = cosine match, update = attract). Proposition 20 is orthogonal: codebook state could in principle decompose into $L$ and $D$ components.
+
+**Implications for post-ban substrates:**
+1. A substrate storing only $D(s)$ (dynamics) and $I$ (interpreter) could pass R3_counterfactual — if the dynamics generalize. This is the forward model direction (Section 2.15).
+2. The convergence problem (U22) applies to $D$: if $D(s) \to D^*$, the dynamics model stops updating, and exploration dies. $D$ must be non-convergent (Theorem 1) while still being informative.
+3. The noisy TV problem (Burda et al. 2018) applies to $D$: stochastic transitions produce maximum prediction error, attracting the substrate to noise rather than novelty. A dynamics model must distinguish learnable from irreducible uncertainty.
+
+**What is novel vs known:**
+- **Known:** Negative transfer in continual RL (ICLR 2025). Successor features transfer under fixed dynamics (Barreto et al. 2017). Noisy TV problem (Burda et al. 2018).
+- **Novel:** The formal decomposition $s = (L, D, I)$ by information content. The theorem that $L$ always transfers negatively under argmin. The identification of the graph ban as a consequence of Proposition 20(a). The prediction that $D$-only substrates are the minimal viable candidate for R3_counterfactual.
+
+**Testable predictions:**
+1. Construct a substrate with $D(s) \neq \emptyset$, $L(s) = \emptyset$. Measure R3_counterfactual. If $D$ generalizes, warm > cold.
+2. Ablation: on a substrate with both $L$ and $D$, independently reset $L(s_N) \to L(s_0)$ and $D(s_N) \to D(s_0)$ before testing. If Proposition 20 holds, resetting $L$ improves performance and resetting $D$ degrades it.
+
 ## 5. Experimental Evidence
 
 ### 5.1 Navigation (720+ experiments)
