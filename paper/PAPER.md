@@ -1224,6 +1224,24 @@ The architecture triangle (Proposition 22) motivated systematic exploration of t
 
 **Kills (5 families):** ESN (Step 891, reservoir dynamics don't help online prediction), CTS (Step 893, graph-banned — per-context-action storage), decision tree (Step 897, splits never triggered), LZ complexity (Step 898, compression ratio undiscriminating), MLP at low learning rate (Step 890, non-convex loss surface doesn't converge with online SGD at eta=0.001).
 
+### 5.7 Baseline Comparison (Steps 916-920)
+
+Published baselines reproduced in our framework on LS20 (25K steps, $n_{\text{eff}}=10$, substrate\_seed=seed):
+
+| Method | L1/seed | std | zero seeds | Signal type |
+|--------|---------|-----|------------|-------------|
+| **916 Recurrent $h$** | **290.7** | **70.1** | **0/10** | pred error + trajectory |
+| **895h cold** | **268.0** | **75.2** | **0/10** | pred error ($\alpha$-weighted $\Delta$) |
+| 868d raw L2 | 203.9 | 105.8 | 1/10 | raw $\Delta$ |
+| 920 Graph+argmin | 129.9 | 124.0 | 4/10 | visit count |
+| 918 RND (Burda 2018) | 112.3 | 126.0 | 4/10 | distillation error |
+| 919 Count-based (Bellemare 2016) | 109.0 | 125.3 | 5/10 | obs frequency |
+| 917 ICM (Pathak 2017) | 0.0 | 0.0 | 10/10 | forward pred error |
+
+All methods achieve L1=0 on FT09 (68 actions, sequential ordering). Even graph+argmin at 6 correct actions (Step 920b) achieves L1=0 — the FT09 bottleneck is encoding resolution and sequential ordering, not the mechanism.
+
+**Finding:** Our prediction-error attention mechanism ($\alpha$-weighted change-tracking) outperforms ALL baselines by $2\text{-}2.5\times$ on LS20 with 0/10 zero-seeds (vs 4-5/10 for alternatives). The graph ban cost is NEGATIVE: 895h (268.0, no graph) $>$ 920 (129.9, with graph). Alpha-weighted observation change is informationally richer than visit counts, distillation error, or pseudo-counts. ICM (forward prediction error as intrinsic reward) is the worst — the signal dies as $W$ learns the environment, collapsing to zero exploration.
+
 ## 6. Degrees of Freedom
 
 The formalization identifies what the constraints REQUIRE but also what they leave UNDETERMINED. These degrees of freedom define the experiment space for the next phase.

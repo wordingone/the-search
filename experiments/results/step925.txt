@@ -1,0 +1,19 @@
+======================================================================
+STEP 925 — SCALAR FORWARD MODEL ON RECURRENT STATE h
+======================================================================
+W_scalar (132D): h + action → scalar change. State-conditioned selection.
+
+--- FT09 (68 actions, 25K, 10 seeds) ---
+2026-03-23 09:40:46 | INFO | Got anonymous API key: 52414a4c-62e5-4852-a1e7-63defafe37d0
+2026-03-23 09:40:46 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:40:46 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:40:46 | INFO | Created new scorecard: 715f304f-7f2a-4f8d-953a-f6fff615bccb
+2026-03-23 09:40:46 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:40:46 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=1: L1=   0  alpha_conc=19.91  scalar_top7=[np.int64(19), np.int64(3), np.int64(33), np.int64(12), np.int64(47), np.int64(61), np.int64(55)]  baseline_overlap=[np.int64(19)]
+2026-03-23 09:41:00 | INFO | Got anonymous API key: b0b816a3-f2c7-4d4e-ad7c-bd4046f5c1be
+2026-03-23 09:41:00 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:41:00 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:41:00 | INFO | Created new scorecard: fcf756a9-9b99-4817-8f60-3be4053df31d
+2026-03-23 09:41:00 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:41:00 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
