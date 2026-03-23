@@ -20,3 +20,74 @@ Compare: 910a (shared W, compression) = 99.8/seed  ← BELOW BASELINE
 2026-03-23 08:51:04 | INFO | Created new scorecard: 805252c6-1af7-452b-8451-3713983f34ea
 2026-03-23 08:51:04 | INFO | Successfully fetched metadata for game ls20
 2026-03-23 08:51:04 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=2: L1= 370  alpha_conc=17.92  delta_E_range=318.5081  delta_E=['-367.350', '-48.842', '-60.754', '-350.714']  early_range@5K=7.5940
+2026-03-23 08:51:28 | INFO | Got anonymous API key: 90c3ad83-be22-4c50-9fe3-b1dcaec963a6
+2026-03-23 08:51:28 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:28 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:28 | INFO | Created new scorecard: 893d48b2-797f-496b-b39b-9d2c84f9a2f3
+2026-03-23 08:51:28 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:51:28 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=3: L1=  54  alpha_conc=14.17  delta_E_range=324.4414  delta_E=['-63.452', '-57.325', '-27.485', '-351.926']  early_range@5K=28.2219
+2026-03-23 08:51:56 | INFO | Got anonymous API key: 27c4bfcb-965e-40c7-a8a1-b8c83c01a1ee
+2026-03-23 08:51:56 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:56 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:56 | INFO | Created new scorecard: 89b4f748-6d66-491a-88f3-564e4c67fa8a
+2026-03-23 08:51:56 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:51:56 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=4: L1=  35  alpha_conc=13.87  delta_E_range=305.9735  delta_E=['-57.701', '-320.822', '-59.249', '-14.849']  early_range@5K=67.9842
+2026-03-23 08:52:20 | INFO | Got anonymous API key: 6df1959b-5f08-4a01-9a12-dbd6c211a121
+2026-03-23 08:52:20 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:21 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:21 | INFO | Created new scorecard: 0dadd05e-630a-4642-8820-02142c562c5f
+2026-03-23 08:52:21 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:52:21 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=5: L1=   0  alpha_conc=16.22  delta_E_range=150.6116  delta_E=['72.502', '-62.101', '69.022', '-78.109']  early_range@5K=92.6152
+2026-03-23 08:52:39 | INFO | Got anonymous API key: f33554f0-4b8b-4c0a-9afc-e6a187ec1b8c
+2026-03-23 08:52:39 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:39 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:39 | INFO | Created new scorecard: ec7e0767-0ad7-4c45-aad5-514c1739bd01
+2026-03-23 08:52:39 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:52:39 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=6: L1=   0  alpha_conc=16.17  delta_E_range=342.2142  delta_E=['-398.800', '-56.585', '-192.961', '-73.915']  early_range@5K=15.0918
+2026-03-23 08:52:57 | INFO | Got anonymous API key: 2867fd37-3d78-4441-8ed3-6c52ddc53333
+2026-03-23 08:52:57 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:57 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:57 | INFO | Created new scorecard: 6bca9e31-dd70-4243-9c0f-50b1361ae309
+2026-03-23 08:52:58 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:52:58 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=7: L1= 379  alpha_conc=20.13  delta_E_range=322.4936  delta_E=['-23.137', '-37.107', '-328.930', '-6.436']  early_range@5K=59.1231
+2026-03-23 08:53:13 | INFO | Got anonymous API key: ba9adeb9-83ba-4f08-af40-d757480c2434
+2026-03-23 08:53:13 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:53:13 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:53:13 | INFO | Created new scorecard: bc61fb9a-6889-480d-88e6-b25b27ec6e41
+2026-03-23 08:53:14 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:53:14 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=8: L1=   0  alpha_conc=19.26  delta_E_range=203.5209  delta_E=['-181.636', '-66.652', '21.885', '-57.506']  early_range@5K=74.6434
+2026-03-23 08:53:32 | INFO | Got anonymous API key: 63e91459-aba7-4016-9a76-4985d3f3ffdf
+2026-03-23 08:53:32 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:53:32 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:53:32 | INFO | Created new scorecard: e9a83c0e-2f3e-47a1-9d1a-f68cf45d810d
+2026-03-23 08:53:32 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:53:32 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=9: L1= 362  alpha_conc=20.19  delta_E_range=275.6695  delta_E=['-46.451', '-53.594', '-53.475', '-322.121']  early_range@5K=1.5683
+2026-03-23 08:53:48 | INFO | Got anonymous API key: d9939564-f4a5-421f-8207-210178f2609f
+2026-03-23 08:53:48 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:53:48 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:53:48 | INFO | Created new scorecard: 2a2c5e61-9e92-4c57-a393-20772752de52
+2026-03-23 08:53:48 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:53:48 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=10: L1= 375  alpha_conc=16.80  delta_E_range=37.9398  delta_E=['-55.610', '-40.302', '-18.509', '-17.670']  early_range@5K=75.8959
+
+LS20 911 cold: L1=157.5/seed  std=175.6  zero=4/10
+      [0, 370, 54, 35, 0, 0, 379, 0, 362, 375]
+      alpha_conc=17.04  delta_E_range=245.4867
+
+Comparison:
+  868d (raw L2 baseline):     203.9/seed  std=105.8  zero=1/10  ← TRUE BASELINE
+  910a (shared W + compress): 99.8/seed   std=104.8  zero=4/10  ← FAILED
+  895h cold (change-track):   268.0/seed  std=75.2   zero=0/10  ← BEST
+  911 cold (per-action W):    157.5/seed  std=175.6  zero=4/10
+  Below baseline but actions differentiate (delta_E_range=245.4867)
+
+Total elapsed: 209.3s
+STEP 911 DONE

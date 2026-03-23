@@ -99,7 +99,12 @@ Step 895h — n_eff=10 validation of clamped alpha. **COLD > WARM by 58.8/seed.*
 EMERGING ARCHITECTURE: Clamped alpha-weighted 800b. (1) Alpha from prediction error, clamped 0.1-5.0 (R3 encoding self-modification). (2) 800b per-action L2 delta EMA + softmax T=0.1 on ALPHA-WEIGHTED encoding (navigation). (3) Linear W forward model in alpha-weighted space (signal generator for alpha, NOT predictor). Alpha couples to navigation.
 Step 910a - Alpha-weighted compression progress, LS20. L1=99.8/seed (BELOW 203.9 baseline). 4/10 zeros. W cross-action interference corrupts delta_E signal. KILLED.
 Step 910b - Alpha-weighted compression progress, FT09. L1=0. Same failure. KILLED.
-COMPRESSION PROGRESS FAMILY DEAD: Steps 855, 855b, 910a, 910b all fail. Shared W violates the independent-learning-signal assumption. Action collapse persists in every variant.
+COMPRESSION PROGRESS FAMILY DEAD: Steps 855, 855b, 910a, 910b, 911 all fail. Delta_E signal doesn't correlate with navigation utility regardless of W architecture.
+Step 912 - Delta direction novelty. LS20 L1=166.8 (BELOW baseline). FT09 L1=0. Directional novelty competes with alpha → over-concentration.
+Step 913 - Recency cycling. LS20 L1=51.5 (catastrophic, 7/10 zeros). FT09 L1=0. Recency overwhelms delta → round-robin.
+Step 914 - Full chain test (895h cold). CIFAR=chance, LS20=237.6 (degraded by CIFAR alpha inflation), FT09=0, VC33=0, CIFAR-2=chance. Chain: 1/4 at best.
+Step 915 - Temporal action patterns (K=3, FT09). L1=0. 8711 sequences learned but no discovery of 7-click solution. Exploitation without discovery.
+**FINDING (Steps 911-915): FT09 bottleneck is ACTION ORDERING, not coverage or identification.** All approaches confirm: substrate finds the tiles (alpha universal), tracks which ones change (800b), even visits all 68 (recency coverage=1.0). Cannot discover the required ORDER. Sequential games post-ban require a mechanism for conditional action selection based on trajectory position — not per-state (banned) but per-trajectory (allowed).
 **SESSION FINAL RANKING (LS20, 25K, n_eff=10):**
   895h cold (clamped alpha + 800b): 268.0/seed, 0/10 zeros, +32% ← BEST POST-BAN
   868d (raw L2 baseline): 203.9/seed, 1/10 zeros

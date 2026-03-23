@@ -20,3 +20,73 @@ FT09 first: 7-click solution should produce high-scoring sub-sequences.
 2026-03-23 08:50:58 | INFO | Created new scorecard: 8b9f1165-2008-43e4-8f69-e6bea03f78f8
 2026-03-23 08:50:58 | INFO | Successfully fetched metadata for game ft09
 2026-03-23 08:50:58 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=2: L1=   0  alpha_conc=7.43  seq_count=8821  top_seq=[((23, 36, 36), 4.602980136871338), ((13, 36, 36), 4.601278400421142)]
+2026-03-23 08:51:15 | INFO | Got anonymous API key: 489110f3-3084-47e2-aa7b-2af697bce3e9
+2026-03-23 08:51:15 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:15 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:15 | INFO | Created new scorecard: 4324e523-736c-49c3-ab1a-6f6aa9a6ad24
+2026-03-23 08:51:15 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:51:15 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=3: L1=   0  alpha_conc=5.47  seq_count=8342  top_seq=[((60, 26, 26), 4.560673713684082), ((11, 59, 25), 4.479685306549072)]
+2026-03-23 08:51:32 | INFO | Got anonymous API key: d0e8fce1-5a9c-4bd5-9ad0-b62fbb52b567
+2026-03-23 08:51:32 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:32 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:32 | INFO | Created new scorecard: 142327d4-b826-4543-81d9-7972a007c265
+2026-03-23 08:51:32 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:51:32 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=4: L1=   0  alpha_conc=6.56  seq_count=7961  top_seq=[((19, 19, 40), 4.515067100524902), ((65, 28, 65), 4.487706661224365)]
+2026-03-23 08:51:48 | INFO | Got anonymous API key: dabd4ace-acfb-4474-bd09-459ba76b69dc
+2026-03-23 08:51:48 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:48 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:48 | INFO | Created new scorecard: 26a708f6-ecf2-4c75-96e2-39f656c244c7
+2026-03-23 08:51:48 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:51:48 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=5: L1=   0  alpha_conc=8.30  seq_count=8678  top_seq=[((0, 12, 59), 4.674803256988525), ((0, 62, 19), 4.674671649932861)]
+2026-03-23 08:52:05 | INFO | Got anonymous API key: bd192c68-a6dd-4827-a18f-46f8fb0ae014
+2026-03-23 08:52:05 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:05 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:05 | INFO | Created new scorecard: fd298ee6-5360-4307-be83-865963d53b7e
+2026-03-23 08:52:06 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:52:06 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=6: L1=   0  alpha_conc=8.87  seq_count=8522  top_seq=[((61, 61, 19), 4.710485458374023), ((43, 33, 33), 4.710464000701904)]
+2026-03-23 08:52:20 | INFO | Got anonymous API key: fb0906ed-70ac-4402-8525-97ed7ce96a18
+2026-03-23 08:52:20 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:20 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:20 | INFO | Created new scorecard: a461e431-b3f0-4013-b496-9f2e4838a9da
+2026-03-23 08:52:20 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:52:20 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=7: L1=   0  alpha_conc=7.01  seq_count=9413  top_seq=[((0, 11, 5), 4.521543025970459), ((61, 9, 39), 4.521512508392335)]
+2026-03-23 08:52:31 | INFO | Got anonymous API key: 937af81c-74c8-4813-bbeb-914ca295e6bb
+2026-03-23 08:52:31 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:31 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:31 | INFO | Created new scorecard: 4cb3e273-abd4-4b16-a3b9-9ee6b549097e
+2026-03-23 08:52:31 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:52:32 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=8: L1=   0  alpha_conc=8.83  seq_count=8778  top_seq=[((0, 54, 38), 4.776924133300781), ((5, 12, 2), 4.776923990249634)]
+2026-03-23 08:52:43 | INFO | Got anonymous API key: 18f1280c-6496-4562-b971-e1550d3d99a7
+2026-03-23 08:52:43 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:43 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:43 | INFO | Created new scorecard: ebf2598e-4f96-4fde-a39b-9efe7682b263
+2026-03-23 08:52:43 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:52:43 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=9: L1=   0  alpha_conc=8.05  seq_count=8843  top_seq=[((0, 33, 52), 4.640955448150635), ((0, 33, 55), 4.64095401763916)]
+2026-03-23 08:52:54 | INFO | Got anonymous API key: 1d1b1b27-a1e1-48ad-8734-b3c62c0d382a
+2026-03-23 08:52:54 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:52:54 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:52:54 | INFO | Created new scorecard: 7c5b3a46-a9d6-4189-af32-844aa4233ff2
+2026-03-23 08:52:54 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:52:54 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=10: L1=   0  alpha_conc=4.57  seq_count=9059  top_seq=[((12, 30, 32), 4.465409755706787), ((11, 12, 12), 4.435719251632691)]
+
+FT09 915 cold: L1=0.0/seed  std=0.0  zero=10/10
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      avg sequences learned: 8711
+
+Comparison:
+  895f cold (change-track, FT09):  0.0/seed  10/10 zeros  ← BASELINE
+  910b cold (compression, FT09):   0.0/seed  10/10 zeros  ← FAILED
+  915 cold (temporal K=3, FT09):   0.0/seed  std=0.0  zero=10/10
+  FT09 BOTTLENECK PERSISTS. Sequence memory insufficient.
+
+Total elapsed: 145.1s
+STEP 915 DONE
