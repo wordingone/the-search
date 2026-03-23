@@ -80,3 +80,33 @@ Transfer: W_out only. Key question: pred_acc vs linear W (19.9%)?
 2026-03-23 07:06:29 | INFO | Created new scorecard: e765152c-62c6-42b4-a701-2b10a1c3c2a3
 2026-03-23 07:06:29 | INFO | Successfully fetched metadata for game ls20
 2026-03-23 07:06:29 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:07:16 | INFO | Got anonymous API key: 24deaf81-f5a2-4048-9fb7-86c0589589ac
+2026-03-23 07:07:16 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:07:17 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:07:17 | INFO | Created new scorecard: f03e6521-6512-4441-acbe-37984da7e7ef
+2026-03-23 07:07:17 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:07:17 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=9: cold L1=   0 warm L1=   0
+2026-03-23 07:07:50 | INFO | Got anonymous API key: 7588aafe-001c-4f37-9afe-7efcd719cf23
+2026-03-23 07:07:50 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:07:50 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:07:50 | INFO | Created new scorecard: e0407648-f361-4367-8931-e28da15ff5a7
+2026-03-23 07:07:51 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:07:51 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:08:38 | INFO | Got anonymous API key: edc34107-7394-4982-a715-520c0cda184d
+2026-03-23 07:08:38 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:08:38 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:08:38 | INFO | Created new scorecard: c6aa7590-d986-4f2b-a332-364bd3223e98
+2026-03-23 07:08:38 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:08:38 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=10: cold L1=   0 warm L1=   0
+
+cold: L1=0.0/seed  raw_MSE_mean=-0.3906  [0, 0, 0, 0, 0]
+warm: L1=0.0/seed  raw_MSE_mean=-0.3906  [0, 0, 0, 0, 0]
+L1 delta (warm-cold): +0.0/seed
+
+Note: raw_MSE is negative pred_acc proxy. Linear W pred_acc = 19.9% (step835).
+If ELM raw_MSE << linear W MSE → ELM better. If similar → features are bottleneck.
+
+Total elapsed: 561.0s
+STEP 903 DONE
