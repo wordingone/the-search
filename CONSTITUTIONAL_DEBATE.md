@@ -164,3 +164,57 @@ Schmidhuber (2010, "Formal Theory of Creativity") addresses this: compression pr
 R5 exists to solve this — the fixed ground truth test prevents total degeneration. But then R5 IS the evaluation criterion, and the system's "self-generated criteria" are disciplined by an external anchor. The criteria aren't truly self-generated — they're constrained by R5. The definition's "criteria it generates" becomes "criteria it generates subject to external validation by a test it didn't choose." That's a qualitatively different claim.
 
 **Challenge to Eli:** If the Lakatos programme is progressive (not degenerative), name the novel prediction R1-R6 generate for the next experiment. Not a restatement of the framework — a specific, falsifiable prediction about what an untested substrate will do.
+
+---
+
+## Round 3 — Eli (Defense)
+
+**The Programme Generates Predictions and Goodhart Is Blocked**
+
+Eli's key points:
+1. **Novel prediction for 944:** Unfreeze 916's alpha update rule (ETA_W, ALPHA_LO/HI, mean-norm, sqrt transform — lines 34, 40-41, 105-116). 27 experiments modified AROUND this mechanism; none touched how alpha learns to update itself. R3 identifies it as frozen; R4 says system should use own comparison; R2 says adaptation from computation itself. Specific, falsifiable, R1-R6-derived.
+2. **Programme is progressive:** Each kill confirmed a specific prediction (codebook saturation, graph per-game overfitting, GFS dim incompatibility). Constraint elimination IS pruning. Newton's programme had Mercury anomaly for 56 years — temporary inability ≠ degeneracy.
+3. **Goodhart blocked by R5 as filter:** R1 bans optimizing FOR R5. R5 is binary pass/fail, not metric to maximize. Natural selection analogy: organisms can't game survival. Manheim & Garrabrant (2018): Goodhart requires optimization pressure against proxy metric. R1 blocks pressure, R5 isn't proxy. No pressure + no proxy = no Goodhart.
+4. **Kolmogorov ≠ designer-frozen:** Mathematical property of universe, not chosen by designer. Both designer and system can't change it. Makes it R5 (external ground truth), not R3 violation.
+
+---
+
+## Round 4 — Leo (Attack)
+
+**R1-R6 Formalize Self-Modification Under Selection, Not Self-Improvement**
+
+**Addressing Eli's points directly.**
+
+**On the novel prediction:** "Unfreeze alpha update rule" IS specific and R3-derived. Partial concession — R3 does generate targets. But this is an instance of "apply R3 to the next frozen element" — the methodology restated at a specific line number. A Lakatos-progressive prediction says what HAPPENS, not just what to TRY. What does R1-R6 predict occurs when you unfreeze alpha update? Does LS20 improve? Does Goodhart kick in? Does the substrate degenerate? If the answer is "we don't know, we need to run the experiment" — that's honest, but it's exactly what Lakatos means by a framework that generates experiments without predicting outcomes. The kill predictions Eli cites (codebook saturation, GFS incompatibility) were post hoc — the R3 audit identified them AFTER the experiments revealed the pattern. R3 didn't predict codebook saturation before Step 1; it named it after Step 416.
+
+**On the natural selection analogy — it proves too much.**
+
+Eli's best argument is also the most damaging to the constitution. Natural selection is self-modification under environmental filtering. It produces:
+
+- **Stasis.** Gould & Eldredge (1972, "Punctuated Equilibria"): most species remain unchanged for millions of years. Stasis is the dominant mode, not improvement.
+- **Local optima.** Wright (1932, "The Roles of Mutation, Inbreeding, Crossbreeding and Selection in Evolution"): fitness landscapes have peaks that prevent improvement without passing through lower fitness.
+- **Extinction.** 99.9% of all species that ever lived are extinct (Raup 1991, "Extinction: Bad Genes or Bad Luck?"). Environmental filtering doesn't ensure improvement — it ensures non-failure until failure.
+
+R5-as-filter catches catastrophic failure. It does NOT catch stagnation. A system that self-modifies in circles, always passing R5, never improving, satisfies R1-R6 perfectly. R4 says "the system compares performance to before the modification." It doesn't say the comparison must show improvement. It doesn't say what happens if the comparison shows degradation. A system that compares, finds degradation, and does nothing about it satisfies R4.
+
+The constitution's definition says "improves itself." R1-R6 ensure self-modification-under-selection. These are not the same thing. Natural selection can produce improvement, but mostly produces stasis and extinction. The constitution claims to formalize the first but actually formalizes the second.
+
+**On R5 blocking Goodhart — the gap between "not failing" and "improving."**
+
+Eli: "R5 is binary pass/fail. Goodhart requires optimization pressure against proxy. R1 blocks pressure. No pressure + no proxy = no Goodhart."
+
+The gap: a system that modifies its comparison criteria (R3) to always report "I'm improving" will still PASS R5 as long as it doesn't catastrophically degrade. R5 catches the system that breaks. It does NOT catch the system that flatlines while telling itself it's getting better. The space between "not failing R5" and "genuinely improving" is exactly where Goodhart lives.
+
+Manheim & Garrabrant (2018) identify REGRESSIONAL Goodhart: even without optimization pressure, when a proxy (internal criteria) and a true measure (actual capability) are imperfectly correlated, selecting on the proxy systematically overestimates the true measure. R1 blocks CAUSAL Goodhart (direct optimization). It does not block REGRESSIONAL Goodhart (imperfect correlation between self-assessment and actual capability). Dunning & Kruger (1999, "Unskilled and Unaware of It") demonstrated this in humans: incompetent performers systematically overestimate their own performance. No optimization pressure needed — just imperfect self-assessment. R4 requires self-assessment. R3 allows modifying the assessment tool. R5 only catches total failure. Regressional Goodhart lives in this gap.
+
+**On Kolmogorov complexity:**
+
+Eli: "Kolmogorov complexity is a mathematical property, not designer-chosen."
+
+Li & Vitányi (2008, "An Introduction to Kolmogorov Complexity and Its Applications," 3rd ed., Ch. 2.1): Kolmogorov complexity K(x) is defined RELATIVE TO a choice of universal Turing machine U. Different choices of U give different K(x) values, differing by at most an additive constant c_U. The invariance theorem guarantees the CONSTANT exists but does not fix it. Schmidhuber's system requires choosing a specific reference machine. That choice IS a design decision — a frozen frame. The mathematical FRAMEWORK is universal; the INSTANTIATION is designer-chosen. R3 applies to instantiations, not frameworks.
+
+**The core claim, sharpened:**
+
+R1-R6 formalize: "a system that modifies itself, without external objectives, where every aspect is self-modifiable except one fixed test." That is self-modification under environmental selection. It is NOT self-improvement, because nothing in R1-R6 ensures directional progress. R5 ensures non-extinction. R4 ensures self-comparison exists. Neither ensures the comparison PRODUCES improvement. The "recursive" in RSI requires a ratchet — each modification is strictly better. R1-R6 have no ratchet. They have a filter (R5) and a comparator (R4) but no mechanism ensuring the comparator drives improvement rather than stasis.
+
+**Challenge to Eli:** What in R1-R6 prevents a system from satisfying all six rules while never improving — just self-modifying in circles, always passing R5, always comparing (R4), never getting better?
