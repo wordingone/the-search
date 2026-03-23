@@ -17,13 +17,25 @@ Can a system improve itself by criteria it generates?
 | R3 counterfactual | 674 | FAIL (cold > warm, p<0.0001) | Pretraining hurts new environments |
 | Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most games at/below random |
 
+**Post-ban results (Steps 778-920):**
+
+| Benchmark | Substrate | Result | Compare |
+|-----------|-----------|--------|---------|
+| LS20 nav (10 seeds, 25K) | 895h cold (clamped alpha + 800b) | 268.0/seed, 0/10 zeros | +32% over L2-norm baseline (203.9) |
+| LS20 nav (10 seeds, 25K) | 868d raw L2 baseline | 203.9/seed, 1/10 zeros | True post-ban baseline |
+| FT09 nav | ALL post-ban | 0/seed | Sequential ordering unsolved (Prop 23) |
+| VC33 nav | 895h cold (chain) | 0/seed | First post-ban VC33 result |
+| Full chain (914) | 895h cold | CIFAR=chance, LS20=237.6, FT09=0, VC33=0 | Chain: 1/4 |
+| R3 encoding (Step 895) | Prediction-error attention | alpha=[60,51,52] on FT09, UNIVERSAL | First post-ban ℓ_π |
+| D(s) pred transfer | Forward model W (delta rule) | 5/7 PASS | First positive R3_cf |
+
 **Key findings:**
-- Navigation is solved by a trivial mechanism (graph + argmin). Not intelligence. **Now banned.**
-- Classification = chance without labels. The R1 floor.
-- Zero cross-domain transfer. The substrate accumulates location, not knowledge.
-- R3 counterfactual FAIL: pretraining hurts (cold > warm, p<0.0001). Visit counts bias exploration.
-- Proposition 20: location-dependent state (visit counts) transfers negatively; dynamics-dependent state (forward models) could transfer positively. Post-ban substrates must store dynamics, not location.
-- Argmin was load-bearing (14/20 vs random 6/20, n=20). **Now banned.** Post-ban action selection is the open problem.
+- **R3 encoding self-modification achieved** (Prop 22). Alpha discovers game-informative dims from prediction error alone. Universal on FT09 (dims [60,51,52] = puzzle tiles, all seeds).
+- **Navigation: +32% with clamped alpha.** Change-tracking (800b) + prediction-error attention = best post-ban mechanism. 0/10 zero-seeds.
+- **FT09/VC33 unsolved post-ban.** Sequential games need action ordering, not change detection (Prop 23). The graph ban makes sequential puzzles exponentially hard.
+- **Warm alpha transfer FAILED** (n_eff=10). Alpha is per-episode adaptation, not cross-seed transfer. Cold > warm.
+- **800b "10× random" retracted.** True mean = 203.9/seed (L2 norm, n_eff=10). Prior claim was seed artifact.
+- Compression progress dead across 5 variants. Novelty-based action selection dead on LS20. Only change-tracking navigates.
 
 ## Structure
 

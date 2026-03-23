@@ -1,0 +1,41 @@
+======================================================================
+STEP 916 — RECURRENT TRAJECTORY ENCODING
+======================================================================
+R3: fixed-random recurrent h_t = tanh(W_h@h + W_x@enc). ext_enc=320D.
+Alpha + 800b on extended encoding. FT09 + LS20, 25K, 10 seeds cold.
+
+--- FT09 (68 actions, 25K, 10 seeds) ---
+2026-03-23 09:09:23 | INFO | Got anonymous API key: d58e461d-dd0a-44c8-96aa-db8d7c7da7ba
+2026-03-23 09:09:23 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:23 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:23 | INFO | Created new scorecard: 0c38b757-02e5-4d6e-be6c-69a35239377e
+2026-03-23 09:09:24 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:24 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=1: L1=   0  alpha_conc=22.81  h_var=0.0415
+2026-03-23 09:09:36 | INFO | Got anonymous API key: 29853825-d056-4a83-8cd7-e2b6ec1429f4
+2026-03-23 09:09:36 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:36 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:36 | INFO | Created new scorecard: e6eef7ce-31b9-4c4b-a1b5-235aa5d1aafa
+2026-03-23 09:09:36 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:36 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=2: L1=   0  alpha_conc=14.03  h_var=0.0400
+2026-03-23 09:09:48 | INFO | Got anonymous API key: 2cafc818-81f7-4c4c-9ffd-d7d4614216ab
+2026-03-23 09:09:48 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:48 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:48 | INFO | Created new scorecard: 02d7ffa2-d60c-4e1a-aac7-f9981200781f
+2026-03-23 09:09:48 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:48 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=3: L1=   0  alpha_conc=12.95  h_var=0.0437
+2026-03-23 09:10:00 | INFO | Got anonymous API key: 9bea405f-fa07-4182-8d4d-1b818169dc45
+2026-03-23 09:10:00 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:00 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:00 | INFO | Created new scorecard: a0e706d2-21d0-4373-a65e-7df58011612d
+2026-03-23 09:10:00 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:00 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=4: L1=   0  alpha_conc=17.96  h_var=0.0393
+2026-03-23 09:10:12 | INFO | Got anonymous API key: 873fa58f-dbd0-4e25-8ff3-defca0d83575
+2026-03-23 09:10:12 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:12 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:12 | INFO | Created new scorecard: 964c1903-6b64-4743-88f9-6460f4a77884
+2026-03-23 09:10:12 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:12 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py

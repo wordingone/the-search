@@ -1,0 +1,69 @@
+======================================================================
+STEP 920 — GRAPH+ARGMIN BASELINE (pre-ban ceiling)
+======================================================================
+Per-(state,action) visit counts + argmin. GRAPH BAN applies in production.
+This measures the pre-ban ceiling: how much does graph ban cost?
+
+--- FT09 (68 actions, 25K, 10 seeds) ---
+2026-03-23 09:09:27 | INFO | Got anonymous API key: 029a0dfc-5bd4-4521-9bb7-dce3b116b9f3
+2026-03-23 09:09:27 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:27 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:27 | INFO | Created new scorecard: 6a578456-8cc9-447b-bed4-bfba08e6d207
+2026-03-23 09:09:27 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:27 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=1: L1=   0  unique_states=34  state_action_pairs=2245
+2026-03-23 09:09:33 | INFO | Got anonymous API key: 3e863a06-5f13-4358-9007-1e4d0e1a1b49
+2026-03-23 09:09:33 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:33 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:33 | INFO | Created new scorecard: 80d4ba2a-f05e-4fb5-94d3-06f5fc9ac4cc
+2026-03-23 09:09:33 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:33 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=2: L1=   0  unique_states=33  state_action_pairs=2244
+2026-03-23 09:09:39 | INFO | Got anonymous API key: b619235d-ecd1-4960-857d-33f87bb03e56
+2026-03-23 09:09:39 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:39 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:39 | INFO | Created new scorecard: a2af5691-c36e-4781-957c-21551d8cb8f4
+2026-03-23 09:09:39 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:39 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=3: L1=   0  unique_states=57  state_action_pairs=3809
+2026-03-23 09:09:44 | INFO | Got anonymous API key: c295540c-e48c-4b5f-acd6-0840de54bbbe
+2026-03-23 09:09:44 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:45 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:45 | INFO | Created new scorecard: dd746969-6ffa-4f20-8277-45f9a3975b42
+2026-03-23 09:09:45 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:45 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=4: L1=   0  unique_states=34  state_action_pairs=2312
+2026-03-23 09:09:50 | INFO | Got anonymous API key: 8a3c9634-5ca3-4609-a0a3-2ad858711880
+2026-03-23 09:09:50 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:51 | INFO | Created new scorecard: 9b6c9b0c-452f-4236-8237-e333c1f5eeb1
+2026-03-23 09:09:51 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:51 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=5: L1=   0  unique_states=47  state_action_pairs=3196
+2026-03-23 09:09:56 | INFO | Got anonymous API key: ae57a04e-ee78-4ddd-84f7-295b58f45b85
+2026-03-23 09:09:56 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:57 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:57 | INFO | Created new scorecard: 9ea45d7a-309e-4685-ab0f-135e9b44cb77
+2026-03-23 09:09:57 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:57 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=6: L1=   0  unique_states=29  state_action_pairs=1972
+2026-03-23 09:10:03 | INFO | Got anonymous API key: 3bb360a3-b715-4326-8de0-05e0a36a49dd
+2026-03-23 09:10:03 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:03 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:03 | INFO | Created new scorecard: 49c40f5a-e5c0-40b7-85f3-6cb70ddbbf29
+2026-03-23 09:10:03 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:03 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=7: L1=   0  unique_states=24  state_action_pairs=1632
+2026-03-23 09:10:08 | INFO | Got anonymous API key: 9fe26c23-c652-4326-b920-f6409def340d
+2026-03-23 09:10:08 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:09 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:09 | INFO | Created new scorecard: d823815e-0ff2-48dc-a43f-47a465c31521
+2026-03-23 09:10:09 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:09 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=8: L1=   0  unique_states=31  state_action_pairs=2041
+2026-03-23 09:10:15 | INFO | Got anonymous API key: 235c09ea-e9f0-4b00-b8d9-be117fd308bc
+2026-03-23 09:10:15 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:15 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:15 | INFO | Created new scorecard: 128bc743-07da-4586-a6a2-4b59036fee2f
+2026-03-23 09:10:15 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:15 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py

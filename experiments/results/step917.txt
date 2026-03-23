@@ -1,0 +1,33 @@
+======================================================================
+STEP 917 — ICM (Pathak 2017) SIMPLIFIED ON LS20 + FT09
+======================================================================
+Forward model + intrinsic reward accumulation. No learned features, no inverse model.
+
+--- FT09 (68 actions, 25K, 10 seeds) ---
+2026-03-23 09:09:25 | INFO | Got anonymous API key: eb3e627d-f434-4936-89a2-bd66000e72aa
+2026-03-23 09:09:25 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:25 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:25 | INFO | Created new scorecard: 1fe3dde3-724f-4a35-99e2-e210cdd7de41
+2026-03-23 09:09:25 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:25 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=1: L1=   0  mean_pred_error=2565.605
+2026-03-23 09:09:38 | INFO | Got anonymous API key: 89676908-48fc-4d59-9db9-9db978817388
+2026-03-23 09:09:38 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:38 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:38 | INFO | Created new scorecard: 3794ca48-2bdb-4753-8a77-8be0631fa7dc
+2026-03-23 09:09:38 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:38 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=2: L1=   0  mean_pred_error=2385.775
+2026-03-23 09:09:51 | INFO | Got anonymous API key: 2bbf2f3f-df96-4881-bdc7-e648b3c1ac0f
+2026-03-23 09:09:51 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:09:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:09:51 | INFO | Created new scorecard: 66344412-d6cf-4a05-8a82-5113ae36b25b
+2026-03-23 09:09:51 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:09:51 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    seed=3: L1=   0  mean_pred_error=2364.198
+2026-03-23 09:10:04 | INFO | Got anonymous API key: 05407667-154f-4db8-a40c-efceb7389537
+2026-03-23 09:10:04 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 09:10:04 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 09:10:04 | INFO | Created new scorecard: 667c4ac1-7f39-4b72-9b2c-bd958a11769f
+2026-03-23 09:10:04 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 09:10:04 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
