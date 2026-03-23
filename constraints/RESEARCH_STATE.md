@@ -130,6 +130,8 @@ FINDING: 856 shows NEGATIVE prediction transfer — entropy-maximizing actions c
   Pred R3_cf: ALSO PASS (cold 21.3% → warm 29.7%). DOUBLE PASS.
 Step 806v2 FT09 — INCONCLUSIVE. cold=0, warm=0. Pred: cold 90.2% warm 99.9% (uninformative — static background).
 Step 780_fam LS20 — L1=0. Pred PASS (cold 26.7% → warm 32.3%). Go-home policy doesn't navigate.
+Step 812 - Cross-game transfer LS20→FT09. Pred PASS (+7.93%). BUT: W didn't transfer (shape mismatch 260 vs 324 cols — different n_actions). Only running_mean transferred. The +7.93% is observation distribution similarity, not dynamics transfer. Proper cross-game W transfer needs matching action spaces.
+FINDING: FT09 seeds are degenerate — all start from same state. substrate_seed=0 → identical trajectories across "seeds." n_effective=1 for all FT09 R3_cf results. Fix needed: varied substrate_seeds per test seed.
 Step 762 - D1+D3 self-directed attention on Split-CIFAR-100. avg_accuracy=19.65% (BELOW chance 20%). BWT=+1.4%. Channel weights nearly uniform [0.337, 0.325, 0.338]. D1+D3 HURTS CIFAR — adaptive K over-splits static image graph. Navigation mechanisms don't transfer to classification.
 Step 770 - SOTA chain: 674 on LS20 (10K steps) → Split-CIFAR-100. acc=20.13%, BWT=+6.5%. Compare cold baseline (Step 760): acc=20.21%, BWT=+5.6%. **Zero cross-domain transfer.** LS20 pretraining does not improve CIFAR.
 Step 771 - SOTA chain: D1+D3 on LS20 → Split-CIFAR-100. acc=19.61%, BWT=+1.9%. Below cold baseline. D1+D3 hurts in chain too.
