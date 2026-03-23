@@ -1,0 +1,43 @@
+======================================================================
+STEP 903 — EXTREME LEARNING MACHINE (ELM) FORWARD MODEL
+======================================================================
+Fixed W_hidden (512,260) ReLU + trainable W_out (256,512). eta=0.01.
+Action: MSE-based novelty (min L2 dist to 500-obs buffer). eps=0.2.
+Transfer: W_out only. Key question: pred_acc vs linear W (19.9%)?
+2026-03-23 06:59:56 | INFO | Got anonymous API key: a7d597fe-f7f4-47ae-bce7-504f5458ee61
+2026-03-23 06:59:56 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 06:59:56 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 06:59:56 | INFO | Created new scorecard: d0213045-c317-4316-8786-e8feced8b770
+2026-03-23 06:59:56 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 06:59:56 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:00:19 | INFO | Got anonymous API key: 7fab610a-255d-4da4-a565-9050ae59f5b5
+2026-03-23 07:00:19 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:00:19 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:00:19 | INFO | Created new scorecard: b27d265b-5636-42f5-beee-05277ef99ca4
+2026-03-23 07:00:19 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:00:19 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:00:43 | INFO | Got anonymous API key: f37af02d-e5a2-40b8-b64b-c6002ae584b1
+2026-03-23 07:00:43 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:00:43 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:00:43 | INFO | Created new scorecard: 7f220648-31c9-44bd-b78c-0b48ee38e1f3
+2026-03-23 07:00:43 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:00:43 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:01:07 | INFO | Got anonymous API key: 51dc8bb4-2687-4c10-8a78-f8a05b38ecd3
+2026-03-23 07:01:07 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:01:07 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:01:07 | INFO | Created new scorecard: d7ef138d-829f-4308-acdf-4da1048258a8
+2026-03-23 07:01:08 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:01:08 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 07:01:31 | INFO | Got anonymous API key: c008508e-4382-4d45-ae49-6e93501a7d52
+2026-03-23 07:01:31 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:01:31 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:01:31 | INFO | Created new scorecard: 85856f99-9f11-4b58-8868-3b7597f3673f
+2026-03-23 07:01:31 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:01:31 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  Pretrain done (120.2s). raw_MSE=-0.3906
+2026-03-23 07:01:55 | INFO | Got anonymous API key: f0e6bfa6-e845-440d-9a93-ec5b6c3c8f72
+2026-03-23 07:01:55 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 07:01:55 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 07:01:55 | INFO | Created new scorecard: 74f118f0-8c45-4ca0-b41a-bf7a6451eac5
+2026-03-23 07:01:56 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 07:01:56 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
