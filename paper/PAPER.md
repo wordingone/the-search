@@ -1384,17 +1384,29 @@ The path to this question:
 6. Proposition 20 (state decomposition) formalizes why: location-dependent state $L(s)$ (visit counts, edge dicts) always transfers negatively. Dynamics-dependent state $D(s)$ (forward models, transition predictions) could transfer positively — if the underlying dynamics generalize across environments (the hypothesis).
 7. The graph ban (post Step 777, permanent) and codebook ban (post Step 416) eliminate both known-working mechanisms. The search enters unexplored territory where R3-compliance is possible but navigation is unproven (the frontier).
 
-**Three open questions define the frontier:**
+**Three open questions defined the frontier. Two are now partially resolved:**
 
-(a) **Can a D-only substrate navigate?** Without per-(state, action) tracking, no tested mechanism achieves better-than-random exploration. Prediction-contrast (argmax of predicted state change), action cycling, ensemble disagreement, and compression progress are candidates. Steps 778-888 test these.
+(a) **Can a D-only substrate navigate? PARTIALLY RESOLVED.** 800b (per-action change EMA + 20% random) achieves 6-10× random on LS20, confirmed across 4 substrate seeds (Steps 800b, 868). Softmax action selection (T=0.1) may further improve navigation (Step 868: 379/seed vs 327, pending varied-seed validation). However: 0 L1 on FT09 (position-dependent signal masked by global averaging). No universal post-ban navigation mechanism found.
 
-(b) **Does D(s) produce positive R3 counterfactual?** A forward model trained on environment A should predict dynamics in environment B (same physics, different layout). Steps 806, 812, 824-827 test this directly. If yes, the post-ban feasible region is non-empty. If no, R3_counterfactual may be unachievable under R1.
+(b) **Does D(s) produce positive R3 counterfactual? YES.** Prediction accuracy transfer confirmed: 5/7 PASS, first positive R3_cf in 787+ experiments (Steps 780v5, 778v5, 855v3, 809b, 855b). Forward model $W$ trained on seeds 1-5 predicts better on seeds 6-10 (+15-73% accuracy improvement). Transfer is robust across action mechanisms. NAVIGATION transfer remains zero — the gap is structural (Proposition 21).
 
-(c) **What replaces argmin?** Argmin over visit counts was the universal action selection mechanism across all tested families (algorithm invariance, Steps 521-525). Post-ban, no equivalent exists. The closest candidate is compression progress (Schmidhuber 1991): go where prediction error is IMPROVING, not where it is high. This avoids the noisy TV problem (stochastic transitions have constant error, not improving). Steps 855, 858, 861 test this.
+(c) **What replaces argmin? OPEN.** Compression progress: KILLED (action collapse, Step 855). Per-action change tracking: works on LS20 only. Prediction-guided novelty: UNTESTED with correct implementation (enc_hash bug invalidated Steps 889-892; MSE-based novelty buffer is the fix). The argmin replacement is the deepest open question.
 
-The 16 levels solved via source analysis (Proposition 9) remain the specification. The graph ban does not change the goal — it removes the scaffolding. An R3-compliant substrate must discover navigation, classification, and cross-domain transfer autonomously, without prescribed mechanisms, without per-(state, action) tracking, without a human designer.
+**The architecture triangle (Proposition 22) reframes the search:**
 
-The contribution is the walls. The bans are two more walls. The substrate — if it exists — lives inside all of them.
+The 800+ experiments across 12 families cluster into three vertices: recognition (codebook, banned), tracking (graph, banned), and dynamics (prediction, current frontier). Post-ban, prediction error is the unique remaining signal for R3 encoding self-modification (Corollary 22.1). The true substrate lives at or near the dynamics vertex — the only vertex where circular causation (improve model → change novelty → change exploration → improve model) creates the (M,R)-system closure needed for R3.
+
+**Four new questions at the dynamics vertex:**
+
+(d) **Does prediction-error attention achieve R3?** Per-dimension prediction error can drive encoding weights $\alpha_d$ that concentrate on informative dimensions (Corollary 22.2). On FT09 (98.7% static), $\alpha$ should discover the ~1.3% dynamic signal without human prescription. Step 895 tests this.
+
+(e) **What model family achieves sufficient prediction accuracy?** Linear $W$ reaches 19.9% (MSE-based). MLP underperforms at online learning rates (Step 890). ELM (random non-linear features + convex readout) and online decision trees are untested. The model accuracy bottleneck may be the primary constraint on navigation from prediction.
+
+(f) **Can cross-game forward model transfer work?** Different games have different action spaces: LS20 (4), FT09 (68), VC33 (7). Forward model $W$ has shape $(d, d + n_a)$ — different $n_a$ prevents direct weight transfer (Step 812). Action-space-independent forward models (action encoded as observation delta, not one-hot) are the proposed fix.
+
+(g) **Is the interior point of the triangle achievable?** The substrate needs spatial awareness (vertex 1 property via $\alpha$-weighted encoding), exploration (vertex 2 property via prediction novelty), and dynamics modeling (vertex 3 mechanism). All three achieved through dynamics-vertex mechanisms, since the other two vertices are banned. Steps 889-902 test this systematically.
+
+The 16 levels solved via source analysis (Proposition 9) remain the specification. The bans do not change the goal — they remove the scaffolding. The dynamics vertex is the only remaining territory where R3 can structurally exist. The contribution is the walls. The substrate — if it exists — lives inside all of them.
 
 ## Author Attribution and Disclosure
 
