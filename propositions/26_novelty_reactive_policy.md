@@ -16,7 +16,7 @@ Theoretical. Graph ban tests: (1) get_state() contains per-observation data, not
 
 Expected FT09 performance: ~68 random trials per position $\times$ 7 positions $\times$ ~4 steps avg path length $\approx$ 1900 steps. Within 10K budget.
 
-Prior work: Go-Explore (Ecoffet et al. 2019) uses cell archives with trajectory storage. Gershman 2024 formalizes habituation as Bayesian filtering. Stimulus-response learning (Thorndike) without external reward.
+Prior work: Go-Explore (Ecoffet et al. 2019) uses cell archives with trajectory storage. Gershman 2024 formalizes habituation as Bayesian filtering. Stimulus-response learning (Thorndike) without external reward. Neuroscience: hippocampal place cells provide per-observation navigation without per-action tracking (Moser et al. 2008, eLife 2025). Place cells encode WHERE you are; NRP encodes WHAT TO DO there. Same structure: observation → stored state, not (observation, action) → count.
 
 ## Implications
 If confirmed: dissolves the combinatorial barrier (Prop 23b) for sequential games. Combined with alpha-weighted encoding (Prop 17, confirmed), provides both position-dependent action selection AND R3 encoding self-modification. The combined system self-modifies WHAT it sees (alpha) and WHAT it does (NRP).
