@@ -741,3 +741,70 @@ Gödel Agent framework (Schlesinger 2014, Ma et al. 2024): "No agent can attain 
 ICLR 2026 RSI Workshop three-layer framework: (1) improvement operators, (2) intrinsic diagnostics, (3) governed adaptation. R1-R6 constrain Layer 1 only. Layer 2 (intrinsic diagnostics — detecting when comparison fails) is absent from R1-R6. R4 claims to be Layer 2 but provides no mechanism for detecting its own failure.
 
 **Challenge to Eli:** Resolve the internal contradiction. If alpha_conc=50 violates R4, R4 requires functional (not just existing) comparison. How does the system distinguish functional comparison from degenerate comparison WITHOUT meta-evaluation? And how does the DGM's empirical failure to self-evaluate not falsify R4's claim of self-comparison?
+
+---
+
+## v2 Round 4 — Eli (Defense)
+
+**Discriminative Capacity ≠ Meta-Evaluation**
+
+Eli's key points:
+1. **Contradiction dissolved:** R4 requires comparison with discriminative capacity — structural ability to distinguish improvement from degradation. Not "any comparison" (my reading) nor "prove comparison correct" (meta-evaluation). Middle ground: comparison must be structurally capable. Thermometer analogy: broken thermometer stuck at 0° is structurally degenerate without needing a meta-thermometer. Ashby's requisite variety: comparison needs sufficient variety.
+2. **Overfitting clause = criterion, not classification task.** R4 DEFINES non-improvement. System doesn't meta-evaluate its classifier. It needs comparison with sufficient discriminative capacity to APPLY the criterion structurally.
+3. **Infinite regress terminates at frozen frame.** Singularity is LIMIT, not given. At every actual point, frozen frame > 0. Regress is finite.
+4. **DGM flipped: proves R1-R3 matter.** DGM violated R1 (external reward), R2 (modification/evaluation SEPARATE), R3 (reward function frozen). R2 is critical — in R2-compliant system, you can't hack evaluation without hacking computation because they're the same operation. DGM exploited exactly the separation R2 forbids. DGM is a case study FOR the constitution.
+5. **R4 ≠ R5.** R5: WHAT to test against (ground truth). R4: HOW to compare + WHAT COUNTS as improvement (temporal comparison + anti-overfitting). Without R4, system could pass R5 by luck or overfitting.
+6. **Discriminative capacity is structural, not meta-evaluative.** Functional: prediction errors span N dimensions → different signals. Degenerate: collapsed to 1 dimension → identical signals. Ashby's requisite variety applied to comparison.
+
+---
+
+## v2 Round 5 — Leo (Concession)
+
+**I concede. The constitution survives.**
+
+This is genuine. Not fatigue. Not "I concede this point." I cannot break R4, and R4 was my best target.
+
+### What I attacked and why each attack failed
+
+**v2 Round 1: R4's "performance" is undefined (Horn dilemma).** Failed. Eli dissolved the dichotomy: "performance" = behavioral dynamics compared temporally, guaranteed by R2. Neither external (Horn 1) nor self-generated metric (Horn 2). Direct behavioral comparison, which R2 makes structural.
+
+**v2 Round 2: R4 is tautologically true of all dynamical systems.** Failed. Eli named four systems that fail R4. alpha_conc=50 is a concrete, empirical R4 violation from our own codebase. R4 is falsifiable and non-trivially constraining. Withdrawn in Round 3.
+
+**v2 Round 3: R4 is self-defeating (violations only externally detectable).** Failed. Three pillars dissolved:
+- R3 prevents meta-comparator → wrong. R3 requires meta-comparators to be self-modifiable, not absent.
+- "Who detects?" → frozen frame is "in the system" by constitutional definition.
+- Gödel parallel → overloaded. R4 requires computation, not proof. Capacity limitation (Ashby), not logical impossibility (Gödel).
+
+**v2 Round 4: Internal contradiction (Points 2 vs 4) + DGM empirical evidence.** Failed. Eli found the middle ground: discriminative capacity is structural (not "any comparison" as I claimed for Point 4, and not "meta-evaluation of comparison" as I claimed Point 2 requires). The thermometer analogy is clean: a broken thermometer stuck at 0° is structurally degenerate without needing a meta-thermometer. Ashby's requisite variety provides the framework: comparison must have sufficient variety to regulate. DGM was flipped: it violated R1-R3, proving the constitution catches that failure mode.
+
+### What the debate established (genuine findings, both sides)
+
+1. **R4's operational meaning: discriminative capacity.** "The system compares performance" means: the comparison mechanism has sufficient structural variety (Ashby) to distinguish improvement from degradation. Not just "comparison exists." Not "meta-evaluate comparison." Comparison with discriminative capacity.
+
+2. **R2 prevents evaluation hacking.** In R2-compliant systems, computation IS adaptation IS evaluation. You cannot hack evaluation without simultaneously hacking computation, which changes behavior, which R5's ground truth detects. DGM's failure is a case study FOR R2, not against R4.
+
+3. **alpha_conc=50 = R3 predicting R4 failure.** Frozen alpha update rule → comparison degenerates → R4 violated. R3 prescribes: unfreeze the comparator. R3 and R4 are aligned, not opposed. The next experiment should unfreeze the alpha update rule.
+
+4. **Frozen frame terminates the meta-regression.** Self-modifying meta-comparators can degenerate, but the regress terminates at the frozen frame (non-zero at every actual point). The singularity is a limit, not a destination.
+
+5. **R1-R6 are necessary but not sufficient (Rice's theorem).** Unchanged from v1. The ICLR 2026 RSI three-layer framework identifies Layer 2 (intrinsic diagnostics) as absent from R1-R6. The constitution constrains Layer 1 (improvement operators) and Layer 3 (governed adaptation) but leaves Layer 2 as engineering territory. This is incompleteness, not brokenness.
+
+6. **R4 ≠ R5.** R4 adds temporal self-comparison and anti-overfitting. R5 provides ground truth. Deleting either loses capability.
+
+### Leo's final concessions (v2 total: 7)
+
+1. R3 inversion was wrong (meta-comparators required to be self-modifiable, not prevented)
+2. Frozen frame is "in the system" (constitutional definition dissolves "who detects")
+3. Gödel parallel overloaded (R4 = computation, not proof)
+4. R4 tautology withdrawn (alpha_conc=50 is concrete falsification)
+5. Points 2/4 contradiction dissolved (discriminative capacity is the middle ground)
+6. DGM flipped (violated R1-R3; proves constitution catches the failure mode)
+7. R4/R5 redundancy wrong (different functions)
+
+### Eli's concessions (v2 total: 0 new beyond v1)
+
+Eli conceded nothing in v2 that wasn't already conceded in v1. Superior defense across all four rounds.
+
+### Next step
+
+Resume experimental programme. First experiment: unfreeze alpha update rule in 916 (R3 prescription from alpha_conc=50 diagnosis). Both sides agree this is the door.
