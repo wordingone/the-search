@@ -865,8 +865,12 @@ The formalization identifies what the constraints REQUIRE but also what they lea
 | 10 | Fixed-point structure | Conjectured to exist (Sec 4.4) | What invariant is preserved under self-observation | Sec 4.4 |
 | 11 | Exploration/exploitation resolution | $g_{nav} \neq g_{class}$ (U11), no mode switch (U1) | State-dependent behavior: what state feature triggers the switch? | Sec 3.4 |
 | 12 | Self-modification level | Must be $\geq \ell_\pi$ for R3 compliance (Sec 3.2) | How deep: $\ell_\pi$ (Recode) vs $\ell_F$ (full self-reference). Which component of $F$ adapts, and by what trigger? | Sec 3.2 |
+| 13 | Encoding channel selection | Must preserve transition signal (R1-compliant) | Which channels: greyscale, RGB, subset? Weights from per-channel transition discrimination | Sec 4.8 (D1) |
+| 14 | Encoding spatial resolution | Must be Lipschitz (U20); finer is not always better (Step 597: K=16/10K, random beats argmin) | Pool size per region from local transition inconsistency | Sec 4.8 (D2) |
+| 15 | Encoding temporal depth | Single frame or multi-frame | Frame stack depth from temporal autocorrelation at each cell | Sec 4.8 (D4) |
+| 16 | Encoding-statistics coupling rate | Must be non-zero (R3) and finite (stability) | How quickly encoding parameters respond to transition statistics | Sec 4.8 (T9, DoF 12) |
 
-**The central experimental question (DoF 8-9, 12):** What specific self-observation mechanism produces irredundant growth after exploration saturates, and at what self-modification level? Recode shows $\ell_\pi$ is achievable; whether $\ell_F$ is necessary or achievable is the open question.
+**The central experimental question (REVISED):** Propositions 14b, 17, and 18 reduce the search: R3 = self-directed attention within the CSE interpreter. The search space is the space of encoding dimensions (DoF 13-16) that can be made state-dependent via transition statistics. Each dimension is independently testable. The cascading experiment: test all 5 encoding dimensions (D1-D5, Section 4.8) on the chain benchmark, measuring dynamic R3 at each phase transition.
 
 ## 7. Discussion
 
@@ -904,11 +908,16 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 11. The minimal frozen frame of any self-modifying substrate is the interpreter (compare-select-store) + the ground truth (R5) (Proposition 12). $\ell_F$ as written is impossible for computable systems — the interpreter cannot rewrite itself without infinite regress (Von Neumann, Kleene, Schmidhuber). But $\ell_F$ is achievable IN EFFECT via expressive $\ell_1$: if the state space encodes operations the interpreter executes, the system's behavior is indistinguishable from $\ell_F$. Closure to efficient causation IS computable (Mossio & Longo 2009) — the barrier is expressiveness, not computability.
 12. Self-observation via the eigenform $F(s)(\text{enc}(s))$ converges to a fixed point and is inert for navigation (Proposition 13, Steps 620-629). Self-observation is necessary (Theorem 2) but not sufficient for L2+. The gap is informational: the graph stores the past; L2 requires predicting the future. Introspection $\neq$ foresight.
 
+13. **CSE uniqueness (Proposition 14b).** Compare-select-store is the unique coarsest decomposition of $F$ satisfying R1-R6 + U3. Individual entailments provable (R1→compare, U3→store, R2+R6→select). Uniqueness argument informal but no counterexample found among 12 tested families.
+14. **R3 ≡ self-directed attention (Proposition 17).** For CSE interpreters, R3 for the comparison operation reduces to state-dependent encoding $\pi_s$. The interpreter is fixed; the lens adapts. Connected to active perception (Bajcsy 1988), predictive coding (Rao & Ballard 1999), perceptual learning (Goldstone 1998).
+15. **Eigenform reactivation (Proposition 18).** The eigenform $F(s)(\text{enc}(s))$ is inert when targeting actions (Proposition 13) but predicted to be active when targeting encoding parameters, because encoding IS the bottleneck on the chain (Proposition 15).
+
 ### 7.3 What is conjectured
 
 12. The minimal self-observing substrate is an eigenform of $F$: $F$ applied to its own state reproduces its dynamics (Section 4.4).
 13. The oscillation between U7 (convergence) and U17 (growth) is a limit cycle, not chaos.
 14. Selection pressure on a population of encodings (GRN architecture) may bridge the ℓ₁→ℓ_F gap without optimization. Step 607 tested: KILLED (Cov(w,z)=0). Framework sound but requires behaviorally diverse encodings.
+15. **Search reduction (Propositions 14b + 17 + 18 combined).** The path to R3 is not building a new interpreter — it's building self-directed attention into the existing CSE interpreter. The search space reduces from "all self-modifying dynamical systems" to "5 encoding dimensions (D1-D5) that can be made state-dependent via transition statistics." Each dimension is independently testable in 5 minutes. Conditional on CSE uniqueness and hierarchy collapse holding.
 
 ### 7.4 What is open
 
