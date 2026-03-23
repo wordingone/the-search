@@ -514,7 +514,8 @@ class ChainRunner:
 
     def save_results(self, aggregated: dict, substrate_name: str,
                      step: int = 0, config: dict = None,
-                     output_dir: str = None, mode: str = None) -> str:
+                     output_dir: str = None, mode: str = None,
+                     chain_kill: dict = None) -> str:
         """Save chain results as structured JSON to chain_results/runs/.
 
         Returns path to saved file.
@@ -550,6 +551,7 @@ class ChainRunner:
                 "phases_total": phases_total,
                 "chain_complete": phases_passed == phases_total,
             },
+            "chain_kill": chain_kill if chain_kill is not None else {"verdict": "NO_BASELINE"},
         }
 
         for name, data in aggregated.items():

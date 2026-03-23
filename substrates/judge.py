@@ -84,7 +84,8 @@ class ConstitutionalJudge:
     # Chain kill criterion (Jun, 2026-03-23)
     # ------------------------------------------------------------------
     def _check_chain_kill(self, chain_results: dict,
-                          baseline_results: dict) -> dict:
+                          baseline_results: dict,
+                          baseline_name: str = "provided") -> dict:
         """Detect per-game tuning. Jun's criterion:
 
         'Any mechanism that improves one game at the cost of another
@@ -129,6 +130,9 @@ class ConstitutionalJudge:
         return {
             "verdict": verdict,
             "detail": detail,
+            "improved_games": [g["game"] for g in improved],
+            "degraded_games": [g["game"] for g in degraded],
+            "baseline_used": baseline_name,
             "improved": improved,
             "degraded": degraded,
             "neutral": neutral,
