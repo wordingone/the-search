@@ -103,7 +103,14 @@ Step 782v2 - Hebbian recurrent, 25K. L1=0/10. Readout does not converge to actio
 Step 784v2 - Encoding-only + random, 25K. L1=164/seed (tied with 778). Same RNG → same actions → same result.
 FINDING (Steps 778-784 v2): **LS20 rewards action PERSISTENCE, not action 0 specifically.** Always-action-0 diagnostic = 0 L1 (NOT dominant). High L1 from 778/784 (164/seed) is substrate_seed=0 RNG artifact — same random sequence for cold and warm. 807's 36.4/seed (varied RNG) is the real baseline. Pattern: random/momentum L1 > 0 (natural persistence); novelty-seeking L1 = 0 (avoids persistence). **All novelty-seeking mechanisms (prediction-contrast, ensemble, cycling, round-robin) get 0 L1 on LS20.** Bug found in prediction accuracy measurement (prev_enc circular dep). Reruns with fix running.
 PIVOT (2026-03-23): Critical path = prediction accuracy R3_cf (bug-fixed + delta rule). Does warm W predict better than cold W on test seeds? FT09 pivot for L1-based testing (diversity helps on click games). LS20 L1 uninformative for post-ban mechanisms.
-CRITICAL BUG: Hebbian W diverges. W += ETA * outer(x, inp) grows unboundedly → all pred accuracy results were invalid (warm predicted WORSE due to exploding W). Fixed: delta rule W -= ETA * outer(pred_err, inp). Converges. R2 compliance: delta rule is self-supervised gradient on environmental observations, not external loss. Tension noted but not blocking. Reruns with delta rule in progress.
+CRITICAL BUG: Hebbian W diverges. W += ETA * outer(x, inp) grows unboundedly → all pred accuracy results were invalid (warm predicted WORSE due to exploding W). Fixed: delta rule W -= ETA * outer(pred_err, inp). Converges. R2 compliance: delta rule is self-supervised gradient on environmental observations, not external loss. Tension noted but not blocking.
+**Step 780v5 — FIRST POSITIVE R3_cf (prediction accuracy) IN 787+ EXPERIMENTS.**
+  Cold W: 11.51% prediction accuracy. Warm W: 19.95%. **73% improvement.** Consistent across ALL 5 test seeds.
+  D(s) = {W, running_mean} TRANSFERS. Forward model trained on seeds 1-5 predicts better on unseen seeds 6-10.
+  Proposition 20(b) CONFIRMED: dynamics-dependent state transfers positively.
+  L1 R3_cf: INCONCLUSIVE (prediction-contrast can't navigate LS20 — separate problem).
+  Root causes of prior failures: (1) Hebbian divergence, (2) pred accuracy bug, (3) 10K budget.
+  Next: confirm with random actions (778v5), cross-game transfer (LS20→FT09), action selection that navigates.
 Step 762 - D1+D3 self-directed attention on Split-CIFAR-100. avg_accuracy=19.65% (BELOW chance 20%). BWT=+1.4%. Channel weights nearly uniform [0.337, 0.325, 0.338]. D1+D3 HURTS CIFAR — adaptive K over-splits static image graph. Navigation mechanisms don't transfer to classification.
 Step 770 - SOTA chain: 674 on LS20 (10K steps) → Split-CIFAR-100. acc=20.13%, BWT=+6.5%. Compare cold baseline (Step 760): acc=20.21%, BWT=+5.6%. **Zero cross-domain transfer.** LS20 pretraining does not improve CIFAR.
 Step 771 - SOTA chain: D1+D3 on LS20 → Split-CIFAR-100. acc=19.61%, BWT=+1.9%. Below cold baseline. D1+D3 hurts in chain too.
