@@ -300,7 +300,35 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 ---
 
-## The State of the Search (720+ experiments, 12 families)
+## Game-Specificity Caveat (2026-03-23)
+
+*ARC-AGI-3 full launch: March 25, 2026. 150+ games. All constraints below derived from 3 preview games (LS20, FT09, VC33). This section flags which findings are game-independent vs game-specific.*
+
+**Game-independent (structural/mathematical — will survive new games):**
+- U1, U3, U7, U11, U16, U17, U20, U22, U24 — derived from architecture properties or mathematical arguments, not from specific game mechanics.
+- Three mapping properties (deterministic, locally continuous, persistent) — topological argument, applies to any navigation environment.
+- Argmin as action selection — algorithm invariance confirmed across 4 representations (Step 521-525). Any graph + any representation + argmin = same navigation.
+- Convergence kills exploration (U22) — mathematical: any convergent adaptation → stationary environment → no learning signal.
+- Growth-only = zero forgetting (U3) — architectural property of accumulative state.
+
+**Game-specific (may break on 150+ new games):**
+- VC33 magic pixels at (62,26) and (62,34) — specific to canal lock puzzle. New games will have different interaction mechanisms.
+- FT09 69-action decomposition (64 click + 5 simple) — specific to FT09's click grid. New click games may have different layouts.
+- LS20 hidden state POMDP (snw, tmx, tuv) — specific to LS20's state machine. Other games may be fully observable or have different hidden variables.
+- "Death penalty hurts argmin" (Steps 741, 744, 749) — tested only on LS20. Games without death mechanics or with different death dynamics may behave differently.
+- "Argmin purity" (Step 759: 14/20 vs random 6/20) — tested on LS20 with 674 substrate. Other games with different topology may show different argmin-vs-random gaps.
+- K_NAV=12 near-optimal (Step 752: K=6 minimum, K=16 optimal) — tested on LS20 only. Games with different observation complexity may need different K values.
+- CIFAR = chance (Step 760: 20.21%) — specific to avgpool16 + random hyperplane encoding. Different encodings or image benchmarks may show different baselines.
+- Zero cross-domain transfer (Steps 770-773) — tested on LS20→CIFAR and CIFAR→LS20 only. Transfer between similar domains (game→game) untested.
+
+**Untested on new games (highest risk):**
+- Whether the chain benchmark generalizes to games that aren't navigation puzzles (strategy, timing, memory games).
+- Whether avgpool16 encoding works for non-pixel-grid games.
+- Whether the R3 dynamic measurement generalizes beyond hash-based substrates.
+
+---
+
+## The State of the Search (770+ experiments, 12 families)
 
 *Revised 2026-03-21 session. Updated with Steps 494-612. 16 levels via source analysis (R3 specification). GRN killed (607). LS20 L4 bootstrap in progress (612).*
 
