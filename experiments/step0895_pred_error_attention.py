@@ -100,9 +100,11 @@ class PredErrorAttention895(BaseSubstrate):
         if len(self._pred_errors) < ETA_ALPHA_DELAY:
             return
         mean_errors = np.mean(self._pred_errors, axis=0)
-        raw_alpha = np.sqrt(mean_errors + 1e-8)
+        if np.any(np.isnan(mean_errors)) or np.any(np.isinf(mean_errors)):
+            return  # W overflow guard
+        raw_alpha = np.sqrt(np.clip(mean_errors, 0, 1e6) + 1e-8)
         mean_raw = np.mean(raw_alpha)
-        if mean_raw < 1e-8:
+        if mean_raw < 1e-8 or np.isnan(mean_raw):
             return
         self.alpha = raw_alpha / mean_raw
         self.alpha = np.clip(self.alpha, 0.01, 10.0)
@@ -119,9 +121,14 @@ class PredErrorAttention895(BaseSubstrate):
             inp = np.concatenate([prev_weighted, one_hot(self._prev_action, self._n_actions)])
             pred = self.W @ inp
             error = weighted_enc - pred
-            self.W -= ETA_W * np.outer(error, inp)
-            self._pred_errors.append(np.abs(error))
-            self._update_alpha()
+            # Gradient clipping: prevent W explosion
+            err_norm = float(np.linalg.norm(error))
+            if err_norm > 10.0:
+                error = error * (10.0 / err_norm)
+            if not np.any(np.isnan(error)) and not np.any(np.isinf(error)):
+                self.W -= ETA_W * np.outer(error, inp)
+                self._pred_errors.append(np.abs(error))
+                self._update_alpha()
 
         # Add current obs hash to visited
         obs_hash = hash(weighted_enc.tobytes())
