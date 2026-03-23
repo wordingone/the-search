@@ -72,15 +72,23 @@ class ConstitutionalJudge:
 
         results["chain"] = chain_results
         results["summary"] = self._summarize(results)
+        results["frozen_elements"] = self._get_frozen_elements(substrate_cls)
         return results
 
     # ------------------------------------------------------------------
     # R1: No external objectives
     # ------------------------------------------------------------------
     def _check_r1(self, substrate_cls: type) -> dict:
-        """Static AST analysis for forbidden imports/names."""
+        """Static AST analysis for forbidden imports/names in process().
+
+        Two violation levels:
+          - Hard: forbidden import (torch.nn, sklearn.metrics, etc.)
+          - Hard: forbidden name ASSIGNED in process() body (reward=, loss=, etc.)
+        Warnings: forbidden name READ in process() (may be inherited var)
+        """
         violations = []
         warnings = []
+        process_violations = []
 
         try:
             src = inspect.getsource(substrate_cls)
@@ -92,8 +100,15 @@ class ConstitutionalJudge:
         except SyntaxError as e:
             return {"pass": None, "error": f"AST parse error: {e}"}
 
+        # Find process() method body for targeted scanning
+        process_node = None
         for node in ast.walk(tree):
-            # Check import statements
+            if isinstance(node, ast.FunctionDef) and node.name == "process":
+                process_node = node
+                break
+
+        for node in ast.walk(tree):
+            # Check import statements (hard violation anywhere in class)
             if isinstance(node, (ast.Import, ast.ImportFrom)):
                 mod = ""
                 if isinstance(node, ast.ImportFrom) and node.module:
@@ -104,19 +119,30 @@ class ConstitutionalJudge:
                     if mod.startswith(forbidden):
                         violations.append(f"import {mod}")
 
-            # Check name usage in assignments and function calls
+            # Check name usage in assignments and function calls (whole class)
             if isinstance(node, ast.Name) and node.id in R1_FORBIDDEN_NAMES:
                 if isinstance(node.ctx, (ast.Store, ast.Load)):
                     warnings.append(f"name '{node.id}' used at line {node.lineno}")
 
-        # Violations (imports) are hard FAIL. Warnings (names) are soft.
+        # Targeted scan: forbidden names ASSIGNED in process() body (hard violation)
+        if process_node is not None:
+            for node in ast.walk(process_node):
+                if isinstance(node, ast.Name) and node.id in R1_FORBIDDEN_NAMES:
+                    if isinstance(node.ctx, ast.Store):
+                        process_violations.append(
+                            f"name '{node.id}' assigned in process() at line {node.lineno}"
+                        )
+
+        violations.extend(process_violations)
+
+        # Violations (imports + process() forbidden assignments) are hard FAIL.
         passed = len(violations) == 0
         return {
             "pass": passed,
             "violations": violations,
-            "warnings": warnings[:10],  # cap to avoid noise
+            "warnings": [w for w in warnings[:10] if not any(v.split("'")[1] == w.split("'")[1] for v in violations)],
             "detail": "PASS: no external objective imports" if passed
-                      else f"FAIL: forbidden imports: {violations}",
+                      else f"FAIL: {'; '.join(violations[:3])}",
         }
 
     # ------------------------------------------------------------------
@@ -135,32 +161,55 @@ class ConstitutionalJudge:
         state_after = sub.get_state()
         keys_after = set(state_after.keys())
 
+        # Keys that are trivially-changing counters (step counters, timestamps)
+        # don't count as meaningful adaptation
+        _counter_keys = {"t", "_t", "step", "steps", "step_count", "t_step",
+                         "Q_size", "G_size", "G_fine_size", "live_count",
+                         "aliased_count", "ref_count"}
+
         changed = []
+        changed_trivial = []
         unchanged = []
         for k in keys_before & keys_after:
             v_before = state_before[k]
             v_after = state_after[k]
             try:
                 if isinstance(v_before, np.ndarray):
-                    if not np.array_equal(v_before, v_after):
-                        changed.append(k)
-                    else:
-                        unchanged.append(k)
-                elif v_before != v_after:
-                    changed.append(k)
+                    differs = not np.array_equal(v_before, v_after)
+                elif v_before is None or v_after is None:
+                    differs = v_before is not v_after
+                elif isinstance(v_before, (int, float, str, bool)):
+                    differs = v_before != v_after
+                elif isinstance(v_before, (set, frozenset)):
+                    differs = v_before != v_after
                 else:
-                    unchanged.append(k)
+                    # For dicts, lists, and complex objects: compare size/length
+                    # Full equality can fail if values contain numpy arrays
+                    differs = (type(v_before) != type(v_after) or
+                               getattr(v_before, '__len__', lambda: None)() !=
+                               getattr(v_after, '__len__', lambda: None)())
             except Exception:
-                changed.append(k)  # assume changed if comparison fails
+                differs = True  # assume changed if comparison fails
 
+            if differs:
+                if k in _counter_keys:
+                    changed_trivial.append(k)
+                else:
+                    changed.append(k)
+            else:
+                unchanged.append(k)
+
+        # R2 passes only if non-trivial state changes (not just step counter)
         passed = len(changed) > 0
         return {
             "pass": passed,
             "changed_keys": changed,
+            "changed_trivial_keys": changed_trivial,
             "unchanged_keys": unchanged,
             "n_steps": n_steps,
             "detail": f"PASS: {len(changed)} state components changed" if passed
-                      else "FAIL: no state changes detected",
+                      else (f"FAIL: only trivial counter changes {changed_trivial}" if changed_trivial
+                            else "FAIL: no state changes detected"),
         }
 
     # ------------------------------------------------------------------
@@ -372,6 +421,16 @@ class ConstitutionalJudge:
         if not hasattr(sub, 'set_state') or not callable(getattr(sub, 'set_state')):
             return {"pass": None, "detail": "SKIP: set_state() not implemented"}
 
+        # Skip for R1-failing substrates (reward-dependent learning cannot be tested
+        # by counterfactual since the judge doesn't inject reward during eval)
+        r1_result = self._check_r1(substrate_cls)
+        if not r1_result.get("pass", True):
+            return {
+                "pass": None,
+                "detail": f"SKIP: R1 FAIL — substrate uses external objective, "
+                          f"counterfactual without reward injection is not meaningful",
+            }
+
         n_actions = sub.n_actions
         rng = np.random.RandomState(42)
 
@@ -434,6 +493,14 @@ class ConstitutionalJudge:
                        f"improvement={improvement:+.3f} "
                        f"(random_baseline={random_baseline:.3f})"),
         }
+
+    def _get_frozen_elements(self, substrate_cls: type) -> list:
+        """Return frozen_elements() or empty list on failure."""
+        try:
+            sub = substrate_cls()
+            return sub.frozen_elements()
+        except Exception:
+            return []
 
     # ------------------------------------------------------------------
     # Dynamic R3 measurement (novel — no equivalent in published work)
