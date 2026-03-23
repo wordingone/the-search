@@ -52,4 +52,14 @@ Each run saves a JSON to `runs/`. Schema:
 | ICM (Pathak 2017) | 1% | 44.8/seed | 0 | 0 | 1% | 0/5 |
 | RND (Burda 2018) | 1% | 38.2/seed | 0 | 0 | 1% | 0/5 |
 
-**No substrate has completed the chain.** Exit condition: 5/5 phases passed.
+**No substrate has completed the chain.** Exit condition: all phases passed.
+
+## Future Phases (under evaluation)
+
+| Benchmark | Type | Integration | Status |
+|-----------|------|-------------|--------|
+| Terminal-Bench 2.0 | CLI interaction (89 Docker tasks) | Render terminal as screenshot → action = keystroke | Researched, not integrated |
+| BrowseComp | Web browsing (1,266 questions) | Render page as screenshot → action = click/scroll | Researched, not integrated |
+| Humanity's Last Exam | Expert Q&A | Question image → action = answer index | Compatible (static, like CIFAR) |
+
+Adding these would test: can the substrate handle text-based environments (terminal, web) alongside visual ones (games, images)? The one-door hypothesis predicts yes — the mechanism that adapts to unknown visual games should adapt to unknown text environments. If it can't, that's data about what's missing.

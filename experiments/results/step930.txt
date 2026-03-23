@@ -1,0 +1,212 @@
+======================================================================
+STEP 930 — GAME-ONLY CHAIN: LS20→FT09→VC33 (no CIFAR, 895h)
+======================================================================
+Alpha persists across games. W+delta reset per game.
+10K/game, 10 seeds (5-min cap compliance).
+2026-03-23 10:08:40 | INFO | Got anonymous API key: e706417b-35f3-412c-b03b-f6be794b1bad
+2026-03-23 10:08:40 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:08:40 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:08:40 | INFO | Created new scorecard: 7189a565-e033-4b6b-9c39-694c227fba0e
+2026-03-23 10:08:40 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:08:40 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:08:50 | INFO | Got anonymous API key: 18b2de33-2f49-4c20-9adc-1d2f638863d6
+2026-03-23 10:08:50 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:08:50 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:08:50 | INFO | Created new scorecard: 8a246220-1b99-4fea-9107-449476c6915e
+2026-03-23 10:08:50 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:08:50 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:08:57 | INFO | Got anonymous API key: 439c204c-75a5-47d6-9b01-19d87684730a
+2026-03-23 10:08:57 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:08:57 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:08:57 | INFO | Created new scorecard: 0be54597-2cf6-4ecd-b03e-ff994a5c0905
+2026-03-23 10:08:57 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:08:57 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=1: LS20=  95(α=11.39)  FT09=   0(α=15.60)  VC33=   0
+2026-03-23 10:09:01 | INFO | Got anonymous API key: 7f959718-ca92-4e0a-84eb-0a28bcc04b60
+2026-03-23 10:09:01 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:02 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:02 | INFO | Created new scorecard: e418ec8e-c0fd-48f1-b0dc-17ca28a4c76e
+2026-03-23 10:09:02 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:09:02 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:09:11 | INFO | Got anonymous API key: 4f79b532-e688-4928-8aa1-3405245d55d4
+2026-03-23 10:09:11 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:11 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:11 | INFO | Created new scorecard: 34c6b9d8-c0fc-44f8-a5d7-4079526e34de
+2026-03-23 10:09:11 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:09:11 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:09:17 | INFO | Got anonymous API key: 653b40fa-a1b5-4c78-9bf5-a5e9597c3cd0
+2026-03-23 10:09:17 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:17 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:17 | INFO | Created new scorecard: 6ee44cb0-885b-4fe5-a849-e381f3354b37
+2026-03-23 10:09:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:09:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=2: LS20= 101(α=25.46)  FT09=   0(α=40.28)  VC33=   0
+2026-03-23 10:09:22 | INFO | Got anonymous API key: 402103d3-c262-43fe-85bb-c76d49533deb
+2026-03-23 10:09:22 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:22 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:22 | INFO | Created new scorecard: ad0bbc42-a3a7-4696-b521-de18422fe1db
+2026-03-23 10:09:22 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:09:22 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:09:34 | INFO | Got anonymous API key: d9bd8904-7035-4d9e-98be-d5024d95bf0c
+2026-03-23 10:09:34 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:34 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:34 | INFO | Created new scorecard: d82b7f4d-42c5-4792-9967-08a220af8bd5
+2026-03-23 10:09:34 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:09:34 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:09:40 | INFO | Got anonymous API key: a2f757e5-3f00-4bfa-b9d4-813f1a84a793
+2026-03-23 10:09:40 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:41 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:41 | INFO | Created new scorecard: 65d5bc85-0b03-46c1-821a-3ab23db99b4a
+2026-03-23 10:09:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:09:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=3: LS20=   0(α=15.48)  FT09=   0(α=29.89)  VC33=   0
+2026-03-23 10:09:45 | INFO | Got anonymous API key: 5049ea54-a14d-417a-8bc0-26a9feb43737
+2026-03-23 10:09:45 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:46 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:46 | INFO | Created new scorecard: 40b4c6d8-3771-4787-b311-4eea2128822c
+2026-03-23 10:09:46 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:09:46 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:09:56 | INFO | Got anonymous API key: d804efff-9036-47d1-ab33-ce6ac2bef399
+2026-03-23 10:09:56 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:09:56 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:09:56 | INFO | Created new scorecard: a2a7dc0f-fa80-4ca4-b620-9df12059e1af
+2026-03-23 10:09:56 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:09:56 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:10:02 | INFO | Got anonymous API key: af2d762d-c32c-4982-beb3-4a8be5ebc17b
+2026-03-23 10:10:02 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:02 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:02 | INFO | Created new scorecard: bdb1e1f2-262b-43f5-bd82-e5bc986059a6
+2026-03-23 10:10:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:10:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=4: LS20=  84(α=35.07)  FT09=   0(α=21.86)  VC33=   0
+2026-03-23 10:10:07 | INFO | Got anonymous API key: b6270f87-fa14-4780-bc09-fa1045a4a9e4
+2026-03-23 10:10:07 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:07 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:07 | INFO | Created new scorecard: 3c8bf119-c69d-4348-8baa-172154751da9
+2026-03-23 10:10:07 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:10:07 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:10:18 | INFO | Got anonymous API key: 84adf27d-ae96-4176-8b0d-0704ab380f0f
+2026-03-23 10:10:18 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:18 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:18 | INFO | Created new scorecard: b7535e3c-ca9e-4aa5-a04c-231f626521b1
+2026-03-23 10:10:18 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:10:18 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:10:24 | INFO | Got anonymous API key: c9d42eba-faf8-419b-bcc4-ab8c891992b7
+2026-03-23 10:10:24 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:24 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:24 | INFO | Created new scorecard: a227893b-2740-49b1-899a-bedc1ab069f9
+2026-03-23 10:10:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:10:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=5: LS20=   0(α=39.31)  FT09=   0(α=42.24)  VC33=   0
+2026-03-23 10:10:29 | INFO | Got anonymous API key: 0d2eadc7-8f0d-46b1-b57b-a7db60ccb628
+2026-03-23 10:10:29 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:29 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:29 | INFO | Created new scorecard: 84b5c585-065d-4cbd-91b3-f3eb7faaa1f6
+2026-03-23 10:10:29 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:10:29 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:10:39 | INFO | Got anonymous API key: a900891e-bab1-4cb3-a124-285ab45ac667
+2026-03-23 10:10:39 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:39 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:39 | INFO | Created new scorecard: 38f0d5da-0e8a-4551-95bd-a3826cbba925
+2026-03-23 10:10:40 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:10:40 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:10:46 | INFO | Got anonymous API key: 7f0065c0-30f6-451a-9680-ba0d7e0a2be7
+2026-03-23 10:10:46 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:46 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:46 | INFO | Created new scorecard: 509af5c9-5b72-46cc-bde4-0b88919029f6
+2026-03-23 10:10:46 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:10:46 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=6: LS20= 112(α=26.66)  FT09=   0(α=36.27)  VC33=   0
+2026-03-23 10:10:51 | INFO | Got anonymous API key: d611673b-30f1-479f-b0ee-17f4533c3f5c
+2026-03-23 10:10:51 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:10:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:10:51 | INFO | Created new scorecard: 4c4fc6b3-abbd-4bf0-bdae-d209a0a645ab
+2026-03-23 10:10:51 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:10:51 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:11:00 | INFO | Got anonymous API key: f68c968a-2232-4c30-9076-6510fbd7fb92
+2026-03-23 10:11:00 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:00 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:00 | INFO | Created new scorecard: 38b1205c-ac80-44a8-b7d1-1b12a2999242
+2026-03-23 10:11:00 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:11:00 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:11:06 | INFO | Got anonymous API key: 5ef3426c-a40d-449e-9240-7decb7a3796c
+2026-03-23 10:11:06 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:07 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:07 | INFO | Created new scorecard: cd63559a-c2bc-42bc-84eb-72ad2dc878f9
+2026-03-23 10:11:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:11:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=7: LS20= 151(α=22.57)  FT09=   0(α=35.86)  VC33=   0
+2026-03-23 10:11:12 | INFO | Got anonymous API key: ac7f0045-ab9f-4dad-ba7a-afd8afdde614
+2026-03-23 10:11:12 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:12 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:12 | INFO | Created new scorecard: a988b392-8683-4ea9-8135-a8ac5e51ce96
+2026-03-23 10:11:12 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:11:12 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:11:24 | INFO | Got anonymous API key: 4bcc834f-a040-4abb-97d3-b3df76b0cf8e
+2026-03-23 10:11:24 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:24 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:24 | INFO | Created new scorecard: d552a762-8113-48c7-ab93-2d3b2b59bc52
+2026-03-23 10:11:25 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:11:25 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:11:31 | INFO | Got anonymous API key: f253823a-fcd4-4389-b0d5-2c5985a0c11c
+2026-03-23 10:11:31 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:31 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:31 | INFO | Created new scorecard: 1e9bc2aa-653c-4942-8eed-ee4238541572
+2026-03-23 10:11:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:11:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=8: LS20=   0(α=33.98)  FT09=   0(α=40.49)  VC33=   0
+2026-03-23 10:11:35 | INFO | Got anonymous API key: bbf30cec-517c-4da3-b710-3f64b105e639
+2026-03-23 10:11:35 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:35 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:35 | INFO | Created new scorecard: c164027f-a0d1-41d9-82f4-88e094db6d2f
+2026-03-23 10:11:35 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:11:35 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:11:45 | INFO | Got anonymous API key: fa0810f1-b5de-43a1-bc2c-ac6e504b5da7
+2026-03-23 10:11:45 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:45 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:45 | INFO | Created new scorecard: 37f22728-072a-41f9-a210-99f8d9b6f3e8
+2026-03-23 10:11:45 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:11:45 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:11:52 | INFO | Got anonymous API key: 2e0bd497-dc09-4d78-bd98-48444e6a47f4
+2026-03-23 10:11:52 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:52 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:52 | INFO | Created new scorecard: 626e5420-2f25-47de-8331-11cf1b289a12
+2026-03-23 10:11:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:11:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=9: LS20=  41(α=35.42)  FT09=   0(α=41.69)  VC33=   0
+2026-03-23 10:11:57 | INFO | Got anonymous API key: 34c12ffc-11f2-436f-a4e9-0e0cebbd3c1e
+2026-03-23 10:11:57 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:11:58 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:11:58 | INFO | Created new scorecard: b1c98c3c-e026-4b68-9057-d12343c56dd8
+2026-03-23 10:11:58 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 10:11:58 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-23 10:12:11 | INFO | Got anonymous API key: ba72fed2-ba4c-4e0f-8170-39ce0b795149
+2026-03-23 10:12:11 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:12:12 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:12:12 | INFO | Created new scorecard: d4373554-76e0-4923-9aed-8dbe217d47cc
+2026-03-23 10:12:12 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 10:12:12 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-23 10:12:17 | INFO | Got anonymous API key: 017557d1-e1ac-4d39-9095-b68f213101fe
+2026-03-23 10:12:17 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 10:12:18 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 10:12:18 | INFO | Created new scorecard: 57146714-84af-427b-b54f-67541930f296
+2026-03-23 10:12:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 10:12:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+  seed=10: LS20=   0(α=18.75)  FT09=   0(α=24.78)  VC33=   0
+
+======================================================================
+STEP 930 RESULTS (game-only chain, 895h, 10K/game, 10 seeds):
+  LS20: 58.4/seed  std=54.0  zero=4/10  [95, 101, 0, 84, 0, 112, 151, 0, 41, 0]
+  FT09: 0.0/seed  zero=10/10  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  VC33: 0.0/seed  zero=10/10  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Comparison (all at 10K unless noted):
+  895h standalone 10K (scaled): ~107/seed  (25K=268.0, linear approx)
+  926 chain LS20 (25K, w/ CIFAR, w/ h): 212.6/seed
+  927 baseline chain LS20 (10K): Random=26.2, ICM=44.8
+  930 game-only chain LS20 (10K, 895h): 58.4/seed
+
+CIFAR interference check: compare 930 LS20 vs 927 Count-based (32.6).
+If 930 >> 927: alpha provides signal above count exploration.
+Total elapsed: 221.8s
+STEP 930 DONE
