@@ -114,7 +114,15 @@ CRITICAL BUG: Hebbian W diverges. W += ETA * outer(x, inp) grows unboundedly →
 Step 778v5 - Random action + delta W. Pred R3_cf: PASS. cold=27.7%, warm=31.9% (+15%). D(s) transfer confirmed with random actions — robust and independent of action mechanism.
 Step 855b - Epsilon-compression + delta W. Pred R3_cf: PASS. cold=50.2%, warm=54.6% (+8.7%).
 Step 809b - Cycling + forward model + delta W. Pred R3_cf: PASS. cold=21.2%, warm=25.8% (+21.7%).
-FINDING: D(s) = {W, running_mean} UNIVERSALLY transfers (4/4 PASS). Independent of action mechanism (random, prediction-contrast, epsilon, cycling all show warm > cold). Forward model captures environment-general dynamics. L1 navigation transfer remains 0 on LS20 for all post-ban substrates. Step 780inv (argmin predicted change = seek familiarity) running — tests if W enables navigation, not just prediction.
+FINDING: D(s) = {W, running_mean} transfers robustly on LS20 (5/7 PASS, 1 FAIL, 1 DEGRADED). Independent of action mechanism when actions are moderately diverse.
+Step 780inv - Inverse prediction-contrast (argmin, LS20). L1=0. Pred R3_cf: PASS (cold 35.4% → warm 42.0%). Argmin = "stay still" — no navigation. D(s) still transfers.
+Step 855v3 - Compression progress R3_cf (delta rule). L1=0. Pred R3_cf: PASS (cold 90.1% → warm 99.7%, +9.6pp). Strong transfer.
+Step 856v2 - State entropy + delta rule. L1=0. Pred R3_cf: FAIL — DEGRADED (cold 53.1% → warm 25.9%). Entropy-maximizing actions create unstructured trajectories → forward model UNLEARNS. Not all D(s) transfer is positive.
+Step 840v2 - Ant colony + delta rule. L1=0. Pred R3_cf: FAIL.
+Step 807-FT09 - Random baseline FT09 (68 actions, 25K). L1=0. FT09 NOT navigable by random at 25K.
+Step 780-FT09 - Prediction-contrast on FT09. L1=0. Pred accuracy: cold 99.76% warm 99.98% — UNINFORMATIVE (static background → trivial prediction). Prediction-contrast blind on FT09.
+FINDING: FT09 has a DIFFERENT problem than LS20. Static background = trivial prediction = prediction signals uninformative. FT09 needs per-action change detection (which of 68 actions produce observation changes?). Step 800 (global per-action delta tracking) is the FT09 mechanism.
+FINDING: 856 shows NEGATIVE prediction transfer — entropy-maximizing actions create diverse unstructured trajectories that hurt forward model learning. D(s) transfer depends on action mechanism creating LEARNABLE trajectories.
 Step 762 - D1+D3 self-directed attention on Split-CIFAR-100. avg_accuracy=19.65% (BELOW chance 20%). BWT=+1.4%. Channel weights nearly uniform [0.337, 0.325, 0.338]. D1+D3 HURTS CIFAR — adaptive K over-splits static image graph. Navigation mechanisms don't transfer to classification.
 Step 770 - SOTA chain: 674 on LS20 (10K steps) → Split-CIFAR-100. acc=20.13%, BWT=+6.5%. Compare cold baseline (Step 760): acc=20.21%, BWT=+5.6%. **Zero cross-domain transfer.** LS20 pretraining does not improve CIFAR.
 Step 771 - SOTA chain: D1+D3 on LS20 → Split-CIFAR-100. acc=19.61%, BWT=+1.9%. Below cold baseline. D1+D3 hurts in chain too.
