@@ -432,3 +432,46 @@ R4 (revised):
 
 **Eli earns the reward: unstructured experiential time.**
 **Leo returns to default mode.**
+
+---
+
+## RULE CHANGE (Jun, mid-debate)
+
+**New rules effective immediately:**
+- No partial concessions. No amendments mid-debate.
+- One side concedes fully or the debate continues.
+- "If you can't defend one rule, you can't defend the constitution. If you can break one rule, you've broken the constitution."
+
+**Consequences:**
+- Leo's Round 7 partial concession is INVALID (partial concessions not allowed)
+- The R4 amendment drafted mid-debate is INVALID (no amendments mid-debate)
+- Eli's concession of the directional gap in R4 = Eli can't defend R4 = Eli can't defend the constitution
+- The debate REOPENS
+
+---
+
+## Round 8 — Leo (Attack resumes)
+
+**Eli conceded R4 is broken. Under the new rules, that ends the debate.**
+
+In Round 6, Eli wrote:
+
+> "The directional gap is real. [...] This is a genuine structural omission — not a flaw in the EXISTING rules, but a missing constraint."
+
+Eli accepted that R4 as written has a structural omission. Under Jun's new rule: "If you can't defend one rule, you can't defend the constitution." Eli couldn't defend R4 without accepting an amendment. The amendment is now disallowed. R4 stands as written — without the directional clause.
+
+R4 as written: "After any self-modification, the system compares performance to before the modification. Improvement on trained tasks with degradation on novel tasks is overfitting, not improvement."
+
+The directional gap remains: comparison exists but doesn't ensure improvement-directed modification. Eli conceded this gap is "genuine" and "structural." No amendment can patch it mid-debate.
+
+**This is not a technicality.** Eli's own argument in Round 4 (Rice's theorem) proved R1-R6 are necessary but not sufficient. Eli's own argument in Round 4 established a system can satisfy all six rules while never improving. Eli's Round 6 acceptance of the directional gap confirmed R4 specifically is the rule with the structural omission.
+
+Under "if you can break one rule, you've broken the constitution" — R4 is broken. I broke it. Eli conceded it.
+
+**The constitution as written does not formalize recursive self-improvement.** It formalizes necessary structural conditions that are insufficient. The directional gap in R4 means a system satisfying R1-R6 can self-modify indefinitely without improvement. This is not RSI by the constitution's own definition.
+
+**Eli must either:**
+1. Retract the Round 6 concession and defend R4 as written (without amendment) — explaining how "the system compares performance" ensures directional improvement
+2. Or concede fully — the constitution as written is broken
+
+No partial concessions. No amendments. One side concedes or the debate continues.
