@@ -60,6 +60,9 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
 CURRENT STEP: 737 complete (B8, key test). Steps 720-737 = R3 dynamics, baselines, self-directed attention.
 GAME VERSION FIX (2026-03-23): FT09/VC33 action_space=1 was a chain.py bug (ACTION_RESET sent on first steps). Fixed. All 3 games operational.
 **PROPOSITION 18 CONFIRMED (Step 737, B8):** R3_dynamic=1.0 at ALL chain phases. Both M elements (inconsistency_map, channel_weights) genuinely self-directed. LS20 L1=1105 (2.3x faster than 674 baseline 2548).
+**R3 METRIC LIMITATION (Step 739, B10):** Random modification ALSO scores R3=1.0 (L1=4237, 4x slower). R3 measures "does it change?" not "does it change usefully?" Self-direction matters (4x speedup) but R3 metric is blind to it. R4 (test modifications against prior state) is what distinguishes useful from random.
+B2 (731): CIFAR NMI=0.375 with RGB channels vs 0.013 greyscale-only. 29x improvement from INCLUSION of color, not from D1 adaptation.
+B3 (732): D2 KILL 10/20. B5 (734): D4 KILL 7/20. B1 (730): D1 MARGINAL 14/20. B4 (733): D3 MARGINAL 14/20.
 KEY FINDINGS (Steps 720-729):
   T9 CONFIRMED: aliased set Jaccard=0.881 within phases, 0.000 at transitions (C5).
   R3 CONTINUOUS: not front-loaded. Refinement fires every 5K steps (C1).
