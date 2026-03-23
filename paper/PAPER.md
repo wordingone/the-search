@@ -888,7 +888,19 @@ A dynamics model learned on $\mathcal{T}$ transfers to $\mathcal{T}'$ when the u
 - Global round-robin index → KILL (Step 788: 0 L1, worse than random).
 - Forward model $W$ with random action selection → NEUTRAL (Step 778v3: tied). $D(s)$ accumulates but does not couple to action selection during random-action training, avoiding the coupling that produces negative transfer.
 
-**Implication:** R3_counterfactual requires that accumulated state improves performance on new tasks. Corollary 20.1 shows this is impossible for any component that couples to action selection AND carries environment-specific information. The forward model is the unique candidate: it accumulates dynamics (environment-general) and can couple to action selection at TEST time without carrying environment-specific action biases from training (because training used random actions). Step 806-revised tests this directly.
+**Implication:** R3_counterfactual requires that accumulated state improves performance on new tasks. Corollary 20.1 shows this is impossible for any component that couples to action selection AND carries environment-specific information. The forward model is the unique candidate: it accumulates dynamics (environment-general) and can couple to action selection at TEST time without carrying environment-specific action biases from training (because training used random actions).
+
+**Proposition 21 (Global-Local Gap).** Navigation requires per-state action selection: the productive action at state $s$ depends on $s$ itself ($g^*(s) \neq g^*(s')$ for $s \neq s'$). The forward model $W$ learns GLOBAL dynamics: $\hat{s}' = W(s, a)$ aggregated over all visited states. But action selection from $W$ is LOCAL: $g(s) = \text{argmax}_a f(W, s, a)$ depends on both $W$ and the current state $s$.
+
+The gap: $W$ trained on one environment learns global dynamics that TRANSFER (Proposition 20b confirmed, Steps 778-855b). But $g(s)$ computed from $W$ at a new state $s$ in a new environment produces the wrong action — because which action is productive depends on the LOCAL state, not on the global dynamics.
+
+**Experimental evidence (Steps 780-806v2, 800):**
+- Prediction-contrast ($\text{argmax}_a \|W(s,a) - s\|$): L1=0 on LS20 (novelty-seeking avoids navigable paths). L1=0 on FT09 (static background = uniform predictions).
+- Per-action change tracking: uniform $\delta \approx 0.008$ for all 68 FT09 actions (position-dependent signal masked by global averaging).
+- 806v2: L1 PASS at substrate\_seed=0 retracted after control (seeds 1-3 show 0 or negative).
+- Random baseline: 36.4 L1/seed on LS20 (better than any D(s)-guided mechanism).
+
+**Implication:** Post-ban substrates face a fundamental tradeoff. D(s) captures transferable global dynamics (prediction R3_cf PASS). But converting global dynamics to local navigation requires per-state information — which the graph ban removes. The feasible region for PREDICTION transfer is non-empty (first confirmed). The feasible region for NAVIGATION transfer remains empty in the post-ban regime. Whether any mechanism bridges this gap without per-state tracking is the open frontier.
 
 ## 5. Experimental Evidence
 
