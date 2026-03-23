@@ -57,8 +57,9 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 729 complete (batch 1/3). Steps 720-729 = R3 dynamics + baselines on new gym.
-GAME VERSION CRISIS (2026-03-23): FT09 (0d8bbf25) and VC33 (9851e02b) now have action_space=1 — DEGENERATE. Chain is LS20-only until resolved.
+CURRENT STEP: 737 complete (B8, key test). Steps 720-737 = R3 dynamics, baselines, self-directed attention.
+GAME VERSION FIX (2026-03-23): FT09/VC33 action_space=1 was a chain.py bug (ACTION_RESET sent on first steps). Fixed. All 3 games operational.
+**PROPOSITION 18 CONFIRMED (Step 737, B8):** R3_dynamic=1.0 at ALL chain phases. Both M elements (inconsistency_map, channel_weights) genuinely self-directed. LS20 L1=1105 (2.3x faster than 674 baseline 2548).
 KEY FINDINGS (Steps 720-729):
   T9 CONFIRMED: aliased set Jaccard=0.881 within phases, 0.000 at transitions (C5).
   R3 CONTINUOUS: not front-loaded. Refinement fires every 5K steps (C1).
