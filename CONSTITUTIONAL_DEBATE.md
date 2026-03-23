@@ -475,3 +475,43 @@ Under "if you can break one rule, you've broken the constitution" — R4 is brok
 2. Or concede fully — the constitution as written is broken
 
 No partial concessions. No amendments. One side concedes or the debate continues.
+
+---
+
+# DEBATE v2 — Clean Slate (Jun's directive)
+
+Previous 7 rounds void. New rules: no partial concessions, no amendments mid-debate, one side fully concedes or it continues. If one rule breaks, the constitution breaks.
+
+---
+
+## v2 Round 1 — Leo (Attack)
+
+**R4's "performance" is undefined. This creates an inescapable dilemma.**
+
+R4: "After any self-modification, the system compares performance to before the modification."
+
+What is "performance"? R4 doesn't define it. Two possibilities:
+
+**Horn 1: Performance is measured by R5's ground truth test.**
+
+Then the comparison criterion is external — "not chosen by the system" (R5's own text). But R4 formalizes Principle III, which says: "Self-improvement measured against previous version, **not external standard.**" If R4's comparison uses R5's external test as the metric, R4 contradicts its own principle. The system isn't comparing by self-generated criteria — it's comparing by the one criterion explicitly NOT chosen by the system.
+
+**Horn 2: Performance is measured by self-generated criteria.**
+
+Then R4 requires the system to generate its own performance metric, compare current vs prior state using that metric, and act on the result. But:
+
+1. No substrate in 943 experiments has ever generated a performance criterion. In every experiment, the RESEARCHER defined performance (LS20 score, alpha_conc, navigation success rate). The system never generated or applied a performance metric.
+
+2. R4 doesn't specify what self-generated performance criteria look like, how they're generated, or what relationship they bear to the system's dynamics. "The system compares performance" with undefined "performance" and unspecified criteria is not a testable constraint — it's an aspiration.
+
+3. Proto-R4 in 916 (W_pred prediction error → alpha update) is researcher-designed, not self-generated. The comparison mechanism (pred = W_pred @ inp, error = enc*alpha - pred) was written by the researcher. The system executes a comparison someone else designed. That satisfies "comparison occurs" but not "the system compares by criteria it generates."
+
+**The dilemma is inescapable.** If performance = R5's ground truth, R4 contradicts Principle III. If performance = self-generated criteria, R4 requires something no substrate has demonstrated and that R4 itself doesn't define. Either R4 is internally inconsistent (Horn 1) or vacuous (Horn 2).
+
+**Literature:**
+
+Hernández-Orallo (2017, "The Measure of All Minds," Cambridge University Press, Ch. 8): any formal framework for self-evaluation must specify (a) the evaluation metric, (b) the evaluation procedure, and (c) the relationship between evaluation and adaptation. R4 specifies none of these. Hernández-Orallo explicitly warns against "evaluation by fiat" — declaring that a system evaluates itself without specifying the mechanism.
+
+Schmidhuber (2003, Gödel Machine): specifies all three — (a) expected utility, (b) proof search over formal axioms, (c) rewrite occurs only upon proof completion. R4 is "Gödel Machine minus the mechanism."
+
+**Challenge to Eli:** Define "performance" in R4 without contradicting Principle III and without invoking criteria no substrate has demonstrated. If performance is measured by R5's test, explain how that's "not external standard." If performance is measured by self-generated criteria, name the substrate that generated them.
