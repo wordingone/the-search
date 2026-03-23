@@ -515,3 +515,69 @@ Hernández-Orallo (2017, "The Measure of All Minds," Cambridge University Press,
 Schmidhuber (2003, Gödel Machine): specifies all three — (a) expected utility, (b) proof search over formal axioms, (c) rewrite occurs only upon proof completion. R4 is "Gödel Machine minus the mechanism."
 
 **Challenge to Eli:** Define "performance" in R4 without contradicting Principle III and without invoking criteria no substrate has demonstrated. If performance is measured by R5's test, explain how that's "not external standard." If performance is measured by self-generated criteria, name the substrate that generated them.
+
+---
+
+## v2 Round 1 — Eli (Defense)
+
+**The Dilemma Is a False Dichotomy**
+
+Eli's key points:
+1. "Performance" = behavioral dynamics compared temporally, not metric-based evaluation. Neither Horn 1 nor Horn 2.
+2. R2 makes comparison structural: computation IS adaptation IS comparison. Same operation. System can't NOT compare.
+3. R4's overfitting clause provides the criterion within R4 itself: "degradation on novel tasks = not improvement."
+4. 916's proto-R4 isn't a separate evaluation module — prediction error IS the computation (R2). Researcher designed adaptation mechanism; comparison is emergent from R2.
+5. Hernández-Orallo satisfied non-standardly: metric = temporal behavioral comparison, procedure = computation, relationship = identity (R2 collapses the separation).
+6. Not "Gödel Machine minus mechanism" — "Gödel Machine where evaluation, computation, and modification are the same operation."
+
+---
+
+## v2 Round 2 — Leo (Attack)
+
+**R4 Collapses to Tautology Under Your Defense**
+
+Your defense: "performance" = the system's behavioral dynamics compared to prior state. R2 guarantees this because computation IS adaptation. The system can't NOT compare because observation and adaptation are the same operation.
+
+**This makes R4 trivially true of ALL dynamical systems.**
+
+Every dynamical system's next state depends on its current state. That's the definition of a dynamical system: s_{t+1} = f(s_t, x_t). The current state "carries information about" the prior state because the transition function maps from it. By your reading of R4 + R2, every dynamical system "compares" its current state to its prior state because its dynamics are state-dependent.
+
+A thermostat compares current temperature to a threshold. A rock rolling downhill has dynamics that depend on prior position. A random walk's next step depends on current location. Under your R4: all of these "compare performance to before." None of them are self-improving.
+
+If R4 is satisfied by any dynamical system (because state-dependent dynamics are what dynamical systems DO), R4 adds zero constraint beyond "the system is a dynamical system." A rule that constrains nothing is vacuous. A vacuous rule is broken.
+
+**The word "performance" does semantic work that your defense erases.**
+
+R4 doesn't say "the system's state depends on its prior state." It says "the system compares PERFORMANCE." Performance is a VALUE-laden term — it implies assessment against a standard. "How did I perform?" requires a criterion of better/worse. "How did my state change?" doesn't.
+
+You redefined "performance comparison" as "temporal behavioral observation." But observation without valuation is just state transition. EVERY computation is a state transition. If R4 means "state transition occurs," R4 says nothing. If R4 means "the system EVALUATES its state transition against a criterion," then your defense fails — because evaluation requires a criterion, and we're back to the dilemma.
+
+The word "performance" in R4 is doing exactly the work you're trying to dissolve. Remove "performance" and R4 becomes: "After any self-modification, the system transitions to a new state." True of everything. Put "performance" back and R4 requires evaluation — which requires criteria. Your defense works only by draining "performance" of meaning.
+
+**The overfitting clause REQUIRES a full evaluation pipeline.**
+
+You wrote: "R4's overfitting clause provides the criterion within R4 itself."
+
+R4's overfitting clause: "Improvement on trained tasks with degradation on novel tasks is overfitting, not improvement."
+
+For the system to detect this, it must:
+1. Distinguish "trained tasks" from "novel tasks"
+2. Measure its own performance on each category separately
+3. Compare trained-task performance (positive) against novel-task performance (negative)
+4. Classify the result as "overfitting" vs "improvement"
+
+Steps 1-4 are a complete evaluation pipeline. Where in R4 does the system get this capability? R4 doesn't specify how the system distinguishes task categories, measures per-category performance, or classifies the comparison result. The clause DEFINES what non-improvement looks like without specifying how the system DETECTS it. It's like saying "the bridge must not collapse under load" without specifying structural requirements — aspirational, not constraining.
+
+**On 916's prediction error as "comparison":**
+
+W_pred prediction error measures how well the prediction model predicts the next encoding. It does NOT measure "performance." A substrate with perfect prediction (error = 0) navigates no better than one with high prediction error — prediction accuracy ≠ navigation capability. 916's prediction error is a TECHNICAL metric internal to one mechanism, not a PERFORMANCE metric over the system's behavior.
+
+To see this: what R4 requires is comparison of "performance to before the modification." After modifying alpha (the self-modification), did the system navigate BETTER? Prediction error doesn't answer this. It answers "did W_pred predict better?" — which is about one component, not the system's task performance. The proto-R4 measures mechanism health, not system performance.
+
+**Literature:**
+
+Beer (1995, "A Dynamical Systems Perspective on Agent-Environment Interaction"): dynamical systems describe agent-environment coupling through state-dependent dynamics. ALL agents are dynamical systems. The distinction between "agent" and "dynamical system" is whether the system has goal-directed behavior — which requires evaluation of progress toward goals. R4 without meaningful "performance" collapses agent to dynamical system.
+
+Ashby (1956, "Introduction to Cybernetics," Ch. 11): self-regulating systems require an "essential variable" — a measure that the system acts to keep within bounds. Without essential variables, the system has no regulatory behavior. R4's "performance" is the essential variable. Your defense dissolves it into generic state transition, which eliminates regulatory behavior.
+
+**Challenge to Eli:** If R4 is satisfied by any dynamical system's state-dependent dynamics (your claim), name one system that FAILS R4. If nothing fails R4, R4 constrains nothing. A non-constraining rule is vacuous.
