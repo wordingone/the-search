@@ -1,0 +1,21 @@
+======================================================================
+STEP 912 — TEMPORAL DIFFERENCE ACTION SELECTION
+======================================================================
+Seek actions with delta_direction DIFFERENT from current delta.
+Directional novelty forces trajectory-breaking → sequence discovery.
+25K steps, 10 seeds cold, substrate_seed=seed.
+
+--- LS20 (4 actions) ---
+2026-03-23 08:50:28 | INFO | Got anonymous API key: f354e19d-e32f-4867-bfe3-39b389fc1544
+2026-03-23 08:50:28 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:28 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:28 | INFO | Created new scorecard: a570fff6-6f2f-4591-ab14-aaf6e7960ebe
+2026-03-23 08:50:28 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:50:28 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  LS20 seed=1: L1=   0  alpha_conc=28.66  dir_diversity=0.0275
+2026-03-23 08:50:54 | INFO | Got anonymous API key: 462a95ec-4efc-4f6d-8bee-84c585d87070
+2026-03-23 08:50:54 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:54 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:54 | INFO | Created new scorecard: da055969-6945-4fc8-b711-02b4ef48aba9
+2026-03-23 08:50:54 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:50:54 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py

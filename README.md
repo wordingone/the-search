@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-777+ experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). No R3-compliant substrate found. Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms, forcing the search into genuinely new territory. The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, an R3 counterfactual metric, and a state decomposition theorem (Proposition 20) characterizing when accumulated state helps vs hurts.
+900+ experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). R3 encoding self-modification achieved (Step 895: prediction-error attention discovers game-informative dimensions autonomously). Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms. Post-ban best: clamped alpha + 800b change-tracking (268/seed LS20, +32% over baseline, 0/10 zero-seeds). FT09 navigation unsolved (sequential ordering problem, Prop 23). The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, an architecture triangle (Prop 22) characterizing the search space, and a state decomposition theorem (Prop 20).
 
 ## Results (honest)
 

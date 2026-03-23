@@ -1,0 +1,22 @@
+======================================================================
+STEP 915 — TEMPORAL ACTION PATTERN MEMORY (K=3)
+======================================================================
+K=3: track last 3 actions → EMA of alpha-weighted change.
+Graph ban compliance: key=action sequence (not state). ALLOWED.
+FT09 first: 7-click solution should produce high-scoring sub-sequences.
+25K steps, 10 seeds cold, substrate_seed=seed.
+
+--- FT09 (68 actions) ---
+2026-03-23 08:50:41 | INFO | Got anonymous API key: 37e642a6-5579-4726-b160-b30c7bec085d
+2026-03-23 08:50:41 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:41 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:41 | INFO | Created new scorecard: 43af8896-6dc6-4798-a6ff-780a62605608
+2026-03-23 08:50:41 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:50:41 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+  FT09 seed=1: L1=   0  alpha_conc=12.83  seq_count=8692  top_seq=[((54, 57, 12), 4.9889421463012695), ((0, 14, 50), 4.988918781280518)]
+2026-03-23 08:50:57 | INFO | Got anonymous API key: 08b8c7fd-467a-4ac6-b8a5-272b930d6274
+2026-03-23 08:50:57 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:58 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:58 | INFO | Created new scorecard: 8b9f1165-2008-43e4-8f69-e6bea03f78f8
+2026-03-23 08:50:58 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 08:50:58 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py

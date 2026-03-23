@@ -1,0 +1,18 @@
+B:\M\the-search\experiments\step0914_chain_test.py:185: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+  images = np.array([np.array(ds[i][0]).transpose(1, 2, 0)
+======================================================================
+STEP 914 — FULL CHAIN TEST: CIFAR→LS20→FT09→VC33→CIFAR
+======================================================================
+Architecture: 895h cold (clamped alpha + 800b). Alpha persists across games.
+W + delta reset per game (n_actions: CIFAR=100, LS20=4, FT09=68, VC33=68).
+25K per phase, 5 seeds, cold start. Honest baseline.
+CIFAR-100: loaded
+
+  Seed 1:
+    CIFAR-1: acc=0.0094 (94/10000)  alpha_conc=4.72
+2026-03-23 08:50:36 | INFO | Got anonymous API key: 5224e537-fbc8-4d28-995d-43ea7336b31f
+2026-03-23 08:50:36 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:36 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:36 | INFO | Created new scorecard: 8a963c0b-55b1-4fd7-91b8-902037e543d5
+2026-03-23 08:50:36 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:50:36 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py

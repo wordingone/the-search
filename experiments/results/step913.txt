@@ -1,0 +1,21 @@
+======================================================================
+STEP 913 — RECENCY-WEIGHTED ACTION CYCLING
+======================================================================
+Score = delta_per_action + 0.05 * age. NOT per-state. NOT graph-banned.
+Forces cycling through all actions. FT09: 68 tiles get periodic visits.
+25K steps, 10 seeds cold, substrate_seed=seed.
+
+--- LS20 (4 actions, recency_weight=0.05) ---
+2026-03-23 08:50:31 | INFO | Got anonymous API key: 596708ef-846e-4b8e-94c1-44b11f3eea4f
+2026-03-23 08:50:31 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:32 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:32 | INFO | Created new scorecard: 83aed982-5ac3-4a39-8f72-3b7d3d04dd57
+2026-03-23 08:50:32 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:50:32 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  LS20 seed=1: L1=   0  alpha_conc=31.96  coverage=1.000
+2026-03-23 08:51:00 | INFO | Got anonymous API key: e3d66614-bbe8-497e-9e71-94b31d5cfc1a
+2026-03-23 08:51:00 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:00 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:00 | INFO | Created new scorecard: 595ed180-4136-46a5-9967-52db71863b30
+2026-03-23 08:51:01 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:51:01 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py

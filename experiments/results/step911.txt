@@ -1,0 +1,22 @@
+======================================================================
+STEP 911 — PER-ACTION W (FIXES CROSS-ACTION INTERFERENCE)
+======================================================================
+W[a]: (256,256) per action. Only W[a] updates after action a.
+Compression progress: delta_E[a] = EMA(prev_err[a] - curr_err[a]).
+4 × 256² = 262K params total (tractable).
+Compare: 910a (shared W, compression) = 99.8/seed  ← BELOW BASELINE
+         895h cold (shared W, change-track) = 268.0/seed ← BEST
+25K steps, 10 seeds cold, substrate_seed=seed.
+2026-03-23 08:50:35 | INFO | Got anonymous API key: 2efb8bf5-39f4-4a8c-887c-15be59e0f072
+2026-03-23 08:50:35 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:50:35 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:50:35 | INFO | Created new scorecard: 4d16f3e9-aba9-4db5-b858-5f8906b51b47
+2026-03-23 08:50:35 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:50:35 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+  seed=1: L1=   0  alpha_conc=15.71  delta_E_range=173.4942  delta_E=['91.214', '-47.784', '59.498', '-82.280']  early_range@5K=85.4216
+2026-03-23 08:51:04 | INFO | Got anonymous API key: 2a57af97-521d-411c-885d-9a1cd12dd21c
+2026-03-23 08:51:04 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 08:51:04 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 08:51:04 | INFO | Created new scorecard: 805252c6-1af7-452b-8451-3713983f34ea
+2026-03-23 08:51:04 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 08:51:04 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
