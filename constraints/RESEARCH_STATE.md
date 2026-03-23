@@ -57,8 +57,10 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: ~940 complete. Steps 933-937 exhausted 800b-variant family.
-DIRECTION (2026-03-23, REVISED post-compression):
+CURRENT STEP: 938 spec'd. Steps 933-937 exhausted 800b-variant family. Step 938 = NEW FAMILY (novelty-reactive).
+DIRECTION (2026-03-23, REVISED post-birth):
+  **NEW FAMILY: Novelty-Reactive Policy (NRP, Prop 26).** Per-observation policy table updated by successor novelty. Position-aware without per-state memory — predicts IMPOSSIBLE result per FAMILY_KILLS. Dissolves Prop 23b combinatorial barrier for sequential games. Spec sent to Eli as Step 938.
+PREVIOUS DIRECTION (2026-03-23, post-compression):
   **ENCODING (solved):** Alpha-weighted prediction-error attention (Prop 22, confirmed Steps 895-895h). R3 encoding self-modification works universally. Carry forward to ALL future families.
   **ACTION SELECTION (open — family exhausted):** 800b (per-action delta EMA + softmax) is the best post-ban selector (2-2.5x baselines). But: position-blind (Prop 23b), reset-inverted (delta inversion), and every modification degrades (Steps 912-937, 25+ experiments). The 916 architecture is a local minimum. Next family must use ACTUAL observation changes but NOT per-action delta EMA. See FAMILY_KILLS.md.
   **FT09 (structural barrier — not family-specific):** ALL tested mechanisms score L1=0 at 68 actions. Graph+argmin=0 (Step 920b). ICM=0, RND=0, count=0, 800b=0. FT09's 7-step combinatorial barrier (Prop 23b: P≈10^{-11}/attempt) is benchmark-level, not mechanism-level. NO known global-statistics-only selector can solve it within 10K budget.
