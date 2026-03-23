@@ -14,11 +14,11 @@ Formula (Leo spec, mail 2707):
   obs_change = ||enc_t - enc_{t-1}||
   change_var = 0.99 * change_var + 0.01 * (obs_change - change_mean)**2
   change_mean = 0.99 * change_mean + 0.01 * obs_change
-  lambda_t = clip(1.0 - 1.0 / (1.0 + change_var), 0.5, 0.99)
+  lambda_t = clip(1.0 / (1.0 + 0.1 * change_var), 0.5, 0.99)
   delta_per_action[a] = lambda_t * delta[a] + (1 - lambda_t) * obs_change
 
-NOTE: Formula is implemented verbatim. Lambda_t actual values logged per game
-as diagnostic — verify whether high-var games get short vs long memory as predicted.
+Formula corrected (Leo mail 2710): original spec had direction inverted. 0.1 scaling
+factor normalizes change_var (which grows large at game encoding scale).
 
 Kill criteria: LS20 < 200 → KILL. Chain kill from judge.
 Run: PRISM-light Mode C (randomized), 10K steps/phase, 5 seeds.
@@ -148,7 +148,7 @@ class Chain937:
         """Adaptive EMA decay from observation change variance (Leo spec, mail 2707)."""
         self._change_var = 0.99 * self._change_var + 0.01 * (obs_change - self._change_mean) ** 2
         self._change_mean = 0.99 * self._change_mean + 0.01 * obs_change
-        self._lambda_t = float(np.clip(1.0 - 1.0 / (1.0 + self._change_var),
+        self._lambda_t = float(np.clip(1.0 / (1.0 + 0.1 * self._change_var),
                                        LAMBDA_LO, LAMBDA_HI))
 
     def process(self, obs):
