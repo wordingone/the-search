@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-900+ experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). R3 encoding self-modification achieved (Step 895: prediction-error attention discovers game-informative dimensions autonomously). Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms. Post-ban best: clamped alpha + 800b change-tracking (268/seed LS20, +32% over baseline, 0/10 zero-seeds). FT09 navigation unsolved (sequential ordering problem, Prop 23). The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, an architecture triangle (Prop 22) characterizing the search space, and a state decomposition theorem (Prop 20).
+943+ experiments across 12 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). R3 encoding self-modification achieved (Step 895: prediction-error attention discovers game-informative dimensions autonomously). Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms. Post-ban best: clamped alpha + 800b change-tracking (268/seed LS20, +32% over baseline, 0/10 zero-seeds). FT09 navigation unsolved (sequential ordering problem, Prop 23). The contributions: a formal framework (R1-R6), a constraint map from systematic falsification, an architecture triangle (Prop 22) characterizing the search space, and a state decomposition theorem (Prop 20).
 
 ## Results (honest)
 
@@ -42,7 +42,7 @@ Can a system improve itself by criteria it generates?
 ```
 paper/           Research paper (PDF + source)
 constraints/     Constraint map (CONSTRAINTS.md), constitution (R1-R6), experiment log
-experiments/     777+ experiment scripts (chronological, Steps 1-888)
+experiments/     943+ experiment scripts (chronological, Steps 1-943)
 substrates/      Active substrate code:
   base.py          BaseSubstrate interface (5 methods)
   step0674.py      Reference substrate (transition-triggered dual-hash)
