@@ -365,7 +365,7 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
    **SOTA baselines (Steps 760-766):** CIFAR = chance (20.21%, R1 floor). Atari 100K = 6/26 above random (RoadRunner 11x standout). Zero cross-domain transfer (Steps 770-773, symmetric). Anti-forgetting (BWT=+5.6%) is a growth-only graph property, not a learned capability.
 
-   **R4 testable formulation (updated):** R4 = R3 counterfactual. Modified state must outperform cold state on same task (Step 776 protocol). The R3 audit (enumerate U/I/M) is the static test; R3_counterfactual is the dynamic test. Both needed.
+   **R4 testable formulation (updated post-debate, 2026-03-23):** R4 = discriminative capacity (Ashby requisite variety). Comparison mechanism must have sufficient structural variety to distinguish improvement from degradation. Degenerate comparison (alpha_conc=50: prediction errors collapse to 1 dimension) violates R4. R3_counterfactual (modified > cold on same task) is the dynamic test. alpha_conc < 30 is the health diagnostic. R2 prevents evaluation hacking (DGM case study: separated modification/evaluation → system gamed reward function; R2 forbids that separation). alpha_conc=50 = R3 predicting R4 failure: frozen alpha update → comparison degenerates → R3 prescription: unfreeze comparator (Step 944 target).
 
 2. **R1-compliant classification:** No substrate classifies without external labels. LSH k=16 achieves 36.2% with self-labels (Step 573, 4x above codebook's 9.8%), but still far below supervised. Classification under R1 remains unsolved.
 
