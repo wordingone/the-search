@@ -442,16 +442,20 @@ Outstanding: Finding 2 (no CL head-to-head comparison — HIGH), Finding 3 (rand
 | PB6 | **Entropy-seeking hurts dynamics learning.** Maximally diverse exploration creates unstructured trajectories. | **CONFIRMED.** | Step 856: warm DEGRADES prediction (cold 53% → warm 26%). |
 | PB7 | **Encoding is irrelevant without action mechanism.** 674 encoding vs random projection: identical L1 for random actions. | **CONFIRMED.** | Step 817. U16 (centering load-bearing) is graph-specific, not universal. |
 | PB8 | **Post-ban R3 wall is thinner.** Post-ban substrates have 3-4 frozen elements vs 674's 9. R3_static passes for 13/24 substrates. | **CONFIRMED.** | Step 878 (Table 3). |
+| PB9 | **Prediction-error attention achieves R3 encoding self-modification.** Per-dim prediction error drives attention weights α that concentrate on informative dims. Game-adaptive (FT09 10.87×, LS20 5.73×). First post-ban ℓ_π mechanism. | **CONFIRMED (3 independent runs).** | Steps 895, 895b. Proposition 22 (Corollary 22.2). |
+| PB10 | **Prediction accuracy cascade (theoretical).** Alpha concentration → reduced effective dims → W converges faster → local predictions accurate → navigation from prediction. The Prop 21 gap is a prediction-accuracy gap, not structural. | **PREDICTED, not yet tested.** | Theory in Section 4.11. Step 895c measures W accuracy in alpha space. |
 
 ### What the graph ban means for the feasible region (updated with evidence)
 
 The feasible region was already unoccupied (0/777 substrates inside all walls). The graph ban REMOVES the region of state space where all tested navigation successes lived. This is intentional: graph navigation is ℓ₀ (fixed mechanism). R3 requires ℓ_π or higher.
 
-**Post-ban experimental findings (Steps 778-812, 25+ experiments):**
+**Post-ban experimental findings (Steps 778-903, 50+ experiments):**
 - The PREDICTION TRANSFER feasible region is non-empty. D(s) = {W, running_mean} transfers (5/7 PASS). First positive R3_cf in the search.
 - The NAVIGATION TRANSFER feasible region remains empty. No post-ban mechanism consistently beats random for L1 on any game.
 - The gap is structural (Proposition 21): D(s) captures global dynamics (transfers), but navigation needs local per-state action selection (banned).
 - 800b (per-action change tracking + epsilon) beats random 6-10× on LS20 but is game-specific and doesn't transfer.
+- **R3 encoding self-modification IS achievable post-ban (PB9).** Alpha attention from prediction error concentrates on informative dimensions. FT09 puzzle tile locations discovered autonomously. Mechanism is single-level predictive coding (Friston, 2009).
+- Third-cluster sweep (Steps 889-903): 5 families killed (ESN, CTS/graph-banned, decision tree, LZ complexity, MLP at low lr). Only prediction-error attention survived. The dynamics vertex is narrow: alpha + forward model + empirical change tracking.
 
 ---
 
