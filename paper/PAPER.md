@@ -1242,6 +1242,33 @@ All methods achieve L1=0 on FT09 (68 actions, sequential ordering). Even graph+a
 
 **Finding:** Our prediction-error attention mechanism ($\alpha$-weighted change-tracking) outperforms ALL baselines by $2\text{-}2.5\times$ on LS20 with 0/10 zero-seeds (vs 4-5/10 for alternatives). The graph ban cost is NEGATIVE: 895h (268.0, no graph) $>$ 920 (129.9, with graph). Alpha-weighted observation change is informationally richer than visit counts, distillation error, or pseudo-counts. ICM (forward prediction error as intrinsic reward) is the worst — the signal dies as $W$ learns the environment, collapsing to zero exploration.
 
+### 5.8 Chain Integration and Diagnostics (Steps 925-932)
+
+With the architecture locked (916: recurrent $h$ + clamped $\alpha$ + pure 800b), attention turned to running the full PRISM-light chain (Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100). Every experiment below asks: does this mechanism survive the chain?
+
+| Step | Test | LS20 | FT09 | VC33 | CIFAR | Verdict |
+|------|------|------|------|------|-------|---------|
+| 925 | W\_scalar on $h$ | 164.7 (−43%) | 0 | 0 | — | **KILLED** (chain criterion) |
+| 926 | Full chain w/ 916 | 212.6 (−14%) | 0 | 0 | chance | $h$ hurts: CIFAR interference |
+| 927 | Baseline chain (10K, 5s) | R=26, C=33, RND=38, ICM=45 | 0 | 0 | — | 916 dominates all |
+| 928 | CIFAR self-clustering | — | — | — | 20.2% (chance) | Alpha space too sparse |
+| 929 | FT09 alpha-action grouping | — | 0 | — | — | All 68 actions → dim 51 |
+| 930 | Game-only chain 895h | 58.4 | 0 | 0 | — | Beats ICM (44.8) |
+| 931 | Obs→action memory | — | — | — | — | **KILLED** (graph-banned) |
+| 932 | Unclamped $\alpha$ (dims die) | Running | Running | Running | Running | Pending |
+
+**Step 925 — Chain kill criterion applied.** Adding a scalar forward model ($W_s$) on the recurrent trajectory $h$ to predict next-step $h$ and using prediction error for action selection. LS20 drops from 290.7 (916) to 164.7 (−43\%). FT09/VC33 remain at 0. **ANY addition to the 800b action selector degrades LS20.** The architecture is frozen: encoding modifications help; action modifications hurt.
+
+**Step 926 — Cross-game state interference.** The full chain with 916 architecture produces LS20=212.6/seed — 14\% below the standalone estimate (248.6, Step 914). The recurrent $h$ trained on CIFAR-100 topology (20 sequential tasks) carries state that interferes with LS20 navigation. The $h$ mechanism is double-edged: helps standalone LS20 (+8.5\% over 868d) but hurts chain LS20 (−14\%) due to mismatched CIFAR dynamics disrupting the trajectory encoding.
+
+**Step 928 — CIFAR classification remains unsolved.** Using $\alpha$-weighted L2 nearest-neighbor (threshold=0.5) for classification: avg\_acc=20.2\% (chance for 5 classes/task). The substrate creates 10,374 clusters for 10,000 images — $\alpha$-weighted encoding space is too sparse for any meaningful grouping. CIFAR requires learning category boundaries; the prediction-error attention mechanism provides no mechanism for category formation. R1 structural barrier: without supervised signal, classification requires the substrate to discover task structure from observation statistics alone.
+
+**Step 929 — FT09 action structure is degenerate under $\alpha$.** Attempted to group the 68 FT09 actions by their $\alpha$-indexed observation change patterns. Result: ALL 68 actions map to dim 51 as the dominant change dimension. The $\alpha$ attention correctly identifies FT09's informative region (puzzle tiles at dim 51) but this provides no action discrimination — every click changes the same spatial region. Sequential ordering is invisible from per-action global statistics because the relevant information (which SPECIFIC tile changed) requires observation-level memory, which is graph-banned (Step 931).
+
+**Step 931 — Per-observation memory killed before execution.** Proposed mapping quantized($\alpha \cdot \text{enc}$) → best\_action. Jun's ruling: "If you have to ask about the ban, you're reaching." Per-observation encoding IS a state representation; mapping state → action is per-state conditioning regardless of naming. PB20 committed to CONSTRAINTS.md. Allowed: only GLOBAL statistics (per-action delta, $\alpha$ attention weights, trajectory-level $h$).
+
+**Open:** Step 932 tests unclamped $\alpha$ (clip 0.0–5.0) on the full PRISM-light chain. If dimensions can die completely ($\alpha_d$ → 0), the encoding self-prunes to only informative dimensions per game phase — testing whether adaptive dimensionality provides qualitatively different behavior from clamped $\alpha$.
+
 ## 6. Degrees of Freedom
 
 The formalization identifies what the constraints REQUIRE but also what they leave UNDETERMINED. These degrees of freedom define the experiment space for the next phase.
