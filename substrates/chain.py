@@ -16,11 +16,12 @@ import numpy as np
 import sys
 import os
 
-# LS20/FT09/VC33 action counts — detected at runtime from env._action_space
+# Known action counts — used as fallback when env.action_space unavailable
+# LS20: 4 directions. FT09/VC33: 68 (4 dirs + 64 grid clicks).
 GAME_N_ACTIONS = {
     "LS20": 4,
-    "FT09": 4,
-    "VC33": 4,
+    "FT09": 68,
+    "VC33": 68,
 }
 
 DEFAULT_STEPS = 10_000
@@ -62,6 +63,14 @@ class ArcGameWrapper:
         """Run one seed. Returns structured result dict."""
         if self._env is None:
             self._env = self._factory()
+
+        # Detect n_actions from env or fallback to known table
+        try:
+            n_actions = self._env.action_space.n
+        except AttributeError:
+            n_actions = GAME_N_ACTIONS.get(self.game_name, 4)
+        if hasattr(substrate, 'set_game'):
+            substrate.set_game(n_actions)
 
         substrate.reset(seed)
         obs = self._env.reset(seed=seed)
@@ -505,7 +514,7 @@ class ChainRunner:
 
     def save_results(self, aggregated: dict, substrate_name: str,
                      step: int = 0, config: dict = None,
-                     output_dir: str = None) -> str:
+                     output_dir: str = None, mode: str = None) -> str:
         """Save chain results as structured JSON to chain_results/runs/.
 
         Returns path to saved file.
@@ -530,6 +539,7 @@ class ChainRunner:
             "substrate": substrate_name,
             "timestamp": timestamp,
             "step": step,
+            "prism_mode": mode,
             "chain": [name for name, _ in self.chain],
             "budget_per_phase": self.chain[0][1].n_steps if self.chain else 0,
             "n_seeds": self.n_seeds,
@@ -611,3 +621,62 @@ def make_game_only_chain(n_steps: int = DEFAULT_STEPS,
         ("FT09", ArcGameWrapper("FT09", n_steps, safety_timeout)),
         ("VC33", ArcGameWrapper("VC33", n_steps, safety_timeout)),
     ]
+
+
+def make_prism_from_config(config_path: str = None, mode: str = "light",
+                            n_steps: int = DEFAULT_STEPS,
+                            safety_timeout: float = 300.0) -> list:
+    """Build PRISM chain from config file. No hardcoded games.
+
+    Adding a game = editing prism_config.json, not this code.
+    Post March 25: add 150 ARC-AGI-3 games to the 'full' config.
+    """
+    import json
+    if config_path is None:
+        config_path = os.path.join(os.path.dirname(__file__), 'prism_config.json')
+    with open(config_path) as f:
+        config = json.load(f)
+
+    phases = config.get(mode, config.get("light"))
+    chain = []
+    for phase in phases:
+        t = phase["type"]
+        name = phase["name"]
+        if t == "arc_game":
+            chain.append((name, ArcGameWrapper(phase["game_name"], n_steps, safety_timeout)))
+        elif t == "split_cifar":
+            chain.append((name, SplitCIFAR100Wrapper(phase.get("n_images_per_task", 500),
+                                                      safety_timeout)))
+        elif t == "cifar":
+            chain.append((name, CIFARWrapper(n_steps, safety_timeout)))
+        elif t == "gym":
+            chain.append((name, GymWrapper(phase["env_id"], n_steps, safety_timeout)))
+        elif t == "atari":
+            chain.append((name, AtariWrapper(phase.get("game", "ALE/MontezumaRevenge-v5"),
+                                             n_steps, safety_timeout)))
+        # Future: terminal_bench, browsecomp, hle — add when available
+    return chain
+
+
+def make_prism_mode(mode: str = "C", config_path: str = None,
+                    n_steps: int = DEFAULT_STEPS,
+                    safety_timeout: float = 300.0) -> tuple:
+    """PRISM modes (Jun, 2026-03-23):
+
+      A: full config, fixed order
+      B: full config, randomized order per seed
+      C: light config, randomized order per seed (default until March 25)
+
+    Returns: (chain_list, randomize_order)
+    Usage: chain, randomize = make_prism_mode("C")
+           runner = ChainRunner(chain, randomize_order=randomize)
+    """
+    mode = mode.upper()
+    if mode == "A":
+        return make_prism_from_config(config_path, "full", n_steps, safety_timeout), False
+    elif mode == "B":
+        return make_prism_from_config(config_path, "full", n_steps, safety_timeout), True
+    elif mode == "C":
+        return make_prism_from_config(config_path, "light", n_steps, safety_timeout), True
+    else:
+        raise ValueError(f"Unknown PRISM mode: {mode}. Use A, B, or C.")

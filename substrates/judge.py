@@ -33,7 +33,8 @@ class ConstitutionalJudge:
 
     def audit(self, substrate_cls: type, chain_results: dict = None,
               game_name: str = "LS20", seed: int = 0,
-              n_audit_steps: int = 1000) -> dict:
+              n_audit_steps: int = 1000,
+              baseline_results: dict = None) -> dict:
         """Full R1-R6 audit.
 
         substrate_cls: class to audit (must be BaseSubstrate subclass)
@@ -41,6 +42,7 @@ class ConstitutionalJudge:
         game_name: game to use for runtime checks
         seed: seed for runtime checks
         n_audit_steps: steps to run for dynamic checks
+        baseline_results: if provided, run chain kill criterion check
 
         Returns: {R1: {pass, detail}, R2: ..., ..., R6: ..., summary: {score, flags}}
         """
@@ -70,10 +72,67 @@ class ConstitutionalJudge:
             results["R6"] = {"pass": None, "error": str(e)}
             results["R3_counterfactual"] = {"pass": None, "error": str(e)}
 
+        if baseline_results is not None and chain_results is not None:
+            results["chain_kill"] = self._check_chain_kill(chain_results, baseline_results)
+
         results["chain"] = chain_results
         results["summary"] = self._summarize(results)
         results["frozen_elements"] = self._get_frozen_elements(substrate_cls)
         return results
+
+    # ------------------------------------------------------------------
+    # Chain kill criterion (Jun, 2026-03-23)
+    # ------------------------------------------------------------------
+    def _check_chain_kill(self, chain_results: dict,
+                          baseline_results: dict) -> dict:
+        """Detect per-game tuning. Jun's criterion:
+
+        'Any mechanism that improves one game at the cost of another
+        is per-game tuning and MUST be killed.'
+
+        Compare substrate L1 rate per game vs baseline L1 rate.
+        - PASS: substrate beats or matches baseline on ALL games.
+        - KILL: substrate beats baseline on at least one game AND loses on at least one.
+        - FAIL: substrate loses on ALL games (but not per-game tuning — just weak).
+
+        Inputs: dicts from ChainRunner.run() — {game_name: {l1_rate, ...}}.
+        """
+        improved = []
+        degraded = []
+        neutral = []
+
+        for game in chain_results:
+            sub_l1 = chain_results[game].get("l1_rate", 0.0)
+            base_l1 = baseline_results.get(game, {}).get("l1_rate", 0.0)
+            delta = sub_l1 - base_l1
+            if delta > 0.05:  # >5% improvement (above noise)
+                improved.append({"game": game, "substrate_l1": sub_l1,
+                                 "baseline_l1": base_l1, "delta": round(delta, 3)})
+            elif delta < -0.05:  # >5% degradation
+                degraded.append({"game": game, "substrate_l1": sub_l1,
+                                 "baseline_l1": base_l1, "delta": round(delta, 3)})
+            else:
+                neutral.append({"game": game, "substrate_l1": sub_l1,
+                                "baseline_l1": base_l1, "delta": round(delta, 3)})
+
+        if improved and degraded:
+            verdict = "KILL"
+            detail = (f"Per-game tuning detected. Improves {[g['game'] for g in improved]} "
+                      f"at cost of {[g['game'] for g in degraded]}.")
+        elif degraded and not improved:
+            verdict = "FAIL"
+            detail = f"Substrate loses on all games vs baseline. Not per-game tuning — just weak."
+        else:
+            verdict = "PASS"
+            detail = "Substrate beats or matches baseline on all games. No per-game tuning."
+
+        return {
+            "verdict": verdict,
+            "detail": detail,
+            "improved": improved,
+            "degraded": degraded,
+            "neutral": neutral,
+        }
 
     # ------------------------------------------------------------------
     # R1: No external objectives

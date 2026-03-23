@@ -1,0 +1,16 @@
+{
+  "light": [
+    {"name": "Split-CIFAR-100-before", "type": "split_cifar", "n_images_per_task": 500},
+    {"name": "LS20", "type": "arc_game", "game_name": "LS20"},
+    {"name": "FT09", "type": "arc_game", "game_name": "FT09"},
+    {"name": "VC33", "type": "arc_game", "game_name": "VC33"},
+    {"name": "Split-CIFAR-100-after", "type": "split_cifar", "n_images_per_task": 500}
+  ],
+  "full": [
+    {"name": "Split-CIFAR-100-before", "type": "split_cifar", "n_images_per_task": 500},
+    {"name": "LS20", "type": "arc_game", "game_name": "LS20"},
+    {"name": "FT09", "type": "arc_game", "game_name": "FT09"},
+    {"name": "VC33", "type": "arc_game", "game_name": "VC33"},
+    {"name": "Split-CIFAR-100-after", "type": "split_cifar", "n_images_per_task": 500}
+  ]
+}
