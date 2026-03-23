@@ -1611,7 +1611,9 @@ The agents operated on a single machine (Windows 11, RTX 4090) with experiments 
 - Burda, Y. et al. (2018). Exploration by Random Network Distillation. arXiv:1810.12894.
 - Burda, Y. et al. (2019). Large-Scale Study of Curiosity-Driven Learning. ICLR.
 - Feldman, H. & Friston, K. J. (2010). Attention, Uncertainty, and Free-Energy. Frontiers in Human Neuroscience, 4, 215.
+- Da Costa, L. et al. (2020). Active Inference on Discrete State-Spaces: A Synthesis. Journal of Mathematical Psychology, 99, 102447.
 - Friston, K. J. (2009). The Free-Energy Principle: A Unified Brain Theory? Nature Reviews Neuroscience, 11(2), 127-138.
+- Friston, K. J. et al. (2017). Active Inference: A Process Theory. Neural Computation, 29(1), 1-49.
 - Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
 - Huang, G.-B., Zhu, Q.-Y. & Siew, C.-K. (2006). Extreme Learning Machine: Theory and Applications. Neurocomputing, 70(1-3), 489-501.
 - Guo, Z. et al. (2022). BYOL-Explore: Exploration by Bootstrapped Prediction. arXiv:2206.08332.
@@ -1629,6 +1631,7 @@ The agents operated on a single machine (Windows 11, RTX 4090) with experiments 
 - Ravindran, B. & Barto, A. G. (2004). Approximate Homomorphisms: A Framework for Non-Exact Minimization in Markov Decision Processes. ICML Workshop.
 - Rosenstein, M. et al. (2005). To Transfer or Not To Transfer. NIPS Workshop on Inductive Transfer.
 - Rudakov, E., Shock, J. & Cowley, B. U. (2025). Graph-Based Exploration for ARC-AGI-3 Interactive Reasoning Tasks. arXiv:2512.24156.
+- Sajid, N. et al. (2021). Active Inference: Demystified and Compared. Neural Computation, 33(3), 674-712.
 - Schmidhuber, J. (1991). Curious Model-Building Control Systems. IEEE Int. Joint Conf. on Neural Networks.
 - Schmidhuber, J. (2003). Gödel Machines: Self-Referential Universal Problem Solvers Making Provably Optimal Self-Improvements. arXiv:cs/0309048.
 - Schmidhuber, J. (2010). Formal Theory of Creativity, Fun, and Intrinsic Motivation. IEEE Trans. Autonomous Mental Development, 2(3).
