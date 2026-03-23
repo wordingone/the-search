@@ -918,6 +918,8 @@ The gap: $W$ trained on one environment learns global dynamics that TRANSFER (Pr
 
 **Testable prediction (Step 895) — CONFIRMED.** On FT09 (98.7% static pixels), $\alpha$ concentrates $10.87\times$ (max/min ratio) on dimensions [60, 51, 209] — the spatial locations of the FT09 puzzle tiles in the avgpool16 grid (dim 60 = row 3 col 12, dim 51 = row 3 col 3). The substrate discovers the active game region from prediction error alone. On LS20, concentration is lower ($5.73\times$), consistent with all dimensions containing dynamic information. Navigation (L1) remains zero because the original action selector was broken (hash collapse in visited\_set), not because $\alpha$ failed. Step 895b tests $\alpha$-weighted 800b navigation: the proven change-tracking mechanism weighted by the R3-modified encoding.
 
+**Connection to predictive coding (independent rediscovery).** Step 895's $\alpha$ mechanism is precision-weighted prediction error — the cortical mechanism for attention in Friston's active inference framework (Friston, 2009; Feldman & Friston, 2010). In the cortex, attention modulates the gain of prediction error units based on their estimated precision (inverse variance). Our $\alpha_d \propto \sqrt{\bar{e}_d}$ weights by error magnitude rather than precision ($1/\text{Var}(e_d)$). The distinction matters for noisy-TV environments: magnitude-based $\alpha$ attends to stochastic dimensions (high error); precision-based $\alpha$ ignores them (high variance = unreliable). Precision-weighted $\alpha_d \propto \bar{e}_d / \text{Var}(e_d)$ would be noisy-TV-robust. LS20 and FT09 are near-deterministic, so the distinction does not affect Step 895 results, but stochastic ARC-AGI-3 games may require the precision variant.
+
 **The true substrate and the triangle.** The three vertices define the search space. Vertices 1 and 2 are R3 = 0 by construction (fixed processing rules). Vertex 3 is R3 > 0 by the prediction-error signal. The true substrate is either:
 
 (a) **At vertex 3:** a pure dynamics machine. All state encodes the transition model. Navigation, exploration, and spatial awareness emerge from prediction accuracy alone. The Proposition 21 gap closes when prediction accuracy is high enough — a perfect forward model IS a compressed graph (knowing $W(s, a) = s'$ for all $a$ is equivalent to knowing the graph without storing it).
@@ -1447,7 +1449,10 @@ The agents operated on a single machine (Windows 11, RTX 4090) with experiments 
 - Bellemare, M. et al. (2016). Unifying Count-Based Exploration and Intrinsic Motivation. NeurIPS.
 - Burda, Y. et al. (2018). Exploration by Random Network Distillation. arXiv:1810.12894.
 - Burda, Y. et al. (2019). Large-Scale Study of Curiosity-Driven Learning. ICLR.
+- Feldman, H. & Friston, K. J. (2010). Attention, Uncertainty, and Free-Energy. Frontiers in Human Neuroscience, 4, 215.
+- Friston, K. J. (2009). The Free-Energy Principle: A Unified Brain Theory? Nature Reviews Neuroscience, 11(2), 127-138.
 - Fritzke, B. (1995). A Growing Neural Gas Network Learns Topologies. NeurIPS.
+- Huang, G.-B., Zhu, Q.-Y. & Siew, C.-K. (2006). Extreme Learning Machine: Theory and Applications. Neurocomputing, 70(1-3), 489-501.
 - Guo, Z. et al. (2022). BYOL-Explore: Exploration by Bootstrapped Prediction. arXiv:2206.08332.
 - Givan, R., Dean, T. & Greig, M. (2003). Equivalence Notions and Model Minimization in Markov Decision Processes. Artificial Intelligence, 147(1-2), 163-223.
 - Graves, A. et al. (2014). Neural Turing Machines. arXiv:1410.5401.
