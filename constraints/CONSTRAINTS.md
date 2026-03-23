@@ -430,20 +430,28 @@ Outstanding: Finding 2 (no CL head-to-head comparison — HIGH), Finding 3 (rand
 | **Targeted exploration kills navigation (Steps 477-482)** | All 6 strategies tested against argmin. Whether targeted exploration beats RANDOM (not argmin) is a different question. Post-ban, the baseline is random, not argmin. |
 | **Noisy TV barrier (Steps 477-482, 671)** | Tested under argmin framework. Forward models face the same problem (Burda et al. 2018) but the severity may differ when there's no argmin to compete against. |
 
-### New post-ban constraints (predicted, untested)
+### New post-ban constraints (updated with experimental evidence, Steps 778-812)
 
-| # | Prediction | Source |
-|---|---|---|
-| PB1 | **Location state transfers negatively.** Any substrate that accumulates L(s) (visit counts, per-state history) will fail R3_cf. | Proposition 20(a), Step 776. |
-| PB2 | **Global state must avoid convergence.** W matrices under Hebbian update converge (rank-1 collapse, U7). Anti-convergence mechanisms (decay, noise, normalization) are required. | U22 + reservoir kill (Steps 437d+). |
-| PB3 | **Forward models face the noisy TV problem.** Prediction-error-based exploration will be attracted to stochastic transitions. | Burda et al. 2018, Steps 477-482. |
-| PB4 | **Action selection without visit counts is the open problem.** No known R1-compliant mechanism selects actions effectively without per-(state, action) tracking. | Graph ban + R1. |
+| # | Constraint | Status | Evidence |
+|---|---|---|---|
+| PB1 | **Location state transfers negatively.** Any action-coupled accumulated state biases actions toward environment-specific patterns. | **CONFIRMED + GENERALIZED (Corollary 20.1).** | Steps 776, 803, 788, 806v2. Visit counts, cycling counters, round-robin indices, warm W biases all produce negative or zero transfer. |
+| PB2 | **Hebbian W diverges.** Hebbian update grows unboundedly → predictions explode. | **CONFIRMED.** Delta rule fix works. R2 tension noted. | Steps 778-787 (all pre-delta results invalid). |
+| PB3 | **Compression progress causes action collapse.** Not noisy TV — gradient too steep → single action dominates. | **CONFIRMED (different mechanism than predicted).** | Step 855 (0 L1, action collapse). Step 855b (epsilon fix works for learning, not navigation). |
+| PB4 | **Navigation without per-state info is limited to random walk.** No post-ban mechanism consistently beats random for L1. | **CONFIRMED.** 800b beats random on LS20 (6-10×) but is game-specific. 0 mechanisms work on FT09. | Steps 778-812, all variants. Proposition 21 (structural gap). |
+| PB5 | **D(s) prediction transfer is real.** Forward model trained on seeds 1-5 predicts better on unseen seeds 6-10. | **CONFIRMED (5/7 PASS).** First positive R3_cf in 787+ experiments. | Steps 778v5 (+15%), 780v5 (+73%), 809b (+22%), 855b (+9%), 855v3 (+10%). |
+| PB6 | **Entropy-seeking hurts dynamics learning.** Maximally diverse exploration creates unstructured trajectories. | **CONFIRMED.** | Step 856: warm DEGRADES prediction (cold 53% → warm 26%). |
+| PB7 | **Encoding is irrelevant without action mechanism.** 674 encoding vs random projection: identical L1 for random actions. | **CONFIRMED.** | Step 817. U16 (centering load-bearing) is graph-specific, not universal. |
+| PB8 | **Post-ban R3 wall is thinner.** Post-ban substrates have 3-4 frozen elements vs 674's 9. R3_static passes for 13/24 substrates. | **CONFIRMED.** | Step 878 (Table 3). |
 
-### What the graph ban means for the feasible region
+### What the graph ban means for the feasible region (updated with evidence)
 
-The feasible region was already unoccupied (0/777 substrates inside all walls). The graph ban REMOVES the region of state space where all tested navigation successes lived. This is intentional: graph navigation is ℓ₀ (fixed mechanism). R3 requires ℓ_π or higher. The ban forces the search into unexplored territory where R3-compliance is possible but navigation is unproven.
+The feasible region was already unoccupied (0/777 substrates inside all walls). The graph ban REMOVES the region of state space where all tested navigation successes lived. This is intentional: graph navigation is ℓ₀ (fixed mechanism). R3 requires ℓ_π or higher.
 
-**Proposition 20 (paper Section 4.10) predicts:** D-only substrates (dynamics state, no location state) are the minimal viable candidates. Steps 778-797 test this.
+**Post-ban experimental findings (Steps 778-812, 25+ experiments):**
+- The PREDICTION TRANSFER feasible region is non-empty. D(s) = {W, running_mean} transfers (5/7 PASS). First positive R3_cf in the search.
+- The NAVIGATION TRANSFER feasible region remains empty. No post-ban mechanism consistently beats random for L1 on any game.
+- The gap is structural (Proposition 21): D(s) captures global dynamics (transfers), but navigation needs local per-state action selection (banned).
+- 800b (per-action change tracking + epsilon) beats random 6-10× on LS20 but is game-specific and doesn't transfer.
 
 ---
 
