@@ -153,8 +153,8 @@ The **self-modification level** of a substrate is determined by which components
 |-------|---------------------|---------|-----|
 | $\ell_0$ | Only $g_s$ (action from data) | LSH: fixed hash, argmin over edge counts | Weak only |
 | $\ell_1$ | $g_s$ and data in $u_s$ | Codebook: entries move via attract, but attract rule fixed | Weak only |
-| $\ell_\pi$ | $\pi_s$ changes structure | Recode: hash routes through learned hyperplanes from transition statistics | **Partial** |
-| $\ell_F$ | The rule for modifying $\pi$ itself adapts | No substrate yet. Schmidhuber's SRWM is Level $\ell_F$ for neural systems. | **Strong** |
+| $\ell_\pi$ | $\pi_s$ changes structure | 674: refinement hyperplanes learned from transition statistics (layer 2). Recode: hash routes through learned hyperplanes. | **Partial** |
+| $\ell_F$ | The rule for modifying $\pi$ itself adapts | No substrate yet. Schmidhuber's SRWM is Level $\ell_F$ for neural systems. See hierarchy collapse note below. | **Strong** |
 
 **Key distinction:** At $\ell_0$ and $\ell_1$, the encoding $\pi$ is fixed at initialization. The system sees through the same lens forever; only what it remembers changes. At $\ell_\pi$, the lens itself changes — an observation that mapped to node $n_1$ at time $t$ may map to $(n_1, 0)$ at time $t' > t$ because a hyperplane was learned. This is a qualitative jump: the system's perception of the environment changes, not just its memory.
 
@@ -162,7 +162,9 @@ The **self-modification level** of a substrate is determined by which components
 
 **Relationship to prior work:** Schmidhuber's hierarchy (1993) addresses the same question — what level of self-reference does the system have? His solution (self-referential weight matrix) collapses all levels into one. Our framework makes the levels explicit and maps concrete substrates to them. The contribution is taxonomic: categorizing mechanisms by what they modify ($g$, $u$, $\pi$, $F$). The predictive claim — that higher levels produce measurably better outcomes — is not supported at 20 seeds (Step 589). The hierarchy describes what is modified, not whether modification helps.
 
-**Implication for Theorem 2:** Self-observation (Section 4.3) requires extracting new irredundant structure from $s$. At $\ell_0$, the system cannot encode this new structure into $\pi$ — it can only add edges. At $\ell_\pi$, it can modify $\pi$ to distinguish states that were previously confused. $\ell_\pi$ is necessary but may not be sufficient for full self-observation — the system also needs to modify its update and selection rules ($\ell_F$).
+**Hierarchy collapse (2026-03-22 compression):** For non-neural substrates using compare-select-store as the interpreter, $\ell_F$ is structurally identical to $\ell_\pi$ applied at the meta-level. The interpreter at every level is compare-select-store; only the input state differs. Level 0: compare observations, select actions, store transitions. Level 1 ($\ell_\pi$): compare transition patterns, select encoding parameters, store the encoding. Level 2 ($\ell_F$ in effect): compare encoding performance patterns, select meta-parameters, store the meta-protocol. This mirrors Schmidhuber's (1993) collapse of meta-learning levels into one self-referential system, but for our non-neural decomposition. The practical implication: $\ell_F$ may not require a qualitatively different mechanism — recursive application of compare-select-store at increasing abstraction levels may suffice. Pending empirical test: does multi-level $\ell_\pi$ produce measurable R3 on the chain benchmark?
+
+**Implication for Theorem 2:** Self-observation (Section 4.3) requires extracting new irredundant structure from $s$. At $\ell_0$, the system cannot encode this new structure into $\pi$ — it can only add edges. At $\ell_\pi$, it can modify $\pi$ to distinguish states that were previously confused. The hierarchy collapse suggests $\ell_\pi$ applied recursively MAY be sufficient — but this is unconfirmed.
 
 ### 3.3 Growth Topology (U3, U17, U20, R6)
 
