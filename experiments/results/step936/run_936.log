@@ -1,0 +1,175 @@
+B:\M\the-search\experiments\step0936_input_distance.py:236: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+  imgs = np.array([np.array(ds[i][0]).transpose(1, 2, 0)
+======================================================================
+STEP 936 — INPUT-DISTANCE CONFIDENCE (position-dependent epistemic)
+======================================================================
+R3: G[a] = predicted_change / (||input_a - mean_input|| + 0.01).
+Rare positions stay far from mean_input → low conf → high G → explore.
+
+  Seed 1:
+    CIFAR-1: acc=0.0109  alpha_conc=17.15  pred_acc=2934
+             diag: @1K: G_rel=0.01 dist=[7.5,7.5] spread=0.0  @5K: G_rel=0.15 dist=[4.7,4.8] spread=0.1  @10K: G_rel=0.12 dist=[5.1,5.2] spread=0.1
+2026-03-23 11:28:24 | INFO | Got anonymous API key: eb2e07a3-02d5-4198-a02b-89d0996845a5
+2026-03-23 11:28:24 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:28:24 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:28:24 | INFO | Created new scorecard: f7ea1bd7-8d76-4194-b77f-8dcf45710f9f
+2026-03-23 11:28:24 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 11:28:24 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+    LS20:    L1=   0  alpha_conc=50.00  pred_acc=18951
+             diag: @1K: G_rel=0.17 dist=[2.1,2.5] spread=0.4  @5K: G_rel=0.35 dist=[1.4,1.9] spread=0.5  @10K: G_rel=0.19 dist=[2.1,2.4] spread=0.3
+2026-03-23 11:28:32 | INFO | Got anonymous API key: ba7a8fea-dd1f-4339-9961-08caa284e61d
+2026-03-23 11:28:32 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:28:32 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:28:32 | INFO | Created new scorecard: ff03d10f-5410-4b5a-815f-4f3671d603fc
+2026-03-23 11:28:32 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 11:28:32 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    FT09:    L1=   0  alpha_conc=50.00  pred_acc=22807
+             diag: @1K: G_rel=3.13 dist=[0.3,1.3] spread=1.0  @5K: G_rel=1.56 dist=[0.5,1.4] spread=0.8  @10K: G_rel=0.71 dist=[0.9,1.6] spread=0.6
+2026-03-23 11:28:39 | INFO | Got anonymous API key: 990e11d1-d7b2-427d-ad6f-cc0f364fd51a
+2026-03-23 11:28:39 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:28:39 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:28:39 | INFO | Created new scorecard: e4aa7b29-8bc1-445d-951b-c1d64f8f5dc4
+2026-03-23 11:28:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 11:28:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+    VC33:    L1=   0  alpha_conc=50.00  pred_acc=17267
+             diag: @1K: G_rel=2.57 dist=[0.4,1.3] spread=0.9  @5K: G_rel=1.84 dist=[0.5,1.4] spread=0.9  @10K: G_rel=1.03 dist=[0.7,1.5] spread=0.7
+    CIFAR-2: acc=0.0093  alpha_conc=21.09  pred_acc=3078
+             diag: @1K: G_rel=0.00 dist=[6.3,6.3] spread=0.0  @5K: G_rel=0.06 dist=[6.1,6.2] spread=0.1  @10K: G_rel=0.07 dist=[6.9,7.0] spread=0.1
+
+  Seed 2:
+    CIFAR-1: acc=0.0111  alpha_conc=13.67  pred_acc=2136
+             diag: @1K: G_rel=0.02 dist=[5.6,5.6] spread=0.0  @5K: G_rel=0.08 dist=[5.8,5.8] spread=0.1  @10K: G_rel=0.23 dist=[6.3,6.3] spread=0.1
+2026-03-23 11:28:57 | INFO | Got anonymous API key: 00100643-44fb-43ba-a9e6-db42fbe0ff7a
+2026-03-23 11:28:57 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:28:58 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:28:58 | INFO | Created new scorecard: 51b8e7f7-5e60-4e5e-81ee-8346be024bf8
+2026-03-23 11:28:58 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 11:28:58 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+    LS20:    L1=   0  alpha_conc=42.65  pred_acc=3465
+             diag: @1K: G_rel=0.39 dist=[1.4,1.9] spread=0.5  @5K: G_rel=0.38 dist=[1.5,1.9] spread=0.5  @10K: G_rel=0.43 dist=[1.6,2.0] spread=0.4
+2026-03-23 11:29:06 | INFO | Got anonymous API key: f1b544d2-2bbc-42f8-b483-803d11c18883
+2026-03-23 11:29:06 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:29:06 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:29:06 | INFO | Created new scorecard: 8882dacb-a4ad-4f0c-82a9-7c8a41665b35
+2026-03-23 11:29:06 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 11:29:06 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    FT09:    L1=   0  alpha_conc=50.00  pred_acc=13897
+             diag: @1K: G_rel=2.63 dist=[0.4,1.3] spread=1.0  @5K: G_rel=2.37 dist=[0.4,1.3] spread=0.9  @10K: G_rel=1.24 dist=[0.6,1.4] spread=0.8
+2026-03-23 11:29:13 | INFO | Got anonymous API key: 72daec20-aedd-44b2-aee7-a90cc627611c
+2026-03-23 11:29:13 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:29:13 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:29:13 | INFO | Created new scorecard: b5809277-76eb-41c0-bc04-3e14e171c6dc
+2026-03-23 11:29:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 11:29:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+    VC33:    L1=   0  alpha_conc=38.47  pred_acc=25066
+             diag: @1K: G_rel=2.28 dist=[0.4,1.3] spread=0.9  @5K: G_rel=1.57 dist=[0.5,1.4] spread=0.8  @10K: G_rel=0.87 dist=[0.8,1.5] spread=0.7
+    CIFAR-2: acc=0.0110  alpha_conc=28.32  pred_acc=2719
+             diag: @1K: G_rel=0.00 dist=[7.4,7.4] spread=0.0  @5K: G_rel=0.16 dist=[5.6,5.7] spread=0.1  @10K: G_rel=0.31 dist=[5.0,5.1] spread=0.1
+
+  Seed 3:
+    CIFAR-1: acc=0.0080  alpha_conc=10.53  pred_acc=1948
+             diag: @1K: G_rel=0.00 dist=[7.2,7.2] spread=0.0  @5K: G_rel=0.14 dist=[6.9,7.0] spread=0.0  @10K: G_rel=0.20 dist=[6.8,6.9] spread=0.1
+2026-03-23 11:29:31 | INFO | Got anonymous API key: 1d4226d3-fa27-4060-a889-07bce74a0a35
+2026-03-23 11:29:31 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:29:31 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:29:31 | INFO | Created new scorecard: be23a7d0-71b8-490f-8404-4e18deb4586a
+2026-03-23 11:29:31 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 11:29:31 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+    LS20:    L1=   0  alpha_conc=17.48  pred_acc=4505
+             diag: @1K: G_rel=0.28 dist=[1.7,2.1] spread=0.4  @5K: G_rel=0.32 dist=[1.6,2.0] spread=0.4  @10K: G_rel=0.56 dist=[3.7,3.8] spread=0.2
+2026-03-23 11:29:51 | INFO | Got anonymous API key: 2e758fdf-dbf3-4e48-979b-dfdbe7617dfe
+2026-03-23 11:29:51 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:29:51 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:29:51 | INFO | Created new scorecard: a039c231-a3f7-4bf6-991f-10f7b8903e60
+2026-03-23 11:29:51 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 11:29:51 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    FT09:    L1=   0  alpha_conc=50.00  pred_acc=13897
+             diag: @1K: G_rel=2.31 dist=[0.4,1.3] spread=0.9  @5K: G_rel=0.12 dist=[3.0,3.2] spread=0.3  @10K: G_rel=1.33 dist=[0.6,1.4] spread=0.8
+2026-03-23 11:29:58 | INFO | Got anonymous API key: 57d302c8-7dd7-4ae6-b47b-aa943feaeb57
+2026-03-23 11:29:58 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:29:58 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:29:58 | INFO | Created new scorecard: 624d4297-e5e6-47ff-be4d-d36767eae6f1
+2026-03-23 11:29:59 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 11:29:59 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+    VC33:    L1=   0  alpha_conc=30.59  pred_acc=19571
+             diag: @1K: G_rel=3.16 dist=[0.3,1.3] spread=1.0  @5K: G_rel=2.29 dist=[0.4,1.3] spread=0.9  @10K: G_rel=1.15 dist=[0.7,1.4] spread=0.8
+    CIFAR-2: acc=0.0111  alpha_conc=17.17  pred_acc=2510
+             diag: @1K: G_rel=0.00 dist=[6.5,6.5] spread=0.0  @5K: G_rel=0.05 dist=[7.4,7.4] spread=0.0  @10K: G_rel=0.06 dist=[8.2,8.2] spread=0.0
+
+  Seed 4:
+    CIFAR-1: acc=0.0093  alpha_conc=10.77  pred_acc=1479
+             diag: @1K: G_rel=0.01 dist=[6.2,6.2] spread=0.0  @5K: G_rel=0.02 dist=[6.9,6.9] spread=0.0  @10K: G_rel=0.11 dist=[7.7,7.8] spread=0.0
+2026-03-23 11:30:17 | INFO | Got anonymous API key: 2911b7a2-1bff-4600-98a8-aca8bdb2a550
+2026-03-23 11:30:17 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:30:17 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:30:17 | INFO | Created new scorecard: 3695a935-1183-40b5-8670-b6b98b56cdc7
+2026-03-23 11:30:17 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 11:30:17 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+    LS20:    L1=   0  alpha_conc=47.41  pred_acc=4924
+             diag: @1K: G_rel=0.34 dist=[1.5,1.9] spread=0.5  @5K: G_rel=0.41 dist=[1.3,1.8] spread=0.5  @10K: G_rel=0.36 dist=[1.6,2.0] spread=0.4
+2026-03-23 11:30:25 | INFO | Got anonymous API key: 6b867a0d-89dc-47e0-a88d-2c1b04d51970
+2026-03-23 11:30:25 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:30:25 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:30:25 | INFO | Created new scorecard: eae3902c-cce5-4894-9990-1723ca5ec590
+2026-03-23 11:30:25 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 11:30:25 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    FT09:    L1=   0  alpha_conc=41.10  pred_acc=5629
+             diag: @1K: G_rel=2.01 dist=[0.5,1.4] spread=0.9  @5K: G_rel=2.82 dist=[0.3,1.3] spread=1.0  @10K: G_rel=0.52 dist=[1.3,1.8] spread=0.5
+2026-03-23 11:30:33 | INFO | Got anonymous API key: 7b57e84d-cf20-4204-9f18-df575de7c354
+2026-03-23 11:30:33 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:30:33 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:30:33 | INFO | Created new scorecard: 92148c6d-848f-475d-83d1-81586b9a3ae1
+2026-03-23 11:30:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 11:30:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+    VC33:    L1=   0  alpha_conc=36.28  pred_acc=23377
+             diag: @1K: G_rel=2.87 dist=[0.3,1.3] spread=1.0  @5K: G_rel=1.70 dist=[0.5,1.4] spread=0.9  @10K: G_rel=1.17 dist=[0.7,1.4] spread=0.8
+    CIFAR-2: acc=0.0092  alpha_conc=15.70  pred_acc=1856
+             diag: @1K: G_rel=0.00 dist=[8.3,8.3] spread=0.0  @5K: G_rel=0.04 dist=[6.3,6.3] spread=0.0  @10K: G_rel=0.11 dist=[5.6,5.6] spread=0.1
+
+  Seed 5:
+    CIFAR-1: acc=0.0110  alpha_conc=7.06  pred_acc=1915
+             diag: @1K: G_rel=0.01 dist=[7.4,7.4] spread=0.0  @5K: G_rel=0.14 dist=[5.2,5.3] spread=0.1  @10K: G_rel=0.17 dist=[5.2,5.3] spread=0.1
+2026-03-23 11:30:52 | INFO | Got anonymous API key: ce13736d-4f34-4f75-ac15-f71b43a655bb
+2026-03-23 11:30:52 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:30:52 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:30:52 | INFO | Created new scorecard: ae408f87-351c-4af4-97b2-cfcb92cc52a6
+2026-03-23 11:30:52 | INFO | Successfully fetched metadata for game ls20
+2026-03-23 11:30:52 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+    LS20:    L1=   0  alpha_conc=42.14  pred_acc=4796
+             diag: @1K: G_rel=0.15 dist=[2.6,2.9] spread=0.3  @5K: G_rel=0.21 dist=[2.1,2.5] spread=0.3  @10K: G_rel=0.33 dist=[1.6,2.1] spread=0.4
+2026-03-23 11:31:00 | INFO | Got anonymous API key: 53f37c52-480b-4337-bb18-3958dc924bc7
+2026-03-23 11:31:00 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:31:00 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:31:00 | INFO | Created new scorecard: e49ea1dc-5dec-4451-a3eb-af782a6eb8f5
+2026-03-23 11:31:00 | INFO | Successfully fetched metadata for game ft09
+2026-03-23 11:31:00 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+    FT09:    L1=   0  alpha_conc=42.82  pred_acc=10311
+             diag: @1K: G_rel=0.15 dist=[2.5,2.8] spread=0.3  @5K: G_rel=1.80 dist=[0.5,1.4] spread=0.9  @10K: G_rel=1.18 dist=[0.7,1.4] spread=0.8
+2026-03-23 11:31:08 | INFO | Got anonymous API key: 9f6bbd2e-dba4-405d-aac2-02093d555edd
+2026-03-23 11:31:08 | INFO | You can register for an API key at https://three.arcprize.org
+2026-03-23 11:31:08 | INFO | Successfully fetched 3 environment(s) from API
+2026-03-23 11:31:08 | INFO | Created new scorecard: 47529afd-c671-4174-8bb0-4d5d9fbb7d57
+2026-03-23 11:31:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-23 11:31:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+    VC33:    L1=   0  alpha_conc=33.82  pred_acc=17486
+             diag: @1K: G_rel=2.73 dist=[0.3,1.3] spread=1.0  @5K: G_rel=1.91 dist=[0.5,1.3] spread=0.9  @10K: G_rel=1.20 dist=[0.7,1.4] spread=0.8
+    CIFAR-2: acc=0.0097  alpha_conc=17.32  pred_acc=2720
+             diag: @1K: G_rel=0.00 dist=[6.8,6.8] spread=0.0  @5K: G_rel=0.11 dist=[7.3,7.4] spread=0.1  @10K: G_rel=0.14 dist=[6.9,7.0] spread=0.1
+
+======================================================================
+STEP 936 RESULTS (input-dist conf, PRISM-light, 10K/phase, 5 seeds):
+  CIFAR-1 acc: 0.0101  ['0.011', '0.011', '0.008', '0.009', '0.011']
+  LS20  L1:    0.0/seed  std=0.0  zero=5/5  [0, 0, 0, 0, 0]
+  FT09  L1:    0.0/seed  zero=5/5  [0, 0, 0, 0, 0]
+  VC33  L1:    0.0/seed  zero=5/5  [0, 0, 0, 0, 0]
+  CIFAR-2 acc: 0.0101  ['0.009', '0.011', '0.011', '0.009', '0.010']
+
+Comparison (chain, 5 seeds):
+  916 (800b EMA, 25K):   LS20=290.7  FT09=0  VC33=0
+  914 (baseline, 10K):   LS20=248.6  FT09=0  VC33=0
+  934b (pred_err conf):  LS20=9.2   KILLED
+  936 (input-dist conf): LS20=0.0  FT09=0.0  VC33=0.0
+
+Kill criterion: LS20 < 200 → KILL.
+Total elapsed: 187.5s
+STEP 936 DONE
