@@ -824,6 +824,8 @@ That is: self-modification must produce state that outperforms the initial state
 
 **Degrees of freedom:** The task distribution $\mathcal{T}$, the pretraining budget $N$, and the performance metric $P$ are all choices. Step 776 used $\mathcal{T}$ = LS20 with different environment seeds, $N$ = 25K steps, $P$ = level completion count. Whether positive counterfactual is achievable under ANY $(\mathcal{T}, N, P)$ for an R1-compliant substrate remains open.
 
+**R3_cf is metric-dependent (Steps 780v5, 855b, 809b).** With $P$ = prediction accuracy (forward model accuracy on held-out transitions): R3_cf PASSES for three D-only substrates (cold 11.5-50.2%, warm 19.9-54.6%). With $P$ = level completion count: R3_cf is INCONCLUSIVE on LS20 (0 completions for all post-ban substrates; LS20 rewards action persistence, making it uninformative for diverse-exploration mechanisms). The forward model captures transferable dynamics (Proposition 20b confirmed), but whether this transfer improves NAVIGATION performance depends on the game and action selection mechanism. Cross-game testing (FT09, where diverse actions are productive) is pending.
+
 ### 4.10 State Decomposition: Location vs Dynamics (Proposition 20)
 
 **Prior work:** Several frameworks decompose agent state, but none along the location/dynamics axis relevant to self-modification transfer:
