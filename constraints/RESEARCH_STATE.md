@@ -57,10 +57,11 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 950 (building). Hebbian RNN warm-start W_a — break W_pred/W_a deadlock.
-Step 949 NEUTRAL: h_dim=128 identical to 948 (seed 8=96, rest 0). Capacity is NOT the bottleneck.
-  Diagnosis: W_pred/W_a deadlock. W_a learns from noisy delta before W_pred is useful → action lock.
-  Seed 8 breaks symmetry by luck. Literature: Najarro & Risi NeurIPS 2020 (Hebbian random init = brittle).
+CURRENT STEP: 951 (building). Hebbian RNN mean-subtracted delta — signal quality fix.
+Step 950 KILL: Warm-start (WARM_UP=1000) eliminated seed 8's signal (96→0). Concurrent learning is LOAD-BEARING.
+  Deadlock hypothesis WRONG. Early W_a updates contain signal, not noise. Delaying them destroys navigation.
+Step 949 NEUTRAL: h_dim=128 identical to 948 (seed 8=96, rest 0). Capacity NOT the bottleneck.
+  Literature: Najarro & Risi NeurIPS 2020 (Hebbian random init = brittle).
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
