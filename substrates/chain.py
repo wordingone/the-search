@@ -440,13 +440,21 @@ class ChainRunner:
 
     def __init__(self, chain: list, n_seeds: int = 10,
                  verbose: bool = True,
-                 randomize_order: bool = False,
+                 randomize_order: bool = True,
                  # Legacy compat
                  per_seed_time: float = None):
         """
         chain: list of (name, wrapper_instance)
         n_seeds: seeds per game (minimum 10 per Fix 6)
+        randomize_order: MUST be True (Jun directive 2026-03-24).
+            Game order randomized per seed. Neither Leo nor Eli knows the order.
+            CIFAR included in shuffle. Prevents per-game optimization.
         """
+        if not randomize_order:
+            print("[ChainRunner] WARNING: randomize_order=False is DEPRECATED. "
+                  "Jun directive 2026-03-24: game order MUST be randomized. "
+                  "Forcing randomize_order=True.")
+            randomize_order = True
         self.chain = chain
         self.n_seeds = max(n_seeds, self.MIN_SEEDS)
         self.verbose = verbose
