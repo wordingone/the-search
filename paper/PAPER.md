@@ -81,6 +81,12 @@ Adaptive optics: deformable mirror corrects atmospheric distortion via wavefront
 Physarum polycephalum: memory in the encoding. Tube network encodes past exploration. No neural system, no reward, yet solves shortest-path. The slime mold IS a substrate: fixed interpreter (cytoplasmic streaming rules), self-modifying encoding (tube network).
 
 
+### 2.16 Quorum sensing and threshold-triggered self-regulation
+
+Quorum sensing (Waters & Bassler, 2005): bacteria detect population density via autoinducer concentration and trigger collective state transitions when a threshold is exceeded. The system functions as an "on-off switch" — at low density, individual behavior; at high density, collective behavior. Individual cells vary stochastically but the collective transition is deterministic (Goryachev et al., 2005).
+
+**Connection to Proposition 28:** Alpha's encoding dimensions are analogous to a bacterial population. Each dimension's attention (alpha_d) varies individually. The aggregate metric ($\alpha_{conc}$) is the autoinducer pool. When $\alpha_{conc}$ exceeds $\theta_{conc}$, the collective response activates (attention reset). This is Ashby's ultrastability realized at the population level: threshold on aggregate state → discontinuous restructuring. The individual dimensions don't "decide" to reset — the threshold on their collective behavior decides. Future: combinatorial sensing (multiple thresholds on different alpha statistics) could enable richer self-regulation, analogous to bacteria using multiple autoinducers to resolve complex environments (Taga & Bassler, 2003).
+
 ### 2.15 Forward models, the noisy TV problem, and the graph ban
 
 Forward models + graph ban: graph ban eliminates per-(state,action) tracking. No PAC-MDP algorithm exists without visit counts (Strehl 2009). But BYOL-Explore (Guo 2022) achieves superhuman exploration without counts. The ban forces theoretically uncovered territory.
