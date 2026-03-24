@@ -57,12 +57,15 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 955 (building). ESN + sigmoid activation — restore positive accumulation.
-Step 954 SIGNAL: ESN + Hebbian W_a = 1/10 (seed 10=22). ESN + random W_a (954b) = 0/10.
-  W_a learning necessary. But tanh h ∈ [-1,1] → mixed-sign W_a updates → cancellation → W_a_norm=2.2 (vs 20.3 in 948).
-  TANH CANCELLATION = same failure as Step 951 (positive accumulation load-bearing), via activation function.
-  Fix: sigmoid h ∈ [0,1] restores positive accumulation. One-line change.
-  HEBBIAN RNN FAMILY DEAD (Steps 948-953, 6 experiments). ESN family: experiment 1/5.
+CURRENT STEP: 956 (building). RNG-free deterministic exploration — remove action RNG dependence entirely.
+Step 955 KILL: ESN + sigmoid = NUMERICALLY IDENTICAL to 948 (seed 8=96, 9/10 zeros, W_a_norm=19.9).
+  ARCHITECTURE IS IRRELEVANT. W_h, W_x, spectral radius, activation — none matter.
+  ROOT CAUSE: Action RNG (RandomState(seed)) determines bootstrap success, not weight init (seed+10000).
+  Same action RNG seed → same epsilon-greedy trajectory → same W_a bootstrap → same result.
+  ESN FAMILY DEAD at experiment 2 (identical mechanism to Hebbian RNN).
+Step 954 SIGNAL: ESN tanh = 1/10 (seed 10=22, different lucky RNG). W_a_norm=2.2 (tanh cancellation).
+  FIX DIRECTION: Remove RNG from action selection. Deterministic state-dependent hash offsets.
+  If all seeds produce similar results → architecture confirmed irrelevant, exploration is everything.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
