@@ -57,13 +57,14 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 957/958 (building). UCB action selection / ensemble selection.
-Step 956 KILL: RNG-free hash exploration = 1/10 (seed 4=150, new peak). Lucky seed SHIFTS but rate stays 1/10.
-  1/10 BOOTSTRAP RATE IS STRUCTURAL — independent of architecture AND randomness source.
-  Prop 29 confirmed: architecture irrelevant. Now: exploration mechanism is also insufficient alone.
-Step 955 KILL: ESN + sigmoid = NUMERICALLY IDENTICAL to 948. Architecture irrelevant (Prop 29).
-Step 954 SIGNAL: ESN tanh = 1/10 (seed 10=22). Tanh cancellation diagnosed.
-  Two paths: (a) UCB — principled exploration from bandit theory, (b) ensemble — accept 1/10, select winner.
+CURRENT STEP: 958 (queued, Eli compacting). Ensemble selection. Then 959: ReLU-gated W_a (root cause fix).
+Step 957 KILL: UCB collapses to single action (9900+/10000). 0/10. Global bonus can't override state-dependent lock.
+  STATE-INDEPENDENT exploration mechanisms ALL fail: epsilon (948), hash (956), UCB (957).
+  The lock is STATE-DEPENDENT (W_a @ h). Only state-dependent representation change can fix it.
+Step 956 KILL: RNG-free hash = 1/10 (seed 4=150). 1/10 structural, architecture-independent.
+Step 955 KILL: ESN = 948 numerically. Prop 29 (architecture irrelevance). Prop 30 (positive lock).
+  NEXT: 959 ReLU-gated W_a — relu(h-0.5) creates sparse state-dependent representations.
+  Changes BOTH the update and the score to use gated h → cross-state lock breaks.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
