@@ -57,14 +57,16 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 966 (building). Action embeddings + prediction-as-classification.
-  Jun correction: 4 chain failures = ONE problem (substrate too narrow), not 4 separate fixes.
-  Step 965: h-reset fixes LS20 chain degradation (3/10→6/10). But LS20-only = per-game tuning.
-  Step 964: chain diagnostic — CIFAR/FT09/VC33 all broken. 916 is an LS20 solver, not a substrate.
-  DIRECTION: Prediction as universal mechanism. Navigation = argmin(pred error per action).
-  Classification = argmin(pred error per class). Same W_pred, different readout.
-  n_actions scaling: action embeddings cluster similar actions → O(k) not O(n).
-  HEBBIAN W_a DEAD (948-962, 15 exp). Props 29+30. 800b unique but scales poorly with n_actions.
+CURRENT STEP: 970 (building). Eligibility traces for sequential credit assignment on FT09.
+  Step 969 DIAGNOSTIC: FT09 = 0/10 at 25K. MECHANISM-LIMITED (not budget). 800b can't learn ordered sequences.
+  Step 968 KILL: Action-conditioned h adds noise (149.3 vs 290.7). FT09 still 0.
+  Step 967 KILL: W_pred classification at chance on CIFAR (iid data = no sequential structure).
+  Step 966 KILL: Action embeddings hurt LS20 (36.5 vs 74.7), don't help FT09.
+  Step 965: h-reset fixes LS20 chain (3/10→6/10).
+  Jun correction: 4 failures = ONE problem. Substrate too narrow. Don't fix per-game.
+  FT09 needs sequential dependency learning. 800b measures |Δstate| not action ORDER.
+  CIFAR needs label feedback wrapper (infrastructure, not mechanism).
+  HEBBIAN W_a DEAD (948-962). Props 29+30. 800b unique but can't do sequences.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
