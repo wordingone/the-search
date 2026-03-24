@@ -57,14 +57,15 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 958 (queued, Eli compacting). Ensemble selection. Then 959: ReLU-gated W_a (root cause fix).
-Step 957 KILL: UCB collapses to single action (9900+/10000). 0/10. Global bonus can't override state-dependent lock.
-  STATE-INDEPENDENT exploration mechanisms ALL fail: epsilon (948), hash (956), UCB (957).
-  The lock is STATE-DEPENDENT (W_a @ h). Only state-dependent representation change can fix it.
-Step 956 KILL: RNG-free hash = 1/10 (seed 4=150). 1/10 structural, architecture-independent.
-Step 955 KILL: ESN = 948 numerically. Prop 29 (architecture irrelevance). Prop 30 (positive lock).
-  NEXT: 959 ReLU-gated W_a — relu(h-0.5) creates sparse state-dependent representations.
-  Changes BOTH the update and the score to use gated h → cross-state lock breaks.
+CURRENT STEP: 960 (building). Split pathway — positive h for UPDATE, signed h for SCORE.
+Step 959 KILL: ReLU-gated W_a = 1/10 (seed 8=96). Sparsity ~50% but relu ≥ 0 → lock persists.
+Step 958 KILL: Ensemble K=5 = 0/10. All instances lock identically. Killed seed 8 (0 vs 96).
+Step 957 KILL: UCB = 0/10. State-independent bonus can't override state-dependent lock.
+  HEBBIAN FAMILY EXHAUSTED (12 experiments, 948-959). Prop 30 tension identified:
+  - Positive h → accumulation BUT lock (all dot products ≥ 0)
+  - Signed h → breaks lock BUT cancellation (W_a → 0)
+  FIX: Split pathway. h_update = sigmoid [0,1] for W_a growth. h_score = sigmoid - 0.5 [-0.5,0.5] for action.
+  One-line change. Positive accumulation preserved. Lock broken by signed scoring.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
