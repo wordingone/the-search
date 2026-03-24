@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-1009+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). R3 encoding self-modification achieved (Step 895). Two bans — codebook (Step 416) and graph (Step 777, permanent) — remove both known-working mechanisms. PRISM infrastructure overhaul (Step 1006): randomized game order, chain-based kills, all three games from step 1. Chain SOTA: 994 adaptive eta (LS20=286.2@25K, 9/10 seeds). FT09/VC33=0 under all mechanisms — formally characterized as the temporal credit wall (Theorem 4, Proposition 31). Extraction sprint (Steps 1008+): testing CC zone discovery and attention mechanisms to break the FT09/VC33 wall.
+1018+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3). **Step 1017 critical finding: ALL bans lifted + ALL rules suspended = FT09/VC33 still 0%.** The gap isn't constraints — it's that no generic exploration mechanism discovers game mechanics autonomously. Per-game prescribed solutions solve every level (FT09 6/6, VC33 7/7, LS20 7 levels pending). The question is now: can the substrate autonomously discover these prescriptions? ARC-AGI-3 full set launches March 25.
 
 ## Results (honest)
 
@@ -32,7 +32,7 @@ Can a system improve itself by criteria it generates?
 **Key findings:**
 - **R3 encoding self-modification achieved** (Prop 22). Alpha discovers game-informative dims from prediction error alone. Universal on FT09 (dims [60,51,52] = puzzle tiles, all seeds).
 - **Navigation: +32% with clamped alpha.** Change-tracking (800b) + prediction-error attention = best post-ban mechanism. 0/10 zero-seeds.
-- **FT09/VC33 unsolved post-ban.** Sequential games need action ordering, not change detection (Prop 23). The graph ban makes sequential puzzles exponentially hard.
+- **FT09/VC33 unsolved — bans are NOT the cause (Step 1017).** Full graph + all bans lifted = still 0%. Generic exploration can't discover multi-step click sequences. Per-game prescribed solutions work (FT09 6/6, VC33 7/7). The gap is autonomous discovery of game mechanics, not any constraint.
 - **Warm alpha transfer FAILED** (n_eff=10). Alpha is per-episode adaptation, not cross-seed transfer. Cold > warm.
 - **800b "10× random" retracted.** True mean = 203.9/seed (L2 norm, n_eff=10). Prior claim was seed artifact.
 - Compression progress dead across 5 variants. Novelty-based action selection dead on LS20. Only change-tracking navigates.
