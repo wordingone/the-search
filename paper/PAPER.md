@@ -51,17 +51,11 @@ Multiple biological and physical systems exhibit fixed interpreter + self-modify
 - **Physarum** (Tero et al., 2010): tube network = self-modifying encoding. Solves shortest-path without reward.
 
 
-### 2.16 Quorum sensing and threshold-triggered self-regulation
+### 2.16 Additional related work
 
-Quorum sensing (Waters & Bassler, 2005): population-level threshold triggers from individual stochastic variation. Connection to alpha concentration: individual dimension attention varies; aggregate metric triggers collective response (Ashby ultrastability). **Proposition 28 FALSIFIED** — concentration on informative dimensions IS the mechanism, not degeneration.
-
-### 2.17 Hippocampal place cells and the positive lock
-
-Place cells use sparse coding (~5-10% active per location; Leutgeb et al., 2007) → orthogonal representations → cross-location dot products ≈ 0. This solves the positive lock (Proposition 30): our sigmoid h ∈ [0,1] makes ALL dot products positive → winner-take-all. relu(h-0.5) gating (Step 959) = computational equivalent of place cell thresholding, dissolving the lock. Benna & Bhalla (2025, bioRxiv): sparse place cell phenomena emerge in untrained random networks, consistent with ESN finding (Step 955).
-
-### 2.15 Forward models, the noisy TV problem, and the graph ban
-
-Forward models + graph ban: graph ban eliminates per-(state,action) tracking. No PAC-MDP algorithm exists without visit counts (Strehl 2009). But BYOL-Explore (Guo 2022) achieves superhuman exploration without counts. The ban forces theoretically uncovered territory.
+- **Quorum sensing** (Waters & Bassler, 2005): population-level threshold triggers. Prop 28 FALSIFIED — alpha concentration on informative dims IS the mechanism.
+- **Place cells** (Leutgeb et al., 2007): sparse coding (~5-10% active) → orthogonal representations. Dissolves positive lock (Prop 30). relu(h-0.5) gating = computational equivalent. Benna & Bhalla (2025): sparse place phenomena in untrained random nets, consistent with ESN finding.
+- **Forward models + graph ban:** No PAC-MDP without visit counts (Strehl 2009). BYOL-Explore (Guo 2022) achieves superhuman exploration without counts. Ban forces uncovered territory.
 
 
 ## 3. Formal Framework
@@ -613,11 +607,11 @@ All formalized constraints were checked for mutual consistency. Identified tensi
 
 15. **Full feasible region occupancy.** Theorem 3 shows not provably empty; witness or tighter impossibility needed.
 16. **Self-observation mechanism.** Must satisfy R6 while avoiding noisy TV traps. Compression progress fails (Step 855, action collapse). Prop 17: self-directed attention via $\Delta E_t$ is R6-compliant.
-18. **R1-compliant classification.** 0 substrates above chance without external labels.
+18. **R1-compliant classification.** 0 substrates above chance without external labels (best: LSH k=16, 36.2% self-labels, Step 573).
 22. **Post-ban action selection.** 800b is the unique working selector. FT09 = 0 formally characterized by Theorem 4 (temporal credit impossibility). → kills/800b-variants_step937.md
 25. **Post-ban constraint map.** Many U-constraints derived within graph framework. Survival post-ban is open.
-26. **Observability determines mechanism viability.** Prediction-contrast works where progress is visible in observations. POMDPs require additional mechanisms.
-27. **Compression progress action collapse.** Fix candidates untested: epsilon-compression, action cycling, entropy regularization.
+28. **Component extraction.** Ban extraction protocol (2026-03-24) permits isolated mechanism testing. 33 components cataloged across 14 families (COMPONENT_CATALOG.md). Priority: FT09/VC33 action-space discovery components (CC zone discovery, transition detection, sparse gating).
+29. **LS20 research skew.** 230 post-ban experiments focused exclusively on LS20 (solvable). FT09/VC33 abandoned since graph ban (Step 777). The search has TWO distinct problems: (a) exploration (LS20, well-characterized by 500+ experiments), (b) action-space discovery (FT09/VC33, 0 post-ban experiments). The extraction protocol enables Problem (b) experiments for the first time.
 
 
 ### 7.5 The Level 2 Problem

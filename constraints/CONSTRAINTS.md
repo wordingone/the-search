@@ -1,8 +1,8 @@
 # Constraints — Comprehensive Extraction from Experiments
 
-*Revised 2026-03-18 session 2. Major restructure: task requirements first, honest universality reclassification.*
+*Revised 2026-03-24. Compressed per doc-system limits. Full narratives in RESEARCH_STATE.md. Component extraction catalog in COMPONENT_CATALOG.md.*
 
-*1000+ experiments across 14+ architecture families (codebook ~435, LSH ~80, L2 k-means ~25, reservoir ~20, Hebbian RNN 6, Hebbian W_a 15, 916-augmentation ~25, prediction-selectors ~10, adaptive-eta 8, GFS 3, obs-preprocessing 2, SplitTree 5, Recode 3, Absorb 3, graph 8, CA 3, Bloom 2, CC 1). Codebook banned 2026-03-18. Graph banned 2026-03-23. Key findings: algorithm invariance QUALIFIED (Step 948), centering load-bearing (U16), 800b delta_per_action FROZEN (27 kills, Steps 966-990), temporal credit wall (Theorem 4, Prop 31).*
+*1000+ experiments across 14+ families. Codebook banned Step 416. Graph banned Step 777. See bans/POLICY.md for extraction protocol.*
 
 **Classification:**
 - **Task Requirement**: What the TASK demands of any substrate (derived from successes AND failures across families)
@@ -20,150 +20,43 @@
 
 ### Navigation (LS20, FT09, VC33)
 
-Every navigation experiment since Step 442 uses the same graph + edge-count mechanism. The only variable is the observation-to-node mapping. Results partition perfectly by three mapping properties:
+**Three mapping properties predict L1 success/failure across 6 families:**
 
-| Property | Required? | Evidence |
+| Property | Required? | Evidence (brief) |
 |---|---|---|
-| **Deterministic** (same obs → same node) | HYPOTHESIZED | No family has been shown to fail on determinism alone while satisfying the other two. Reservoir's "temporal inconsistency" (Step 448) is actually a local continuity failure — similar observations map to different cells due to hidden state history, not non-determinism. Zero independent evidence for this axis. |
-| **Locally continuous** (nearby obs → same node) | YES | Grid graph fails (0/3, Steps 446-447). LSH succeeds (3/10, Step 453). PCA grid worse than random (539 vs 1869 cells). Reservoir fails (history-dependent mapping, Step 448). CA fails (degenerate mapping, Steps 449-451). 4 families fail on this axis — the strongest evidence. |
-| **Persistent** (nodes don't get destroyed) | YES | kd-tree fails (splits destroy edges, Step 452). LSH/codebook cells are permanent → navigate. |
+| **Deterministic** (same obs → same node) | HYPOTHESIZED | No independent evidence. |
+| **Locally continuous** (nearby obs → same node) | YES | 4 families fail: grid graph, reservoir, CA, PCA grid. |
+| **Persistent** (nodes don't get destroyed) | YES | kd-tree fails (splits destroy edges). |
 
-**Algorithm invariance (Steps 521, 524, 525) — QUALIFIED by Step 948.** Within graph-based substrates, argmin over visit frequency is invariant across 4 representations: edge dict (LSH), weight matrix (Hebbian), transition tensor (Markov), n-gram history. The data structure is a degree of freedom; argmin is the constant. (Recode also uses argmin.) **However:** Hebbian RNN (Step 948) navigated LS20 WITHOUT argmin, without a graph, and without visit counting — using Hebbian W_a learning from prediction error (seed 8 = 96 L1, 1/10 seeds). This proves non-argmin navigation is POSSIBLE but unreliable (family killed at Step 953, 6 experiments, 0 robust). Argmin remains the only RELIABLE action mechanism tested (10+/10 at sufficient budget). The invariance holds within graph-based families; it is not universal across all families.
+**Algorithm invariance — QUALIFIED (Step 948).** Argmin over visit frequency is invariant across 4 graph-based representations (Steps 521-525). Hebbian RNN navigated WITHOUT argmin (1/10 seeds, Step 948) — non-argmin possible but unreliable. Post-ban: 800b delta EMA is the only working non-graph mechanism.
 
-**Non-convergent exploration.** Edge-count argmin converges LOCALLY (per-cell ratios approach true visit distribution). But the reachable set continues growing sublinearly: 259 cells at 50K → 439 at 740K (Steps 528-529). Growth rate decays to ~2 cells/100K at 740K; whether a true asymptote exists is unmeasured. The prior "259 ceiling" was a TIME LIMIT, not topology. At k=16, reachable set expands to 1094 cells at 200K (Step 531), 1149 at 500K (Step 532).
+**Per-game best results (all time):** See COMPONENT_CATALOG.md for full performance audit.
 
-**Self-refinement and navigation reliability (Step 542, Recode).** LSH k=16 + passive self-refinement from transition statistics = 5/5 L1 on LS20 (vs 3/3 for LSH k=16 alone at 200K, Step 531). The observation→cell mapping is self-modified: when a cell contains observations that lead to different transition outcomes, the substrate learns a hyperplane that separates them. Cell count: 1267 vs 1149 without refinement at k=16 (+10%). The dominant factor in reachable set expansion is k (partition granularity); refinement's contribution is modest in cell count but may improve NAVIGATION RELIABILITY (5/5 at 500K vs 3/3 at 200K — budget contribution not isolated). This is the first substrate where the mapping improves from its own dynamics AND navigation succeeds reliably.
+| Game | Best pre-ban | Best post-ban | Gap |
+|------|-------------|--------------|-----|
+| LS20 | 20/20 (674+rm, Step 705) | 290.7/seed (916, Step 916) | Post-ban BETTER |
+| FT09 | 20/20 (674+rm, Step 709) | **0/10 all mechanisms** | Complete loss |
+| VC33 | 5/5 (CC discovery, Step 576) | **0/10 all mechanisms** | Complete loss |
+| CIFAR | 94.48% w/ labels (Step 425) | ~chance without labels | R1-limited |
 
-**The 6/10 → 9/10 → 5/5 progression:** 6/10 at k=12, 50K (Step 459) was BUDGET-DEPENDENT. 9/10 at k=12, 120K (Step 485). 3/3 at k=16, 200K (Step 531). **5/5 at k=16 + self-refinement, 500K (Step 542, Recode).** Navigation reliability scales with k, budget, and mapping quality.
+**Research skew (2026-03-24 compression finding):** 230 post-ban experiments focused exclusively on LS20. FT09/VC33 abandoned since graph ban. The search has TWO distinct problems: (a) exploration (LS20, over-characterized), (b) action-space discovery (FT09/VC33, 0 post-ban experiments). See COMPONENT_CATALOG.md extraction priorities.
 
-**Targeted exploration kills navigation (Steps 477-482, 539-541).** Every TARGETED action selection strategy performs WORSE than pure argmin. Destination novelty 1/10, prediction error 0/10, softmax 2/3, entropy-seeking 0/3 (noisy TV problem — Burda et al. 2018). UCB1 degenerates to argmin. Entropy-seeking drives the agent into lethal states because death transitions have maximum irreducible entropy. **6 independent strategies tested, all worse than argmin.** This is the noisy TV problem applied to navigation: targeted exploration finds noise (death), not signal (reward).
+**Key findings (details in RESEARCH_STATE.md):**
 
-**Level 2 reward disconnect — 4 hypotheses falsified on LSH+LS20 (Steps 486-639).** Level 2's reward is in a region the agent hasn't reached at 740K steps with 439 cells (k=12) or at 500K with 1149 cells (k=16). Four independent hypotheses tested and falsified on the same substrate+game: (1) **Scale/budget** (486-492): edge manipulation, death avoidance/seeking, stochastic exploitation, finer partitioning — reachable set grows sublinearly but L2 remains disconnected. (2) **Self-reference** (620-629, eigenform): self-observation is reflective only — computes functions of visited states, can't reach unvisited states. (3) **Information availability** (630-637, 8 experiments): graph-derived signals at any granularity — k=16 too fine, k=4 too coarse, binary over-collapses, per-edge stale 12-54% inert. (4) **Signal source** (638-639): sparse environmental signals (death ~1.3%, large_diff ~5.2%) are seed-dependent — benefit depends on game topology per seed. All converge: L2 requires forward prediction, not retrospective penalty (Proposition 13). **Caveat:** all 4 hypotheses tested on LSH+LS20 only. The L2 wall may be substrate-specific (LSH hash partitioning) or game-specific. Cross-family L2 testing is needed before claiming generality.
+- **Exploration is non-convergent:** reachable set grows sublinearly (259→439 cells over 740K steps). Not an asymptote — a time limit (Steps 528-532).
+- **Self-refinement works:** Recode (LSH k=16 + transition-triggered splitting) = 5/5 L1, first self-modifying substrate that navigates (Step 542). K confound unresolved.
 
-**LLM benchmark (Step 462) — PRELIMINARY, n=1:** 1/1 clean test (haiku on LS20) failed — action collapse (100% ACTION1, 97 steps). 2 tainted results excluded: sonnet cheated (read codebase, uninterpretable), opus tested on FT09 (a game broken for all mechanisms). Insufficient sample for strong claims. HYPOTHESIS: LLMs lack systematic exploration mechanism. Needs repeat with proper isolation before treating as confirmed finding.
-
-**Cross-game (Steps 467-469, 476, 495-503):** FT09 and VC33 expose a key insight: **the action space IS a variable, not just the mapping.**
-
-**FT09 SOLVED (Step 503): 3/3 wins.** K-means (32 cells) + 69-action graph (64 click positions + 5 simple) + argmin = systematic action coverage = win. Seed 2 won at step 157, seed 1 at 2035, seed 0 at 3840. No codebook learning required. Step 501 failed because it treated 64 click positions as ONE action (ACTION6). Step 503 treats each click position as a SEPARATE action — argmin covers them all systematically. The codebook's FT09 win (Step 82) was entirely about action decomposition, not cosine learning. **Confirmed across 2 families (codebook + k-means graph).**
-
-**VC33 SOLVED (Step 505): 3/3 wins.** Zone discovery at 4x4 stride found 3 zones: 254 normal positions + 2 magic pixels at (62,26) and (62,34). 3-action k-means argmin: seed=2 won at step 18, seed=0 at 82, seed=1 at 144. Step 504 (8x8 stride) failed — too coarse, only 1 zone. The magic pixels require pixel-precise discovery. **Confirmed across 2 families (codebook + k-means graph).**
-
-**ALL 3 GAMES LEVEL 1 SOLVED.** Unifying mechanism across 505 experiments: graph + edge-count argmin + correct action decomposition. The mapping (how observations become nodes) and the action space (how actions are decomposed) are the VARIABLES. The graph + argmin is the CONSTANT. LS20 needs 4 directional actions. FT09 needs 69 (64 grid + 5 simple). VC33 needs 3 (zone discovery). All prescribed. The frontier is: can the substrate DISCOVER the right action decomposition autonomously (I3)?
-
-**Action discovery cascade (Steps 713-716, 10 experiments, R3 hypothesis):**
-
-Two R3 mechanisms tested for autonomous action-space discovery with 68 universal actions (4 dirs + 64 clicks):
-
-*ℓ₀: State-change detection (Steps 713-714).* Track which actions produce observation changes. **LS20: perfect** (4 dirs LIVE, 64 clicks DEAD). **FT09: perfect** (8 specific clicks LIVE, 4 dirs + 56 clicks DEAD — discovers WHICH positions matter). **VC33: blind** (dead=0, all actions produce uniform delta=3.0 from game clock). Raw 64x64 encoding viable — no speed penalty vs avgpool16.
-
-*ℓ_π: Graph-novelty pruning (Steps 715-716).* Track which actions lead to new graph cells. Hash saturation kills the mechanism: k_prune=8 (256 buckets) fills at 120K steps → everything "already seen" → no discrimination. VC33 structural set is random seed-dependent subset. LS20 over-prunes (4→1 dir). FT09 saturates to all-cosmetic. **No k value works for all games at all timescales.**
-
-*ℓ₁: Episode-outcome correlation (Steps 717-719, 5 experiments, KILLED).* Three approaches tested for action weights modified by episode outcome data:
-
-- **Episode weighting (Step 717):** Weight actions by episode outcome (survived=+1, died=-1). Result: argmin EQUALIZES action usage by design — every action appears in every episode because argmin samples least-visited. No discrimination possible. The signal that SHOULD distinguish good from bad actions is destroyed by the mechanism that makes navigation work.
-
-- **Subset bandit (Step 719):** Restrict to action subsets per episode, compare survival rates. **LS20: signal REVERSED** — survival correlates with FEWER actions (staying still), not exploration. **FT09: no signal** — all episodes timeout regardless of action subset. Survival ≠ progress.
-
-- **candidate.c characterization (Step 718):** 57-line CA substrate plays blind — output determined by XorShift seed, not game observations. ℓ₁ mechanism exists (memory grid modified by dynamics) but decoupled from environment. Action distribution uniform across seeds. KILL.
-
-**Conclusion (updated 2026-03-22):** ALL three levels of self-modification hierarchy tested for action discovery — ℓ₀ (observation statistics), ℓ_π (graph topology), ℓ₁ (episode outcome) — ALL insufficient at the GLOBAL level. Argmin equalizes action usage, preventing any outcome-based discrimination. The coupling is structural: the mechanism that makes navigation work (argmin = try everything equally) is the mechanism that prevents learning which actions are better. R3 for action selection requires BREAKING this equalization, but every alternative tested (6 targeted strategies + 3 outcome-based) performed worse than argmin for navigation.
-
-**Gap analysis (2026-03-22 compression):** Five untested angles identified:
-
-1. **Per-cell action discrimination on VC33.** 674's G[(cell, action)] → {successor: count} already stores per-cell per-action successor distributions. Steps 713-716 tested GLOBAL action classification (all cells aggregated). VC33's delta=3.0 uniform is a global measurement. At the per-cell level, room-boundary cells may show action-dependent successors (door-click → room transition) while clock-display cells show action-independent successors (clock ticks regardless). This data exists in the G dict. The per-cell analysis has not been done.
-
-2. **674 + raw 64×64 (no avgpool).** Step 574: raw 64×64 achieves L1 reliably (1191-1418 steps/seed) without avgpool. Step 713_raw: raw 64×64 matches avgpool for action discovery. But 674's mechanism (transition-triggered refinement) has not been tested with raw input. If 674+raw achieves comparable L1 rates to 674+avgpool16, then avgpool16 is not load-bearing and T1 can be reclassified.
-
-3. **674 baselines on established benchmarks.** The gym (BaseSubstrate + ChainRunner + SplitCIFAR100Wrapper + AtariWrapper) exists. 674 is wrapped (step0674.py). No baseline results have been collected on Split-CIFAR-100 or Atari 100K.
-
-4. **Clean Recode test (same K).** Recode (33 experiments) tested encoding self-modification but K confound invalidated the result. Clean test: same K, learned hyperplanes vs random, on the chain. One variable.
-
-5. **Non-argmin alternatives with running-mean centering.** Steps 477-482 tested 6 alternatives under frame-local centering at k=12, 50K. Running-mean centering changes the dynamics fundamentally (19/20 vs 16/20 baseline). Whether non-argmin strategies still hurt L1 under running-mean is untested.
-
-**Level 2 reward disconnect.** Dedicated L2 investigations (LSH Steps 486-493/528-529/532, k-means Step 493) confirm: L2's reward region is beyond the argmin-reachable frontier at all tested budgets and partition granularities. Incidental confirmation in codebook (Phase 1) and Recode (Step 542, 0/5 L2). The reachable set grows sublinearly but never includes L2 reward. Growing the mapping (more cells, finer partition, self-refinement) does not unlock L2.
-
-**Centering and domain separation (Steps 543-544, 546).** Centered encoding is REQUIRED for navigation (uncentered: 62 cells, 0/5 — Step 544). Global centering kills domain separation for the chain (CIFAR and LS20 hash to shared nodes — Step 543; CIFAR accuracy 15%, 15x above chance, showing encoding has cross-domain class signal). **RESOLVED via per-domain centering (Step 546):** reset the running mean on domain switch (on_reset). Per-domain centering gives 2/3 L1 on the chain (vs 5/5 clean — partial reliability gap remains), with s0 navigating FASTER than clean (L1@12201 vs 29691). R1-compliant: on_reset is a game event, not an external domain label.
-
-**R3 barrier precisely located (Steps 577b-577d, 2026-03-20).** Evolutionary approach (577b) fails: 0/1000 random programs have the required pipeline sequence (threshold→label_cc→nearest→navigate). No fitness gradient. Multi-buffer approach (577c): 4/5 L1 with 80%argmin+20%buffer, but argmin is doing the work — not buffer navigation. Windowed evaluation (577d): 100% buffer navigation in 500-step windows, 5000-step warmup. Result: 0/5 L1, 0 L1s across 390 windows × 5 buffers. Buffers visit MORE cells than argmin (exploration rate up) but the WRONG cells. Pixel statistics (mode/mean/var/diff/min) navigate toward visually salient features, not exit-relevant features. **R3 barrier: the substrate needs reward-correlated features, not visual statistics. Without a feedback loop linking navigation strategy to L1 outcomes, no pixel statistic discovers the exit.**
-
-**R3 frozen frame decomposition (from R3_AUDIT.md, 674 reference).** 9 U elements in 674: 5 are ENCODING (avgpool16, channel_0_only, mean_centering, H_nav_planes, H_fine_planes), 1 action selection (fine_graph_priority), 2 thresholds (min_visits_alias, h_split), 1 timing (refine_every). Encoding dominates the frozen frame (56%). Action selection (argmin) may be I (irreducible — removing kills navigation). R3 may not require modifying argmin — it may require modifying the ENCODING. A multi-modal substrate (any input modality) cannot have modality-specific encoding → R3 for encoding is forced by construction.
-
-**Chain benchmark: cross-domain contamination tested (Step 577 chain, 2026-03-20).** Full sequence: CIFAR-100 (P1, 1K steps) → LS20 navigation → CIFAR-100 (P3, 1K steps). Result: CIFAR P1=1.02%, P3=1.02%, delta=0.00pp. **No contamination confirmed.** The per-domain centering fully isolates CIFAR classification from LS20 navigation — LS20 edges don't corrupt CIFAR nodes because of the separate edge dicts (G for LS20 nav, G_cif for CIFAR) and per-domain mean reset. Caveat: L2 was not reached (time cap hit at 572s with only 1 L1 cycle), so full chain (P1→L1→L2→CIFAR→L1_delta) was not measured. No contamination confirmed for the partial chain.
-
-**Game version changes (confirmed 2026-03-22 — session record only, memory file feedback_games_deterministic.md rewritten per directive).** Games DO change ("the games have been confirmed to have changed by prior verification"). LS20: cb3b57cc → 9607627b (different sprite definitions). FT09: also changed. VC33: unchanged. The substrate must win ANY version of ANY game (directive). Game change = new task, not baseline invalidation. All Steps 690+ verified on current versions (LS20/9607627b, FT09/0d8bbf25). Pre-690 results on LS20/FT09 are on prior versions and not directly comparable. **Caveat:** Game-change claims have been flagged twice previously (audit 027a5b0). Review confirms that games change in general; specific claims about which games changed when remain subject to verification per project rule (feedback_eli_verification.md). Pre-change results (572u L3=5/5, 610 VC33 7 levels, 572j L2=5/5) still flagged in audit queue. **Provenance note:** This confirmation is not in the git trail — it exists only in session context (2026-03-22) and the rewritten memory file. A future session cannot independently verify this from the repo alone.
-
-**Self-observation mechanism (Step 620, eigenform, 2026-03-21).** Eigenform self-observation on L1: substrate reads its own edge count distribution every 500 steps, computes percentile thresholds, assigns AVOID/PREFER/NEUTRAL op codes. L1=5/5 (matches baseline — no performance improvement). Op distribution: 94-99% NEUTRAL, 0-2% AVOID, 1-10% PREFER. AVOID grows over time (0% → 8-10% across all seeds). **Mechanism produces non-zero output. No performance effect detected on L1.** Whether AVOID growth is meaningful self-calibration or a statistical artifact (percentile calculation over accumulating distribution → tails grow mechanically) is unknown until tested on L2+ where argmin fails and trap avoidance could matter. Combined with 582 (event-driven ops, SIGNAL 4/5): two independent R3 approaches both produce non-zero output.
-
-**L1 as hidden-state conjunction — the POMDP reframing (Steps 652-667, 2026-03-22).** L1 is NOT an exploration problem — it is a recognition problem. The agent visits the exit cell avg 152 times before L1 triggers (Step 652). First visit occurs at steps 37-82. The bottleneck is being at the exit cell WITH the right hidden state, not reaching the exit cell.
-
-LS20 is a POMDP: hidden state variables (snw, tmx, tuv) are inaccessible to the substrate (Step 654). L1 triggers when a hidden-state conjunction is met at the exit cell. The substrate can't observe the conjunction condition directly.
-
-**Key findings:**
-- **Graph ≈ flat counter (Step 660).** 15/20 seeds: flat counter (per-cell action counts, no transitions) = full graph. Transitions rarely decisive for argmin — 1/20 seeds (s10) where transitions help, 3/20 where transitions hurt (flat counter better), 15/20 identical. Inference: the graph's primary value is cell persistence (U3), not topology.
-- **Graph hurts random walk (Step 663).** Graph memory reshapes exploration paths. Pure random: 4/20. Graph+random: 2/20. Hash refinement interferes with lucky random trajectories.
-- **Interpreter is ONE coupled operation (Step 658).** Decoupling compare from select (store at frame cell, select from delta cell) kills navigation completely (0/10). The three-operation decomposition (compare-select-store) is a theoretical artifact.
-- **Argmin ≈ random for L1 (Step 653).** Argmin-only: 3/20. Random-only: 3/20. Both: 1/20. Perfectly symmetric — argmin and random each unlock different hidden-state conjunctions. L1 action sequences are near-uniform (H=1.948/2.0, Step 657).
-- **Hash resolution strongly predicts L1 speed (Steps 664-665).** BIMODAL: fast seeds (s3,s4,s6) have exit cell entropy ~2.0 (hash resolves hidden states, L1 in <1000 steps). Slow seeds (s8,s9) have exit cell entropy 0.0 (hash conflates ALL hidden states, L1 at 22K-24K steps). Hidden state IS visible in frames (two clusters at exit cell: 227 vs 194, center distance 0.612), but k=12 LSH hashes all visits to same cell. **The POMDP is opaque at the hash level, not the pixel level** (cf. perceptual aliasing, Whitehead & Ballard 1991; hash granularity, Tang et al. 2017). Causal confirmation not yet established — correlation only.
-- **Outcome conditioning right concept, wrong granularity (Step 667).** (cell, prev_outcome) tuples create combinatorial explosion — most keys visited once. The arrival path DOES carry hidden-state information, but raw tuple keys are too sparse.
-
-**Out-of-framework result (Step 662).** Evolutionary sequence search (R3-violating: mutation operator frozen) achieves L1 7/10 on LS20 — NO graph, NO hash, NO perception. Fitness = L1/death (R1-compliant). 58 unique sequences, 595 episodes. Budget not directly comparable to graph argmin. This demonstrates L1 is solvable by brute-force sequence search, but does not inform constraints on R1-R6-compliant substrates. The three mapping properties remain necessary within the graph/LSH framework.
-
-**POMDP intervention results (Steps 668-671):**
-- **Visit-count belief (668).** MARGINAL 5/10. Random break at >=20 visits disrupts argmin gradient. Lost 3 baseline seeds. Signal real, intervention too coarse.
-- **Gaussian variance (669).** MARGINAL 5/10, 145x speedup on successes. Variance identifies exit cell for fast seeds (s3: 285x). But too many hi_var cells for other seeds → floods argmin with novelty.
-- **Alternating argmin/random (670).** 5/20. Finds 3 NEW seeds (2,5,18) that neither pure approach found — temporal interleaving creates a genuinely different exploration regime. But loses 5 union seeds. Budget-limited at 5s cap.
-- **Splatter world model (671).** KILL 0/10. Noisy TV: death = max frame difference. Same wall as Steps 477-482. Prospective prediction fails; retrospective avoidance (581d) works.
-
-**Pattern across all interventions (Steps 668-670):** Every mechanism helps some seeds and LOSES others. The intervention disrupts argmin's gradient for seeds where argmin was already succeeding. No intervention captures the full union of argmin + random seeds.
-
-**Selective π-refinement series (Steps 672-711, 40 experiments):**
-
-**Proposition 15 CONFIRMED:** Perception quality (π-refinement) IS the L1 lever. Step 674 (transition-triggered dual-hash: k=12 coarse + k=20 fine at cells with inconsistent transitions, |successor_set|≥2, min_visits=3). Binary aliasing criterion: |successor_set|≥2, min_visits=3.
-
-**Complete cross-game characterization (Steps 690-711, all verified on current game versions):**
-
-| Game | Method | Budget | L1 | vs plain | Step |
-|------|--------|--------|----|----------|------|
-| LS20 | Plain k=12 | 25s | 11/20 | — | 697 |
-| LS20 | 674 frame-local | 25s | 17/20 | +6 | 690 |
-| LS20 | 674 running-mean | 25s | **20/20** | +9 | 705 |
-| LS20 | Plain k=12 | 120K | 16/20 | — | 701 |
-| LS20 | 674 frame-local | 120K | 20/20 | +4 | 699 |
-| LS20 | 674 running-mean | 120K | 20/20 | +4 | 708 |
-| LS20 | 674 chain | 120K | 20/20 | +4 | 700 |
-| FT09 | Plain k=12 | 25s | 8/20 | — | 711 |
-| FT09 | Plain k=12 | 120K | 8/20 | — | 706 |
-| FT09 | 674 frame-local | 120K | 17/20 | +9 | 702 |
-| FT09 | 674 running-mean | 120K | **20/20** | +12 | 709 |
-| VC33 | 674 any centering | 25s | 0/5 | — | 681/707 |
-
-**Key structural findings:**
-- **Plain k=12 has a hard ceiling.** LS20: 16/20 at 120K — 4 seeds never solve (s2,s9,s11,s17). FT09: 8/20 — identical 8 seeds at 25s AND 120K (binary — budget irrelevant, Step 711).
-- **674 provides genuine COVERAGE improvement**, not just speed. Rescues seeds plain k=12 never solves at any budget.
-- **Running-mean centering universally rescues deterministic seeds.** FT09 s11,s13,s18 had aliased=0 under frame-local (674 mechanism never engaged). Running-mean creates aliasing even on previously frozen seeds (0→2-3 aliased cells, Step 709). Running-mean = universal mechanism activation.
-- **Running-mean 674 = 20/20 on BOTH games** at sufficient budget. Best short-budget: 20/20 at 25s on LS20.
-- **Capping HURTS** (674b/c/d all 8/10, 695 freeze=8/10, 696 death=6/10). All modifications worse than uncapped.
-- **VC33 = zone discovery failure**, not aliasing. 674 irrelevant — VC33 needs room/zone mapping (I3).
-
-**Series ranking (original 10-seed sweep):** 674 (transition-triggered) 9/10 > 673 (entropy) 8/10 = 677 (multi-res vote) 8/10 > 675/678/679 all 7/10 > 672/676 5/10.
-
-**L1 vs L2 asymmetry (Steps 682-686).** L1 aliasing is BOUNDED — seed 8 has 87 aliased cells, sufficient for count accumulation. L2 aliasing is UNBOUNDED — aliased cells grow monotonically (2→439 over 572K steps, seed 8; 48→445, seed 3). The transition-triggered mechanism detects new aliased cells post-L1 (dynamic adaptation), but the cell count never plateaus. Fine graph becomes too sparse for argmin when 400+ cells compete for budget. **L2 requires navigation DESPITE unresolved aliasing, not resolution of all aliasing before navigation.** This connects to the energy mechanic (iri sprites, Steps 556-557) — L2 requires purposeful energy-seeking, not exhaustive coverage.
-
-**Implications for the constraint map:**
-1. **Hash resolution at exit cell CAUSALLY determines L1 speed** — upgraded from "correlation only." Step 674's 9/10 via targeted resolution increase at aliased cells confirms the causal mechanism. Fast seeds: aliased<120 (bounded, counts accumulate). Slow seeds: aliased>170 (sparse, counts diluted).
-2. **L1 is perception-limited, not action-limited.** Argmin and random solve the same number of seeds (3/20 each, Step 653) but different ones — neither dominates, confirming action selection is not the L1 lever. 35+ experiments across 8 intervention types (477-482, 581d, 620-639, 652-686) — every action-selection modification hurt L1 (tested under frame-local centering at k=12, 50K; pre-running-mean conditions). Only perception changes improve L1: centering = 75% of gain (Step 712), transition-triggered refinement = 25% (674). The lever is encoding/perception, not action selection. Consistent with state representation learning literature (Lesort et al. 2018). **Implication for R3:** R3 for action selection is structurally blocked within the argmin framework (Steps 713-719, 13 experiments). Argmin equalizes action usage (Step 717), preventing outcome-based discrimination. Every non-argmin alternative tested hurts L1 (Steps 477-482, tested pre-running-mean). Whether a non-argmin substrate could avoid this barrier is untested. R3 for encoding/perception is the next hypothesis to test — the 5 encoding U elements in 674 (avgpool16, channel_0_only, mean_centering, H_nav_planes, H_fine_planes) are the candidate target.
-3. **Prospective prediction = noisy TV** for navigation (477-482, 671). Retrospective avoidance works sparsely (581d). Confirmed on LS20.
-4. **L1 and L2 have qualitatively different walls.** L1 = bounded aliasing (solvable by π-refinement). L2 = unbounded aliasing + energy mechanic (requires purposeful navigation). L2 wall confirmed UNIVERSAL across games: LS20 L2=0/20 with high aliasing (Steps 686-689, 692, 699), FT09 L2=0/5 with ZERO aliasing (Step 691: aliased cells frozen at 1-4 post-L1 over 1.9M steps). L2 is NOT about disambiguation capacity — FT09 is fully disambiguated and still can't reach L2.
-5. **Centering is an active variable, not just preprocessing (Step 698).** Running-mean vs frame-local centering changes which cells get aliased. s4: frame-local→NO_L1 (189x regression), running-mean→L1@15544 (rescued), chain (running-mean + CIFAR pre-pop)→L1@2002 (12.5x faster than standalone). Two separable effects: centering type changes hash distribution; CIFAR pre-population seeds aliased cells before LS20 starts. Connects to U16 (centering load-bearing) and I1 (representation discovery).
-6. **674 is a trade, not a uniform improvement.** Helps seeds where exit-cell aliasing is the bottleneck (s8: 198x faster). Hurts seeds where exit cell is already resolved (s4: 189x slower on current game). Net: +6/20 at 25s. Chain context reverses: s4 12.5x faster in chain, s8 158x slower.
-
-**Honest framing (revised 2026-03-22, post-711):** L1 is SOLVED for LS20 and FT09 within the graph+LSH framework, but only with the running-mean centering variant. Original 674 (frame-local): 17/20 LS20, 17/20 FT09. **674+running-mean: 20/20 on both games** — running-mean centering creates aliasing even on deterministic seeds, ensuring the 674 mechanism always engages. L2 wall: 0/20 on both games with frame-local 674 (Steps 692/699 LS20, 691 FT09). Running-mean L2 not separately measured — expected identical but unverified. VC33 requires zone discovery (I3), not disambiguation. **Step 712 (crux):** plain baseline + running-mean centering (no 674 mechanism) = 19/20 on LS20. Centering is ~75% of coverage gain, 674 transition-triggered refinement ~25%. L1 is infrastructure, not a result (L1 ban effective Step 713). **Cross-game verification:** LS20/9607627b (Steps 690-712), FT09/0d8bbf25 (Steps 680, 702, 706, 709, 711). **Audit queue (027a5b0):** FT09 re-verified on current version. Pre-change results (572u L3=5/5, 610 VC33 7 levels, 572j L2=5/5) remain flagged — on prior game versions.
-
-**Interpreter entailment conjecture (2026-03-22 compression).** Compare-select-store may be the UNIQUE interpreter class satisfying R1-R6. Argument: R1+R2 → self-organization requires novelty detection (compare), response (select), memory (store). U22+U17 → unbounded non-convergent growth requires comparing new to existing, deciding what's novel, incorporating it. R6 → every stored element load-bearing → compare must be exhaustive. Every tested architecture that satisfies R1-R6 (codebook, LSH, Hebbian, Recode, graph) IS an instance of compare-select-store. Temporal prediction (LMS) converges (violates U22) — the only non-CSE interpreter tested. If this conjecture holds, the interpreter is I (forced by R1-R6), not U (design choice). The minimum frozen frame IS compare-select-store. Connects to Rosen Q21: the interpreter is entailed by the rules, not by the system. **Status: CONJECTURE — requires formal proof or counterexample.**
-
-**R3 as self-directed attention (2026-03-22 compression, iteration 10).** The 720-experiment search tried modifying g (action selection — perception-limited, doesn't matter), F (update rule — hierarchy collapses, ℓ_π suffices), and self-observation (eigenform — inert). The productive R3 target is π (encoding), which is equivalently ATTENTION: channel selection = what to attend to, spatial resolution = how finely, region weighting = where, hash planes = which features. 674 already self-directs attention at layer 2 (refinement hyperplanes). R3 = extending this to layer 1. Formally: π_s: X → N is state-dependent (R3 requires π_{s1} ≠ π_{s2}). The interpreter (CSE) is fixed. Attention adapts from transition statistics. This is Proposition 12 concretized: ℓ_F achievable in effect — same operations, different attention, different behavior. The chain tests whether the substrate discovers different attention for different tasks (CIFAR → color, LS20 → position, FT09 → click regions, VC33 → room boundaries).
-
-**Gym and baselines (2026-03-22).** BaseSubstrate + ConstitutionalJudge framework verified: multi-modal input (game/image/atari/raw), R1-R6 static audit + dynamic R3 measurement. Standard chain: Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100. Baselines needed: run 674+running-mean on established benchmarks (Split-CIFAR-100 without labels, Atari 100K without reward) to calibrate where the frozen bootloader stands before R3 work begins. These benchmarks are non-attackable (published SOTA comparisons exist). The novel contribution layers on top: R1 mode (strictly harder than SOTA conditions), R3 audit (frozen element analysis), dynamic R3 measurement (operations at t=0 vs t=N).
+- **Targeted exploration kills navigation (LS20):** 6 strategies all worse than argmin (Steps 477-482). Noisy TV problem. Pre-ban only.
+- **L2 structurally disconnected:** 4 hypotheses falsified on LSH+LS20 (Steps 486-639). L2 requires forward prediction, not retrospective penalty (Prop 13). LSH+LS20 only — cross-family untested.
+- **Cross-game insight: action space IS a variable.** FT09 solved at 82 steps with 69-action decomposition (Step 503). VC33 solved at 18 steps with 3-zone mapping (Step 505). Both require prescribed action spaces + graph + argmin. Step 576: autonomous VC33 zone discovery (mode map + CC), 5/5 — the ONLY autonomous multi-game solve.
+- **Action discovery cascade (Steps 713-719):** All 3 levels (ℓ₀, ℓ_π, ℓ₁) insufficient. Argmin equalizes action usage → prevents outcome-based discrimination. Structural coupling.
+- **POMDP reframing (Steps 652-667):** LS20 L1 is recognition, not exploration. Exit cell visited 152× before trigger. Graph ≈ flat counter (15/20 identical, Step 660). Hash resolution predicts L1 speed bimodally (Steps 664-665).
+- **L1 is perception-limited, not action-limited.** 35+ experiments: only encoding changes improve L1. Centering = 75%, 674 refinement = 25%. Action selection doesn't matter within argmin framework.
+- **674+running-mean: 20/20 LS20 + FT09** at sufficient budget (Steps 705, 709). VC33 = zone discovery failure (I3). L1 is infrastructure (banned as metric, Step 713).
+- **L2 wall universal:** LS20 L2=0/20, FT09 L2=0/5 with ZERO aliasing. Not about disambiguation — purposeful navigation needed.
+- **CSE interpreter conjecture:** compare-select-store may be the unique R1-R6 interpreter class. 5 families confirm (codebook, LSH, Hebbian, Recode, graph). CONJECTURE — needs formal proof.
+- **R3 = self-directed attention on encoding:** The productive target is π (encoding ≡ attention), not g (action) or F (update rule). Alpha (Step 895) confirms: prediction-error attention achieves R3 encoding self-modification.
+- **Game versions change.** LS20: cb3b57cc → 9607627b. Steps 690+ on current versions. Pre-690 not directly comparable.
 
 ### Classification (P-MNIST)
 
@@ -302,177 +195,86 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 ## Game-Specificity Caveat (2026-03-23)
 
-*ARC-AGI-3 full launch: March 25, 2026. 150+ games. All constraints below derived from 3 preview games (LS20, FT09, VC33). This section flags which findings are game-independent vs game-specific.*
+*ARC-AGI-3 full launch: March 25. 150+ games. Constraints derived from 3 preview games.*
 
-**Game-independent (structural/mathematical — will survive new games):**
-- U1, U3, U7, U11, U16, U17, U20, U22, U24 — derived from architecture properties or mathematical arguments, not from specific game mechanics.
-- Three mapping properties (deterministic, locally continuous, persistent) — topological argument, applies to any navigation environment.
-- Argmin as action selection — algorithm invariance confirmed across 4 representations (Step 521-525). Any graph + any representation + argmin = same navigation.
-- Convergence kills exploration (U22) — mathematical: any convergent adaptation → stationary environment → no learning signal.
-- Growth-only = zero forgetting (U3) — architectural property of accumulative state.
+**Game-independent:** U1, U3, U7, U11, U16, U17, U20, U22, U24. Three mapping properties. Algorithm invariance. Mathematical arguments survive new games.
 
-**Game-specific (may break on 150+ new games):**
-- VC33 magic pixels at (62,26) and (62,34) — specific to canal lock puzzle. New games will have different interaction mechanisms.
-- FT09 69-action decomposition (64 click + 5 simple) — specific to FT09's click grid. New click games may have different layouts.
-- LS20 hidden state POMDP (snw, tmx, tuv) — specific to LS20's state machine. Other games may be fully observable or have different hidden variables.
-- "Death penalty hurts argmin" (Steps 741, 744, 749) — tested only on LS20. Games without death mechanics or with different death dynamics may behave differently.
-- "Argmin purity" (Step 759: 14/20 vs random 6/20) — tested on LS20 with 674 substrate. Other games with different topology may show different argmin-vs-random gaps.
-- **LS20 rewards action persistence, not diversity (Steps 778-784v2, 2026-03-23).** CORRECTED: action 0 is NOT dominant (always-action-0 = 0 L1). High L1 from 778/784 (164/seed) was substrate_seed=0 RNG artifact. LS20 rewards PERSISTENCE (staying with one action long enough to cycle hidden states). Random has natural persistence; momentum amplifies it; novelty-seeking avoids it → 0 L1. All novelty-seeking mechanisms (prediction-contrast, ensemble, cycling, round-robin) get 0 on LS20. FT09 (68 actions, diverse clicks) is a better test for diversity-based mechanisms.
-- K_NAV=12 near-optimal (Step 752: K=6 minimum, K=16 optimal) — tested on LS20 only. Games with different observation complexity may need different K values.
-- CIFAR = chance (Step 760: 20.21%) — specific to avgpool16 + random hyperplane encoding. Different encodings or image benchmarks may show different baselines.
-- Zero cross-domain transfer (Steps 770-773) — tested on LS20→CIFAR and CIFAR→LS20 only. Transfer between similar domains (game→game) untested.
+**Game-specific (may break):** VC33 magic pixels, FT09 69-action decomposition, LS20 POMDP hidden state, death penalty effects, argmin purity, LS20 action persistence (not action-0 — RNG artifact, Steps 778-784v2). K_NAV=12 tested on LS20 only.
 
-**Untested on new games (highest risk):**
-- Whether the chain benchmark generalizes to games that aren't navigation puzzles (strategy, timing, memory games).
-- Whether avgpool16 encoding works for non-pixel-grid games.
-- Whether the R3 dynamic measurement generalizes beyond hash-based substrates.
+**Untested risks:** Non-navigation games (strategy, timing, memory). Non-pixel-grid encodings. R3 measurement beyond hash substrates.
 
 ---
 
-## The State of the Search (777 experiments, 12 families, 2 bans)
+## The State of the Search (1000+ experiments, 14+ families, 2 bans)
 
-*Revised 2026-03-23. Updated through Step 777. Infrastructure overhaul complete. SOTA baselines established. R3 counterfactual measured. Graph ban effective post-777.*
+*Revised 2026-03-24. See RESEARCH_STATE.md for full log, COMPONENT_CATALOG.md for extraction inventory.*
 
 ### What's Solved
 
-**The navigation mechanism is understood.** Graph + edge-count argmin. Confirmed across codebook, LSH, k-means, Hebbian families. Architecture-independent — any mapping satisfying three properties feeds into it. Argmin advantage over random is speed, not exclusive access (13/20 vs 10/20, Step 594, NS).
-
-**The three mapping properties are validated.** Deterministic + locally continuous + persistent. Predicts L1 success/failure with 100% accuracy across 6 tested families.
-
-**All 3 games solved at multiple levels.** LS20 L1-L3=5/5 (mgu pipeline, Steps 572j-572u). FT09 all 6 levels, 75 clicks deterministic (Step 608b). VC33 all 7 levels, 176 clicks, analytical BFS (Step 610). **16 total levels — but all via source analysis (prescribed pipelines). These are R3's SPECIFICATION: 16 concrete test cases for what an R3-compliant substrate must discover autonomously.**
-
-**Cross-game detection generalizes.** Mode map + isolated CC pipeline discovers interactive objects across all 3 games without game-specific tuning (Step 576). FT09 trivially solvable by action coverage alone (Step 575).
-
-**Recode achieves ℓ_π.** LSH k=16 + passive self-refinement = 5/5 L1 on LS20 (Step 542). First substrate where the observation→cell mapping self-modifies AND navigation succeeds. But K confound (Step 589): Recode(K=16) = LSH(K=16) 18/20. Self-modification provides mid-budget speed advantage only.
+- **Navigation mechanism:** Graph + argmin, confirmed across 6 families. Three mapping properties predict L1 with 100% accuracy. Post-ban: 800b + alpha (Steps 895-994).
+- **All 3 games L1:** LS20 L1-L3, FT09 6 levels, VC33 7 levels — all via prescribed pipelines. 16 test cases for R3.
+- **Cross-game detection (Step 576):** Mode map + isolated CC discovers interactive objects across games autonomously. Only autonomous multi-game solve.
+- **Alpha R3 confirmed (Steps 895-895h):** Prediction-error attention self-modifies encoding. First post-ban R3.
 
 ### What's Open
 
-1. **R3 (self-modification of operations) — DEFINITIVELY OPEN, now with counterfactual measurement.**
+1. **R3 (self-modification) — OPEN.** 0/4 calibration targets pass R3 (Table 1). 0/12 killed families pass R1 (Table 2). R3_counterfactual: 674 warm HURTS (cold>warm, p<0.0001, Step 776). R3_dynamic metric can't distinguish useful from random modification (Step 739). Alpha achieves R3 for encoding (PB9, Steps 895-895h). Action R3 structurally blocked within argmin. Post-ban: R4 = discriminative capacity (Ashby). alpha_conc < 30 = health diagnostic.
 
-   **R3 status (Step 777):** 0/4 calibration targets pass R3 (Table 1: RandomAgent, FixedPolicy, TabularQ, 674 — all R3 FAIL). 0/12 killed families pass R1 (Table 2: all reward-dependent). No tested system passes both R1 and R3. The gap is real.
+2. **R1-compliant classification:** Best = LSH k=16, 36.2% self-labels (Step 573). No substrate above chance without external labels.
 
-   **R3 counterfactual (Step 776, n=20, p<0.0001):** 674 pretrained for 25K steps, tested on new environment seeds. Cold: 4054 completions. Warm: 2899 (-28%). Pretraining HURTS navigation in new environments (OR=0.713). **The G graph is exploration bookkeeping, not transferable knowledge.** Hypothesized mechanism: visit counts from pretraining bias argmin away from actions needed in the new environment — consistent with the data but not experimentally isolated. Negative transfer in continual RL is a known phenomenon ("Prevalence of Negative Transfer in Continual Reinforcement Learning," ICLR 2025, arXiv 2403.05066). Our contribution: the R3 counterfactual protocol as a concrete operationalization of whether self-modification produces lasting value.
+3. **Purposeful exploration (I6, I9):** 6 targeted strategies worse than argmin (477-482). Dense auxiliary signals damage argmin (>60% firing rate). L2 requires fundamentally different mechanism.
 
-   **R3 metric limitation (Step 739):** R3_dynamic measures "did it change?" Both self-directed (Step 737, L1=1105) and random modification (Step 739, L1=4237) score R3_dynamic=1.0. The metric cannot distinguish useful from random self-modification. R3_counterfactual (modified vs cold on same task) is the discriminator. Added to judge.py.
+4. **Component extraction (2026-03-24):** 33 components cataloged. 6 families under-explored (<6 experiments). FT09/VC33 action-space discovery = zero post-ban experiments. See COMPONENT_CATALOG.md.
 
-   **Self-directed attention (Steps 730-738):** D1 (channel selection) + D3 (hash resolution) = R3_dynamic=1.0, L1=1105 (2.3x faster than baseline). But: (a) random attention also scores R3_dynamic=1.0, (b) D1+D3 HURTS CIFAR (Step 762: 19.65%, below chance), (c) R3_counterfactual FAIL. The self-modification is real but domain-specific and non-transferable.
-
-   **Argmin purity confirmed (Step 759, n=20):** argmin 14/20, epsilon 11/20, softmax(0.5) 9/20, softmax(1.0) 7/20, random 6/20. Fisher p<0.05. Any stochasticity degrades. Argmin is I (irreducible for graph-based navigation).
-
-   **Graph ban (2026-03-23, effective post Step 777).** No per-(state, action) data structures. Argmin over visit counts is dead. Permanent, no lift condition. Combined with codebook ban (2026-03-18): both known-working mechanisms are now banned. Phase 3 must find genuinely new approaches.
-
-   **Prior R3 findings still valid (full detail in RESEARCH_STATE.md):** Encoding determines performance not R3 (I1, 300x game-dependent, Steps 377-414). R3 barrier precisely located (Steps 577b-577d: pixel statistics navigate to MORE cells but WRONG cells — reward-correlated features needed, not visual saliency). Eigenform series inert for L1 (Steps 620-629: self-observation via graph statistics produces non-zero output but introspection ≠ foresight — the graph stores the past, L2 requires the future). All Phase 2 substrates killed in <5 experiments except LSH family (~180 experiments).
-
-   **SOTA baselines (Steps 760-766):** CIFAR = chance (20.21%, R1 floor). Atari 100K = 6/26 above random (RoadRunner 11x standout). Zero cross-domain transfer (Steps 770-773, symmetric). Anti-forgetting (BWT=+5.6%) is a growth-only graph property, not a learned capability.
-
-   **R4 testable formulation (updated post-debate, 2026-03-23):** R4 = discriminative capacity (Ashby requisite variety). Comparison mechanism must have sufficient structural variety to distinguish improvement from degradation. Degenerate comparison (alpha_conc=50: prediction errors collapse to 1 dimension) violates R4. R3_counterfactual (modified > cold on same task) is the dynamic test. alpha_conc < 30 is the health diagnostic. R2 prevents evaluation hacking (DGM case study: separated modification/evaluation → system gamed reward function; R2 forbids that separation). alpha_conc=50 = R3 predicting R4 failure: frozen alpha update → comparison degenerates → R3 prescription: unfreeze comparator (Step 944 target).
-
-2. **R1-compliant classification:** No substrate classifies without external labels. LSH k=16 achieves 36.2% with self-labels (Step 573, 4x above codebook's 9.8%), but still far below supervised. Classification under R1 remains unsolved.
-
-3. **Purposeful exploration (I6, I9):** All navigation is stochastic coverage with argmin bias. 6 targeted strategies (Steps 477-482) all worse than argmin — failures were mechanism-specific (noise, locality traps, noisy TV), not categorical. **Argmin modification closed (U28, Steps 581d + 630-639, 12 experiments, LSH only):** No auxiliary signal at any density significantly improves argmin navigation (581d debunked at n=20, Step 584: p=0.63). Dense signals (>~60% firing rate) actively damage navigation by overriding argmin decisions (633: 66% → 3/5 seeds 10-18x slower; 635: 94-98% → 3/5 seeds 5-20x slower). Sparse/moderate signals (<~55%) are inert. L2 requires a fundamentally different mechanism, not argmin + auxiliary signal. Attractor hypothesis (2026-03-21, downgraded by Hart) partially correlated: death penalty is both sparse AND attractor-removing, delta is both dense AND attractor-creating — but correlation doesn't establish subsumption. Both lack positive confirmation at scale.
-
-4. **Population-level R3:** GRN substrate (Step 607) killed — encodings not diverse enough. Price equation framework predicts success requires behaviorally diverse encoding candidates, not just parametric variation.
-
-5. **LS20 L4+:** Blocked at L3 transition (puq_wall_set bootstrap, Step 611-612). Fix structurally correct but needs longer run to verify.
+5. **Unconstrained diagnostic:** Calibrate constraint costs via PRISM with all bans lifted. Expected 5/5 games L1 vs 3/5 constrained.
 
 ### External Audit Status (2026-03-18, 13 findings)
 
-Integrated: Finding 4 (R3 I-classification — anti-inflation rule 8, forced ≠ unjustified), Finding 5 (constraint map induction — reclassified 2026-03-18), Finding 7 (adversary process — Hart debate formalized), Finding 12 (research-algorithm isomorphism — PAPER.md Section 4.4).
-
-Partially addressed: Finding 1 (R1/R5 clarification — R1 clarification fixed via Hart debate 2026-03-21, but labeled vs unlabeled comparison NOT added, both numbers NOT reported in CONSTRAINTS.md).
-
-Outstanding: Finding 2 (no CL head-to-head comparison — HIGH), Finding 3 (random walk propagation — codebook-specific, LSH argmin stays effective), Finding 6 (R2-performance tradeoff — not documented), Finding 8 (ANIMA connection — not explored), Finding 9 (survival benchmark — partially tested via chain Steps 543-577), Finding 11 (paper framing — strategic). Finding 10 (ghost projects) and Finding 13 (FOLD_EVOLUTION.md) are LOW severity.
-
-### What's Changed Since Phase 1 Assessment
-
-- "The next substrate is defined by what passes ALL constraints simultaneously" → **Constraint map was biased.** After adversarial review: 2 former U-constraints confirmed S-class (U6, U23), 3 reverted to Validated Universal with better wording (U1, U16, U17), 1 moved to Provisional (U25), 12 others marked provisional. The feasible region is LARGER than we thought, but not as large as the initial compression claimed — the adversarial review caught overcorrection.
-- "LVQ is not the atomic substrate" → **The graph + edge mechanism may be.** It's the constant across all navigation successes. The mapping is the variable. **POST-BAN: the graph is now banned. The constant is gone. The search restarts.**
-- "Self-modifying metric is needed" → **Yes, but the metric is the MAPPING, not cosine.** R3 requires adaptive mapping. Cosine is one mechanism (banned). Others unexplored.
+Integrated: 4, 5, 7, 12. Partially: 1 (R1 clarified). Outstanding HIGH: 2 (CL comparison). Others: 3, 6, 8, 9, 11 (mixed severity). See RESEARCH_STATE.md.
 
 ---
 
-## Post-Ban Constraint Re-evaluation (2026-03-23)
+## Post-Ban Constraints (Steps 778-1007, 230+ experiments)
 
-*The graph ban (permanent, post Step 777) removes per-(state, action) data structures. The codebook ban (Step 416) removed cosine+attract. Together, they invalidate both known navigation mechanisms. This section traces which constraints survive, which are invalidated, and which need re-testing.*
+*Full details in RESEARCH_STATE.md and kill registers (kills/*.md). Extraction protocol: bans/POLICY.md.*
 
-### Constraints that survive unchanged (graph-independent)
+### Surviving: U1, U4, U7, U11, U16, U20, U22, I1-I9 (graph-independent, mathematical, or task-level)
 
-| Constraint | Why it survives |
-|---|---|
-| U7 (dominant amplification) | Mathematical property of iterative systems. Applies to any substrate. |
-| U11 (discrimination ≠ navigation) | Task-level truth. Architecture-independent. |
-| U16 (encode differences from expectation) | Centering is about encoding, not graph. Still load-bearing for any hash-based mapping. |
-| U20 (local continuity) | Topological requirement on observation-to-state mapping. Graph-independent. |
-| U22 (convergence kills exploration) | Mathematical. Applies to forward models, Hebbian networks, any convergent system. |
-| U1 (no separate learn/infer modes) | Task requirement. Interactive environments demand online learning. |
-| U4 (minimal description) | Design principle. Graph-independent. |
-| I1-I9 (all intent constraints) | Capability requirements. What the task needs hasn't changed. |
+### Invalidated or needing re-test
+Algorithm invariance (argmin banned), U3/U17 (graph growth banned — what accumulates?), U24/U25/U28 (argmin-specific), argmin purity, L1-as-perception-limited (argmin framework only), three mapping properties (partially valid — encoding requirements survive, graph usage banned). Targeted exploration and noisy TV (477-482): tested against argmin, not random — post-ban baseline is random.
 
-### Constraints that are invalidated or need re-testing
+### Post-ban findings (PB1-PB20, Steps 778-1007)
 
-| Constraint | Issue | Post-ban status |
-|---|---|---|
-| **Algorithm invariance** (Task Req) | "Action selection IS argmin over visit frequency." Argmin requires per-(state, action) visit counts = BANNED. | **INVALIDATED.** No known post-ban action selection mechanism. Must be re-derived. |
-| **U3 (zero forgetting)** | Evidence: "edges accumulate" (graph), "entries grow" (codebook, banned). | **Needs re-testing.** What accumulates post-ban? Forward model parameters? If D(s) grows but doesn't forget, U3 may survive via a different mechanism. |
-| **U17 (unbounded accumulation)** | "LSH satisfies it via edge growth." Edge growth = graph. | **Needs re-testing.** Post-ban accumulation must be in D(s) (dynamics), not L(s) (location). Can a forward model accumulate unbounded information? Or do W matrices saturate? |
-| **U24 (explore ≠ exploit)** | "argmin explores, argmax classifies." Both require visit counts. | **Reframe needed.** Post-ban, the explore/exploit distinction may manifest differently. Prediction error (explore) vs prediction confidence (exploit)? But prediction-error exploration = noisy TV problem (U22 tension). |
-| **U25 (convergent action kills exploration)** | "Edge-count ratios converge." | **Mechanism invalidated.** But the PRINCIPLE may survive: any action-selection mechanism that converges will eventually stop exploring. Needs new evidence from post-ban architectures. |
-| **U28 (no signal improves argmin)** | Entirely about argmin modification. | **INVALIDATED.** Argmin is gone. Auxiliary signals may matter for non-argmin action selection. |
-| **Three mapping properties** | Deterministic, locally continuous, persistent — still valid for obs→state mapping. But the graph they feed into is banned. | **Partially valid.** The mapping requirements survive. What USES the mapping changes entirely. |
-| **Argmin purity (Step 759)** | "Any stochasticity degrades argmin." | **INVALIDATED.** Argmin doesn't exist post-ban. Post-ban action selection may benefit from stochasticity. |
-| **L1 as perception-limited** | "Action selection doesn't matter, encoding does." Based on argmin vs random equivalence (Step 653). | **Needs re-testing.** Without argmin, a better action selector COULD make action selection matter. The perception limitation was within the argmin framework. |
+| # | Finding | Status |
+|---|---------|--------|
+| PB1 | Location state transfers negatively (ANY action-coupled state) | CONFIRMED (Steps 776, 803, 788) |
+| PB2 | Hebbian W diverges (delta rule fixes) | CONFIRMED |
+| PB3 | Compression progress → action collapse | CONFIRMED |
+| PB4 | Post-ban navigation ≈ random walk (800b = only exception, LS20 only) | CONFIRMED |
+| PB5 | D(s) prediction transfer real (+73%, 5/7 PASS, first R3_cf) | CONFIRMED |
+| PB6 | Entropy-seeking hurts dynamics learning | CONFIRMED |
+| PB7 | Encoding irrelevant without action mechanism | CONFIRMED |
+| PB8 | Post-ban R3 wall thinner (3-4 frozen vs 674's 9) | CONFIRMED |
+| PB9 | Alpha prediction-error attention = R3 encoding (FT09 dims [60,51,52]) | CONFIRMED (n=10) |
+| PB10 | Prediction accuracy cascade | DISPROVED (W pred_acc negative) |
+| PB11 | Cold clamped alpha = 268.0/seed (+32% baseline) | CONFIRMED |
+| PB12 | Warm alpha transfer unreliable (cold > warm at n=10) | R3_cf DISPROVED |
+| PB13 | FT09 fails with 800b (sequential ordering bottleneck) | CONFIRMED |
+| PB14 | ALL action selector modifications degrade LS20, none crack FT09 (27 kills) | CONFIRMED |
+| PB15 | VC33 = 0 post-ban | CONFIRMED |
+| PB16 | CIFAR inflates alpha_conc (-11% chain LS20) | CONFIRMED |
+| PB17 | Recurrent h = NEW LS20 SOTA (290.7/seed) | CONFIRMED |
+| PB18 | 916/895h beat ALL baselines 2-2.5× on LS20 | CONFIRMED |
+| PB19 | FT09 bottleneck = action space (68^7), not graph ban | CONFIRMED |
+| PB20 | Per-observation action memory = graph-banned | KILLED |
 
-### Constraints whose evidence base shrinks
+### Summary
 
-| Constraint | Issue |
-|---|---|
-| **Argmin robustness (Proposition 3)** | All 4 representation-invariance tests used graph-based argmin. No post-ban equivalent tested. |
-| **Targeted exploration kills navigation (Steps 477-482)** | All 6 strategies tested against argmin. Whether targeted exploration beats RANDOM (not argmin) is a different question. Post-ban, the baseline is random, not argmin. |
-| **Noisy TV barrier (Steps 477-482, 671)** | Tested under argmin framework. Forward models face the same problem (Burda et al. 2018) but the severity may differ when there's no argmin to compete against. |
+Prediction transfer region non-empty (PB5). Navigation transfer region empty. Gap is structural (Prop 21).
 
-### New post-ban constraints (updated with experimental evidence, Steps 778-812)
-
-| # | Constraint | Status | Evidence |
-|---|---|---|---|
-| PB1 | **Location state transfers negatively.** Any action-coupled accumulated state biases actions toward environment-specific patterns. | **CONFIRMED + GENERALIZED (Corollary 20.1).** | Steps 776, 803, 788, 806v2. Visit counts, cycling counters, round-robin indices, warm W biases all produce negative or zero transfer. |
-| PB2 | **Hebbian W diverges.** Hebbian update grows unboundedly → predictions explode. | **CONFIRMED.** Delta rule fix works. R2 tension noted. | Steps 778-787 (all pre-delta results invalid). |
-| PB3 | **Compression progress causes action collapse.** Not noisy TV — gradient too steep → single action dominates. | **CONFIRMED (different mechanism than predicted).** | Step 855 (0 L1, action collapse). Step 855b (epsilon fix works for learning, not navigation). |
-| PB4 | **Navigation without per-state info is limited to random walk.** No post-ban mechanism consistently beats random for L1. | **CONFIRMED.** 800b beats random on LS20 (6-10×) but is game-specific. 0 mechanisms work on FT09. | Steps 778-812, all variants. Proposition 21 (structural gap). |
-| PB5 | **D(s) prediction transfer is real.** Forward model trained on seeds 1-5 predicts better on unseen seeds 6-10. | **CONFIRMED (5/7 PASS).** First positive R3_cf in 787+ experiments. | Steps 778v5 (+15%), 780v5 (+73%), 809b (+22%), 855b (+9%), 855v3 (+10%). |
-| PB6 | **Entropy-seeking hurts dynamics learning.** Maximally diverse exploration creates unstructured trajectories. | **CONFIRMED.** | Step 856: warm DEGRADES prediction (cold 53% → warm 26%). |
-| PB7 | **Encoding is irrelevant without action mechanism.** 674 encoding vs random projection: identical L1 for random actions. | **CONFIRMED.** | Step 817. U16 (centering load-bearing) is graph-specific, not universal. |
-| PB8 | **Post-ban R3 wall is thinner.** Post-ban substrates have 3-4 frozen elements vs 674's 9. R3_static passes for 13/24 substrates. | **CONFIRMED.** | Step 878 (Table 3). |
-| PB9 | **Prediction-error attention achieves R3 encoding self-modification.** Per-dim prediction error drives attention weights α that concentrate on informative dims. Game-adaptive (FT09 10.87×, LS20 5.73×). First post-ban ℓ_π mechanism. FT09 alpha_top_dims=[60,51,52] confirmed on 9/10 seeds (n_eff=10, cold+warm). | **CONFIRMED (n_eff=10 universal).** | Steps 895, 895b, 895f. Proposition 22 (Corollary 22.2). |
-| PB10 | **Prediction accuracy cascade (theoretical).** Alpha concentration → reduced effective dims → W converges faster → local predictions accurate → navigation from prediction. The Prop 21 gap is a prediction-accuracy gap, not structural. | **DISPROVED. W pred_acc negative throughout** (−2000 to −11000, n=10 seeds). W does NOT converge in alpha-weighted space. CASCADE THEORY WRONG. Correct picture: W is a SIGNAL GENERATOR for alpha (error distribution drives attention weights, accuracy irrelevant). Alpha self-modification works WITHOUT W prediction convergence. | Steps 895d (pred_acc=−2383 cold, −3382 warm), 895f (pred_acc=−5496 cold, −11566 warm). |
-| PB11 | **Cold clamped alpha (+32% over true baseline on LS20).** True 800b baseline: 868d (L2 norm, n_eff=10) = 203.9/seed, 1/10 zeros. Note: 868b (squared-sum, 72.1/seed) was wrong metric — L2 norm gives 2.8× improvement. Clamped alpha (clip 0.1-5.0, n_eff=10) cold = 268.0/seed, 0/10 zeros. | **CONFIRMED (n_eff=10).** | Steps 868d (true baseline), 895h cold (clamped alpha). |
-| PB12 | **Warm alpha transfer UNRELIABLE for navigation (R3_cf NOT confirmed).** n_eff=4 (895e) gave warm=309.7 — biased subsample. n_eff=10 (895h) gives warm=209.2, 2/10 zeros, delta=−58.8 (COLD > WARM). Pretrained alpha concentrates on session-specific dims that don't generalize. Alpha is an INDIVIDUAL ADAPTATION mechanism, not a transfer mechanism. | **R3_cf navigation DISPROVED (n_eff=10).** | Step 895h. Retracts 895c/895e warm>cold finding. |
-| PB13 | **FT09 navigation fails with 800b EMA change-tracking.** FT09 requires clicking tiles in a specific ORDER (7-click sequence). 800b identifies WHICH tiles respond (alpha=[60,51,52] universal) but cannot learn the required sequence ordering. L1=0 all seeds, 25K, n_eff=10. | **CONFIRMED.** | Step 895f. |
-| PB14 | **Action selection modification family exhausted. All alternatives degrade LS20, none crack FT09.** 5 approaches tested (Steps 911-915): per-action W (157.5 vs 268.0, compression signal negative throughout), delta direction (166.8, alpha_conc inflates to 17-50), recency cycling (51.5, overwhelms change-tracking signal at weight=0.05), compression+chain (910a/910b DEAD), temporal K=3 sequences (8711 sequences learned, FT09=0). 895h (change-tracking + clamped alpha) remains BEST. FT09 coverage=1.0 with recency (all 68 tiles tried), dir_diversity=0.65-0.71 with delta-direction — FT09 bottleneck is ordering, not coverage. | **CONFIRMED.** Action selection family dead. | Steps 910-915. |
-| PB15 | **VC33 = 0 post-ban. First measurement (Step 914 chain test).** 895h architecture (clamped alpha + 800b change-tracking) with N_ACTIONS=68 on VC33: L1=0/5 seeds. VC33's magic pixel interaction requires specific state-conditioned action; 800b change-magnitude tracking cannot discover it without per-state memory. | **CONFIRMED (first post-ban VC33 data).** | Step 914 chain test (5 seeds). |
-| PB16 | **CIFAR pre-training inflates alpha_conc, reducing chain LS20 performance by ~11%.** Chain test: CIFAR-100 phase (100 actions) drives alpha_conc to 36-41 (vs ~9 standalone). LS20 in chain = 237.6/seed vs standalone 895h cold = 268.0. CIFAR images create misleading prediction error patterns that over-concentrate alpha before ARC games start. Zero cross-domain transfer: CIFAR-2 accuracy delta = −0.0009 after 3 game phases. | **CONFIRMED (5 seeds, chain test).** | Step 914. |
-| PB17 | **Recurrent trajectory encoding (echo-state reservoir) is NEW LS20 SOTA.** Fixed-random recurrent h_t = tanh(W_h@h + W_x@enc), h_dim=64. Extended encoding ext_enc=[enc,h]=320D. Alpha+800b on extended space. LS20: 290.7/seed, std=70.1, 0/10 zeros. Previous best: 895h cold (268.0). +8.5% improvement. Alpha_conc hits ceiling (50.0) for 3/10 seeds — 320D space allows sharper concentration. h_var positive across all seeds (h differentiates trajectories). FT09: 0/10 (expected — action space bottleneck, not mechanism). | **CONFIRMED (10 seeds, cold, substrate_seed=seed).** | Step 916. |
-| PB18 | **895h and 916 outperform ALL published baselines on LS20 by 2-2.5×.** Full comparison (25K, 10 seeds, cold): ICM=0.0 (10/10 zeros, below random, signal dies as W learns), Count-based=109.0 (5/10 zeros), RND=112.3 (4/10 zeros), Graph+argmin=129.9 (4/10 zeros, pre-ban ceiling), 868d raw L2=203.9 (1/10 zeros), 895h clamped alpha=268.0 (0/10 zeros), 916 recurrent h=290.7 (0/10 zeros). Our prediction-error mechanism is qualitatively better than count/novelty signals — concentrates on informative transitions rather than spreading uniformly across dead ends. The graph ban did NOT cost performance; it forced a smarter signal. | **CONFIRMED (Steps 917-920, full baseline comparison).** | Steps 917-920. |
-| PB20 | **Per-observation action memory is per-state conditioning — graph-banned.** obs_encoding → best_action maps a state representation to an action. This is the graph ban. ANY mechanism conditioning action on specific past observations is banned. Allowed: global per-action statistics (800b delta, alpha). Step 931 killed on this basis (2026-03-23, Leo mail 2686). Partial data before kill: hit_rate=0.000 throughout (CIFAR fills N_MAX=2000 with unique keys; game obs_keys never match — mechanism was architecturally broken AND banned). | **KILLED (Step 931, graph ban violation).** | Step 931. |
-| PB19 | **FT09 bottleneck is the ACTION SPACE, not the graph ban.** Graph+argmin (full per-(state,action) table, Step 920) also gets L1=0/10 on FT09 with 68 actions. Pre-ban 674 solved FT09 with 6 actions (6^7≈280K tractable sequences). Post-ban FT09 has 68 actions (68^7≈10^12 — untractable for any EMA/count method). FT09 coverage with recency=1.0 (all 68 tiles visited, Step 915) confirms coverage is not the bottleneck. Every exploration strategy tested produces L1=0 on FT09 including the oracle graph. Solution requires narrowing the action space itself (not improving navigation over the full 68-action space). | **CONFIRMED (Steps 915, 920).** | Steps 915, 920. |
-
-### What the graph ban means for the feasible region (updated with evidence)
-
-The feasible region was already unoccupied (0/777 substrates inside all walls). The graph ban REMOVES the region of state space where all tested navigation successes lived. This is intentional: graph navigation is ℓ₀ (fixed mechanism). R3 requires ℓ_π or higher.
-
-**Post-ban experimental findings (Steps 778-920, 80+ experiments):**
-- The PREDICTION TRANSFER feasible region is non-empty. D(s) = {W, running_mean} transfers (5/7 PASS). First positive R3_cf in the search.
-- The NAVIGATION TRANSFER feasible region remains empty. No post-ban mechanism consistently beats random for L1 on any game.
-- The gap is structural (Proposition 21): D(s) captures global dynamics (transfers), but navigation needs local per-state action selection (banned).
-- **True 800b baseline (Steps 868d): 203.9/seed, L2 norm, n_eff=10.** Prior 868b (72.1/seed) used squared-sum metric — wrong. All comparisons should use 868d baseline.
-- **Cold clamped alpha beats true baseline: 268.0/seed, 0/10 zeros, +32% (PB11).** Alpha self-modification concentrates attention on informative dims. Individual adaptation mechanism — warm transfer is unreliable (PB12).
-- **R3 encoding self-modification IS achievable post-ban (PB9, CONFIRMED n_eff=10 universal).** Alpha=[60,51,52] on 9/10 seeds across all substrate seeds and temperatures. FT09 puzzle tile locations discovered autonomously. Mechanism is single-level predictive coding (Friston, 2009).
-- **W is a signal generator, not a predictor (PB10 CASCADE WRONG).** pred_acc negative throughout. Alpha self-modification requires differential error distribution, not prediction accuracy.
-- **FT09 navigation fails: sequential ordering bottleneck (PB13).** Alpha correctly identifies relevant dims. 800b EMA cannot learn click order. Need different action selection for sequential puzzles.
-- Third-cluster sweep (Steps 889-903): 5 families killed (ESN, CTS/graph-banned, decision tree, LZ complexity, MLP at low lr). Only prediction-error attention survived. The dynamics vertex is narrow: alpha + forward model + empirical change tracking.
-- **Action selection modification family dead (Steps 910-915, PB14).** Per-action W (157.5 vs 268.0), delta direction (166.8), recency (51.5), compression variants, temporal sequences (K=3, 8711 seq/seed) — all below 895h cold (268.0). FT09 coverage=1.0 with recency (all tiles visited), still L1=0. Bottleneck confirmed as ordering, not coverage.
-- **VC33 post-ban baseline = 0 (PB15, Step 914).** First measurement. 895h architecture fails VC33 (5/5 seeds zero). Magic pixel requires state-conditioned action.
-- **Chain test complete (Step 914).** CIFAR→LS20→FT09→VC33→CIFAR, 5 seeds. CIFAR inflates alpha_conc (36-41 vs ~9 standalone), reducing chain LS20 by 11%. Zero CIFAR transfer (delta=−0.0009). Chain order: CIFAR damages LS20; LS20 and FT09 independent (FT09 still 0); VC33 still 0.
-- **Recurrent trajectory encoding NEW LS20 SOTA: 290.7/seed, 0/10 zeros, std=70.1 (PB17, Step 916).** Echo-state reservoir h_t=tanh(W_h@h+W_x@enc), ext_enc=[enc,h]=320D. 895h on extended space. Beats 895h cold (268.0) by +8.5%. Published baselines ALL below 895h: ICM=0 (signal collapses), Count=109, RND=112, Graph+argmin=129.9 (PB18, Steps 917-920). Our mechanism 2-2.5× better.
+800b = only post-ban LS20 mechanism. Theorem 4: global running mean SNR → 0 for FT09/VC33. Attention-trajectory (Step 1007) bypasses Theorem 4 — alive at 1/20. Graph ban tightened (Step 931): per-observation conditioning = banned. Full details: RESEARCH_STATE.md, COMPONENT_CATALOG.md.
+**Baselines:** 868d = 203.9/seed (true baseline). 916 = 290.7/seed (LS20 SOTA). See RESEARCH_STATE.md for full comparison table.
+- **916 = 290.7/seed LS20 SOTA (PB17).** Echo-state reservoir h_t=tanh(W_h@h+W_x@enc), ext_enc=[enc,h]=320D. 895h on extended space. Beats 895h cold (268.0) by +8.5%. Published baselines ALL below 895h: ICM=0 (signal collapses), Count=109, RND=112, Graph+argmin=129.9 (PB18, Steps 917-920). Our mechanism 2-2.5× better.
 - **FT09 action space bottleneck confirmed: even graph+argmin fails (PB19, Step 920).** 68 actions → 68^7≈10^12 sequences, untractable. Graph L1=0/10. Solution = narrow action space first, then search sequences (Step 921).
 - **Graph ban TIGHTENED (2026-03-23, Step 931 killed).** Per-observation-action memory (obs_encoding → best_action) IS per-state conditioning — banned. The observation encoding IS a state representation. ANY mechanism that conditions action selection on specific past observations is a graph in disguise. ONLY global statistics allowed: per-action delta (800b), alpha attention weights. No observation-specific recall of any kind.
 
