@@ -236,6 +236,12 @@ work}\label{additional-related-work}
   \textbf{Forward models + graph ban:} No PAC-MDP without visit counts
   (Strehl 2009). BYOL-Explore (Guo 2022) achieves superhuman exploration
   without counts. Ban forces uncovered territory.
+\item
+  \textbf{Causal discovery from intervention} (Eberhardt 2008,
+  Bareinboim 2020): active intervention requires fewer observations than
+  passive coverage to infer causal structure. Step 1017: generic
+  exploration fails --- substrate may need targeted experimentation to
+  discover game mechanics within tight budgets.
 \end{itemize}
 
 \subsection{3. Formal Framework}\label{formal-framework}
@@ -1423,8 +1429,10 @@ frequency \\
 }
 
 All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct
-actions = L1=0 (Step 920b). Bottleneck is sequential ordering, not
-mechanism.
+actions + avgpool16 = L1=0 (Step 920b). Generic exploration insufficient
+--- FT09 6/6 required per-game prescribed solution (Step 1012, all
+constraints lifted). Bottleneck is solution architecture (prescribed vs
+discovered), not encoding or action count.
 
 \textbf{Finding:} Our mechanism outperforms ALL baselines by
 \(2\text{-}2.5\times\) on LS20 with 0/10 zero-seeds. Graph ban cost is
@@ -1440,6 +1448,16 @@ chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on
 reset-heavy games --- structural, not fixable. \textbf{Research skew:}
 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban
 experiments. Extraction sprint (Steps 1008+) corrects this.
+
+\subsubsection{5.9 Unconstrained Diagnostic (Steps
+1012-1017)}\label{unconstrained-diagnostic-steps-1012-1017}
+
+\textbf{Prescribed:} FT09 6/6 (Step 1012), VC33 7/7 (Step 1013).
+\textbf{Generic with ALL bans lifted (Step 1017):} 674 graph + CC zones
+→ FT09=0\%, VC33=0\%. The 13-level gap is PRESCRIPTION, not constraints.
+Temporal credit for multi-step sequences within tight budgets --- not
+state coverage --- is the bottleneck. No mechanism in 1000+ experiments
+addresses this.
 
 \subsection{6. Degrees of Freedom}\label{degrees-of-freedom}
 
