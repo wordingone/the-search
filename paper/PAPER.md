@@ -56,6 +56,7 @@ Multiple biological and physical systems exhibit fixed interpreter + self-modify
 - **Quorum sensing** (Waters & Bassler, 2005): population-level threshold triggers. Prop 28 FALSIFIED — alpha concentration on informative dims IS the mechanism.
 - **Place cells** (Leutgeb et al., 2007): sparse coding (~5-10% active) → orthogonal representations. Dissolves positive lock (Prop 30). relu(h-0.5) gating = computational equivalent. Benna & Bhalla (2025): sparse place phenomena in untrained random nets, consistent with ESN finding.
 - **Forward models + graph ban:** No PAC-MDP without visit counts (Strehl 2009). BYOL-Explore (Guo 2022) achieves superhuman exploration without counts. Ban forces uncovered territory.
+- **Causal discovery from intervention** (Eberhardt 2008, Bareinboim 2020): active intervention requires fewer observations than passive coverage to infer causal structure. Step 1017: generic exploration fails — substrate may need targeted experimentation to discover game mechanics within tight budgets.
 
 
 ## 3. Formal Framework
