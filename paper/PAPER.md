@@ -545,6 +545,10 @@ All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct actions + 
 **PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, chain_score=3/5. CIFAR inflates alpha_conc (PB16, −11% chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games — structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
 
 
+### 5.9 Unconstrained Diagnostic (Steps 1012-1017)
+
+**Prescribed:** FT09 6/6 (Step 1012), VC33 7/7 (Step 1013). **Generic with ALL bans lifted (Step 1017):** 674 graph + CC zones → FT09=0%, VC33=0%. The 13-level gap is PRESCRIPTION, not constraints. Temporal credit for multi-step sequences within tight budgets — not state coverage — is the bottleneck. No mechanism in 1000+ experiments addresses this.
+
 ## 6. Degrees of Freedom
 
 The formalization identifies what the constraints REQUIRE but also what they leave UNDETERMINED. These degrees of freedom define the experiment space for the next phase.
