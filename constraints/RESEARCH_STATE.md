@@ -57,13 +57,17 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 945 KILLED. 916 alpha loop is fully load-bearing (values + feedback).
-DIRECTION (2026-03-24, post-944):
-  **STEP 944 KILLED.** Ashby threshold reset. ALL THETA values (20/30/40) worse than 916 baseline. More resets = worse navigation. Seeds with high alpha_conc navigate WELL. **Alpha_conc=50 is the mechanism, not degeneration.**
-  **KEY FINDING:** alpha_conc=50 on INFORMATIVE dims = working correctly. alpha_conc=50 on UNINFORMATIVE dims (GFS, Steps 939-943) = degenerate. The metric doesn't distinguish. Proposition 28 FALSIFIED.
-  **DEBATE REVISION:** alpha_conc=50 was cited as R4 violation in the debate. Step 944 shows it's only a violation when concentrated on uninformative dims. R4 = discriminative capacity remains correct, but alpha_conc alone doesn't measure it.
-  **CONSTITUTIONAL DEBATE RESOLVED (2026-03-23).** Eli wins. Constitution survives. R4 = discriminative capacity (Ashby requisite variety). R2 prevents evaluation hacking (DGM case study).
-  **ALL 916 DEGREES OF FREEDOM CLOSED (Steps 933-944).** Action selection (933-938e). Encoding expansion (939-939b). Obs preprocessing (942-943). Alpha unfreezing (944). The alpha update is working as designed.
+CURRENT STEP: 948 (pending, Eli's next session). Hebbian RNN — new family.
+DIRECTION (2026-03-24, post-947):
+  **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
+  Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
+  Step 945: alpha input change → KILL (alpha-weighted prediction input is load-bearing feedback loop)
+  Step 946: additive action bias → KILL (global augmentation adds position-independent noise; 916 already has action in input)
+  Step 947: persistence-weighted error → KILL (running mean drift weighting hurts LS20; FT09 dims 60/51/52 = game timer)
+  **PATTERN:** 916 is a tightly coupled local minimum. Alpha values, alpha feedback loop, and error signal are ALL load-bearing. Any modification corrupts the coupled system. Prop 28 FALSIFIED.
+  **STEP 948 (pending):** Hebbian RNN — genuinely new family. No alpha, no 800b, no hash. Continuous recurrent state, Hebbian action mapping. Tests whether navigation is possible through entirely different mechanism. Kill: L1 > 0 on any seed.
+  **CONSTITUTIONAL DEBATE RESOLVED (2026-03-23).** Eli wins. Constitution survives. R4 = discriminative capacity (Ashby). R2 prevents evaluation hacking (DGM).
+  **ALL 916 DEGREES OF FREEDOM CLOSED (Steps 933-947).** 15 experiments confirm 916 is a fixed point.
   **CHAIN:** LS20=290.7 best (916 at 25K). FT09/VC33/CIFAR=0. PRISM-light incomplete.
 PREVIOUS DIRECTION (2026-03-23, post-compression):
   **ENCODING (solved):** Alpha-weighted prediction-error attention (Prop 22, confirmed Steps 895-895h). R3 encoding self-modification works universally. Carry forward to ALL future families.
