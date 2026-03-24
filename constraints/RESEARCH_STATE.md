@@ -57,12 +57,14 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 962 done. HEBBIAN W_a FULLY DEAD (15 experiments, 948-962).
-  800b CONFIRMED as unique reliable action mechanism. State-dependent W_a provides no advantage.
-  Prop 30 final: unbounded growth (961) + h correlation (960) + positive lock (Prop 30 original).
-  15 experiments: warm-start, mean-sub, eps-decay, softmax, ESN×2, RNG-free, UCB, ensemble,
-  sparse-gating, signed-scoring, anti-nearest, decayed W_a — ALL killed.
-  DIRECTION: Accept 800b. Focus on encoding/R3. March 25 deadline approaching.
+CURRENT STEP: 964 done. 916 CHAIN DIAGNOSTIC — 4 failure modes identified.
+  CIFAR: at chance (0.011). 916 doesn't classify.
+  LS20: degraded in chain (14.7/3/10 vs 74.7/8/10 standalone). Cross-game h corruption.
+  FT09: 0/10 (68 actions at 10K = budget-limited).
+  VC33: 0/10 (cause unknown).
+  PRISM-light NOT achievable with 916@10K. Four independent fixes needed.
+  HEBBIAN W_a FULLY DEAD (Steps 948-962, 15 experiments). 800b confirmed unique.
+  Props 29 (architecture irrelevance) + 30 (positive lock) written and formalized.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
