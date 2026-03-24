@@ -265,9 +265,9 @@ Algorithm invariance (argmin banned), U3/U17 (graph growth banned — what accum
 | PB16 | CIFAR inflates alpha_conc (-11% chain LS20) | CONFIRMED |
 | PB17 | Recurrent h = NEW LS20 SOTA (290.7/seed) | CONFIRMED |
 | PB18 | 916/895h beat ALL baselines 2-2.5× on LS20 | CONFIRMED |
-| PB19 | FT09 bottleneck = per-game engineering (generic graph+avgpool16 = 0/10; prescribed deterministic solution = 6/6). Both used avgpool16. Variable = solution architecture, not encoding. | REVISED (Steps 920/920b vs 1012) |
+| PB19 | FT09 bottleneck = temporal credit for sequential actions. Generic exploration (graph+argmin, sequence novelty, attention) ALL = 0/10 even with bans lifted (Step 1017). Only prescribed deterministic solution = 6/6 (Step 1012). No discovery mechanism works. | REVISED (Steps 920/920b/1017 vs 1012) |
 | PB20 | Per-observation action memory = graph-banned | KILLED |
-| PB21 | Direction 2: FT09 6/6 + VC33 7/7 solvable with ALL constraints lifted (8 simultaneous). Gap = 13 levels but not isolable to single ban. | CONFIRMED (Steps 1012-1013) |
+| PB21 | Direction 2: FT09 6/6 + VC33 7/7 solvable ONLY with prescribed solutions. Generic exploration = 0 even with ALL bans lifted (Step 1017). Gap = prescription, not constraints. | CONFIRMED (Steps 1012-1013 vs 1017) |
 | PB22 | Direction 1: 5 extraction experiments (1007-1014) = 0 FT09/VC33 signal | CONFIRMED |
 | PB23 | Game-agnostic base (no 800b/alpha/h) maintains LS20 via bootloader only | CONFIRMED (Step 1014) |
 | PB24 | LS20-tuned foundation (600 steps hill-climbing) may contaminate extraction experiments | PROVISIONAL (Jun observation, 2026-03-24, no controlled test) |
