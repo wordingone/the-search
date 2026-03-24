@@ -57,15 +57,15 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 981 done. 965 CONFIRMED UNTOUCHABLE. 16 modifications all kill (966-981).
-  965 = LS20 67.0/6/10 chain. Best chain substrate. EVERY modification worse.
-  Killed families: action embeddings (966), W_pred classification (967), action-conditioned h (968),
-  eligibility traces (970-971), ensemble disagreement (976), momentum (977), suppression (978),
-  frame-diff (979), pure evolutionary (980), evo bias (981). 972 improved standalone LS20 but not chain.
-  973 GATE FAIL (soft graph). 969 DIAGNOSTIC: FT09 mechanism-limited at 25K.
-  FT09 gap: running_mean[a] global → sequential signal diluted. Graph ban prevents per-state fix.
+CURRENT STEP: 988 done. 965 UNTOUCHABLE (22 kills: 966-987). FT09/VC33 MECHANISM-LIMITED at 50K.
+  965 = LS20 67.0 chain. Best substrate. 22 modifications all degrade LS20.
+  Step 988 DIAGNOSTIC: FT09=0/10 at 50K. VC33=0/10 at 50K. Budget NOT the variable (10K/25K/50K all 0).
+  Step 984: baseline+confound check — 965 reproduced exactly, sign confound disproved.
   Props 29 (architecture irrelevance), 30 (positive lock) from Hebbian cascade (948-962).
-  DIRECTION: Need genuinely new substrate that doesn't disrupt 800b AND adds multi-game capability.
+  800b action selection FROZEN (22 experiments confirm any override kills LS20).
+  FT09/VC33: 68 actions, ordered sequences, mechanism-limited. Graph ban prevents per-state fix.
+  CIFAR: chance (no classification mechanism).
+  DIRECTION: The search has fully characterized the post-ban feasible region. 965 IS the region.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
