@@ -481,15 +481,16 @@ class ChainRunner:
             if self.verbose:
                 print(f"\n=== Seed {seed} ===")
 
-            # Optionally randomize phase order per seed
+            # Randomize phase order per seed (Jun 2026-03-24: ALWAYS)
             seed_chain = list(self.chain)
             if self.randomize_order:
                 rng = np.random.RandomState(seed + 10000)
                 rng.shuffle(seed_chain)
-                if self.verbose:
-                    print(f"  Order: {' → '.join(n for n, _ in seed_chain)}")
+                # NOTE: game order is HIDDEN during execution.
+                # Neither Leo nor Eli should know which game is running.
+                # Order revealed only in final summary after all seeds complete.
 
-            for (name, wrapper) in seed_chain:
+            for phase_idx, (name, wrapper) in enumerate(seed_chain):
                 r = wrapper.run_seed(sub, seed)  # SAME substrate persists
                 results[name].append(r)
                 if self.verbose:
@@ -502,7 +503,8 @@ class ChainRunner:
                         metric = f"reward={reward:.0f}"
                     else:
                         metric = f"l1={l1}"
-                    print(f"  {name}: {metric} steps={r['steps']} t={r['elapsed']}s")
+                    # Hide game name — print phase number only
+                    print(f"  Phase {phase_idx+1}/{len(seed_chain)}: {metric} steps={r['steps']} t={r['elapsed']}s")
 
         # Aggregate per game
         aggregated = {}
@@ -517,6 +519,26 @@ class ChainRunner:
             if self.verbose:
                 print(f"\n{name}: L1={aggregated[name]['l1_rate']:.0%} "
                       f"avg_t={aggregated[name]['mean_elapsed']:.1f}s")
+
+        # Compute aggregate chain score (Jun 2026-03-24)
+        # Single number: mean L1 rate across all games. 1.0 = perfect chain.
+        game_l1_rates = [v['l1_rate'] for v in aggregated.values()
+                         if isinstance(v, dict) and 'l1_rate' in v]
+        chain_score = np.mean(game_l1_rates) if game_l1_rates else 0.0
+        games_with_signal = sum(1 for r in game_l1_rates if r > 0)
+
+        if self.verbose:
+            print(f"\n{'='*50}")
+            print(f"CHAIN SCORE: {chain_score:.3f} ({games_with_signal}/{len(game_l1_rates)} games with signal)")
+            print(f"{'='*50}")
+            # Per-game breakdown revealed AFTER aggregate
+            for name in aggregated:
+                if isinstance(aggregated[name], dict):
+                    print(f"  {name}: L1={aggregated[name]['l1_rate']:.0%}")
+
+        aggregated['_chain_score'] = chain_score
+        aggregated['_games_with_signal'] = games_with_signal
+        aggregated['_total_games'] = len(game_l1_rates)
 
         return aggregated
 
