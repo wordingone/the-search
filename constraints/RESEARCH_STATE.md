@@ -57,12 +57,13 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 1010 RUNNING. Hybrid 800b + Attention (component composition test).
-  **Steps 1001-1003 KILLED:** Oscillatory. **Steps 1004-1005 KILLED:** Multi-horizon.
-  **Step 1006:** PRISM baseline (chain_score 3/5). **Step 1007 FAIL:** Attention-trajectory (bootstrap).
-  **Step 1008 KILL:** CC Zone Discovery + 800b. LS20=100%, FT09=0%, VC33=0%. CC survives graph ban (Theorem 5). Zone discovery works but 800b alone can't provide temporal credit.
-  **Step 1009 FAIL:** Attention v2. LS20=0/10 (attention collapses to NN lookup → no coverage). Structural mismatch: attention replaces 800b's coverage.
-  **Step 1010 RUNNING:** Hybrid: 800b (coverage) + attention (temporal credit) + CC discovery (action space). Tests whether components COMPOSE. One config.
+CURRENT STEP: 1014 queued. Direction 2 running (1011-1013). Direction 1 next (1014).
+  **Steps 1001-1005 KILLED:** Oscillatory (3), multi-horizon (2). **Step 1006:** PRISM baseline (3/5).
+  **Step 1007 FAIL:** Attention-trajectory (bootstrap). **Step 1008 KILL:** CC discovery + 800b. CC survives ban (Theorem 5) but 800b can't sequence. **Step 1009 FAIL:** Attention v2 (collapses to NN, no coverage).
+  **Step 1010 PASS (no improvement):** Hybrid 800b + attention + CC. LS20=100%, FT09/VC33=0%. Adding attention to 800b = same as 800b alone. LS20-tuned foundation confound confirmed.
+  **DIRECTION SHIFT (Jun, 2026-03-24):** LS20-tuned base (600 steps of hill-climbing) contaminates all extraction experiments. Game-agnostic base needed. Universal missing piece: SEQUENCING (action order discovery). Discovery + recognition solved, sequencing unsolved.
+  **Steps 1011-1013 RUNNING (Direction 2):** Unconstrained diagnostic. ALL bans lifted. Every-level ceiling measurement.
+  **Step 1014 QUEUED (Direction 1):** Sequence Novelty Learner on game-agnostic base. N-gram action scoring by observation novelty. NO 800b, NO alpha, NO recurrent h. First FT09-first design.
   **PRISM infrastructure overhauled (2026-03-24):** run_experiment.py harness, randomized game order, substrate-only files, baseline_994.json.
   Step 1000 DEFINITIVE: 994@25K = LS20 286.2/9/10. FT09=0, VC33=0, CIFAR=chance.
   Theorem 4 formalized: global running mean SNR → 0 for state-dependent actions (Prop 31).
