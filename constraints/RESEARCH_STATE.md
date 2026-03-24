@@ -57,16 +57,15 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 979 (running). Frame-diff augmented encoding on 916 chain.
-  Steps 970-978: ALL KILL. Action mechanism exhausted. Every modification hurts LS20, zero FT09 signal.
-  970 KILL: Eligibility traces destroy 800b (running_mean collapses). 971 KILL: Two-stream same.
-  972 PASS-LS20: Action-conditioned W_pred = 307.6 (+5.8% over 916). But chain-contaminated.
-  973 GATE FAIL: Per-state prediction selection = soft graph. Eli rejected correctly.
-  975: W_pred persistence partial fix (47.4). 976 KILL: Ensemble disagreement collapses.
-  977 KILL: Momentum hurts (47.9). 978 KILL: Suppression hurts more (39.9).
-  969 DIAGNOSTIC: FT09 = 0/10 at 25K. MECHANISM-LIMITED. 800b can't learn ordered sequences.
-  Jun correction: 4 failures = ONE problem. Don't include Jun as variable. WE solve this.
-  DIRECTION: Stop modifying action selection. Change ENCODING instead (frame-diff = what changed).
+CURRENT STEP: 981 done. 965 CONFIRMED UNTOUCHABLE. 16 modifications all kill (966-981).
+  965 = LS20 67.0/6/10 chain. Best chain substrate. EVERY modification worse.
+  Killed families: action embeddings (966), W_pred classification (967), action-conditioned h (968),
+  eligibility traces (970-971), ensemble disagreement (976), momentum (977), suppression (978),
+  frame-diff (979), pure evolutionary (980), evo bias (981). 972 improved standalone LS20 but not chain.
+  973 GATE FAIL (soft graph). 969 DIAGNOSTIC: FT09 mechanism-limited at 25K.
+  FT09 gap: running_mean[a] global → sequential signal diluted. Graph ban prevents per-state fix.
+  Props 29 (architecture irrelevance), 30 (positive lock) from Hebbian cascade (948-962).
+  DIRECTION: Need genuinely new substrate that doesn't disrupt 800b AND adds multi-game capability.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
