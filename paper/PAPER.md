@@ -469,19 +469,17 @@ After action selection closure, the search pivoted to encoding architecture — 
 
 **Result: KILLED (LS20=0, FT09=0, VC33=0).** PCA features were discovered (10 in LS20, 16 by FT09) — the mechanism fires. Kill cause: zero-initialized $W_{pred}$ rows for new dimensions generate huge prediction errors → $\alpha$ concentrates on new dims ($\alpha_{conc}=50$ from step 1) → navigation signal in original 320D drowned out. Evidence: CIFAR Phase 2 $\delta_{spr}=14\text{-}21$ (PCA dims generate massive apparent changes vs LS20 $\delta_{spr}=0.037\text{-}0.140$).
 
-### 4.16 Comparison Degeneration and R4-Minimal Anti-Concentration (Proposition 28)
+### 4.16 Alpha Concentration Is Load-Bearing (Proposition 28 — FALSIFIED)
 
-**Constitutional debate finding (2026-03-23):** alpha_conc=50 is an R4 violation — comparison mechanism loses discriminative capacity (Ashby's requisite variety, Section 3.5). R3 prescribes unfreezing the comparator. But adversarial review (Hart) identified a trap: any meta-prediction layer controlling a frozen update ADDS frozen state while claiming to reduce it.
+**Constitutional debate finding (2026-03-23):** alpha_conc=50 was interpreted as an R4 violation — comparison mechanism losing discriminative capacity. R3 prescribed unfreezing the comparator. Adversarial review (Hart) identified that meta-prediction layers add frozen state. Proposition 28 proposed threshold-triggered reset as R3-minimal anti-concentration.
 
-**Proposition 28:** The R3-minimal mechanism preventing comparison degeneration is a threshold-triggered parameter redistribution, not a meta-prediction layer.
+**Proposition 28: FALSIFIED (Step 944).** Threshold reset at ALL values (THETA=20/30/40) degrades LS20 below 916 baseline. More resets = worse performance (monotone). Seeds with HIGH alpha_conc navigate WELL. Seeds that reset frequently navigate POORLY.
 
-**Argument:** A meta-prediction layer $W_\alpha$ of dimension $d_\alpha \times d_h$ adds $\geq d_\alpha \cdot d_h$ frozen parameters (its own update rule, learning rate, architecture). A threshold mechanism adds 1 frozen parameter ($\theta_{conc}$: when $\alpha_{conc} > \theta_{conc}$, reset $\alpha$ to uniform). By R6 (minimality), the threshold dominates.
+**The finding:** Alpha concentration is the mechanism, not degeneration. The 800b change tracker computes $(enc_t - enc_{t-1}) \cdot \alpha$. High alpha on specific dimensions AMPLIFIES changes on those dimensions — they carry the navigation signal. Resetting alpha to uniform destroys learned attention weighting.
 
-**Connection to Ashby (1960):** This IS Ashby's ultrastability. The homeostat uses discontinuous parameter restructuring when essential variables leave bounds — not smooth gradient meta-learning. The threshold detects that the regulatory mechanism (alpha-based comparison) has degenerated; the reset restructures it. The mechanism is: (1) compute $\alpha_{conc} = \max(\alpha) / \text{mean}(\alpha)$, (2) if $\alpha_{conc} > \theta_{conc}$, set $\alpha \leftarrow \mathbf{1}$. Two frozen elements: the concentration formula and $\theta_{conc}$.
+**Revised interpretation:** alpha_conc=50 on INFORMATIVE dimensions = working correctly (navigation signal amplified). alpha_conc=50 on UNINFORMATIVE dimensions (GFS case, Steps 939-943: zero-initialized W_pred rows → artificial prediction error → alpha concentrates on noise) = degenerate. The alpha_conc metric alone cannot distinguish these cases. The R4 violation in GFS experiments was real but caused by GFS introducing artificial errors, not by concentration per se.
 
-**Testable prediction (Step 944 revised):** A threshold-reset mechanism should prevent alpha concentration with fewer frozen elements than W_alpha, while maintaining LS20 ≥ 916 baseline. If the reset fires frequently (>10% of steps), the threshold is wrong. If it never fires, alpha doesn't concentrate naturally and the mechanism is inert.
-
-**Degrees of freedom:** $\theta_{conc}$ (threshold value). Reset target (uniform vs. previous stable distribution). Whether to reset $W_{pred}$ alongside $\alpha$.
+**Implication for R4:** R4 = discriminative capacity (Ashby requisite variety) remains correct as an operational definition. But discriminative capacity is about WHERE alpha concentrates (informative vs uninformative dims), not WHETHER it concentrates. A future discriminative capacity metric must account for the information content of concentrated dimensions, not just the concentration level.
 
 **Constraint extracted:** Encoding expansion via zero-initialized prediction weights is fatal to alpha-weighted attention. Any mid-stream encoding change requires warm-up before entering alpha/delta computation. Step 939b tests warm-up exclusion (new dims excluded from alpha for 1000 steps while $W_{pred}$ trains on them).
 

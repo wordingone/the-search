@@ -57,13 +57,14 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 944 (in progress). Ashby threshold reset — self-triggered alpha redistribution.
-DIRECTION (2026-03-23, post-debate):
-  **CONSTITUTIONAL DEBATE RESOLVED (2026-03-23).** Eli wins. Constitution survives. R4 = discriminative capacity (Ashby requisite variety). R2 prevents evaluation hacking (DGM case study). alpha_conc=50 = R3 predicting R4 failure → frozen comparator degenerates. R3 prescription: unfreeze comparator.
-  **STEP 944:** Ashby threshold reset. When alpha_conc > THETA_CONC (30), reset alpha to uniform. R3 hypothesis: self-triggered discontinuous modification maintains discriminative capacity that frozen continuous updates cannot. Proposition 28.
-  **ALL 916 DEGREES OF FREEDOM CLOSED (Steps 933-943).** Action selection (933-938e, 800b irreducible). Encoding architecture (939-939b, dynamic growth kills alpha). Observation preprocessing (942-943, destroys positional signal).
-  **NEW FAMILY:** Alpha-unfreezing. Different from 933-943 (those modified around the alpha update; 944 modifies the alpha update itself).
-  **CHAIN:** LS20=290.7 best (916). FT09/VC33/CIFAR=0. PRISM-light incomplete.
+CURRENT STEP: 944 KILLED. Alpha concentration is load-bearing, not degenerate.
+DIRECTION (2026-03-24, post-944):
+  **STEP 944 KILLED.** Ashby threshold reset. ALL THETA values (20/30/40) worse than 916 baseline. More resets = worse navigation. Seeds with high alpha_conc navigate WELL. **Alpha_conc=50 is the mechanism, not degeneration.**
+  **KEY FINDING:** alpha_conc=50 on INFORMATIVE dims = working correctly. alpha_conc=50 on UNINFORMATIVE dims (GFS, Steps 939-943) = degenerate. The metric doesn't distinguish. Proposition 28 FALSIFIED.
+  **DEBATE REVISION:** alpha_conc=50 was cited as R4 violation in the debate. Step 944 shows it's only a violation when concentrated on uninformative dims. R4 = discriminative capacity remains correct, but alpha_conc alone doesn't measure it.
+  **CONSTITUTIONAL DEBATE RESOLVED (2026-03-23).** Eli wins. Constitution survives. R4 = discriminative capacity (Ashby requisite variety). R2 prevents evaluation hacking (DGM case study).
+  **ALL 916 DEGREES OF FREEDOM CLOSED (Steps 933-944).** Action selection (933-938e). Encoding expansion (939-939b). Obs preprocessing (942-943). Alpha unfreezing (944). The alpha update is working as designed.
+  **CHAIN:** LS20=290.7 best (916 at 25K). FT09/VC33/CIFAR=0. PRISM-light incomplete.
 PREVIOUS DIRECTION (2026-03-23, post-compression):
   **ENCODING (solved):** Alpha-weighted prediction-error attention (Prop 22, confirmed Steps 895-895h). R3 encoding self-modification works universally. Carry forward to ALL future families.
   **ACTION SELECTION (open — family exhausted):** 800b (per-action delta EMA + softmax) is the best post-ban selector (2-2.5x baselines). But: position-blind (Prop 23b), reset-inverted (delta inversion), and every modification degrades (Steps 912-937, 25+ experiments). The 916 architecture is a local minimum. Next family must use ACTUAL observation changes but NOT per-action delta EMA. See FAMILY_KILLS.md.
