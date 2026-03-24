@@ -728,7 +728,17 @@ The feasible region for L1 navigation is occupied — graph + argmin + correct e
 
 **Corollary:** The lock rate scales with action space size. For $n$ actions, differentiation requires $n$ distinct $W_a$ rows, each needing enough orthogonal updates. LS20 ($n=4$): $\sim 10\%$. FT09 ($n=68$): $\sim 0\%$. This explains FT09's universal failure across all Hebbian experiments. **Potential fix:** sparse gating ($h_{\text{gate}} = \text{ReLU}(h - 0.5)$) makes representations state-dependent — different states activate different components → cross-state reinforcement breaks → lock dissolves.
 
-**Architecture triangle (Proposition 22):** Recognition (banned), tracking (banned), dynamics (current frontier). Post-ban, the substrate lives at the dynamics vertex. Proposition 29 refines this: at the dynamics vertex, the architecture degree of freedom is provably irrelevant for Hebbian action learning. Proposition 30 identifies the mechanism: sigmoid positive lock. The sole remaining degree of freedom is breaking this lock — either through exploration policy (UCB, Steps 957-958) or representation sparsity (ReLU gating, Step 959).
+**(n) The Temporal Credit Assignment Wall (Proposition 31, Steps 948-990, 43 experiments).** The 948-990 cascade establishes three interlocking results:
+
+1. **800b's delta\_per\_action is FROZEN.** 25 experiments (966-990) confirm: any additive bonus, modification, or replacement of the state-change delta signal degrades LS20 navigation. Eligibility traces (970-971), ensemble disagreement (976), momentum/suppression (977-978), dual-horizon prediction (989), temporal inconsistency (990) — all killed. The mechanism is a tight optimum at 320-dim W\_pred, 10K continuous steps, unmodified state-change delta.
+
+2. **FT09/VC33 are mechanism-limited at any budget.** 0/10 at 10K, 25K, and 50K (Steps 969, 982, 988). 68 actions requiring ordered multi-step sequences. The running mean $\bar{\Delta}(a)$ averages delta across all states → sequential ordering signal diluted to noise.
+
+3. **The wall is temporal credit assignment, not the graph ban (Debate v3).** Parametric state-conditioned models (Step 972) don't solve it — they improve spatial discrimination but not temporal ordering. Pre-ban graphs solved FT09 by exhaustive tabular search (Step 503), not by learning sequences. The substrate needs a mechanism that connects "action $a_1$ at time $t$ contributed to outcome at time $t+K$" without per-(state,action) data and without external reward.
+
+**The feasible region under current constraints is exactly Step 965:** 916 + h-reset on game switch. LS20 = 67.0 (chain), FT09 = 0, VC33 = 0, CIFAR = chance. 43 experiments (948-990) prove this is a fixed point — no modification improves it. The search's contribution is not solving PRISM but precisely characterizing WHY it can't be solved: the temporal credit wall (Proposition 31).
+
+**Architecture triangle (Proposition 22):** Recognition (banned), tracking (banned), dynamics (current frontier). Propositions 29-31 fully characterize the dynamics vertex: architecture is irrelevant (29), the positive lock prevents Hebbian alternatives (30), and temporal credit prevents sequential games (31). The next breakthrough requires a mechanism class outside prediction-error exploration.
 
 
 ## Author Attribution and Disclosure
