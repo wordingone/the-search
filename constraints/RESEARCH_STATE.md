@@ -65,11 +65,12 @@ CURRENT STEP: 988 done. 965 UNTOUCHABLE (22 kills: 966-987). FT09/VC33 MECHANISM
   800b action selection FROZEN (22 experiments confirm any override kills LS20).
   FT09/VC33: 68 actions, ordered sequences, mechanism-limited. Graph ban prevents per-state fix.
   CIFAR: chance (no classification mechanism).
-  DEBATE v3 RESOLVED (Leo concedes Round 1): Graph ban is NOT the wall. The wall is TEMPORAL
-  CREDIT ASSIGNMENT for ordered multi-step sequences without external reward. Pre-ban graphs
-  solved FT09 by exhaustive per-state coverage (tabular search), not sequential learning.
-  Parametric models don't solve it either (972 = FT09 0/10 with action-conditioned W_pred).
-  DIRECTION: Need mechanism for temporal credit assignment without external reward. New abstraction.
+  Step 994 = NEW CHAIN BEST: LS20=83.8/8/10 (+25% over 965). h-novelty spike → fast adapt (500 steps).
+  First improvement in 28 kills. Adaptive eta family = new degree of freedom. W_pred learning rate is safe to modulate.
+  Step 995: re-triggering during game slightly hurts (77.6 vs 83.8). Game-transition-only = optimal.
+  FT09/VC33 still 0 — temporal credit wall unchanged (Prop 31).
+  DEBATE v3: Graph ban NOT the wall. Temporal credit assignment IS the wall.
+  DIRECTION: Iterate adaptive eta family. 994 = new floor. FT09/VC33 need new paradigm beyond eta modulation.
 DIRECTION (2026-03-24, post-947):
   **916-AUGMENTATION FAMILY DEAD (Steps 944-947, 4 consecutive kills).**
   Step 944: alpha reset → KILL (concentration is load-bearing, not degeneration)
