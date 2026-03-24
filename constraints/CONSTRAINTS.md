@@ -2,7 +2,7 @@
 
 *Revised 2026-03-18 session 2. Major restructure: task requirements first, honest universality reclassification.*
 
-*953+ experiments across 14+ architecture families (codebook ~435, LSH ~80, L2 k-means ~25, reservoir ~20, Hebbian RNN 6, 916-augmentation ~15, prediction-selectors ~10, GFS 3, obs-preprocessing 2, SplitTree 5, Recode 3, Absorb 3, graph 8, CA 3, Bloom 2, CC 1). Codebook banned 2026-03-18. Graph banned 2026-03-23. Key findings: algorithm invariance QUALIFIED (argmin reliable but not the only mechanism — Hebbian RNN navigated 1/10 seeds without argmin, Step 948), centering load-bearing (U16), 916 is a local minimum (15 experiments confirm, Steps 933-947).*
+*1000+ experiments across 14+ architecture families (codebook ~435, LSH ~80, L2 k-means ~25, reservoir ~20, Hebbian RNN 6, Hebbian W_a 15, 916-augmentation ~25, prediction-selectors ~10, adaptive-eta 8, GFS 3, obs-preprocessing 2, SplitTree 5, Recode 3, Absorb 3, graph 8, CA 3, Bloom 2, CC 1). Codebook banned 2026-03-18. Graph banned 2026-03-23. Key findings: algorithm invariance QUALIFIED (Step 948), centering load-bearing (U16), 800b delta_per_action FROZEN (27 kills, Steps 966-990), temporal credit wall (Theorem 4, Prop 31).*
 
 **Classification:**
 - **Task Requirement**: What the TASK demands of any substrate (derived from successes AND failures across families)
