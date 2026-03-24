@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 944 KILLED. Alpha concentration is load-bearing, not degenerate.
+CURRENT STEP: 945 KILLED. 916 alpha loop is fully load-bearing (values + feedback).
 DIRECTION (2026-03-24, post-944):
   **STEP 944 KILLED.** Ashby threshold reset. ALL THETA values (20/30/40) worse than 916 baseline. More resets = worse navigation. Seeds with high alpha_conc navigate WELL. **Alpha_conc=50 is the mechanism, not degeneration.**
   **KEY FINDING:** alpha_conc=50 on INFORMATIVE dims = working correctly. alpha_conc=50 on UNINFORMATIVE dims (GFS, Steps 939-943) = degenerate. The metric doesn't distinguish. Proposition 28 FALSIFIED.
