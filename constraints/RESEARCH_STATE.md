@@ -57,7 +57,7 @@ Step 379: Centering at 64x64 — no effect. Same sim stats.
   I1 = learned projection. The substrate discovers which pixels matter from its own state (R3).
   Chollet: "brute-force dense sampling is benchmark hacking, not intelligence."
   The substrate explores but doesn't reason. The gap = encoding self-discovery = intelligence.
-CURRENT STEP: 1014 queued. Direction 2 running (1011-1013). Direction 1 next (1014).
+CURRENT STEP: 1016 next. Step 1015 running (LS20 ceiling, Direction 2). Step 1014 done.
   **Steps 1001-1005 KILLED:** Oscillatory (3), multi-horizon (2). **Step 1006:** PRISM baseline (3/5).
   **Step 1007 FAIL:** Attention-trajectory (bootstrap). **Step 1008 KILL:** CC discovery + 800b. CC survives ban (Theorem 5) but 800b can't sequence. **Step 1009 FAIL:** Attention v2 (collapses to NN, no coverage).
   **Step 1010 PASS (no improvement):** Hybrid 800b + attention + CC. LS20=100%, FT09/VC33=0%. Adding attention to 800b = same as 800b alone. LS20-tuned foundation confound confirmed.
@@ -66,7 +66,9 @@ CURRENT STEP: 1014 queued. Direction 2 running (1011-1013). Direction 1 next (10
   **Step 1012 CONFIRMED (Direction 2):** FT09 per-game ceiling. 6/6 levels, 5/5 seeds, 75 clicks, deterministic. Game version 0d8bbf25 confirmed solvable. **Constrained gap: 0/10 L1 → 6/6 all levels.**
   **Step 1013 CONFIRMED (Direction 2):** VC33 per-game ceiling. 7/7 levels, 5/5 seeds, 176 clicks. Game version 9851e02b confirmed solvable. **Constrained gap: 0/10 L1 → 7/7 all levels.**
   **Direction 2 Sub-mode A COMPLETE:** FT09 6/6 + VC33 7/7 = 13 levels confirmed solvable. Both current game versions. Constraint cost = 13 levels.
-  **Step 1014 QUEUED (Direction 1):** Sequence Novelty Learner on game-agnostic base. N-gram action scoring by observation novelty. NO 800b, NO alpha, NO recurrent h. First FT09-first design.
+  **Step 1014 PASS (Direction 1):** Sequence Novelty Learner on game-agnostic base. Chain 3/5 (CIFAR=100%, LS20=100%, FT09=0%, VC33=0%). No regression, no improvement. Raw 64×64 encoding hides click-game signal. Sequencing mechanism untested because encoding bottleneck dominates. **Alive** (LS20 held) but FT09/VC33 still zero.
+  **Step 1015 RUNNING (Direction 2, Sub-mode A):** LS20 ceiling re-verification. Full 572u SubDual (LSH+BFS+dead reckoning), all bans lifted. 360s/seed × 5 seeds. Current game version 9607627b.
+  **Step 1016 NEXT (Direction 1):** CC zone discovery + sequence novelty on game-agnostic base. Tests whether encoding (CC reduces click-game action space) resolves FT09/VC33=0. One variable: add CC discovery to Step 1014's mechanism.
   **THEORETICAL INSIGHT (2026-03-24):** The universal problem across all games is context-conditioned action selection. The graph ban prohibits per-state context. Attention tracks context via trajectory (time-indexed). Sequence learner tracks context via action history (action-indexed). Both are graph-ban safe. Neither has worked yet. The FRAMING is: how to track interaction context WITHOUT per-state storage.
   **PRISM infrastructure overhauled (2026-03-24):** run_experiment.py harness, randomized game order, substrate-only files, baseline_994.json.
   Step 1000 DEFINITIVE: 994@25K = LS20 286.2/9/10. FT09=0, VC33=0, CIFAR=chance.
