@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-1039+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 25 games live). Current bottleneck: goal inference. The substrate must infer the solved state from interaction alone — frequency-based prediction defaults to the unsolved background. ARC-AGI-3 full set (25 games) now live as the test bed.
+1067+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, API currently 25). All architectural bans lifted. Current bottleneck: autonomous multi-level solving (L2+ = 0 across entire search). Statistical micro-change detection finds more responsive games than fixed thresholds.
 
 ## Results (honest)
 
