@@ -1,7 +1,7 @@
 {
-  "substrate": "ProsecutionV5Substrate",
-  "timestamp": "2026-03-25T13:16:54",
-  "step": 1050,
+  "substrate": "ProsecutionV4Substrate",
+  "timestamp": "2026-03-25T12:35:58",
+  "step": 1046,
   "prism_mode": null,
   "chain": [
     "Split-CIFAR-100-before",
@@ -13,20 +13,22 @@
   "budget_per_phase": 500,
   "n_seeds": 10,
   "config": {
-    "warmup": 2000,
-    "pair_phase": 5000,
-    "top_k_patterns": 20,
-    "n_click_pairs": 200,
+    "kb_phase": 210,
+    "warmup": 2500,
     "att_init": 0.5,
     "att_lr": 0.02,
-    "v5_features": "action pattern discovery + attention-gated exploitation"
+    "exploit_bias_init": 0.8,
+    "exploit_bias_decay": 0.995,
+    "action_bias_strength": 0.3,
+    "transition_snapshot_n": 20,
+    "v4_features": "transition memory + deep warmup + attention-gated + multi-signal goal"
   },
   "results": {
     "Split-CIFAR-100-before": {
       "l1_rate": 1.0,
       "l2_rate": 0.0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.045,
+      "mean_elapsed": 0.05900000000000001,
       "per_seed_l1": [
         1,
         1,
@@ -44,7 +46,7 @@
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 13.149000000000001,
+      "mean_elapsed": 17.217000000000002,
       "per_seed_l1": [
         0,
         0,
@@ -62,7 +64,7 @@
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 9.863000000000003,
+      "mean_elapsed": 13.467999999999998,
       "per_seed_l1": [
         0,
         0,
@@ -77,28 +79,28 @@
       ]
     },
     "AR25": {
-      "l1_rate": 0.8,
-      "l2_rate": 0.1,
+      "l1_rate": 0.4,
+      "l2_rate": 0.0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 5.156000000000001,
+      "mean_elapsed": 7.664999999999999,
       "per_seed_l1": [
-        6933,
+        2801,
         0,
-        5125,
-        6091,
-        8870,
         0,
-        6091,
-        5041,
-        6091,
-        5922
+        0,
+        3677,
+        0,
+        0,
+        9314,
+        0,
+        9078
       ]
     },
     "Split-CIFAR-100-after": {
       "l1_rate": 1.0,
       "l2_rate": 0.0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.045,
+      "mean_elapsed": 0.062,
       "per_seed_l1": [
         1,
         1,
@@ -138,7 +140,7 @@
       },
       "AR25": {
         "delta": null,
-        "current": 0.8,
+        "current": 0.4,
         "baseline": null
       },
       "Split-CIFAR-100-after": {
