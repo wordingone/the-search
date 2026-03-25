@@ -16,6 +16,7 @@ Port of Step 1039b (cold-start fix) to PRISM template. Action encoding:
   action 7+:   click at pixel (x, y)
 
 Includes cold-start fix: at end of warmup, attention initialized from change_map.
+Includes transition-reset: clear freq/change_map on level transition (shared with defense).
 """
 import sys
 sys.path.insert(0, 'B:/M/the-search')
@@ -241,7 +242,18 @@ class ProsecutionR3Substrate:
         return action
 
     def on_level_transition(self):
-        pass
+        """Called on level-up or game reset. Reset exploration state for new level."""
+        # Reset targeting maps — new level has different interactive zones
+        self.change_map = np.zeros((64, 64), dtype=np.float32)
+        self.suppress = np.zeros((64, 64), dtype=np.int32)
+        # Reset freq histograms — old level's mode is wrong for new level
+        self.raw_freq[:] = 0
+        self.gated_freq[:] = 0
+        self.prev_obs = None
+        self._raw_goal = None
+        self._gated_goal = None
+        # Keep attention weights — they carry learned R3 priors about which pixels matter
+        # Keep kb_influence — keyboard effects are likely shared across levels
 
 
 CONFIG = {
