@@ -12,25 +12,32 @@
 
 ---
 
-## FT09 — Full prescription: 75 hardcoded clicks, 6 levels
+## FT09 — Full prescription: 75 clicks, 6 levels (ABLATION COMPLETE)
 
 **Prescription components:**
-- C1: Exact pixel coordinates per click (e.g., click at (32, 48))
+- C1: Exact pixel coordinates per click (2-pixel precision required)
 - C2: Which level you're on (level detection)
-- C3: Per-level click sequence (L1: clicks A→B→C, L2: clicks D→E→F...)
-- C4: Total ordering within each level (strict 7-step sequence)
-- C5: That wrong clicks cause reset (mechanics)
+- C3: Per-level click SET (L1: 4 walls, L2: 7 walls, L3: 14 walls, L4: 16 clicks on 11 walls, L5: 21 Lights-Out, L6: 13 Lights-Out)
+- C4: ~~Total ordering within each level~~ **ORDER IRRELEVANT (Step 1019b)**
+- C5: Game mechanics: L1-L4 = single/multi-click wall toggling, L5/L6 = Lights-Out (+spread / up-spread, solved via GF(2) Gaussian elimination)
 
-**Ablation experiments:**
-| Step | Remove | Replace with | Expected | Tests |
-|------|--------|-------------|----------|-------|
-| A1 | C1 (pixel coords) | CC-discovered zones | Still 6/6 if zones = correct areas | Zone identity sufficient? |
-| A2 | C1+C2 (coords+level detect) | CC zones + auto level detect (frame change on level transition) | Probably works | Can substrate detect levels? |
-| A3 | C1+C4 (coords+ordering) | CC zones + random ordering | 0/6 (random 7-step = 1/6^7) | Ordering is essential |
-| A4 | C1+C3 (coords+per-level seq) | CC zones + ONE shared sequence | 0-1/6 (levels differ) | Per-level customization essential? |
-| A5 | ALL except C5 | Pure CC zones + random clicking | 0/6 (proved by Step 1017) | Confirms minimum |
+**Ablation results:**
+| Step | Ablation | Result | Finding |
+|------|----------|--------|---------|
+| 1019a-A | Exact coords (baseline) | 6/6 PASS | 75 clicks (4+7+14+16+21+13) |
+| 1019a-B | 8px zone snap | 1/6 (L1 only) | Walls at odd grid, snap at even → off-by-1 |
+| 1019a-C | 6-cluster k-means | 0/6 | Clusters collapse position info |
+| 1019b-A | Original order | 6/6 PASS | Baseline |
+| 1019b-B | Reversed order | 6/6 PASS | Order irrelevant |
+| 1019b-C | Random permutation (20×) | 6/6 PASS all | Order irrelevant for ALL levels including Lights-Out |
 
-**Predicted minimum prescription:** Zone identity (C1→CC) + ordering (C4) + per-level sequence (C3). Level detection (C2) probably auto-detectable. Reset mechanics (C5) observable.
+**CONFIRMED minimum prescription:** {Unordered set of exact (x,y) per level}. 75 clicks total, all necessary, 2-pixel precision. No ordering required. No redundancy possible.
+
+**What the substrate must discover autonomously:**
+1. Exact wall positions (not zones — 2px precision)
+2. How many times to click each wall (L4: some walls need 2 for 3-color cycle)
+3. For L5/L6: which subset of walls to toggle (Lights-Out solution = linear algebra over GF(2))
+4. Does NOT need to learn click ordering
 
 ---
 
