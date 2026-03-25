@@ -103,6 +103,7 @@ class ArcGameWrapper:
         obs = self._env.reset(seed=seed)
         level = 0
         l1_step = l2_step = None
+        fully_solved = False
         steps = 0
         t_start = time.time()
         fresh_episode = True  # skip first step for fresh_episode bug
@@ -134,6 +135,8 @@ class ArcGameWrapper:
                 substrate.on_level_transition()
 
             if done:
+                if level > 0:
+                    fully_solved = True  # completed at least L1 + episode ended
                 obs = self._env.reset(seed=seed)
                 substrate.on_level_transition()
                 fresh_episode = True
@@ -147,6 +150,7 @@ class ArcGameWrapper:
             "l1": l1_step,
             "l2": l2_step,
             "level_reached": level,
+            "fully_solved": fully_solved,
         }
 
 
@@ -540,6 +544,8 @@ class ChainRunner:
                 "seeds": task_results,
                 "l1_rate": sum(1 for r in task_results if r.get('l1')) / self.n_seeds,
                 "l2_rate": sum(1 for r in task_results if r.get('l2')) / self.n_seeds,
+                "fully_solved_rate": sum(1 for r in task_results if r.get('fully_solved')) / self.n_seeds,
+                "max_level": max((r.get('level_reached', 0) for r in task_results), default=0),
                 "avg_steps": np.mean([r['steps'] for r in task_results]),
                 "mean_elapsed": np.mean([r['elapsed'] for r in task_results]),
             }
@@ -788,7 +794,7 @@ def make_prism_random(n_games: int = 3, game_seed: int = None,
         chain.append(("Split-CIFAR-100-after", SplitCIFAR100Wrapper(500, safety_timeout)))
 
     print(f"[PRISM] Selected {n_select} games from {len(unique_games)} available "
-          f"(seed={game_seed}): {[g.upper() for g in selected]}")
+          f"(seed={game_seed})")
 
     return chain
 

@@ -140,7 +140,23 @@ def main():
         # No seed specified = random each time (always fresh)
         pass
 
+    # Rule 4: Set API key for full game pool access (Jun 2026-03-25)
+    _env_file = r'C:\Users\Admin\.secrets\.env'
+    if os.path.exists(_env_file):
+        with open(_env_file) as f:
+            for line in f:
+                if line.strip().startswith('ARC_API_KEY='):
+                    os.environ['ARC_API_KEY'] = line.strip().split('=', 1)[1].strip()
+                    break
+
     # === END ENFORCED RULES ===
+
+    # Rule 5: Suppress game-identifying log messages in blind mode (Jun 2026-03-25)
+    # arc_agi library logs game names at INFO level during loading.
+    # This leaks game identity to both sides, violating blind mode.
+    if args.blind:
+        import logging
+        logging.getLogger().setLevel(logging.WARNING)
 
     # Load substrate
     substrate_path = os.path.abspath(args.substrate)
@@ -217,16 +233,23 @@ def main():
     print("=" * 70)
     print(f"STEP {args.step} RESULTS:")
     any_zero = False
+    any_not_fully_solved = False
     for name, data in aggregated.items():
         if isinstance(data, dict) and 'l1_rate' in data:
             label = _game_labels.get(name, name)
-            print(f"  {label}: L1={data['l1_rate']:.0%}  avg_t={data['mean_elapsed']:.1f}s")
+            fs = data.get('fully_solved_rate', 0)
+            ml = data.get('max_level', 0)
+            print(f"  {label}: L1={data['l1_rate']:.0%}  SOLVED={fs:.0%}  max_lvl={ml}  avg_t={data['mean_elapsed']:.1f}s")
             if data['l1_rate'] == 0:
                 any_zero = True
+            if fs < 1.0:
+                any_not_fully_solved = True
     cs = chain_kill.get('chain_score', {})
     print(f"  Chain score: {cs.get('phases_passed', '?')}/{cs.get('phases_total', '?')}")
     if any_zero:
         print(f"  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **")
+    if any_not_fully_solved:
+        print(f"  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **")
     print(f"  Chain kill verdict: {chain_kill.get('verdict', 'NO_BASELINE')}")
     if 'per_game_delta' in chain_kill:
         for game, delta in chain_kill['per_game_delta'].items():
