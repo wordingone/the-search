@@ -39,24 +39,40 @@
 | VC33 | 5/5 (CC discovery, Step 576) | **0/10 all mechanisms** | Complete loss |
 | CIFAR | 94.48% w/ labels (Step 425) | ~chance without labels | R1-limited |
 
-**Research skew (2026-03-24 compression finding):** 230 post-ban experiments focused exclusively on LS20. FT09/VC33 abandoned since graph ban. The search has TWO distinct problems: (a) exploration (LS20, over-characterized), (b) action-space discovery (FT09/VC33, 0 post-ban experiments). See COMPONENT_CATALOG.md extraction priorities.
+### D2 Ablation Results (Steps 1019-1021, 2026-03-24)
 
-**Key findings (details in RESEARCH_STATE.md):**
+**What all games ACTUALLY demand (proven by systematic ablation):**
 
-- **Exploration is non-convergent:** reachable set grows sublinearly (259→439 cells over 740K steps). Not an asymptote — a time limit (Steps 528-532).
-- **Self-refinement works:** Recode (LSH k=16 + transition-triggered splitting) = 5/5 L1, first self-modifying substrate that navigates (Step 542). K confound unresolved.
+| Capability | FT09 | VC33 | LS20 |
+|-----------|------|------|------|
+| Exact position discovery | 2px precision (zones KILL) | 2px precision (CC KILL) | Discrete (N/A) |
+| Ordering | ORDER-FREE (set) | L4-L7 STRICT (sequence) | ALL STRICT (311/311 critical) |
+| Mechanics inference | Lights-Out GF(2) for L5/L6 | Canal lock interleaving | Shape matching + budget |
+| Redundancy | None (all clicks necessary) | None | None (0 robust moves) |
 
-- **Targeted exploration kills navigation (LS20):** 6 strategies all worse than argmin (Steps 477-482). Noisy TV problem. Pre-ban only.
-- **L2 structurally disconnected:** 4 hypotheses falsified on LSH+LS20 (Steps 486-639). L2 requires forward prediction, not retrospective penalty (Prop 13). LSH+LS20 only — cross-family untested.
-- **Cross-game insight: action space IS a variable.** FT09 solved at 82 steps with 69-action decomposition (Step 503). VC33 solved at 18 steps with 3-zone mapping (Step 505). Both require prescribed action spaces + graph + argmin. Step 576: autonomous VC33 zone discovery (mode map + CC), 5/5 — the ONLY autonomous multi-game solve.
-- **Action discovery cascade (Steps 713-719):** All 3 levels (ℓ₀, ℓ_π, ℓ₁) insufficient. Argmin equalizes action usage → prevents outcome-based discrimination. Structural coupling.
-- **POMDP reframing (Steps 652-667):** LS20 L1 is recognition, not exploration. Exit cell visited 152× before trigger. Graph ≈ flat counter (15/20 identical, Step 660). Hash resolution predicts L1 speed bimodally (Steps 664-665).
-- **L1 is perception-limited, not action-limited.** 35+ experiments: only encoding changes improve L1. Centering = 75%, 674 refinement = 25%. Action selection doesn't matter within argmin framework.
-- **674+running-mean: 20/20 LS20 + FT09** at sufficient budget (Steps 705, 709). VC33 = zone discovery failure (I3). L1 is infrastructure (banned as metric, Step 713).
-- **L2 wall universal:** LS20 L2=0/20, FT09 L2=0/5 with ZERO aliasing. Not about disambiguation — purposeful navigation needed.
-- **CSE interpreter conjecture:** compare-select-store may be the unique R1-R6 interpreter class. 5 families confirm (codebook, LSH, Hebbian, Recode, graph). CONJECTURE — needs formal proof.
-- **R3 = self-directed attention on encoding:** The productive target is π (encoding ≡ attention), not g (action) or F (update rule). Alpha (Step 895) confirms: prediction-error attention achieves R3 encoding self-modification.
-- **Game versions change.** LS20: cb3b57cc → 9607627b. Steps 690+ on current versions. Pre-690 not directly comparable.
+**Three layers the substrate must discover autonomously:**
+1. **WHERE** — exact interaction targets (not approximate zones)
+2. **HOW** — per-game mechanics (toggle vs cycle vs interleave vs navigate)
+3. **WHEN** — game-specific ordering (sometimes irrelevant, sometimes critical)
+
+**Key: the constraint map (U1-U19) describes substrate architecture requirements. The task demands above are a separate layer.** Step 1017 demonstrated that one unconstrained implementation also fails — but Step 576 (VC33 5/5 with mode map + CC) proves autonomous click-game solving IS possible with the right discovery mechanism. The ablation identifies what that mechanism must achieve (exact precision, game-specific ordering, mechanics inference).
+
+### Pre-D2 Findings (LS20-focused, 1000+ experiments)
+
+**Research skew:** 230 post-ban experiments exclusively LS20. The three mapping properties (deterministic, continuous, persistent) predict LS20 L1 only. Click games demand capabilities not captured by any existing constraint.
+
+**Findings still valid:**
+- Exploration is non-convergent (sublinear reachable set growth)
+- Targeted exploration kills LS20 navigation (noisy TV)
+- L1 is perception-limited, not action-limited
+- R3 = self-directed attention on encoding (alpha, 895)
+- CSE interpreter conjecture (5 families confirm)
+- Game versions change (Steps 690+ on current versions)
+
+**Findings recontextualized by D2:**
+- **"Action space IS a variable"** → STILL VALID. Step 576 (VC33 5/5, mode map + CC) = the only autonomous multi-game solve. D2 shows the substrate must discover exact targets, not just approximate zones.
+- **"Action discovery cascade — all levels insufficient"** → COMPLEMENTARY to ablation. Cascade addresses which actions to take (discovery). Ablation addresses precision and ordering (execution). Both are real bottlenecks at different pipeline stages.
+- **"L2 wall = purposeful navigation"** → STILL VALID, EXTENDED. L2+ requires mechanics inference IN ADDITION TO purposeful navigation. Shape matching (LS20), Lights-Out (FT09), canal locks (VC33) are mechanics that enable purposeful navigation, not alternatives to it.
 
 ### Classification (P-MNIST)
 
