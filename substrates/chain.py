@@ -16,12 +16,20 @@ import numpy as np
 import sys
 import os
 
-# Known action counts — used as fallback when env.action_space unavailable
-# LS20: 4 directions. FT09/VC33: 68 (4 dirs + 64 grid clicks).
+# Action encoding (PRISM-compatible, matches util_arcagi3):
+#   action 0-6:  keyboard ACTION1-ACTION7 (7 actions)
+#   action 7+:   click at pixel (x, y) where click_idx = action - 7,
+#                x = click_idx % 64, y = click_idx // 64
+#   Total: 7 keyboard + 4096 clicks = 4103 for click games, 7 for keyboard-only
+#
+# Legacy fallback for games without env.n_actions:
+N_KB_ACTIONS = 7
+N_CLICK_TARGETS = 64 * 64  # 4096
 GAME_N_ACTIONS = {
-    "LS20": 4,
-    "FT09": 68,
-    "VC33": 68,
+    "LS20": N_KB_ACTIONS,                          # keyboard only
+    "FT09": N_KB_ACTIONS + N_CLICK_TARGETS,         # keyboard + click
+    "VC33": N_KB_ACTIONS + N_CLICK_TARGETS,         # keyboard + click
+    "_default": N_KB_ACTIONS + N_CLICK_TARGETS,     # assume click support for unknown games
 }
 
 DEFAULT_STEPS = 10_000
@@ -81,11 +89,13 @@ class ArcGameWrapper:
         if self._env is None:
             self._env = self._factory()
 
-        # Detect n_actions from env or fallback to known table
-        try:
-            n_actions = self._env.action_space.n
-        except AttributeError:
-            n_actions = GAME_N_ACTIONS.get(self.game_name, 4)
+        # Detect n_actions from env (util_arcagi3 sets .n_actions based on
+        # action_space: 7 for keyboard-only, 4103 for click games).
+        # Fallback to GAME_N_ACTIONS table for older env wrappers.
+        n_actions = getattr(self._env, 'n_actions', None)
+        if n_actions is None:
+            n_actions = GAME_N_ACTIONS.get(self.game_name,
+                                           GAME_N_ACTIONS.get("_default", N_KB_ACTIONS))
         if hasattr(substrate, 'set_game'):
             substrate.set_game(n_actions)
 

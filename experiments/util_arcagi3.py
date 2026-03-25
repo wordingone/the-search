@@ -1,53 +1,77 @@
 """
-arcagi3 — thin wrapper around arc_agi 0.9.4 exposing a gym-style interface.
+arcagi3 — wrapper around arc_agi 0.9.4 exposing a gym-style interface.
 
 arcagi3.make("LS20") -> env
 env.reset(seed=None) -> frame   (frame[0] is 64x64 grid, values 0-15)
 env.step(action_int) -> (frame, reward, done, info)  info={'level': int}
+env.n_actions -> int   (total keyboard + click actions)
+
+Action encoding (PRISM-compatible):
+  action 0-6:    keyboard ACTION1-ACTION7 (7 actions, skip RESET)
+  action 7+:     click at pixel (x, y) via ACTION6 with data={"x": x, "y": y}
+                 click_idx = action - 7, x = click_idx % 64, y = click_idx // 64
+  n_actions:     7 (keyboard-only games) or 7 + 4096 = 4103 (click games)
+
+Click support detected from env.action_space: if ACTION6 is listed, the game
+accepts click with coordinates. All games accept all GameAction values (games
+ignore unsupported actions), so keyboard actions always work.
 """
 import arc_agi
-from arcengine import GameState
+from arcengine import GameAction, GameState
 
-_GAME_IDS = {
-    'LS20': 'ls20',
-    'FT09': 'ft09',
-    'VC33': 'vc33',
-}
+N_KB_ACTIONS = 7   # ACTION1-ACTION7, always available
+N_CLICK_TARGETS = 64 * 64  # 4096 pixel-level click targets
+
+_GA_KB = list(GameAction)[1:]  # [ACTION1..ACTION7], skip RESET
 
 
 class _Env:
     def __init__(self, game_name):
         self._arc = arc_agi.Arcade()
         games = self._arc.get_environments()
-        key = _GAME_IDS.get(game_name, game_name.lower())
+        key = game_name.lower().split('-')[0]
         info = next(g for g in games if key in g.game_id.lower())
         self._env = self._arc.make(info.game_id)
-        # FIX 2026-03-23: _env.action_space = [GameAction.X] (1 element) for FT09/VC33
-        # is the "default" action type, not the full action set. All GameAction values work.
-        # FIX 2026-03-23b: Skip GameAction.RESET (index 0) — sending RESET resets FT09/VC33,
-        # causing degenerate exploration (substrate keeps resetting the game).
-        from arcengine import GameAction
-        _GA_ALL = list(GameAction)  # [RESET, ACTION1..ACTION7]
-        self._action_space = _GA_ALL[1:]  # 7 elements: ACTION1..ACTION7
+
+        # Detect click support from the game's declared action_space.
+        # action_space is a list of GameAction values the game primarily uses.
+        # If ACTION6 is present, game supports click with x,y coordinates.
+        self._supports_click = any(
+            ga == GameAction.ACTION6 for ga in self._env.action_space
+        )
+        self.n_actions = N_KB_ACTIONS + (N_CLICK_TARGETS if self._supports_click else 0)
+
         self._last_obs = None
+        self._game_id = info.game_id
+        self._levels_offset = 0
 
     def reset(self, seed=None):
-        # arc_agi doesn't support seeding — seed param is ignored
+        # arc_agi doesn't support seeding — seed param is ignored.
         self._last_obs = self._env.reset()
+        if self._last_obs is not None and self._last_obs.levels_completed > 0:
+            # arc_agi bug: game stuck at wrong level after GAME_OVER. Recreate.
+            self._env = self._arc.make(self._game_id)
+            self._last_obs = self._env.reset()
+        self._levels_offset = self._last_obs.levels_completed if self._last_obs is not None else 0
         return self._frame()
 
     def step(self, action_int):
-        # Map action_int 0..6 → ACTION1..ACTION7 (skip RESET at index 0).
-        # FT09/VC33: RESET resets the game → degenerate exploration if included.
-        from arcengine import GameAction
-        _GA_LIST = list(GameAction)[1:]  # ACTION1..ACTION7, len=7
-        ga = _GA_LIST[action_int % len(_GA_LIST)]
-        obs = self._env.step(ga)
+        if action_int < N_KB_ACTIONS:
+            # Keyboard action: 0-6 → ACTION1-ACTION7
+            ga = _GA_KB[action_int % len(_GA_KB)]
+            obs = self._env.step(ga)
+        else:
+            # Click action: 7+ → ACTION6 with pixel coordinates
+            click_idx = action_int - N_KB_ACTIONS
+            x = click_idx % 64
+            y = click_idx // 64
+            obs = self._env.step(GameAction.ACTION6, data={"x": x, "y": y})
+
         self._last_obs = obs
         if obs is None:
             return None, 0.0, True, {'level': 0}
         done = obs.state in (GameState.GAME_OVER, GameState.WIN)
-        info = {'level': obs.levels_completed}
+        info = {'level': obs.levels_completed - self._levels_offset}
         frame = obs.frame if obs.frame else None
         return frame, 0.0, done, info
 
