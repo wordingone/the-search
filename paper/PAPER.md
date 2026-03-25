@@ -563,7 +563,7 @@ FT09 L5/L6 are Lights-Out puzzles (GF(2) Gaussian elimination). VC33 L4-L7 requi
 
 **Implication:** The substrate must discover exact positions (not zones), game-specific ordering, and per-game mechanics — all from interaction. Zone/CC discovery fails universally for click games.
 
-**ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Efficient discovery required, not just completion.
+**ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Human baselines: LS20=[21,123,39,92,54,108,109], FT09=[17,19,15,21,65,26], VC33=[6,13,31,59,92,24,82]. BFS beats all = 100% RHAE ceiling (19/20 levels).
 
 ## 6. Degrees of Freedom
 
