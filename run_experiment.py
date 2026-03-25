@@ -99,7 +99,8 @@ def main():
     parser.add_argument('--save-as-baseline', action='store_true',
                         help='Copy result to chain_results/baseline_994.json (use for step 1006)')
     parser.add_argument('--random-games', type=int, default=3,
-                        help='Randomly select N games from API pool (default=3, Jun 2026-03-25)')
+                        help='Number of games to randomly select from API pool (default=3). '
+                             'Jun 2026-03-25: preview games dead, all runs use random pool.')
     parser.add_argument('--game-seed', type=int, default=None,
                         help='Seed for random game selection (deterministic if set)')
     args = parser.parse_args()
@@ -119,16 +120,17 @@ def main():
 
     t0 = time.time()
 
-    if args.random_games > 0:
-        # Random game selection from full API pool
-        chain = make_prism_random(
-            n_games=args.random_games,
-            game_seed=args.game_seed,
-            n_steps=args.steps,
-        )
-        randomize = True
-    else:
-        chain, randomize = make_prism_mode("C", n_steps=args.steps)
+    # Jun 2026-03-25: ALL runs use random game selection from full API pool.
+    # Preview games (FT09/LS20/VC33) are dead. No more hardcoded game configs.
+    if args.random_games < 1:
+        print("WARNING: --random-games must be >= 1 (Jun directive 2026-03-25). Using 3.")
+        args.random_games = 3
+    chain = make_prism_random(
+        n_games=args.random_games,
+        game_seed=args.game_seed,
+        n_steps=args.steps,
+    )
+    randomize = True
 
     # Print game version hashes for whatever games are in the chain
     for name, wrapper in chain:
