@@ -547,11 +547,23 @@ All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct actions + 
 **PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, chain_score=3/5. CIFAR inflates alpha_conc (PB16, −11% chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games — structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
 
 
-### 5.9 Unconstrained Diagnostic (Steps 1012-1017)
+### 5.9 Unconstrained Diagnostic and Prescription Ablation (Steps 1012-1021)
 
-**Prescribed:** FT09 6/6 (Step 1012), VC33 7/7 (Step 1013). **Generic with ALL bans lifted (Step 1017):** 674 graph + CC zones → FT09=0%, VC33=0%. The 13-level gap is PRESCRIPTION, not constraints. Temporal credit for multi-step sequences within tight budgets — not state coverage — is the bottleneck. No mechanism in 1000+ experiments addresses this.
+**Prescribed:** FT09 6/6 (Step 1012, 75 clicks), VC33 7/7 (Step 1013, 176 clicks), LS20 7/7 (Step 1018e, 311 moves). **Generic with ALL bans lifted (Step 1017):** FT09=0%, VC33=0%. The gap is PRESCRIPTION, not constraints.
 
-**ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Human baselines: LS20=[21,123,39,92,54,108,109], FT09=[17,19,15,21,65,26]. Solving L1 in 1000 actions vs baseline 17 = 0.03%. Efficient discovery required, not just completion.
+**Ablation (Steps 1019-1020).** Systematically stripped prescriptions to minimum:
+
+| Game | Zone/CC discovery | Click ordering | Minimum prescription |
+|------|-------------------|---------------|---------------------|
+| FT09 | KILL (2px precision required) | ORDER-FREE (all shuffles pass) | Unordered set of exact (x,y) per level |
+| VC33 | KILL (CC centroids 3-21px off) | L1 free, L4-L7 strictly ordered | Ordered sequence of exact (x,y) per level |
+| LS20 | N/A (discrete actions) | Sequential (navigation) | Ordered action sequence |
+
+FT09 L5/L6 are Lights-Out puzzles (GF(2) Gaussian elimination). VC33 L4-L7 require precise canal lock interleaving. No redundancy in any prescription — every action is necessary.
+
+**Implication:** The substrate must discover exact positions (not zones), game-specific ordering, and per-game mechanics — all from interaction. Zone/CC discovery fails universally for click games.
+
+**ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Efficient discovery required, not just completion.
 
 ## 6. Degrees of Freedom
 
@@ -628,19 +640,7 @@ The feasible region for L1 navigation is occupied — graph + argmin + correct e
 
 **R3 gap:** 12 design choices the substrate cannot self-discover. Four general techniques, eight game-specific. A substrate satisfying R3 would discover all 12 from interaction alone.
 
-**Proposition 4 (R3-R5 Tension).** R3 demands change; R5 demands stability. Resolution: the frozen frame is the empirical ground truth test, minimal by R6. → [propositions/04_r3_r5_tension.md](propositions/04_r3_r5_tension.md)
-
-**Theorem 3 (System Boundary).** No system can modify its own ground truth test — that changes the metric, not the system. → [propositions/theorem1_no_fixed_point.md](propositions/theorem1_no_fixed_point.md)
-
-**Proposition 6 (Self-Modification Level).** Higher modification levels trade speed for reachability. $\ell_0$ (fixed rules) is fastest but ceiling-limited. $\ell_F$ (rule modification) is slowest but can escape any fixed ceiling. → [propositions/06_self_modification_level.md](propositions/06_self_modification_level.md)
-
-**Proposition 9 (R1 Tax).** R1-compliant systems cannot access supervised signals. Classification without external labels = chance. Navigation (self-generated actions) IS R1-compliant. → [propositions/09_r1_tax.md](propositions/09_r1_tax.md)
-
-**Proposition 10 (Feature-Ground Truth Coupling).** Features learned from observations couple to the ground truth's measurement scale. The system cannot escape this coupling without modifying the ground truth (blocked by R5). → [propositions/10_feature_ground_truth_coupling.md](propositions/10_feature_ground_truth_coupling.md)
-
-**Proposition 11 (Frozen Frame Capability Coupling).** The frozen frame IS the navigation capability. Modifying it destroys navigation. R3 and navigation are in tension — relaxing one strengthens the other. → [propositions/11_frozen_frame_capability_coupling.md](propositions/11_frozen_frame_capability_coupling.md)
-
-**Proposition 12 (Interpreter Bound).** Every self-referential system has an irreducible top-level interpreter. The frozen frame floor > 0. But $\ell_F$ achievable if state encodes operations the interpreter executes. → [propositions/12_interpreter_bound.md](propositions/12_interpreter_bound.md)
+Key propositions from the feasible region analysis: R3-R5 tension (Prop 4) — frozen frame resolves it; System Boundary (Thm 3) — ground truth is unmodifiable; Self-Modification Levels (Prop 6) — higher levels trade speed for reachability; R1 Tax (Prop 9) — unsupervised classification = chance; Feature-Ground Truth Coupling (Prop 10); Frozen Frame Capability Coupling (Prop 11) — R3 and navigation in tension; Interpreter Bound (Prop 12) — frozen frame floor > 0. See Section 4 for formal statements.
 
 **Post-ban addendum (778-938e):** 800b=2x random LS20. FT09=0 all mechanisms. R3 encoding CONFIRMED (alpha, 895). Action selection CLOSED (938 series). 800b unique selector. See kills/800b-variants_step937.md.
 
