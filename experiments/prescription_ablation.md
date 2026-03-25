@@ -97,21 +97,32 @@
 
 ---
 
-## Cross-Game Minimum
+## Cross-Game Minimum (UPDATED with ablation results)
 
-**What ALL games share that's essential:**
-1. **Zone/target discovery** — knowing where to interact (CC discovery handles this)
-2. **Effect observation** — seeing what each action does (frame diff handles this)
-3. **Ordering/sequencing** — knowing which action WHEN (the universal gap)
-4. **Mechanics inference** — learning game rules from interaction (unsolved)
+**REVISED — CC discovery FAILS (Steps 1019a, 1020a):**
 
-**What's purgable across all games:**
-- Exact coordinates (CC discovery)
-- Pre-computed paths (interaction-based exploration)
-- Level detection (frame change monitoring)
-- Camera correction (auto-detectable)
+| Component | FT09 | VC33 | LS20 |
+|-----------|------|------|------|
+| Position precision | Exact 2px (zones KILL) | Exact 2px (CC KILL) | Discrete actions (N/A) |
+| Ordering | ORDER-FREE (set) | L4-L7 STRICT (sequence) | Sequential (navigation) |
+| Mechanics | L1-L4 toggle, L5/L6 Lights-Out (GF(2)) | Canal lock interleaving | Shape matching + budget |
+| Prescription type | Unordered set of (x,y) | Ordered sequence of (x,y) | Ordered action sequence |
 
-**The substrate must discover:** action-effect mappings + ordering + game mechanics. From interaction, not from source analysis.
+**What's essential across ALL games (proven by ablation):**
+1. **Exact position discovery** — 2px precision for click games. Zone/CC discovery FAILS universally. The substrate must discover precise targets from interaction.
+2. **Game-specific ordering** — FT09 needs no ordering. VC33 L4+ needs strict ordering. LS20 is sequential by nature. The substrate must discover whether and how ordering matters PER GAME.
+3. **Mechanics inference** — Lights-Out (FT09), canal locks (VC33), shape matching (LS20). Each game has unique mechanics discoverable only by interaction.
+
+**What's purgable (confirmed):**
+- Click ordering for FT09 (walls are independent toggles)
+- L1-L3 ordering for VC33 (simple enough to tolerate shuffling)
+- Pre-computed paths (if budget allows trial-and-error)
+
+**What the substrate must discover autonomously (Direction 1 requirements):**
+1. Where to act — exact positions, not approximate zones
+2. How to act — per-game mechanics (toggle? cycle? interleave? navigate?)
+3. When to act — game-specific ordering (sometimes irrelevant, sometimes critical)
+4. How to REPLAY efficiently — RHAE requires action efficiency, not just eventual completion
 
 ---
 
