@@ -55,7 +55,7 @@
 
 ---
 
-## LS20 — Full prescription: TBD (Step 1018 pending)
+## LS20 — Full prescription: 311 actions (Step 1018e confirmed), 7 levels [13,45,41,43,44,72,53]
 
 **Prescription components (from source analysis):**
 - C1: Wall layout per level (ihdgageizm positions)
@@ -101,12 +101,20 @@
 
 Score = (human_baseline / agent_actions)^2 per level. The substrate must not just SOLVE levels but solve them EFFICIENTLY.
 
-| Game | Level | Human Baseline | Max Budget (score>25%) | Max Budget (score>1%) |
-|------|-------|---------------|----------------------|---------------------|
-| FT09 | L1 | 17 | 34 | 170 |
-| FT09 | L2 | 19 | 38 | 190 |
-| LS20 | L1 | 21 | 42 | 210 |
-| LS20 | L2 | 123 | 246 | 1230 |
-| VC33 | L1 | 6 | 12 | 60 |
+| Game | Level | Human Baseline | BFS Solution | Max Budget (25%) | Max Budget (1%) |
+|------|-------|---------------|-------------|-----------------|----------------|
+| FT09 | L1 | 17 | 7 | 34 | 170 |
+| FT09 | L2 | 19 | 7 | 38 | 190 |
+| FT09 | L3 | 15 | 7 | 30 | 150 |
+| FT09 | L4 | 21 | 7 | 42 | 210 |
+| FT09 | L5 | 65 | 40 | 130 | 650 |
+| FT09 | L6 | 26 | 7 | 52 | 260 |
+| LS20 | L1 | 21 | 13 | 42 | 210 |
+| LS20 | L2 | 123 | 45 | 246 | 1230 |
+| LS20 | L3 | 39 | 41 | 78 | 390 |
+| LS20 | L4 | 92 | 43 | 184 | 920 |
+| LS20 | L5 | 54 | 44 | 108 | 540 |
+| LS20 | L6 | 108 | 72 | 216 | 1080 |
+| LS20 | L7 | 109 | 53 | 218 | 1090 |
 
 **Implication for ablation:** A mechanism that discovers the prescription in 10K steps but EXECUTES it in 20 actions scores well. A mechanism that needs 10K steps to stumble on the solution and has no way to replay it scores ~0%. The substrate needs LEARNING (discover once) + EXECUTION (replay efficiently), not just exploration.
