@@ -26,7 +26,7 @@ import shutil
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'experiments'))
 
-from substrates.chain import ChainRunner, make_prism, compute_chain_kill
+from substrates.chain import ChainRunner, make_prism_mode, compute_chain_kill
 
 
 def _load_substrate_class(path: str):
@@ -125,8 +125,8 @@ def main():
 
     t0 = time.time()
 
-    chain = make_prism(n_steps=args.steps)
-    runner = ChainRunner(chain=chain, n_seeds=args.seeds, verbose=True)
+    chain, randomize = make_prism_mode("C", n_steps=args.steps)
+    runner = ChainRunner(chain=chain, n_seeds=args.seeds, randomize_order=randomize, verbose=True)
     aggregated = runner.run(substrate_cls, substrate_kwargs={})
 
     # Validate completeness before saving
