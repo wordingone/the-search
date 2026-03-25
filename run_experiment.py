@@ -103,9 +103,44 @@ def main():
                              'Jun 2026-03-25: preview games dead, all runs use random pool.')
     parser.add_argument('--game-seed', type=int, default=None,
                         help='Seed for random game selection (deterministic if set)')
-    parser.add_argument('--blind', action='store_true',
-                        help='Hide game names in output (Jun 2026-03-25: black box approach)')
+    parser.add_argument('--blind', action='store_true', default=True,
+                        help='ALWAYS ON (Jun 2026-03-25). Game names hidden in output.')
+    parser.add_argument('--no-blind', action='store_true',
+                        help='Jun-only override to disable blind mode')
     args = parser.parse_args()
+
+    # === ENFORCED RULES (Jun 2026-03-25) — NOT CIRCUMVENTABLE ===
+
+    # Rule 1: Blind mode is ALWAYS on unless Jun explicitly overrides
+    if args.no_blind:
+        print("WARNING: --no-blind is a Jun-only override. Blind mode disabled.")
+        args.blind = False
+    else:
+        args.blind = True
+
+    # Rule 2: Random games MUST be from full pool (no zero = no preview-only)
+    if args.random_games <= 0:
+        print("ERROR: --random-games must be > 0. All experiments use random pool. (Jun 2026-03-25)")
+        sys.exit(1)
+
+    # Rule 3: Track used game-seeds to prevent reuse
+    _seed_log = 'B:/M/the-search/chain_results/.used_seeds.txt'
+    if args.game_seed is not None:
+        used = set()
+        if os.path.exists(_seed_log):
+            with open(_seed_log) as f:
+                used = {int(line.strip()) for line in f if line.strip().isdigit()}
+        if args.game_seed in used:
+            print(f"ERROR: game-seed {args.game_seed} already used. Fresh seeds only. (Jun 2026-03-25)")
+            print(f"Used seeds: {sorted(used)}")
+            sys.exit(1)
+        with open(_seed_log, 'a') as f:
+            f.write(f"{args.game_seed}\n")
+    else:
+        # No seed specified = random each time (always fresh)
+        pass
+
+    # === END ENFORCED RULES ===
 
     # Load substrate
     substrate_path = os.path.abspath(args.substrate)
