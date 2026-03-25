@@ -41,24 +41,35 @@
 
 ---
 
-## VC33 — Full prescription: 176 analytical BFS clicks, 7 levels
+## VC33 — Full prescription: 176 clicks, 7 levels (ABLATION COMPLETE)
 
 **Prescription components:**
-- C1: Zone coordinates (canal gates, water sources, targets)
-- C2: Canal mechanics model (water flows downhill, gates block/allow)
-- C3: BFS path planner (optimal gate sequence)
-- C4: Camera offset correction
-- C5: Per-level state estimation (water level tracking)
+- C1: Exact click coordinates (2-pixel precision required)
+- C2: Canal lock mechanics (incremental height adjustment, interleaving)
+- C3: Ordered click sequence (L4-L7 STRICTLY order-dependent)
+- C4: Per-level click count: L1=3(1 distinct), L2=7(2), L3=23(4), L4=23(6), L5=49(10), L6=22(7), L7=49(9)
 
-**Ablation experiments:**
-| Step | Remove | Replace with | Expected | Tests |
-|------|--------|-------------|----------|-------|
-| B1 | C1 (zone coords) | CC-discovered zones | Probably works | Same as FT09 A1 |
-| B2 | C1+C3 (coords+BFS) | CC zones + greedy (click zone that changes most) | Partial — may work for easy levels | Greedy vs planned |
-| B3 | C1+C2+C3 (coords+mechanics+BFS) | CC zones + random | 0/7 (proved by Step 1017) | Confirms minimum |
-| B4 | C4 (camera offset) | Auto-detect from frame analysis | Probably works | Minor scaffolding |
+**Ablation results:**
+| Step | Ablation | Result | Finding |
+|------|----------|--------|---------|
+| 1020-zone-8 | 8px zone snap | 0/7 FAIL | Same odd-grid problem as FT09 |
+| 1020-zone-6 | 6-cluster k-means | 0/7 FAIL | Clusters collapse position info |
+| 1020-order L1 | Random permutation | 20/20 PASS | Order-free (3 identical clicks) |
+| 1020-order L2 | Random permutation | 13/20 PASS | Partially order-dependent |
+| 1020-order L3 | Random permutation | 3/20 PASS | Mostly order-dependent |
+| 1020-order L4-L7 | Random permutation | 0/20 PASS | Strictly order-dependent |
 
-**Predicted minimum prescription:** Zone identity + mechanics model (C2) + some planning (C3, possibly simplified). Camera offset auto-detectable.
+**CONFIRMED minimum prescription:** {Ordered sequence of exact (x,y) per level}. 176 clicks total. Exact coords AND correct ordering required for L4+.
+
+**VC33 vs FT09 — fundamentally different:**
+- FT09: unordered SET (clicks are independent toggles, order never matters)
+- VC33: ordered SEQUENCE (canal locks require precise interleaving, L4+ strictly sequential)
+
+**What the substrate must discover autonomously:**
+1. Exact click positions (2px precision)
+2. Correct ordering of clicks (especially L4-L7)
+3. Canal lock mechanics (which lock to adjust when)
+4. Progressive complexity: L1 trivial, L7 requires 49 precisely ordered clicks
 
 ---
 
