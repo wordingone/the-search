@@ -1,0 +1,244 @@
+{
+  "substrate": "ReactiveActionSwitchSubstrate",
+  "timestamp": "2026-03-25T18:31:48",
+  "step": 1084,
+  "prism_mode": null,
+  "chain": [
+    "Split-CIFAR-100-before",
+    "LF52",
+    "WA30",
+    "SP80",
+    "Split-CIFAR-100-after"
+  ],
+  "budget_per_phase": 500,
+  "n_seeds": 10,
+  "config": {
+    "n_dims": 64,
+    "explore_steps": 50,
+    "max_patience": 20,
+    "family": "reactive action switching",
+    "tag": "defense v21 (\u2113\u2081 reactive switching, zero learned params)"
+  },
+  "results": {
+    "Split-CIFAR-100-before": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.043,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "LF52": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 8.264,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "WA30": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 3.031999999999999,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "SP80": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 21.031,
+      "per_seed_l1": [
+        148,
+        69,
+        300,
+        69,
+        128,
+        69,
+        69,
+        396,
+        69,
+        261
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 148
+        },
+        {
+          "1": 69
+        },
+        {
+          "1": 300
+        },
+        {
+          "1": 69
+        },
+        {
+          "1": 128
+        },
+        {
+          "1": 69
+        },
+        {
+          "1": 69
+        },
+        {
+          "1": 396
+        },
+        {
+          "1": 69
+        },
+        {
+          "1": 261
+        }
+      ]
+    },
+    "Split-CIFAR-100-after": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.040999999999999995,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  },
+  "chain_score": {
+    "phases_passed": 3,
+    "phases_total": 8,
+    "chain_complete": false
+  },
+  "chain_kill": {
+    "verdict": "PASS",
+    "per_game_delta": {
+      "Split-CIFAR-100-before": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      },
+      "LF52": {
+        "delta": null,
+        "current": 0.0,
+        "baseline": null
+      },
+      "WA30": {
+        "delta": null,
+        "current": 0.0,
+        "baseline": null
+      },
+      "SP80": {
+        "delta": null,
+        "current": 1.0,
+        "baseline": null
+      },
+      "Split-CIFAR-100-after": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      }
+    },
+    "chain_score": {
+      "phases_passed": 3,
+      "phases_total": 5
+    },
+    "details": "improved=0 degraded=0 of 2 games"
+  }
+}
