@@ -1,0 +1,39 @@
+======================================================================
+STEP 1097 — ForwardModelPrunedSubstrate
+Substrate: B:\M\the-search\experiments\sub1097_prosecution_v25.py
+======================================================================
+2026-03-25 20:26:10 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-25 20:26:10 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 20:26:10 | INFO | Created new scorecard: a46c7c0d-6326-4a66-bfc2-092140b3f838
+2026-03-25 20:26:10 | INFO | Successfully fetched metadata for game su15
+2026-03-25 20:26:10 | INFO | Successfully loaded game class Su15 from environment_files\su15\4c352900\su15.py
+2026-03-25 20:26:22 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 20:26:22 | INFO | Created new scorecard: 0e6dd14d-bbb5-44ad-bfe1-ab762996f459
+2026-03-25 20:26:22 | INFO | Successfully fetched metadata for game lp85
+2026-03-25 20:26:22 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-25 20:26:38 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 20:26:38 | INFO | Created new scorecard: eb13ad4a-8032-429b-91fb-f2dff444450d
+2026-03-25 20:26:38 | INFO | Successfully fetched metadata for game g50t
+2026-03-25 20:26:38 | INFO | Successfully loaded game class G50t from environment_files\g50t\5849a774\g50t.py
+
+======================================================================
+STEP 1097 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=10.7s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=11.1s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=11.6s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 2/5
+  ARC Prize score: 0.0000 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 342.8s
+STEP 1097 DONE
