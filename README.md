@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-1067+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, API currently 25). All architectural bans lifted. Current bottleneck: autonomous multi-level solving (L2+ = 0 across entire search). Statistical micro-change detection finds more responsive games than fixed thresholds.
+1072+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, API currently 25). All architectural bans lifted. Current bottleneck: autonomous multi-level solving (L2+ = 0 across entire search). 0% wall on ~25% of random games is structural — neither encoding modification (ℓ_π) nor parameter modification (ℓ₁) breaks it. MI-based detection in progress.
 
 ## Results (honest)
 
