@@ -1,0 +1,371 @@
+======================================================================
+STEP 1081 — ProsecutionV18Substrate
+Substrate: B:\M\the-search\experiments\sub1081_prosecution_v18.py
+======================================================================
+2026-03-25 17:49:29 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=66666)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-25 17:49:29 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 17:49:29 | INFO | Created new scorecard: cf313576-84b9-4aec-9da6-349cf0f5d7bd
+2026-03-25 17:49:29 | INFO | Successfully fetched metadata for game sb26
+2026-03-25 17:49:29 | INFO | Successfully loaded game class Sb26 from environment_files\sb26\7fbdac44\sb26.py
+2026-03-25 17:49:40 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 17:49:40 | INFO | Created new scorecard: fba59d1e-139d-4880-bee2-4449a6a3ac53
+2026-03-25 17:49:40 | INFO | Successfully fetched metadata for game lf52
+2026-03-25 17:49:40 | INFO | Successfully loaded game class Lf52 from environment_files\lf52\271a04aa\lf52.py
+2026-03-25 17:49:40 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:49:41 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:49:51 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:49:54 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:50:03 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 17:50:03 | INFO | Created new scorecard: fc8d131a-a760-445c-9bf5-6787bbd58b14
+2026-03-25 17:50:03 | INFO | Successfully fetched metadata for game dc22
+2026-03-25 17:50:03 | INFO | Successfully loaded game class Dc22 from environment_files\dc22\4c9bff3e\dc22.py
+2026-03-25 17:50:34 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:50:39 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5832, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:50:40 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:00 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:06 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:10 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:11 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:11 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:27 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:32 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:37 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:51:37 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:07 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:11 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:11 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:12 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:43 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:48 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5832, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:52:48 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:00 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:05 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:09 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:09 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:38 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:43 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5832, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:43 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:46 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:53:47 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:54:00 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:54:05 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:54:09 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:54:09 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+2026-03-25 17:54:50 | ERROR | Error performing step with action ACTION6: 'x'
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arc_agi\local_wrapper.py", line 209, in step
+    FrameDataRaw, self._game.perform_action(action_input, raw=True)
+  File "C:\Users\Admin\AppData\Roaming\Python\Python310\site-packages\arcengine\base_game.py", line 231, in perform_action
+    self.step()
+  File "<string>", line 5788, in step
+  File "<string>", line 5852, in jxyktkxwle
+KeyError: 'x'
+
+======================================================================
+STEP 1081 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  avg_t=0.1s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  avg_t=8.3s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  avg_t=8.9s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  avg_t=14.8s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  avg_t=0.1s
+  Chain score: 2/5
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 329.1s
+STEP 1081 DONE
