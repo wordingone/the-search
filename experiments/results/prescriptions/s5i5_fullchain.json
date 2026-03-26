@@ -1,0 +1,48 @@
+{
+  "game": "s5i5",
+  "total_levels": 8,
+  "levels": {
+    "L1": {
+      "status": "SOLVED",
+      "actions": [
+        2847,
+        2847,
+        2847,
+        2847,
+        2847,
+        2847,
+        1396,
+        1396,
+        1396,
+        1396,
+        1396,
+        1396,
+        1396
+      ],
+      "length": 13,
+      "method": "known"
+    },
+    "L2": {
+      "status": "UNSOLVED",
+      "time": 300.89
+    }
+  },
+  "full_sequence": [
+    2847,
+    2847,
+    2847,
+    2847,
+    2847,
+    2847,
+    1396,
+    1396,
+    1396,
+    1396,
+    1396,
+    1396,
+    1396
+  ],
+  "method": "bfs_direct",
+  "max_level_solved": 1,
+  "total_actions": 13
+}

@@ -1,0 +1,16 @@
+{
+  "game": "ka59",
+  "source": "analytical_bfs_solver",
+  "type": "analytical",
+  "total_actions": 0,
+  "max_level": 0,
+  "per_level": {},
+  "all_actions": [],
+  "total_time": 0.01,
+  "action_map": {
+    "0": "UP",
+    "1": "DOWN",
+    "2": "LEFT",
+    "3": "RIGHT"
+  }
+}
