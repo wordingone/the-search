@@ -19,8 +19,7 @@
         1396,
         1396
       ],
-      "length": 13,
-      "method": "known"
+      "length": 13
     },
     "L2": {
       "status": "SOLVED",
@@ -53,11 +52,11 @@
         3519
       ],
       "length": 26,
-      "time": 153.63
+      "time": 0.0
     },
     "L3": {
       "status": "UNSOLVED",
-      "time": 300.05
+      "time": 300.0
     }
   },
   "full_sequence": [
@@ -101,7 +100,7 @@
     3519,
     3519
   ],
-  "method": "bfs_set_level",
+  "method": "bfs_random_hybrid",
   "max_level_solved": 2,
   "total_actions": 39
 }
