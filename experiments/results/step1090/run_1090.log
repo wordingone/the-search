@@ -1,0 +1,39 @@
+======================================================================
+STEP 1090 — SystematicTumbleSubstrate
+Substrate: B:\M\the-search\experiments\sub1090_defense_v25.py
+======================================================================
+2026-03-25 19:22:52 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=51763)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-25 19:22:52 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 19:22:52 | INFO | Created new scorecard: 18496344-7093-4f75-b6f7-28f492c5eba4
+2026-03-25 19:22:52 | INFO | Successfully fetched metadata for game ar25
+2026-03-25 19:22:52 | INFO | Successfully loaded game class Ar25 from environment_files\ar25\e3c63847\ar25.py
+2026-03-25 19:22:57 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 19:22:57 | INFO | Created new scorecard: 93c3aa56-374f-421b-944c-8ec4d81e39ab
+2026-03-25 19:22:58 | INFO | Successfully fetched metadata for game tr87
+2026-03-25 19:22:58 | INFO | Successfully loaded game class Tr87 from environment_files\tr87\cd924810\tr87.py
+2026-03-25 19:23:07 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 19:23:07 | INFO | Created new scorecard: 9018ac44-0719-4454-9e8a-3bd12cc1f4b1
+2026-03-25 19:23:07 | INFO | Successfully fetched metadata for game ka59
+2026-03-25 19:23:07 | INFO | Successfully loaded game class Ka59 from environment_files\ka59\9f096b4a\ka59.py
+
+======================================================================
+STEP 1090 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=3.8s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=4.9s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=5.2s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 2/5
+  ARC Prize score: 0.0000 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 146.1s
+STEP 1090 DONE
