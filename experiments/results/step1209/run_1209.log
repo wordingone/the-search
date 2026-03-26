@@ -1,0 +1,97 @@
+======================================================================
+STEP 1209 — OnlineEpsilonGreedySubstrate
+Substrate: B:\M\the-search\experiments\sub1207_defense_v87.py
+======================================================================
+2026-03-26 06:41:48 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 06:41:48 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:41:48 | INFO | Created new scorecard: 2780c85b-7de5-4b2f-9f61-74c6d6d4727c
+2026-03-26 06:41:48 | INFO | Successfully fetched metadata for game ar25
+2026-03-26 06:41:48 | INFO | Successfully loaded game class Ar25 from environment_files\ar25\e3c63847\ar25.py
+2026-03-26 06:41:51 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:41:51 | INFO | Created new scorecard: 6d3577c7-faa1-4231-9f69-d5b9251c8e0d
+2026-03-26 06:41:51 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:41:51 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:41:53 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:41:53 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:41:54 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:41:54 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:41:59 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:41:59 | INFO | Created new scorecard: 6cd3df3b-63da-4fa9-92f4-dffa34a767bf
+2026-03-26 06:41:59 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:41:59 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:42:10 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:42:10 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:42:18 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:42:18 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:42:25 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:25 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:26 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:26 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:27 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:27 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:28 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:28 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:28 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:28 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:32 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:42:32 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:42:35 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:42:35 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:42:43 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:43 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:44 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:44 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:46 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:42:46 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:42:57 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:42:57 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:43:04 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:04 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:05 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:05 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:06 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:06 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:07 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:07 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:07 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:07 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:07 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:43:07 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:43:13 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:43:13 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:43:24 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:25 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:25 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:25 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:26 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:26 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:27 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:27 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:27 | INFO | Successfully fetched metadata for game sp80
+2026-03-26 06:43:27 | INFO | Successfully loaded game class Sp80 from environment_files\sp80\0ee2d095\sp80.py
+2026-03-26 06:43:28 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:43:28 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 06:43:33 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 06:43:33 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+
+======================================================================
+STEP 1209 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  GAME_2: L1=100%  SOLVED=0%  max_lvl=1  ARC=0.0008  avg_t=2.3s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=3.3s
+  GAME_4: L1=50%  SOLVED=50%  max_lvl=1  ARC=0.0000  avg_t=4.5s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  Chain score: 4/5
+  ARC Prize score: 0.0002 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 113.5s
+STEP 1209 DONE
