@@ -2,7 +2,7 @@
 
 Can a system improve itself by criteria it generates?
 
-1082+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, API currently 25). All architectural bans lifted. Current bottleneck: 0% wall = TWO distinct failure modes — near-inert games (noise, detection dead) and responsive-unsolved games (OSCILLATION — actions have directional effects but game state bounces, needs state-dependent action selection). Sequence evolution is the wrong architecture. L2+ = 0 across entire search.
+1085+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, scoring = action efficiency squared). All architectural bans lifted. Both debate sides now solve 1/3 ARC games at L1 (defense: reactive switching ARC=0.30, prosecution: attention-trajectory ARC=0.004). 0% wall persists on 2/3 games. L2+ = 0 across entire search.
 
 ## Results (honest)
 
