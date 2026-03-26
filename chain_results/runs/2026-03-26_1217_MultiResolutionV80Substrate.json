@@ -1,13 +1,13 @@
 {
-  "substrate": "ProsecutionV39Substrate",
-  "timestamp": "2026-03-26T08:12:02",
-  "step": 1235,
+  "substrate": "MultiResolutionV80Substrate",
+  "timestamp": "2026-03-26T07:22:43",
+  "step": 1217,
   "prism_mode": null,
   "chain": [
     "Split-CIFAR-100-before",
     "SB26",
-    "LF52",
-    "FT09",
+    "BP35",
+    "DC22",
     "Split-CIFAR-100-after"
   ],
   "budget_per_phase": 500,
@@ -15,15 +15,12 @@
   "config": {
     "n_dims": 256,
     "block_size": 4,
-    "n_click_regions": 8,
-    "mi_warmup": 200,
-    "mi_recompute": 100,
-    "sustain_steps": 10,
-    "mi_ema": 0.95,
-    "att_lr": 0.02,
-    "pred_lr": 0.001,
-    "family": "MI attention (prosecution)",
-    "tag": "prosecution v39 (\u2113_\u03c0 MI + alpha attention + W_pred: targets L2 via cross-level attention retention. Controlled comparison vs defense v67.)"
+    "epsilon": 0.2,
+    "change_thresh": 0.1,
+    "explore_steps": 100,
+    "resolutions": "fine(1024D) + standard(256D) + coarse(64D)",
+    "family": "multi-resolution change detection",
+    "tag": "defense v90 (\u2113\u2081 multi-resolution v80: change detection uses max(avgpool2, avgpool4, avgpool8). Catches changes at ANY spatial scale. Tests if 0% wall is encoding artifact \u2014 games changing at sub-block or coarse level that avgpool4 misses.)"
   },
   "results": {
     "Split-CIFAR-100-before": {
@@ -32,7 +29,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.041,
+      "mean_elapsed": 0.054000000000000006,
       "per_seed_l1": [
         1,
         1,
@@ -64,7 +61,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 3.8770000000000002,
+      "mean_elapsed": 4.646,
       "per_seed_l1": [
         0,
         0,
@@ -90,13 +87,13 @@
         {}
       ]
     },
-    "LF52": {
+    "BP35": {
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 8.718999999999998,
+      "mean_elapsed": 17.779000000000003,
       "per_seed_l1": [
         0,
         0,
@@ -122,13 +119,13 @@
         {}
       ]
     },
-    "FT09": {
+    "DC22": {
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 2.6889999999999996,
+      "mean_elapsed": 4.005,
       "per_seed_l1": [
         0,
         0,
@@ -160,7 +157,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.044,
+      "mean_elapsed": 0.051000000000000004,
       "per_seed_l1": [
         1,
         1,
@@ -205,15 +202,15 @@
         "current": 0.0,
         "baseline": null
       },
-      "LF52": {
+      "BP35": {
         "delta": null,
         "current": 0.0,
         "baseline": null
       },
-      "FT09": {
-        "delta": 0.0,
+      "DC22": {
+        "delta": null,
         "current": 0.0,
-        "baseline": 0.0
+        "baseline": null
       },
       "Split-CIFAR-100-after": {
         "delta": 0.0,
@@ -225,6 +222,6 @@
       "phases_passed": 2,
       "phases_total": 5
     },
-    "details": "improved=0 degraded=0 of 3 games"
+    "details": "improved=0 degraded=0 of 2 games"
   }
 }

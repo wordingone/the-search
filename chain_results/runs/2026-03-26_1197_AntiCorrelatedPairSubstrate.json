@@ -1,13 +1,13 @@
 {
-  "substrate": "ProsecutionV39Substrate",
-  "timestamp": "2026-03-26T08:12:02",
-  "step": 1235,
+  "substrate": "AntiCorrelatedPairSubstrate",
+  "timestamp": "2026-03-26T05:59:49",
+  "step": 1197,
   "prism_mode": null,
   "chain": [
     "Split-CIFAR-100-before",
+    "TN36",
+    "KA59",
     "SB26",
-    "LF52",
-    "FT09",
     "Split-CIFAR-100-after"
   ],
   "budget_per_phase": 500,
@@ -15,15 +15,11 @@
   "config": {
     "n_dims": 256,
     "block_size": 4,
-    "n_click_regions": 8,
-    "mi_warmup": 200,
-    "mi_recompute": 100,
-    "sustain_steps": 10,
-    "mi_ema": 0.95,
-    "att_lr": 0.02,
-    "pred_lr": 0.001,
-    "family": "MI attention (prosecution)",
-    "tag": "prosecution v39 (\u2113_\u03c0 MI + alpha attention + W_pred: targets L2 via cross-level attention retention. Controlled comparison vs defense v67.)"
+    "explore_steps": 100,
+    "epsilon": 0.2,
+    "change_thresh": 0.1,
+    "family": "anti-correlated action pairs",
+    "tag": "defense v83 (\u2113\u2081 anti-correlated pairs: find actions with OPPOSITE effects via signed change cosine, alternate between them. Tests if oscillating games need action ALTERNATION, not holding. Step 1082 diagnostic: 47/74 sign changes = oscillation.)"
   },
   "results": {
     "Split-CIFAR-100-before": {
@@ -32,7 +28,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.041,
+      "mean_elapsed": 0.073,
       "per_seed_l1": [
         1,
         1,
@@ -58,77 +54,77 @@
         {}
       ]
     },
+    "TN36": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 2.158,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "KA59": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 2.159,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
     "SB26": {
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 3.8770000000000002,
-      "per_seed_l1": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "per_seed_level_steps": [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    "LF52": {
-      "l1_rate": 0.0,
-      "l2_rate": 0.0,
-      "fully_solved_rate": 0.0,
-      "max_level": 0,
-      "avg_steps": 10000.0,
-      "mean_elapsed": 8.718999999999998,
-      "per_seed_l1": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "per_seed_level_steps": [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
-    "FT09": {
-      "l1_rate": 0.0,
-      "l2_rate": 0.0,
-      "fully_solved_rate": 0.0,
-      "max_level": 0,
-      "avg_steps": 10000.0,
-      "mean_elapsed": 2.6889999999999996,
+      "mean_elapsed": 2.1790000000000003,
       "per_seed_l1": [
         0,
         0,
@@ -160,7 +156,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.044,
+      "mean_elapsed": 0.076,
       "per_seed_l1": [
         1,
         1,
@@ -200,20 +196,20 @@
         "current": 1.0,
         "baseline": 1.0
       },
+      "TN36": {
+        "delta": null,
+        "current": 0.0,
+        "baseline": null
+      },
+      "KA59": {
+        "delta": null,
+        "current": 0.0,
+        "baseline": null
+      },
       "SB26": {
         "delta": null,
         "current": 0.0,
         "baseline": null
-      },
-      "LF52": {
-        "delta": null,
-        "current": 0.0,
-        "baseline": null
-      },
-      "FT09": {
-        "delta": 0.0,
-        "current": 0.0,
-        "baseline": 0.0
       },
       "Split-CIFAR-100-after": {
         "delta": 0.0,
@@ -225,6 +221,6 @@
       "phases_passed": 2,
       "phases_total": 5
     },
-    "details": "improved=0 degraded=0 of 3 games"
+    "details": "improved=0 degraded=0 of 2 games"
   }
 }

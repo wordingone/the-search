@@ -1,13 +1,13 @@
 {
-  "substrate": "ProsecutionV39Substrate",
-  "timestamp": "2026-03-26T08:12:02",
-  "step": 1235,
+  "substrate": "MinimalLpiSubstrate",
+  "timestamp": "2026-03-26T07:31:06",
+  "step": 1220,
   "prism_mode": null,
   "chain": [
     "Split-CIFAR-100-before",
-    "SB26",
     "LF52",
-    "FT09",
+    "AR25",
+    "VC33",
     "Split-CIFAR-100-after"
   ],
   "budget_per_phase": 500,
@@ -15,15 +15,12 @@
   "config": {
     "n_dims": 256,
     "block_size": 4,
-    "n_click_regions": 8,
-    "mi_warmup": 200,
-    "mi_recompute": 100,
-    "sustain_steps": 10,
-    "mi_ema": 0.95,
-    "att_lr": 0.02,
-    "pred_lr": 0.001,
-    "family": "MI attention (prosecution)",
-    "tag": "prosecution v39 (\u2113_\u03c0 MI + alpha attention + W_pred: targets L2 via cross-level attention retention. Controlled comparison vs defense v67.)"
+    "epsilon": 0.2,
+    "change_thresh": 0.1,
+    "explore_steps": 100,
+    "ema_alpha": 0.1,
+    "family": "minimal \u2113_\u03c0 baseline",
+    "tag": "ATTACK v91 (minimal \u2113_\u03c0: v80 recipe but EMA change rate instead of cumulative mean. ONE learned parameter (\u03b1=0.1). Tests if the simplest \u2113\u2081\u2192\u2113_\u03c0 step helps. If not, prosecution needs substantially more complexity.)"
   },
   "results": {
     "Split-CIFAR-100-before": {
@@ -32,7 +29,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.041,
+      "mean_elapsed": 0.06500000000000002,
       "per_seed_l1": [
         1,
         1,
@@ -58,45 +55,13 @@
         {}
       ]
     },
-    "SB26": {
-      "l1_rate": 0.0,
-      "l2_rate": 0.0,
-      "fully_solved_rate": 0.0,
-      "max_level": 0,
-      "avg_steps": 10000.0,
-      "mean_elapsed": 3.8770000000000002,
-      "per_seed_l1": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "per_seed_level_steps": [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-    },
     "LF52": {
       "l1_rate": 0.0,
       "l2_rate": 0.0,
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 10000.0,
-      "mean_elapsed": 8.718999999999998,
+      "mean_elapsed": 11.067,
       "per_seed_l1": [
         0,
         0,
@@ -122,19 +87,19 @@
         {}
       ]
     },
-    "FT09": {
-      "l1_rate": 0.0,
+    "AR25": {
+      "l1_rate": 0.1,
       "l2_rate": 0.0,
-      "fully_solved_rate": 0.0,
-      "max_level": 0,
+      "fully_solved_rate": 0.1,
+      "max_level": 1,
       "avg_steps": 10000.0,
-      "mean_elapsed": 2.6889999999999996,
+      "mean_elapsed": 3.474,
       "per_seed_l1": [
         0,
         0,
         0,
         0,
-        0,
+        1500,
         0,
         0,
         0,
@@ -146,12 +111,67 @@
         {},
         {},
         {},
-        {},
+        {
+          "1": 1500
+        },
         {},
         {},
         {},
         {},
         {}
+      ]
+    },
+    "VC33": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.1,
+      "fully_solved_rate": 1.0,
+      "max_level": 2,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 15.960999999999999,
+      "per_seed_l1": [
+        4009,
+        5505,
+        2004,
+        1004,
+        2006,
+        5505,
+        1004,
+        104,
+        1004,
+        505
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 4009,
+          "2": 6054
+        },
+        {
+          "1": 5505
+        },
+        {
+          "1": 2004
+        },
+        {
+          "1": 1004
+        },
+        {
+          "1": 2006
+        },
+        {
+          "1": 5505
+        },
+        {
+          "1": 1004
+        },
+        {
+          "1": 104
+        },
+        {
+          "1": 1004
+        },
+        {
+          "1": 505
+        }
       ]
     },
     "Split-CIFAR-100-after": {
@@ -160,7 +180,7 @@
       "fully_solved_rate": 0.0,
       "max_level": 0,
       "avg_steps": 20.0,
-      "mean_elapsed": 0.044,
+      "mean_elapsed": 0.06500000000000002,
       "per_seed_l1": [
         1,
         1,
@@ -188,7 +208,7 @@
     }
   },
   "chain_score": {
-    "phases_passed": 2,
+    "phases_passed": 4,
     "phases_total": 8,
     "chain_complete": false
   },
@@ -200,19 +220,19 @@
         "current": 1.0,
         "baseline": 1.0
       },
-      "SB26": {
-        "delta": null,
-        "current": 0.0,
-        "baseline": null
-      },
       "LF52": {
         "delta": null,
         "current": 0.0,
         "baseline": null
       },
-      "FT09": {
-        "delta": 0.0,
-        "current": 0.0,
+      "AR25": {
+        "delta": null,
+        "current": 0.1,
+        "baseline": null
+      },
+      "VC33": {
+        "delta": 1.0,
+        "current": 1.0,
         "baseline": 0.0
       },
       "Split-CIFAR-100-after": {
@@ -222,9 +242,9 @@
       }
     },
     "chain_score": {
-      "phases_passed": 2,
+      "phases_passed": 4,
       "phases_total": 5
     },
-    "details": "improved=0 degraded=0 of 3 games"
+    "details": "improved=1 degraded=0 of 3 games"
   }
 }
