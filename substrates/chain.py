@@ -103,6 +103,7 @@ class ArcGameWrapper:
         obs = self._env.reset(seed=seed)
         level = 0
         l1_step = l2_step = None
+        level_steps = {}  # ARC Prize: track step at which each level was reached
         fully_solved = False
         steps = 0
         t_start = time.time()
@@ -131,6 +132,7 @@ class ArcGameWrapper:
                     l1_step = steps
                 if cl == 2 and l2_step is None:
                     l2_step = steps
+                level_steps[cl] = steps  # ARC Prize: record every level transition
                 level = cl
                 substrate.on_level_transition()
 
@@ -150,6 +152,7 @@ class ArcGameWrapper:
             "l1": l1_step,
             "l2": l2_step,
             "level_reached": level,
+            "level_steps": level_steps,  # ARC Prize: {level_num: step_reached}
             "fully_solved": fully_solved,
         }
 
@@ -624,10 +627,14 @@ class ChainRunner:
                 output["results"][name] = {
                     k: v for k, v in data.items() if k != "seeds"
                 }
-                # Add per-seed L1 list
+                # Add per-seed L1 list and level_steps for ARC Prize scoring
                 if "seeds" in data:
                     output["results"][name]["per_seed_l1"] = [
                         s.get("l1") or s.get("level_reached", 0)
+                        for s in data["seeds"]
+                    ]
+                    output["results"][name]["per_seed_level_steps"] = [
+                        s.get("level_steps", {})
                         for s in data["seeds"]
                     ]
 

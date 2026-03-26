@@ -1,0 +1,39 @@
+======================================================================
+STEP 1083 — StateDepActionValueSubstrate
+Substrate: B:\M\the-search\experiments\sub1083_prosecution_v19.py
+======================================================================
+2026-03-25 18:17:39 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=99199)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-25 18:17:39 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:17:39 | INFO | Created new scorecard: d597c835-3143-497b-8a79-73bd3821cffc
+2026-03-25 18:17:39 | INFO | Successfully fetched metadata for game sk48
+2026-03-25 18:17:39 | INFO | Successfully loaded game class Sk48 from environment_files\sk48\41055498\sk48.py
+2026-03-25 18:17:49 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:17:49 | INFO | Created new scorecard: cde764dd-a5c8-441a-aa6e-d34ec619c46a
+2026-03-25 18:17:49 | INFO | Successfully fetched metadata for game tr87
+2026-03-25 18:17:49 | INFO | Successfully loaded game class Tr87 from environment_files\tr87\cd924810\tr87.py
+2026-03-25 18:18:11 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:18:11 | INFO | Created new scorecard: 7e880e2e-0435-451c-b5fe-aa89c33fe9dd
+2026-03-25 18:18:11 | INFO | Successfully fetched metadata for game sb26
+2026-03-25 18:18:11 | INFO | Successfully loaded game class Sb26 from environment_files\sb26\7fbdac44\sb26.py
+
+======================================================================
+STEP 1083 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=12.3s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=9.6s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=13.8s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 2/5
+  ARC Prize score: 0.0000 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 366.8s
+STEP 1083 DONE

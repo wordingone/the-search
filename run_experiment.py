@@ -107,6 +107,9 @@ def main():
                         help='ALWAYS ON (Jun 2026-03-25). Game names hidden in output.')
     parser.add_argument('--no-blind', action='store_true',
                         help='Jun-only override to disable blind mode')
+    parser.add_argument('--human-baseline', type=int, default=50,
+                        help='ARC Prize: assumed human actions per level (default=50). '
+                             'Score = min(baseline/agent_actions, 1.0)^2 per level.')
     args = parser.parse_args()
 
     # === ENFORCED RULES (Jun 2026-03-25) — NOT CIRCUMVENTABLE ===
@@ -228,6 +231,43 @@ def main():
         shutil.copy(out_path, args.baseline)
         print(f"Saved as canonical baseline: {args.baseline}")
 
+    # ARC Prize Score (Jun directive 2026-03-25)
+    # For each seed of each game: compute per-level action efficiency.
+    # Score per level = min(human_baseline / actions_for_level, 1.0) ** 2
+    # Score per game per seed = mean of per-level scores (0 if no levels solved)
+    # ARC Prize total = mean across all game-seed combinations
+    import numpy as np
+    arc_game_scores = {}
+    for name, data in aggregated.items():
+        if not isinstance(data, dict) or 'seeds' not in data:
+            continue
+        seed_scores = []
+        seed_action_counts = []
+        for sr in data['seeds']:
+            ls = sr.get('level_steps', {})
+            if not ls:
+                seed_scores.append(0.0)
+                seed_action_counts.append([])
+                continue
+            sorted_levels = sorted(ls.items(), key=lambda x: x[0])
+            level_scores = []
+            level_actions = []
+            prev_step = 0
+            for lvl, step in sorted_levels:
+                actions = step - prev_step
+                level_actions.append(actions)
+                eff = min(args.human_baseline / max(actions, 1), 1.0)
+                level_scores.append(eff ** 2)
+                prev_step = step
+            seed_scores.append(float(np.mean(level_scores)))
+            seed_action_counts.append(level_actions)
+        arc_game_scores[name] = {
+            'mean_score': float(np.mean(seed_scores)),
+            'seed_scores': seed_scores,
+            'seed_action_counts': seed_action_counts,
+        }
+    arc_total = float(np.mean([v['mean_score'] for v in arc_game_scores.values()])) if arc_game_scores else 0.0
+
     # Final summary
     print()
     print("=" * 70)
@@ -239,13 +279,15 @@ def main():
             label = _game_labels.get(name, name)
             fs = data.get('fully_solved_rate', 0)
             ml = data.get('max_level', 0)
-            print(f"  {label}: L1={data['l1_rate']:.0%}  SOLVED={fs:.0%}  max_lvl={ml}  avg_t={data['mean_elapsed']:.1f}s")
+            arc_s = arc_game_scores.get(name, {}).get('mean_score', 0.0)
+            print(f"  {label}: L1={data['l1_rate']:.0%}  SOLVED={fs:.0%}  max_lvl={ml}  ARC={arc_s:.4f}  avg_t={data['mean_elapsed']:.1f}s")
             if data['l1_rate'] == 0:
                 any_zero = True
             if fs < 1.0:
                 any_not_fully_solved = True
     cs = chain_kill.get('chain_score', {})
     print(f"  Chain score: {cs.get('phases_passed', '?')}/{cs.get('phases_total', '?')}")
+    print(f"  ARC Prize score: {arc_total:.4f} (human_baseline={args.human_baseline} actions/level)")
     if any_zero:
         print(f"  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **")
     if any_not_fully_solved:
