@@ -1,0 +1,41 @@
+======================================================================
+STEP 1204 — WeightedRandomSubstrate
+Substrate: B:\M\the-search\experiments\sub1204_defense_v86.py
+======================================================================
+2026-03-26 06:33:44 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 06:33:45 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:33:45 | INFO | Created new scorecard: a9455aaa-5f88-46c6-979f-61fb846b4718
+2026-03-26 06:33:45 | INFO | Successfully fetched metadata for game wa30
+2026-03-26 06:33:45 | INFO | Successfully loaded game class Wa30 from environment_files\wa30\ee6fef47\wa30.py
+2026-03-26 06:33:46 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:33:46 | INFO | Created new scorecard: e39a3e09-cd2b-4b5f-ac19-569ca9f24bb0
+2026-03-26 06:33:46 | INFO | Successfully fetched metadata for game dc22
+2026-03-26 06:33:46 | INFO | Successfully loaded game class Dc22 from environment_files\dc22\4c9bff3e\dc22.py
+2026-03-26 06:33:54 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:33:54 | INFO | Created new scorecard: b49fd4de-ece5-4671-b52c-20899a9ac153
+2026-03-26 06:33:54 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 06:33:54 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 06:34:44 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 06:34:44 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+
+======================================================================
+STEP 1204 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  GAME_2: L1=10%  SOLVED=10%  max_lvl=1  ARC=0.1000  avg_t=1.6s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=1.4s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=4.3s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  Chain score: 3/5
+  ARC Prize score: 0.0200 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 82.5s
+STEP 1204 DONE
