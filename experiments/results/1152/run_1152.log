@@ -1,0 +1,798 @@
+======================================================================
+STEP 1152 — EmpowermentSubstrate
+Substrate: B:\M\the-search\experiments\sub1152_defense_v59.py
+======================================================================
+2026-03-26 03:01:47 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 03:01:48 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 03:01:48 | INFO | Created new scorecard: 689c35bf-743f-42d7-8a57-611ab32179d4
+2026-03-26 03:01:48 | INFO | Successfully fetched metadata for game wa30
+2026-03-26 03:01:48 | INFO | Successfully loaded game class Wa30 from environment_files\wa30\ee6fef47\wa30.py
+2026-03-26 03:01:49 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 03:01:49 | INFO | Created new scorecard: a1e984b1-2aea-47ff-b916-f569a20feb07
+2026-03-26 03:01:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:56 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:56 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:56 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:56 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:56 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:56 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:01:56 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:01:56 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:00 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 03:02:00 | INFO | Created new scorecard: 343a2af0-f27d-46ff-b896-583f12a028da
+2026-03-26 03:02:01 | INFO | Successfully fetched metadata for game su15
+2026-03-26 03:02:01 | INFO | Successfully loaded game class Su15 from environment_files\su15\4c352900\su15.py
+2026-03-26 03:02:05 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:05 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:06 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:06 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:06 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:06 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:06 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:06 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:06 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:06 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:07 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:07 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:08 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:08 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:09 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:09 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:09 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:09 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:09 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:09 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:09 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:09 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:09 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:09 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:27 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:27 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:28 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:28 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:28 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:28 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:28 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:28 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:28 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:28 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:28 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:28 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:29 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:29 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:29 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:29 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:29 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:29 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:29 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:29 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:29 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:29 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:30 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:30 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:30 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:30 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:30 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:30 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:30 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:30 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:30 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:30 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:31 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:31 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:32 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:32 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:32 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:32 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:32 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:32 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:32 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:32 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:32 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:32 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:41 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:41 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:42 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:42 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:42 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:42 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:42 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:42 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:43 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:43 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:43 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:43 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:43 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:43 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:44 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:44 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:44 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:44 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:44 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:44 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:44 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:44 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:44 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:44 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:45 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:45 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:45 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:45 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:45 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:45 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:45 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:45 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:45 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:45 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:46 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:46 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:46 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:46 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:46 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:46 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:48 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:48 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:48 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:48 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:49 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:49 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:50 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:50 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:51 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:51 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:52 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:52 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:53 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:53 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:54 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:54 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:55 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:55 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:56 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:56 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:58 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:58 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:58 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:58 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:58 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:58 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:58 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:58 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:59 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:59 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:59 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:59 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:59 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:59 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:02:59 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:02:59 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:00 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:00 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:01 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:01 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:01 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:01 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:01 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:01 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:01 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:01 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:01 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:01 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:02 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:02 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:03 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:03 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:03 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:03 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:03 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:03 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:03 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:03 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:03 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:03 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:04 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:04 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:04 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:04 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:04 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:04 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:04 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:04 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:04 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:04 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:05 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:05 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:05 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:05 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:05 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:05 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:11 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:11 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:12 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:12 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:13 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:13 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:14 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:14 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:15 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:15 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:15 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:15 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:15 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:15 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:15 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:15 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:15 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:15 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:16 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:16 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:17 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:17 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:18 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:18 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:19 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:19 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:20 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:20 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:21 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:21 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:22 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:22 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:23 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:23 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:24 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:24 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:25 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:25 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:25 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:25 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:25 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:25 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:25 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:25 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:25 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:25 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:26 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:26 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:33 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:33 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:34 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:34 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:34 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:34 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:34 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:34 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:34 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:34 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:34 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:34 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:35 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:35 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:36 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:36 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:36 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:36 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:36 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:36 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:36 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:36 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:36 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:36 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:37 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:37 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:37 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:37 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:37 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:37 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:37 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:37 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:37 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:37 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:38 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:38 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:39 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:39 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+2026-03-26 03:03:40 | INFO | Successfully fetched metadata for game vc33
+2026-03-26 03:03:40 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+
+======================================================================
+STEP 1152 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=2.1s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.9s
+  GAME_4: L1=100%  SOLVED=100%  max_lvl=1  ARC=0.0199  avg_t=7.4s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 3/5
+  ARC Prize score: 0.0040 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_4: ++100% (0% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 113.5s
+STEP 1152 DONE
