@@ -1,6 +1,6 @@
 {
   "game": "tn36",
-  "source": "analytical_solver (solve_6games_fullchain)",
+  "source": "iddfs_solver",
   "type": "analytical",
   "total_actions": 0,
   "max_level": 0,
@@ -16,6 +16,5 @@
     61
   ],
   "all_actions": [],
-  "raw_actions_repr": [],
-  "elapsed": 194.89
+  "elapsed": 0.93
 }
