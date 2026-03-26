@@ -2,9 +2,11 @@
 
 Can a system improve itself by criteria it generates?
 
-1094+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, scoring = action efficiency squared). All architectural bans lifted. Both debate sides solve 1/3 ARC games at L1 100% seeds (defense: reactive switching ARC=0.30, prosecution: forward model ARC=0.005). Defense leads 66x on efficiency. Simplicity is load-bearing (PB30, n=5). 0% wall persists on ~2/3 games. L2+ = 0 across entire search.
+1097+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games launched 2026-03-25, scoring = action efficiency squared). All architectural bans lifted (Jun, 2026-03-25).
 
 ## Results (honest)
+
+**Phase 1 — Reference substrate (Steps 1-416):**
 
 | Benchmark | Substrate | Result | Compare |
 |-----------|-----------|--------|---------|
@@ -14,43 +16,49 @@ Can a system improve itself by criteria it generates?
 | FT09 navigation | 674+running-mean | 20/20 L1 | 7-action space |
 | Cross-domain transfer (LS20→CIFAR) | 674 | 0% improvement | Zero transfer in both directions |
 | R3 (self-modification) | 674 | FAIL (8 U elements) | 0/777 substrates pass R3 |
-| R3 counterfactual | 674 | FAIL (cold > warm, p<0.0001) | Pretraining hurts new environments |
-| Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most games at/below random |
+| Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most at/below random |
 
-**Post-ban results (Steps 778-920):**
+**Phase 2 — Post-ban exploration (Steps 417-1081):**
 
 | Benchmark | Substrate | Result | Compare |
 |-----------|-----------|--------|---------|
-| LS20 nav (10 seeds, 25K) | 895h cold (clamped alpha + 800b) | 268.0/seed, 0/10 zeros | +32% over L2-norm baseline (203.9) |
-| LS20 nav (10 seeds, 25K) | 868d raw L2 baseline | 203.9/seed, 1/10 zeros | True post-ban baseline |
-| FT09 nav | ALL post-ban | 0/seed | Sequential ordering unsolved (Prop 23) |
-| VC33 nav | 895h cold (chain) | 0/seed | First post-ban VC33 result |
-| Full chain (914) | 895h cold | CIFAR=chance, LS20=237.6, FT09=0, VC33=0 | Chain: 1/4 |
-| R3 encoding (Step 895) | Prediction-error attention | alpha=[60,51,52] on FT09, UNIVERSAL | First post-ban R3 encoding |
-| D(s) pred transfer | Forward model W (delta rule) | 5/7 PASS | First positive R3_cf |
+| LS20 nav (10 seeds, 25K) | 916 recurrent h | 290.7/seed SOTA, 0/10 zeros | 2-2.5x over ICM/RND/Count baselines |
+| LS20 nav (10 seeds, 25K) | 868d raw L2 baseline | 203.9/seed | True post-ban baseline |
+| FT09 nav | ALL post-ban substrates | 0/seed | Generic exploration fails (Step 1017) |
+| VC33 nav | ALL post-ban substrates | 0/seed | Same gap as FT09 |
+| R3 encoding | 895 prediction-error attention | alpha=[60,51,52] UNIVERSAL on FT09 | First post-ban R3 encoding (Prop 22) |
+| Bans lifted (Step 1017) | Full graph + all mechanisms | FT09/VC33 still 0% | Bans are NOT the cause |
+
+**Debate v3 — ARC-AGI-3 sprint (Steps 1082-1097, 15 experiments):**
+
+| Metric | Defense (ℓ₁ reactive) | Prosecution (ℓ_π forward model) |
+|--------|----------------------|-------------------------------|
+| Architecture | Zero-param reactive switching | W_fwd action-conditioned prediction |
+| Best single-draw L1 | 100% (10/10 seeds) | 100% (10/10 seeds) |
+| Best single-draw ARC | 0.2973 | 0.0045 |
+| Draw-robustness (new draw) | ARC = 0.0000 | ARC = 0.0000 |
+| Modifications tested | 5 (all degraded) | 3 (all degraded) |
 
 **Key findings:**
-- **R3 encoding self-modification achieved** (Prop 22). Alpha discovers game-informative dims from prediction error alone. Universal on FT09 (dims [60,51,52] = puzzle tiles, all seeds).
-- **Navigation: +32% with clamped alpha.** Change-tracking (800b) + prediction-error attention = best post-ban mechanism. 0/10 zero-seeds.
-- **FT09/VC33 unsolved — bans are NOT the cause (Step 1017).** Full graph + all bans lifted = still 0%. Generic exploration can't discover multi-step click sequences. The gap is autonomous discovery of game mechanics, not any constraint.
-- **Warm alpha transfer FAILED** (n_eff=10). Alpha is per-episode adaptation, not cross-seed transfer. Cold > warm.
-- **800b "10× random" retracted.** True mean = 203.9/seed (L2 norm, n_eff=10). Prior claim was seed artifact.
-- Compression progress dead across 5 variants. Novelty-based action selection dead on LS20. Only change-tracking navigates.
+- **ℓ_π ≈ ℓ₁ at L1 (PB26 CONFIRMED).** Draw-robustness falsified both sides' ARC claims. All non-zero ARC scores were game-draw artifacts.
+- **Simplicity is load-bearing (PB30).** Adding complexity to either architecture degrades performance (n=5+). No optimizer (R2) means extra parameters accumulate noise. Prop 32.
+- **0% wall = ~2/3 random ARC games.** TWO failure modes: Mode 1 (near-inert, noise) and Mode 2 (responsive, oscillating). Neither architecture solves Mode 2.
+- **FT09/VC33 unsolved — bans are NOT the cause (Step 1017).** Full graph + all bans lifted = still 0%.
+- **R3 encoding achieved (Prop 22).** Alpha discovers game-informative dims from prediction error alone.
+- **L2+ = 0 across entire search.** No substrate has ever autonomously solved Level 2 of any game.
 
 ## Structure
 
 ```
 paper/           Research paper (PDF + source)
 constraints/     Constraint map (CONSTRAINTS.md), constitution (R1-R6), experiment log
-experiments/     1039+ experiment scripts (chronological, Steps 1-1039+)
+experiments/     1097+ experiment scripts (chronological)
 substrates/      Active substrate code:
   base.py          BaseSubstrate interface (5 methods)
   step0674.py      Reference substrate (transition-triggered dual-hash)
-  plain_lsh.py     PlainLSH baseline (no refinement)
   chain.py         Chain benchmark runner (pluggable — any gym env)
   judge.py         ConstitutionalJudge (R1-R6 audit + R3 counterfactual)
-  calibration_agents.py   R3 calibration baselines
-  archive/         Killed families (12 architectures, preserved)
+  archive/         Killed families (12+ architectures, preserved)
 viz/             Search space visualization
 ```
 
@@ -98,7 +106,7 @@ Six rules for recursive self-improvement (R1-R6):
 | R5 | One fixed ground truth | Only environmental signals (death, level transitions) |
 | R6 | No deletable parts | Every component behaviorally load-bearing |
 
-**R3 is the wall.** 0/777 substrates pass. The constraint map characterizes why. Two bans (codebook + graph) remove both tested mechanisms that satisfy other rules, forcing the search toward genuinely self-modifying architectures.
+**R3 is the wall.** 0/1097 substrates pass R3 fully. The constraint map characterizes why. All architectural bans lifted — the search is unconstrained except by R1-R6.
 
 ## Citation
 
