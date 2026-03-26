@@ -1,0 +1,121 @@
+======================================================================
+STEP 1185 — DecayingEpsilonReactiveSubstrate
+Substrate: B:\M\the-search\experiments\sub1183_defense_v79.py
+======================================================================
+2026-03-26 05:27:03 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 05:27:03 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:27:03 | INFO | Created new scorecard: 6711f031-d511-43e6-a5d3-5da02fb3c47f
+2026-03-26 05:27:03 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:03 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:04 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:04 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:06 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:27:06 | INFO | Created new scorecard: 5cb85902-7bd3-45e7-b772-85c1297fb50b
+2026-03-26 05:27:06 | INFO | Successfully fetched metadata for game s5i5
+2026-03-26 05:27:06 | INFO | Successfully loaded game class S5i5 from environment_files\s5i5\a48e4b1d\s5i5.py
+2026-03-26 05:27:11 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:27:11 | INFO | Created new scorecard: 00673876-cc2a-4de6-bab2-066e23838f06
+2026-03-26 05:27:11 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:11 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:12 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:12 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:14 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:14 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:16 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:16 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:22 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:22 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:22 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:22 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:23 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:23 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:24 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:24 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:28 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:28 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:28 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:28 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:29 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:29 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:30 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:30 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:30 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:30 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:31 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:31 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:31 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:31 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:31 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:31 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:34 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:34 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:34 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:34 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:36 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:36 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:37 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:37 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:37 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:37 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:38 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:38 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:38 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:38 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:43 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:43 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:44 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:44 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:46 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:46 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:27:52 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:52 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:52 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:53 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:53 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:53 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:57 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:57 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:58 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:27:58 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:27:59 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:27:59 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:28:02 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:02 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:02 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:02 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:03 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:03 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:12 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:12 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:13 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:13 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:14 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:28:14 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:28:19 | INFO | Successfully fetched metadata for game r11l
+2026-03-26 05:28:19 | INFO | Successfully loaded game class R11l from environment_files\r11l\aa269680\r11l.py
+2026-03-26 05:28:19 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:28:19 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+2026-03-26 05:28:20 | INFO | Successfully fetched metadata for game lp85
+2026-03-26 05:28:20 | INFO | Successfully loaded game class Lp85 from environment_files\lp85\305b61c3\lp85.py
+
+======================================================================
+STEP 1185 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  GAME_2: L1=90%  SOLVED=90%  max_lvl=1  ARC=0.0052  avg_t=2.9s
+  GAME_3: L1=80%  SOLVED=40%  max_lvl=1  ARC=0.0729  avg_t=2.4s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=2.0s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 4/5
+  ARC Prize score: 0.0156 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 81.2s
+STEP 1185 DONE

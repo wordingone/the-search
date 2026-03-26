@@ -1,0 +1,264 @@
+{
+  "substrate": "DecayingEpsilonReactiveSubstrate",
+  "timestamp": "2026-03-26T05:28:24",
+  "step": 1185,
+  "prism_mode": null,
+  "chain": [
+    "Split-CIFAR-100-before",
+    "R11L",
+    "LP85",
+    "S5I5",
+    "Split-CIFAR-100-after"
+  ],
+  "budget_per_phase": 500,
+  "n_seeds": 10,
+  "config": {
+    "n_dims": 256,
+    "block_size": 4,
+    "epsilon_start": 0.5,
+    "epsilon_decay": 0.999,
+    "epsilon_min": 0.02,
+    "short_window": 1,
+    "medium_window": 20,
+    "long_window": 100,
+    "drift_thresh": 0.1,
+    "family": "decaying epsilon reactive",
+    "tag": "defense v79 (\u2113\u2081 decaying epsilon: starts 50% random \u2192 decays to 2%. Multi-timescale detection. Natural transition from random's coverage to v30's exploitation.)"
+  },
+  "results": {
+    "Split-CIFAR-100-before": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.052000000000000005,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "R11L": {
+      "l1_rate": 0.9,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.9,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 2.8689999999999998,
+      "per_seed_l1": [
+        1433,
+        5632,
+        402,
+        273,
+        0,
+        5632,
+        5559,
+        1278,
+        5559,
+        9284
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 1433
+        },
+        {
+          "1": 5632
+        },
+        {
+          "1": 402
+        },
+        {
+          "1": 273
+        },
+        {},
+        {
+          "1": 5632
+        },
+        {
+          "1": 5559
+        },
+        {
+          "1": 1278
+        },
+        {
+          "1": 5559
+        },
+        {
+          "1": 9284
+        }
+      ]
+    },
+    "LP85": {
+      "l1_rate": 0.8,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.4,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 2.393,
+      "per_seed_l1": [
+        74,
+        189,
+        189,
+        291,
+        1428,
+        189,
+        0,
+        1001,
+        0,
+        293
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 74
+        },
+        {
+          "1": 189
+        },
+        {
+          "1": 189
+        },
+        {
+          "1": 291
+        },
+        {
+          "1": 1428
+        },
+        {
+          "1": 189
+        },
+        {},
+        {
+          "1": 1001
+        },
+        {},
+        {
+          "1": 293
+        }
+      ]
+    },
+    "S5I5": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 1.9619999999999997,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "Split-CIFAR-100-after": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.048,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  },
+  "chain_score": {
+    "phases_passed": 4,
+    "phases_total": 8,
+    "chain_complete": false
+  },
+  "chain_kill": {
+    "verdict": "PASS",
+    "per_game_delta": {
+      "Split-CIFAR-100-before": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      },
+      "R11L": {
+        "delta": null,
+        "current": 0.9,
+        "baseline": null
+      },
+      "LP85": {
+        "delta": null,
+        "current": 0.8,
+        "baseline": null
+      },
+      "S5I5": {
+        "delta": null,
+        "current": 0.0,
+        "baseline": null
+      },
+      "Split-CIFAR-100-after": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      }
+    },
+    "chain_score": {
+      "phases_passed": 4,
+      "phases_total": 5
+    },
+    "details": "improved=0 degraded=0 of 2 games"
+  }
+}

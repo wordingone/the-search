@@ -1,0 +1,52 @@
+======================================================================
+STEP 1184 — DecayingEpsilonReactiveSubstrate
+Substrate: B:\M\the-search\experiments\sub1183_defense_v79.py
+======================================================================
+2026-03-26 05:25:16 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 05:25:16 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:25:16 | INFO | Created new scorecard: 4d034c3c-005d-4848-b268-d94301b2dce9
+2026-03-26 05:25:16 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:25:16 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:25:16 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:25:16 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:25:20 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:25:20 | INFO | Created new scorecard: 423e3d7d-1e63-46b0-84a4-53fb167b7d0f
+2026-03-26 05:25:20 | INFO | Successfully fetched metadata for game re86
+2026-03-26 05:25:20 | INFO | Successfully loaded game class Re86 from environment_files\re86\4e57566e\re86.py
+2026-03-26 05:25:26 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 05:25:26 | INFO | Created new scorecard: 6aca330f-17c9-46f9-a835-4abfe29d4292
+2026-03-26 05:25:27 | INFO | Successfully fetched metadata for game su15
+2026-03-26 05:25:27 | INFO | Successfully loaded game class Su15 from environment_files\su15\4c352900\su15.py
+2026-03-26 05:25:32 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:25:32 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:25:40 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:25:40 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:26:04 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:26:04 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:26:17 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:26:17 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+2026-03-26 05:26:34 | INFO | Successfully fetched metadata for game ft09
+2026-03-26 05:26:34 | INFO | Successfully loaded game class Ft09 from environment_files\ft09\0d8bbf25\ft09.py
+
+======================================================================
+STEP 1184 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=2.6s
+  GAME_3: L1=60%  SOLVED=60%  max_lvl=1  ARC=0.0007  avg_t=3.7s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=1.7s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  Chain score: 3/5
+  ARC Prize score: 0.0001 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_3: ++60% (0% → 60%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 89.0s
+STEP 1184 DONE
