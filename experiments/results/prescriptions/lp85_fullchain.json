@@ -1,19 +1,20 @@
 {
-  "game": "tn36",
+  "game": "lp85",
   "source": "solve_6games_fullchain (stub - needs deeper analysis)",
   "type": "analytical",
   "total_actions": 0,
   "max_level": 0,
-  "n_levels": 7,
+  "n_levels": 8,
   "per_level": {},
   "baseline": [
-    23,
+    33,
     22,
-    26,
-    37,
-    25,
-    56,
-    61
+    31,
+    23,
+    33,
+    34,
+    73,
+    173
   ],
   "all_actions": [],
   "notes": "Complex game mechanics require game-specific solver. BFS exhaustive search completed but level 1 not solved within budget."
