@@ -1,0 +1,74 @@
+{
+  "game": "vc33",
+  "click_support": true,
+  "action_space": [
+    "GameAction.ACTION6"
+  ],
+  "n_actions": 4103,
+  "kb_responsiveness": {
+    "ACTION1": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION2": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION3": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION4": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION5": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION6": {
+      "delta_mean": 3.6,
+      "delta_max": 6.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION7": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    }
+  },
+  "click_responsiveness": {},
+  "l1_random_500": false,
+  "l1_random_steps": null,
+  "errors": [
+    "operands could not be broadcast together with shapes (0,) (64,64) "
+  ],
+  "elapsed": 0.47,
+  "classification": "keyboard-only (click declared but unresponsive)"
+}

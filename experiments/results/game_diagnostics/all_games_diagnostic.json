@@ -1,0 +1,1828 @@
+{
+  "ar25": {
+    "game": "ar25",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5",
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 522.0,
+        "delta_max": 522.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 522.0,
+        "delta_max": 522.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 522.0,
+        "delta_max": 522.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 437.2,
+        "delta_max": 522.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 6.0,
+        "delta_max": 6.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 0,
+      "n_total": 64,
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "responsive_rate": 0.0
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.72,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "bp35": {
+    "game": "bp35",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {},
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (5,64,64) (2,64,64) "
+    ],
+    "elapsed": 0.46,
+    "classification": "INERT (nothing responsive)"
+  },
+  "cd82": {
+    "game": "cd82",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.6,
+        "delta_max": 1.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 0.6,
+        "delta_max": 1.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 332.0,
+        "delta_max": 1658.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 332.0,
+        "delta_max": 1658.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 4415.8,
+        "delta_max": 18299.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.6,
+        "delta_max": 1.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.6,
+        "delta_max": 1.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 41,
+      "n_total": 64,
+      "delta_mean": 0.640625,
+      "delta_max": 1.0,
+      "responsive_rate": 0.640625
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.46,
+    "classification": "mixed (KB+click)"
+  },
+  "cn04": {
+    "game": "cn04",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 1354.4,
+        "delta_max": 1696.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 1692.8,
+        "delta_max": 1696.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 1008.8,
+        "delta_max": 1264.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 1260.8,
+        "delta_max": 1264.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 1628.0,
+        "delta_max": 1836.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.8,
+        "delta_max": 4.0,
+        "n_responsive": 3,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.8,
+        "delta_max": 4.0,
+        "n_responsive": 3,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 20,
+      "n_total": 64,
+      "delta_mean": 171.3125,
+      "delta_max": 2016.0,
+      "responsive_rate": 0.3125
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.45,
+    "classification": "mixed (KB+click)"
+  },
+  "dc22": {
+    "game": "dc22",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 21.0,
+        "delta_max": 99.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 21.0,
+        "delta_max": 99.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 21.0,
+        "delta_max": 99.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 21.0,
+        "delta_max": 99.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 1.8,
+        "delta_max": 3.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 1.8,
+        "delta_max": 3.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 1.8,
+        "delta_max": 3.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 32,
+      "n_total": 64,
+      "delta_mean": 1.5,
+      "delta_max": 3.0,
+      "responsive_rate": 0.5
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.5,
+    "classification": "mixed (KB+click)"
+  },
+  "ft09": {
+    "game": "ft09",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 64.0,
+        "delta_max": 320.0,
+        "n_responsive": 3,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 11,
+      "n_total": 64,
+      "delta_mean": 41.875,
+      "delta_max": 510.0,
+      "responsive_rate": 0.171875
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.45,
+    "classification": "mixed (KB+click)"
+  },
+  "g50t": {
+    "game": "g50t",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 3.2,
+        "delta_max": 8.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 1142.4,
+        "delta_max": 1400.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 3.2,
+        "delta_max": 8.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (13,64,64) (7,64,64) "
+    ],
+    "elapsed": 0.5,
+    "classification": "keyboard-only (3/7 responsive)"
+  },
+  "ka59": {
+    "game": "ka59",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 128.4,
+        "delta_max": 214.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 128.4,
+        "delta_max": 214.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 123.0,
+        "delta_max": 211.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 847.0,
+        "delta_max": 2190.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 2.4,
+        "delta_max": 4.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 41,
+      "n_total": 64,
+      "delta_mean": 2.5625,
+      "delta_max": 4.0,
+      "responsive_rate": 0.640625
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.52,
+    "classification": "mixed (KB+click)"
+  },
+  "lf52": {
+    "game": "lf52",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 2.0,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (27,64,64) (2,64,64) "
+    ],
+    "elapsed": 0.46,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "lp85": {
+    "game": "lp85",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 1,
+      "n_total": 64,
+      "delta_mean": 28.703125,
+      "delta_max": 1837.0,
+      "responsive_rate": 0.015625
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.57,
+    "classification": "INERT (nothing responsive)"
+  },
+  "ls20": {
+    "game": "ls20",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 376.0,
+        "delta_max": 376.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 16.0,
+        "delta_max": 16.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 232.0,
+        "delta_max": 376.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 232.0,
+        "delta_max": 376.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": true,
+    "l1_random_steps": 199,
+    "errors": [],
+    "elapsed": 0.65,
+    "classification": "keyboard-only (4/7 responsive)"
+  },
+  "m0r0": {
+    "game": "m0r0",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 154.0,
+        "delta_max": 500.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 104.0,
+        "delta_max": 500.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 204.0,
+        "delta_max": 510.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 104.0,
+        "delta_max": 500.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 4.0,
+        "delta_max": 10.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 4.0,
+        "delta_max": 10.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 4.0,
+        "delta_max": 10.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 27,
+      "n_total": 64,
+      "delta_mean": 4.21875,
+      "delta_max": 10.0,
+      "responsive_rate": 0.421875
+    },
+    "l1_random_500": true,
+    "l1_random_steps": 115,
+    "errors": [],
+    "elapsed": 0.44,
+    "classification": "mixed (KB+click)"
+  },
+  "r11l": {
+    "game": "r11l",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 5.0,
+        "delta_max": 5.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (64,64) "
+    ],
+    "elapsed": 0.44,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "re86": {
+    "game": "re86",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 259.6,
+        "delta_max": 267.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 249.6,
+        "delta_max": 264.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 252.8,
+        "delta_max": 264.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 256.8,
+        "delta_max": 264.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 28.4,
+        "delta_max": 34.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.53,
+    "classification": "keyboard-only (5/7 responsive)"
+  },
+  "s5i5": {
+    "game": "s5i5",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 1.2,
+        "delta_max": 2.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (64,64) "
+    ],
+    "elapsed": 0.46,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "sb26": {
+    "game": "sb26",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION5",
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 1382.0,
+        "delta_max": 6742.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 0,
+      "n_total": 64,
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "responsive_rate": 0.0
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.89,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "sc25": {
+    "game": "sc25",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 2577.6,
+        "delta_max": 6476.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 2577.6,
+        "delta_max": 6476.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 3742.4,
+        "delta_max": 11580.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 2612.8,
+        "delta_max": 6652.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 2520.0,
+        "delta_max": 6300.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (13,64,64) (22,64,64) "
+    ],
+    "elapsed": 0.57,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "sk48": {
+    "game": "sk48",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 452.0,
+        "delta_max": 534.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 0.2,
+        "delta_max": 1.0,
+        "n_responsive": 3,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 13.0,
+        "delta_max": 48.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 51.6,
+        "delta_max": 66.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {
+      "n_responsive": 0,
+      "n_total": 64,
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "responsive_rate": 0.0
+    },
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.6,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "sp80": {
+    "game": "sp80",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5",
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 126.8,
+        "delta_max": 508.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 510.8,
+        "delta_max": 522.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 88.4,
+        "delta_max": 124.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 126.8,
+        "delta_max": 138.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 16479.2,
+        "delta_max": 40120.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 30.8,
+        "delta_max": 42.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 30.8,
+        "delta_max": 42.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (64,64) "
+    ],
+    "elapsed": 0.4,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "su15": {
+    "game": "su15",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6",
+      "GameAction.ACTION7"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (5,64,64) "
+    ],
+    "elapsed": 0.51,
+    "classification": "INERT (nothing responsive)"
+  },
+  "tn36": {
+    "game": "tn36",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 6.0,
+        "delta_max": 6.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (8,64,64) "
+    ],
+    "elapsed": 0.43,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "tr87": {
+    "game": "tr87",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 24.0,
+        "delta_max": 35.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 23.6,
+        "delta_max": 35.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 85.2,
+        "delta_max": 87.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 85.2,
+        "delta_max": 87.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.64,
+    "classification": "keyboard-only (4/7 responsive)"
+  },
+  "tu93": {
+    "game": "tu93",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 7.2,
+        "delta_max": 12.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 7.2,
+        "delta_max": 12.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 7.2,
+        "delta_max": 12.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 349.2,
+        "delta_max": 1068.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.44,
+    "classification": "keyboard-only (4/7 responsive)"
+  },
+  "vc33": {
+    "game": "vc33",
+    "click_support": true,
+    "action_space": [
+      "GameAction.ACTION6"
+    ],
+    "n_actions": 4103,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION2": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION3": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION4": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION5": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION6": {
+        "delta_mean": 3.6,
+        "delta_max": 6.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [
+      "operands could not be broadcast together with shapes (0,) (64,64) "
+    ],
+    "elapsed": 0.47,
+    "classification": "keyboard-only (click declared but unresponsive)"
+  },
+  "wa30": {
+    "game": "wa30",
+    "click_support": false,
+    "action_space": [
+      "GameAction.ACTION1",
+      "GameAction.ACTION2",
+      "GameAction.ACTION3",
+      "GameAction.ACTION4",
+      "GameAction.ACTION5"
+    ],
+    "n_actions": 7,
+    "kb_responsiveness": {
+      "ACTION1": {
+        "delta_mean": 131.6,
+        "delta_max": 335.0,
+        "n_responsive": 9,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION2": {
+        "delta_mean": 192.4,
+        "delta_max": 323.0,
+        "n_responsive": 12,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION3": {
+        "delta_mean": 321.2,
+        "delta_max": 323.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION4": {
+        "delta_mean": 321.2,
+        "delta_max": 323.0,
+        "n_responsive": 15,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION5": {
+        "delta_mean": 1.2,
+        "delta_max": 3.0,
+        "n_responsive": 6,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": true
+      },
+      "ACTION6": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      },
+      "ACTION7": {
+        "delta_mean": 0.0,
+        "delta_max": 0.0,
+        "n_responsive": 0,
+        "n_total": 15,
+        "errors": 0,
+        "responsive": false
+      }
+    },
+    "click_responsiveness": {},
+    "l1_random_500": false,
+    "l1_random_steps": null,
+    "errors": [],
+    "elapsed": 0.47,
+    "classification": "keyboard-only (5/7 responsive)"
+  }
+}

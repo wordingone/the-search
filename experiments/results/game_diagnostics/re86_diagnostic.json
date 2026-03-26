@@ -1,0 +1,76 @@
+{
+  "game": "re86",
+  "click_support": false,
+  "action_space": [
+    "GameAction.ACTION1",
+    "GameAction.ACTION2",
+    "GameAction.ACTION3",
+    "GameAction.ACTION4",
+    "GameAction.ACTION5"
+  ],
+  "n_actions": 7,
+  "kb_responsiveness": {
+    "ACTION1": {
+      "delta_mean": 259.6,
+      "delta_max": 267.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION2": {
+      "delta_mean": 249.6,
+      "delta_max": 264.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION3": {
+      "delta_mean": 252.8,
+      "delta_max": 264.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION4": {
+      "delta_mean": 256.8,
+      "delta_max": 264.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION5": {
+      "delta_mean": 28.4,
+      "delta_max": 34.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION6": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    },
+    "ACTION7": {
+      "delta_mean": 0.0,
+      "delta_max": 0.0,
+      "n_responsive": 0,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": false
+    }
+  },
+  "click_responsiveness": {},
+  "l1_random_500": false,
+  "l1_random_steps": null,
+  "errors": [],
+  "elapsed": 0.53,
+  "classification": "keyboard-only (5/7 responsive)"
+}

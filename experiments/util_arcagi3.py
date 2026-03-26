@@ -20,6 +20,11 @@ AND the click action. Click games crash with KeyError: 'x' when ACTION6 is sent
 without data. Fix: for click games, keyboard action 5 sends ACTION6 with
 data={"x": 0, "y": 0}. Additionally, game errors (obs=None) no longer cause
 game resets — the last valid frame is returned instead.
+
+BUG FIX 2 (2026-03-26): Multi-frame games (bp35, lf52, sc25, sk48) return frames
+with shape (N, 64, 64) where N > 1. Substrates expect (64, 64) or (1, 64, 64).
+Fix: _normalize_frame() always extracts the last 64x64 frame from multi-frame
+output, returning consistent (1, 64, 64) shape for all games.
 """
 import arc_agi
 from arcengine import GameAction, GameState
@@ -28,6 +33,25 @@ N_KB_ACTIONS = 7   # ACTION1-ACTION7, always available
 N_CLICK_TARGETS = 64 * 64  # 4096 pixel-level click targets
 
 _GA_KB = list(GameAction)[1:]  # [ACTION1..ACTION7], skip RESET
+
+
+def _normalize_frame(frame):
+    """Extract last 64x64 frame from possibly multi-frame output.
+
+    Some games return (N, 64, 64) where N > 1 (animation frames).
+    Substrates expect (1, 64, 64) or (64, 64). Always return the last
+    frame wrapped in a list for consistent (1, 64, 64) shape.
+    """
+    if frame is None:
+        return None
+    if not frame:  # empty list
+        return None
+    import numpy as np
+    arr = np.asarray(frame, dtype=np.float32)
+    if arr.ndim == 3 and arr.shape[0] > 1:
+        # Multi-frame: take last frame, wrap in list dim
+        return [arr[-1]]
+    return frame
 
 
 class _Env:
@@ -61,7 +85,7 @@ class _Env:
             self._last_obs = self._env.reset()
         self._levels_offset = self._last_obs.levels_completed if self._last_obs is not None else 0
         self._error_count = 0
-        frame = self._frame()
+        frame = _normalize_frame(self._frame())
         self._last_frame = frame
         return frame
 
@@ -98,7 +122,7 @@ class _Env:
         self._error_count = 0  # reset on success
         done = obs.state in (GameState.GAME_OVER, GameState.WIN)
         info = {'level': obs.levels_completed - self._levels_offset}
-        frame = obs.frame if obs.frame else None
+        frame = _normalize_frame(obs.frame) if obs.frame else None
         if frame is not None:
             self._last_frame = frame
         return frame if frame is not None else self._last_frame, 0.0, done, info

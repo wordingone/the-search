@@ -1,0 +1,46 @@
+{
+  "game": "g50t",
+  "click_support": false,
+  "action_space": [
+    "GameAction.ACTION1",
+    "GameAction.ACTION2",
+    "GameAction.ACTION3",
+    "GameAction.ACTION4",
+    "GameAction.ACTION5"
+  ],
+  "n_actions": 7,
+  "kb_responsiveness": {
+    "ACTION1": {
+      "delta_mean": 3.2,
+      "delta_max": 8.0,
+      "n_responsive": 6,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION2": {
+      "delta_mean": 1142.4,
+      "delta_max": 1400.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION3": {
+      "delta_mean": 3.2,
+      "delta_max": 8.0,
+      "n_responsive": 6,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    }
+  },
+  "click_responsiveness": {},
+  "l1_random_500": false,
+  "l1_random_steps": null,
+  "errors": [
+    "operands could not be broadcast together with shapes (13,64,64) (7,64,64) "
+  ],
+  "elapsed": 0.5,
+  "classification": "keyboard-only (3/7 responsive)"
+}

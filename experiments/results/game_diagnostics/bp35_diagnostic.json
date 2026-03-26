@@ -1,0 +1,20 @@
+{
+  "game": "bp35",
+  "click_support": true,
+  "action_space": [
+    "GameAction.ACTION3",
+    "GameAction.ACTION4",
+    "GameAction.ACTION6",
+    "GameAction.ACTION7"
+  ],
+  "n_actions": 4103,
+  "kb_responsiveness": {},
+  "click_responsiveness": {},
+  "l1_random_500": false,
+  "l1_random_steps": null,
+  "errors": [
+    "operands could not be broadcast together with shapes (5,64,64) (2,64,64) "
+  ],
+  "elapsed": 0.46,
+  "classification": "INERT (nothing responsive)"
+}

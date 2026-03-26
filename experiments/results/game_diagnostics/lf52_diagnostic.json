@@ -1,0 +1,55 @@
+{
+  "game": "lf52",
+  "click_support": true,
+  "action_space": [
+    "GameAction.ACTION1",
+    "GameAction.ACTION2",
+    "GameAction.ACTION3",
+    "GameAction.ACTION4",
+    "GameAction.ACTION6",
+    "GameAction.ACTION7"
+  ],
+  "n_actions": 4103,
+  "kb_responsiveness": {
+    "ACTION1": {
+      "delta_mean": 2.0,
+      "delta_max": 2.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION2": {
+      "delta_mean": 2.0,
+      "delta_max": 2.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION3": {
+      "delta_mean": 2.0,
+      "delta_max": 2.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    },
+    "ACTION4": {
+      "delta_mean": 2.0,
+      "delta_max": 2.0,
+      "n_responsive": 15,
+      "n_total": 15,
+      "errors": 0,
+      "responsive": true
+    }
+  },
+  "click_responsiveness": {},
+  "l1_random_500": false,
+  "l1_random_steps": null,
+  "errors": [
+    "operands could not be broadcast together with shapes (27,64,64) (2,64,64) "
+  ],
+  "elapsed": 0.46,
+  "classification": "keyboard-only (click declared but unresponsive)"
+}

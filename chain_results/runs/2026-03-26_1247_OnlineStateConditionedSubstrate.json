@@ -1,0 +1,268 @@
+{
+  "substrate": "OnlineStateConditionedSubstrate",
+  "timestamp": "2026-03-26T08:18:36",
+  "step": 1247,
+  "prism_mode": null,
+  "chain": [
+    "Split-CIFAR-100-before",
+    "LS20",
+    "SP80",
+    "CN04",
+    "Split-CIFAR-100-after"
+  ],
+  "budget_per_phase": 500,
+  "n_seeds": 10,
+  "config": {
+    "n_dims": 256,
+    "block_size": 4,
+    "ema_alpha": 0.1,
+    "epsilon": 0.2,
+    "change_thresh": 0.1,
+    "warmup_steps": 50,
+    "n_coarse_states": 4,
+    "family": "online state-conditioned",
+    "tag": "prosecution v40 (\u2113_\u03c0 online state-conditioned: EMA from step 1, 4 states via top-2 dim binary split, concurrent learning. Fixes v93 budget fragmentation.)"
+  },
+  "results": {
+    "Split-CIFAR-100-before": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.047,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "LS20": {
+      "l1_rate": 0.2,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.2,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 6.15,
+      "per_seed_l1": [
+        0,
+        8836,
+        0,
+        0,
+        0,
+        8836,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {
+          "1": 8836
+        },
+        {},
+        {},
+        {},
+        {
+          "1": 8836
+        },
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "SP80": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 5.503,
+      "per_seed_l1": [
+        11,
+        3381,
+        3381,
+        644,
+        2677,
+        3381,
+        58,
+        1616,
+        58,
+        1806
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 11
+        },
+        {
+          "1": 3381
+        },
+        {
+          "1": 3381
+        },
+        {
+          "1": 644
+        },
+        {
+          "1": 2677
+        },
+        {
+          "1": 3381
+        },
+        {
+          "1": 58
+        },
+        {
+          "1": 1616
+        },
+        {
+          "1": 58
+        },
+        {
+          "1": 1806
+        }
+      ]
+    },
+    "CN04": {
+      "l1_rate": 0.8,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.8,
+      "max_level": 1,
+      "avg_steps": 10000.0,
+      "mean_elapsed": 1.237,
+      "per_seed_l1": [
+        8927,
+        7173,
+        9137,
+        5333,
+        0,
+        7173,
+        5333,
+        0,
+        5333,
+        6492
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 8927
+        },
+        {
+          "1": 7173
+        },
+        {
+          "1": 9137
+        },
+        {
+          "1": 5333
+        },
+        {},
+        {
+          "1": 7173
+        },
+        {
+          "1": 5333
+        },
+        {},
+        {
+          "1": 5333
+        },
+        {
+          "1": 6492
+        }
+      ]
+    },
+    "Split-CIFAR-100-after": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 20.0,
+      "mean_elapsed": 0.049,
+      "per_seed_l1": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  },
+  "chain_score": {
+    "phases_passed": 5,
+    "phases_total": 8,
+    "chain_complete": false
+  },
+  "chain_kill": {
+    "verdict": "FAIL",
+    "per_game_delta": {
+      "Split-CIFAR-100-before": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      },
+      "LS20": {
+        "delta": -0.8,
+        "current": 0.2,
+        "baseline": 1.0
+      },
+      "SP80": {
+        "delta": null,
+        "current": 1.0,
+        "baseline": null
+      },
+      "CN04": {
+        "delta": null,
+        "current": 0.8,
+        "baseline": null
+      },
+      "Split-CIFAR-100-after": {
+        "delta": 0.0,
+        "current": 1.0,
+        "baseline": 1.0
+      }
+    },
+    "chain_score": {
+      "phases_passed": 5,
+      "phases_total": 5
+    },
+    "details": "improved=0 degraded=1 of 3 games"
+  }
+}
