@@ -1,0 +1,39 @@
+======================================================================
+STEP 1201 — CPGPolyrhythmicSubstrate
+Substrate: B:\M\the-search\experiments\sub1201_defense_v85.py
+======================================================================
+2026-03-26 06:25:59 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=None)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-26 06:25:59 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:25:59 | INFO | Created new scorecard: 36cb7a5b-b238-455d-979a-e6c23de8e016
+2026-03-26 06:25:59 | INFO | Successfully fetched metadata for game g50t
+2026-03-26 06:25:59 | INFO | Successfully loaded game class G50t from environment_files\g50t\5849a774\g50t.py
+2026-03-26 06:26:03 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:26:03 | INFO | Created new scorecard: 7022f903-49d9-46d7-8bf1-27cd3f165ffb
+2026-03-26 06:26:03 | INFO | Successfully fetched metadata for game wa30
+2026-03-26 06:26:03 | INFO | Successfully loaded game class Wa30 from environment_files\wa30\ee6fef47\wa30.py
+2026-03-26 06:26:09 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-26 06:26:09 | INFO | Created new scorecard: 86ea93ef-2a73-45f9-80cb-c61bbdb16ba1
+2026-03-26 06:26:09 | INFO | Successfully fetched metadata for game ka59
+2026-03-26 06:26:09 | INFO | Successfully loaded game class Ka59 from environment_files\ka59\9f096b4a\ka59.py
+
+======================================================================
+STEP 1201 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=2.0s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=3.5s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=1.2s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.1s
+  Chain score: 2/5
+  ARC Prize score: 0.0000 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: PASS
+    GAME_1: ++0% (100% → 100%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 78.7s
+STEP 1201 DONE
