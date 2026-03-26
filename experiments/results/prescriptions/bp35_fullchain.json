@@ -1,0 +1,52 @@
+{
+  "game": "bp35",
+  "total_levels": 9,
+  "levels": {
+    "L1": {
+      "status": "SOLVED",
+      "actions": [
+        3,
+        3,
+        3,
+        3,
+        2097,
+        2463,
+        2,
+        2,
+        2,
+        2079,
+        2079,
+        3,
+        2085,
+        2,
+        2
+      ],
+      "length": 15,
+      "method": "known"
+    },
+    "L2": {
+      "status": "UNSOLVED",
+      "time": 300.25
+    }
+  },
+  "full_sequence": [
+    3,
+    3,
+    3,
+    3,
+    2097,
+    2463,
+    2,
+    2,
+    2,
+    2079,
+    2079,
+    3,
+    2085,
+    2,
+    2
+  ],
+  "method": "bfs_set_level",
+  "max_level_solved": 1,
+  "total_actions": 15
+}
