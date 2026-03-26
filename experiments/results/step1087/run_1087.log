@@ -1,0 +1,41 @@
+======================================================================
+STEP 1087 — AlphaProjectedAttentionSubstrate
+Substrate: B:\M\the-search\experiments\sub1087_prosecution_v21.py
+======================================================================
+2026-03-25 18:54:26 | INFO | Successfully fetched 25 environment(s) from API
+[PRISM] Selected 3 games from 25 available (seed=62801)
+  GAME_2=***  GAME_3=***  GAME_4=***
+Budget: 10000 steps/game, 10 seeds, randomized order
+
+2026-03-25 18:54:26 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:54:26 | INFO | Created new scorecard: b57ba6d1-d8ab-4ac2-9e74-a5467c3bd67f
+2026-03-25 18:54:26 | INFO | Successfully fetched metadata for game dc22
+2026-03-25 18:54:26 | INFO | Successfully loaded game class Dc22 from environment_files\dc22\4c9bff3e\dc22.py
+2026-03-25 18:54:44 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:54:44 | INFO | Created new scorecard: 508ac7bd-b079-4e34-9923-422af71b4ad2
+2026-03-25 18:54:44 | INFO | Successfully fetched metadata for game ls20
+2026-03-25 18:54:44 | INFO | Successfully loaded game class Ls20 from environment_files\ls20\9607627b\ls20.py
+2026-03-25 18:55:10 | INFO | Successfully fetched 25 environment(s) from API
+2026-03-25 18:55:10 | INFO | Created new scorecard: 630df09d-4be0-47ed-af57-d3e8708099d7
+2026-03-25 18:55:10 | INFO | Successfully fetched metadata for game vc33
+2026-03-25 18:55:10 | INFO | Successfully loaded game class Vc33 from environment_files\vc33\9851e02b\vc33.py
+
+======================================================================
+STEP 1087 RESULTS:
+  GAME_1: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  GAME_2: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=15.5s
+  GAME_3: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=15.5s
+  GAME_4: L1=0%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=20.0s
+  GAME_5: L1=100%  SOLVED=0%  max_lvl=0  ARC=0.0000  avg_t=0.0s
+  Chain score: 2/5
+  ARC Prize score: 0.0000 (human_baseline=50 actions/level)
+  ** DEBATE FAIL: one or more games at 0% L1 (Jun directive 2026-03-25) **
+  ** WIN CONDITION NOT MET: 100% ALL LEVELS required on ALL games **
+  Chain kill verdict: FAIL
+    GAME_1: ++0% (100% → 100%)
+    GAME_2: ++0% (0% → 0%)
+    GAME_4: -100% (100% → 0%)
+    GAME_5: ++0% (100% → 100%)
+  Results: [blind]
+  Elapsed: 519.0s
+STEP 1087 DONE
