@@ -17,7 +17,8 @@
         1329,
         1014
       ],
-      "source": "known_solution"
+      "source": "known_solution",
+      "verified": true
     },
     "L2": {
       "count": 17,
@@ -40,42 +41,43 @@
         2087,
         1832
       ],
-      "source": "known_solution"
+      "source": "known_solution",
+      "verified": true
     },
     "L3": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - vacuum simulation mismatch with real physics (cascade merges)"
     },
     "L4": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - vacuum simulation mismatch"
     },
     "L5": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - vacuum simulation mismatch"
     },
     "L6": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - requires enemy interaction (size 5 fruit, no merging possible)"
     },
     "L7": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - requires enemy interaction to break size 5 fruit"
     },
     "L8": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - requires enemy interaction"
     },
     "L9": {
       "count": 0,
       "actions": [],
-      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
+      "status": "UNSOLVED - requires enemy interaction"
     }
   },
   "all_actions": [
@@ -105,5 +107,5 @@
     2087,
     1832
   ],
-  "description": "L1-L2 solved via known vacuum click sequences. L3-L9 UNSOLVED: abstract vacuum simulation does not precisely match real game physics (fruit movement, merge cascades, enemy interactions). Requires API-verified planning."
+  "description": "L1-L2 SOLVED+VERIFIED (25 actions total). L3-L5: vacuum merge planning works on abstract model but cascade merge simulation diverges from real physics. L6-L9: require enemy-fruit interactions (enemies reduce fruit size on contact, creating merger opportunities) which abstract model does not simulate."
 }
