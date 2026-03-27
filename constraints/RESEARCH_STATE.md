@@ -34,9 +34,9 @@ raw pixels → avgpool4 → centered encoding (U16)
 | I1 | **FAIL** (0/15) | Encoding doesn't distinguish analytically-distinct game states. Single-layer W lacks capacity. |
 | I5 | **NULL** | No reliable L1 → cross-level transfer unmeasurable. |
 
-**Current bottleneck:** I1. The encoding self-modifies (R3) and the action selector reads from it (allosteric), but the encoding can't distinguish game states. Salience doesn't correlate with useful actions.
+**Current bottleneck:** The encoding's learned features are 80% orthogonal to action usefulness. SAL (salience-action correlation) = 0.20 on a frozen random read of the R3-modified encoding (Step 1254). Positive but insufficient - argmin's blind coverage outperforms encoding-informed selection. The problem is not the selector or the bridge. The problem is what the dynamics learn. Prediction error (the current learning signal) doesn't correlate with action usefulness because all actions produce prediction errors in novel environments.
 
-**Next component needed:** State-distinguishing encoding. Top candidate: IncSFA (Oja's rule on derivative covariance). Mathematically guarantees distinct slow features for distinct states. Online, O(d×k) per step, R1-R6 compatible.
+**Next component needed:** A learning signal that correlates with action effects. Not reward (R1). Not prediction error (orthogonal, Step 1254). Something that measures structured state change per action.
 
 ---
 
