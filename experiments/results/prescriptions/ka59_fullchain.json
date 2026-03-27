@@ -1,6 +1,6 @@
 {
   "game": "ka59",
-  "source": "analytical_solver",
+  "source": "random_search_solver",
   "type": "fullchain",
   "total_levels": 7,
   "levels": {},

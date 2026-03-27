@@ -1,8 +1,7 @@
 {
   "game": "lf52",
-  "version": "271a04aa",
   "method": "abstract_dfs_peg_solitaire",
-  "max_level": 1,
+  "max_level_solved": 1,
   "total_actions": 8,
   "levels": {
     "L1": {
@@ -34,30 +33,30 @@
     },
     "L5": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     },
     "L6": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     },
     "L7": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     },
     "L8": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     },
     "L9": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     },
     "L10": {
       "status": "UNSOLVED",
-      "time": 0.0
+      "note": "grid not parsed"
     }
   },
-  "all_actions": [
+  "full_sequence": [
     1306,
     1318,
     1318,

@@ -1,140 +1,110 @@
 {
   "game": "bp35",
-  "version": "0a0ad940",
   "method": "abstract_bfs_gravity",
-  "max_level": 0,
-  "total_actions": 42,
+  "max_level_solved": 1,
+  "total_actions": 29,
   "levels": {
     "L1": {
-      "status": "UNSOLVED",
-      "time": 73.15
+      "status": "SOLVED",
+      "actions": [
+        3,
+        3,
+        3,
+        3,
+        2097,
+        2463,
+        2,
+        2,
+        2,
+        2079,
+        2079,
+        3,
+        2085,
+        2,
+        2
+      ],
+      "length": 15,
+      "method": "known"
     },
     "L2": {
       "status": "UNSOLVED",
-      "time": 216.08
+      "note": "no grid data"
     },
     "L3": {
       "status": "UNSOLVED",
-      "time": 128.61
+      "note": "no grid data"
     },
     "L4": {
       "status": "SOLVED",
       "actions": [
         2,
-        4084,
-        3676,
-        4084,
-        4060,
+        52,
+        2140,
         3,
         3,
-        3292,
+        1396,
+        4072,
         3,
         3,
-        3676,
+        4072,
         2,
         2,
         2,
-        220
-      ],
-      "length": 15,
-      "time": 0.65
-    },
-    "L5": {
-      "status": "SOLVED",
-      "actions": [
-        3,
-        3,
-        3,
-        3,
-        3,
-        3,
-        2176,
-        2548,
-        2554,
-        2,
-        2,
-        2,
-        2
-      ],
-      "length": 13,
-      "time": 2.27
-    },
-    "L6": {
-      "status": "SOLVED",
-      "actions": [
-        3,
-        3,
-        3,
-        4084,
-        4078,
-        4066,
-        3,
-        3,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2
+        4072
       ],
       "length": 14,
-      "time": 1.79
+      "time": 0.39
+    },
+    "L5": {
+      "status": "UNSOLVED",
+      "note": "no grid data"
+    },
+    "L6": {
+      "status": "UNSOLVED",
+      "note": "no grid data"
     },
     "L7": {
       "status": "UNSOLVED",
-      "time": 268.36
+      "note": "no grid data"
     },
     "L8": {
       "status": "UNSOLVED",
-      "time": 2.97
+      "note": "no grid data"
     },
     "L9": {
       "status": "UNSOLVED",
-      "time": 32.49
+      "note": "no grid data"
     }
   },
-  "all_actions": [
-    2,
-    4084,
-    3676,
-    4084,
-    4060,
+  "full_sequence": [
     3,
     3,
-    3292,
     3,
     3,
-    3676,
+    2097,
+    2463,
     2,
     2,
     2,
-    220,
+    2079,
+    2079,
     3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    2176,
-    2548,
-    2554,
+    2085,
     2,
     2,
     2,
-    2,
+    52,
+    2140,
     3,
     3,
-    3,
-    4084,
-    4078,
-    4066,
+    1396,
+    4072,
     3,
     3,
+    4072,
     2,
     2,
     2,
-    2,
-    2,
-    2
+    4072
   ]
 }

@@ -1,11 +1,11 @@
 {
   "game": "s5i5",
   "total_levels": 8,
-  "method": "engine_bfs",
+  "method": "fast_bfs_deepcopy",
   "levels": {
     "L3": {
       "status": "UNSOLVED",
-      "time": 305.01
+      "time": 245.46
     }
   },
   "full_sequence": [
@@ -49,6 +49,6 @@
     3519,
     3519
   ],
-  "max_level_solved": 0,
+  "max_level_solved": 2,
   "total_actions": 39
 }

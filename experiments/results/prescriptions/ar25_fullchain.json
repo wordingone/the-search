@@ -3,23 +3,30 @@
   "total_levels": 8,
   "method": "fast_bfs_deepcopy",
   "levels": {
-    "L2": {
+    "L3": {
+      "status": "UNSOLVED",
+      "time": 240.82
+    },
+    "L1": {
       "status": "SOLVED",
       "actions": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
         2,
         2,
-        1335,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1
+        2,
+        2,
+        2
       ],
-      "length": 11,
-      "time": 30.92
+      "length": 15
     }
   },
   "full_sequence": [
@@ -51,5 +58,6 @@
     1
   ],
   "max_level_solved": 2,
-  "total_actions": 26
+  "total_actions": 26,
+  "version": "e3c63847"
 }
