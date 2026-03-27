@@ -1,6 +1,6 @@
 # The Search — Index
 
-*720+ experiments across 12 families. These are the ones that matter.*
+*1253+ experiments across 16 families. These are the ones that matter.*
 
 ---
 
@@ -8,6 +8,9 @@
 
 | Step | What happened | Why it matters |
 |------|--------------|----------------|
+| [1251](experiments/step1251_composition.py) | **R3 solved by composition** | 7 cross-family components composed → R3 100/100 (10 games, both wirings). R3 was always achievable. 0/1250 was a composition failure. Changed the search from individual substrates to component composition. |
+| [1252](experiments/step1252_allosteric.py) | **Allosteric principle + first I4** | Shared W for encoding and action selection. I4=1.00 (first temporal structure in 1252 experiments). Established allosteric as the architecture for all future substrates. |
+| 1253 | **R3+I3 coexist, I1 identified as wall** | Adaptive softmax restores coverage. VC33: R3=4/5, I3=5/5 simultaneously. I1=0.00 universally. Bottleneck shifted from R3→action bridge to encoding quality. |
 | [442b](experiments/run_step442_graph_substrate.py) | First non-codebook navigation | Graph + edge-count argmin navigates LS20 without codebook machinery. Proved the mechanism is the graph, not the codebook. Opened Phase 2. |
 | [432](experiments/run_step432_labeled_vs_self.py) | Classification requires external labels | Self-generated labels: 9.8% (below chance). The 94.48% P-MNIST result depends entirely on external supervision. 84.68pp gap. R1 violation. |
 | [418](experiments/run_step418_readiswrite.py) | argmin ≠ argmax | Navigation needs argmin (least-visited). Classification needs argmax (most-similar). One mechanism cannot serve both. The substrate must be general enough for both — but not by switching between them. |

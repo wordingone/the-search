@@ -15,7 +15,7 @@ Can a system improve itself by criteria it generates?
 | LS20 navigation (20 seeds, 10K steps) | 674+running-mean | 20/20 L1 | Argmin over visit counts |
 | FT09 navigation | 674+running-mean | 20/20 L1 | 7-action space |
 | Cross-domain transfer (LS20→CIFAR) | 674 | 0% improvement | Zero transfer in both directions |
-| R3 (self-modification) | 674 | FAIL (8 U elements) | 0/777 substrates pass R3 |
+| R3 (self-modification) | 674 | FAIL (8 U elements) | Solved by composition (Step 1251, 100/100) |
 | Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most at/below random |
 
 **Phase 2 — Post-ban exploration (Steps 417-1081):**
