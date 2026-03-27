@@ -34,9 +34,13 @@ raw pixels → avgpool4 → centered encoding (U16)
 | I1 | **FAIL** (0/15) | Encoding doesn't distinguish analytically-distinct game states. Single-layer W lacks capacity. |
 | I5 | **NULL** | No reliable L1 → cross-level transfer unmeasurable. |
 
-**Current bottleneck:** The encoding's learned features are 80% orthogonal to action usefulness. SAL (salience-action correlation) = 0.20 on a frozen random read of the R3-modified encoding (Step 1254). Positive but insufficient - argmin's blind coverage outperforms encoding-informed selection. The problem is not the selector or the bridge. The problem is what the dynamics learn. Prediction error (the current learning signal) doesn't correlate with action usefulness because all actions produce prediction errors in novel environments.
+**Current bottleneck:** R3 and SAL both pass simultaneously (Step 1258, first time in 1258 experiments). C25 post-recurrent on ext_enc provides R3 (Jacobian diff 0.049-0.055). Viability attention on enc-dims provides SAL (rho 0.21-0.49). LS20: both pass. VC33/SP80: SAL below threshold (sparse visits on 4103-action space make viability alpha flat). I3=0 on GPR (coverage broken). I1=0 (states not distinguished). L1=0 on all games with GPR.
 
-**Next component needed:** A learning signal that correlates with action effects. Not reward (R1). Not prediction error (orthogonal, Step 1254). Something that measures structured state change per action.
+**Remaining gaps:**
+1. SAL on click games (VC33/SP80): viability alpha can't build spread with 2.4 visits/action in 10K steps
+2. I3: GPR breaks systematic coverage (argmin works but ignores encoding)
+3. I1: encoding doesn't distinguish game states regardless of attention mechanism
+4. L1: no composition with GPR reaches L1. Argmin reaches L1 but ignores R3.
 
 ---
 
