@@ -16,7 +16,8 @@
         1707,
         1329,
         1014
-      ]
+      ],
+      "source": "known_solution"
     },
     "L2": {
       "count": 17,
@@ -38,35 +39,43 @@
         2275,
         2087,
         1832
-      ]
+      ],
+      "source": "known_solution"
     },
     "L3": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L4": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L5": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L6": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L7": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L8": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     },
     "L9": {
       "count": 0,
-      "actions": []
+      "actions": [],
+      "status": "UNSOLVED - vacuum physics simulation mismatch with real game"
     }
   },
   "all_actions": [
@@ -96,5 +105,5 @@
     2087,
     1832
   ],
-  "verified_levels": 2
+  "description": "L1-L2 solved via known vacuum click sequences. L3-L9 UNSOLVED: abstract vacuum simulation does not precisely match real game physics (fruit movement, merge cascades, enemy interactions). Requires API-verified planning."
 }

@@ -1,21 +1,15 @@
 {
   "game": "sk48",
-  "source": "solve_6games_fullchain (stub - needs deeper analysis)",
-  "type": "analytical",
-  "total_actions": 0,
-  "max_level": 0,
-  "n_levels": 8,
-  "per_level": {},
-  "baseline": [
-    15,
-    32,
-    35,
-    113,
-    304,
-    42,
-    63,
-    92
-  ],
-  "all_actions": [],
-  "notes": "Complex game mechanics require game-specific solver. BFS exhaustive search completed but level 1 not solved within budget."
+  "version": "41055498",
+  "total_levels": 8,
+  "method": "engine_bfs",
+  "levels": {
+    "L1": {
+      "status": "UNSOLVED",
+      "time": 225.75
+    }
+  },
+  "full_sequence": [],
+  "max_level_solved": 0,
+  "total_actions": 0
 }
