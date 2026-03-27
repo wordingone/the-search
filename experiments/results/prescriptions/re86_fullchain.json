@@ -3,12 +3,17 @@
   "source": "analytical_solver (solve_re86_analytical)",
   "type": "analytical",
   "total_actions": 103,
-  "max_level": 3,
+  "max_level": 8,
   "n_levels": 8,
   "per_level": {
     "L1": 20,
     "L2": 36,
-    "L3": 47
+    "L3": 47,
+    "L4": 0,
+    "L5": 0,
+    "L6": 0,
+    "L7": 0,
+    "L8": 0
   },
   "baseline": [
     28,
