@@ -27,6 +27,24 @@
         2
       ],
       "length": 15
+    },
+    "L2": {
+      "status": "SOLVED",
+      "actions": [
+        2,
+        2,
+        1335,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "length": 11,
+      "time": 30.9
     }
   },
   "full_sequence": [

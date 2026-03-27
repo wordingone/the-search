@@ -1,11 +1,11 @@
 {
   "game": "sk48",
   "total_levels": 8,
-  "method": "engine_bfs",
+  "method": "fast_bfs_deepcopy",
   "levels": {
     "L1": {
       "status": "UNSOLVED",
-      "time": 123.91
+      "time": 246.31
     }
   },
   "full_sequence": [],
