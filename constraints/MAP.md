@@ -1,6 +1,6 @@
 # Constraint Map
 
-*Revised 2026-03-27. 1252+ experiments, 16 architecture families, all bans lifted (Jun, 2026-03-25). R3 solved by composition (Step 1251). Renamed from CONSTRAINTS.md.*
+*Revised 2026-03-27. 1252+ experiments, 16 architecture families. R3 solved by composition (Step 1251).*
 
 **Classification:** T = Task Requirement, U = Validated Universal (2+ families), P = Provisional (1 family), S = Substrate-specific (codebook/LVQ), I = Intent (capability gap), E = Engineering (not carried forward), PB = Post-Ban.
 
@@ -10,9 +10,9 @@
 
 ### Navigation (LS20, FT09, VC33)
 
-**Three mapping properties** (observation→node): Deterministic (HYPOTHESIZED), Locally continuous (YES — 5 families partition cleanly), Persistent (YES — kd-tree splits destroy edges → fail). Evidence: Props 1-3, Steps 446-453.
+**Three mapping properties** (observation→node): Deterministic (HYPOTHESIZED), Locally continuous (YES  - 5 families partition cleanly), Persistent (YES  - kd-tree splits destroy edges → fail). Evidence: Props 1-3, Steps 446-453.
 
-**Algorithm invariance.** Action selection = argmin over visit frequency across 4 representations (edge dict, W matrix, transition tensor, n-gram). Steps 521-525. **POST-BAN: INVALIDATED** — argmin requires per-(state,action) counts = banned.
+**Algorithm invariance.** Action selection = argmin over visit frequency across 4 representations (edge dict, W matrix, transition tensor, n-gram). Steps 521-525. **POST-BAN: INVALIDATED**  - argmin requires per-(state,action) counts = banned.
 
 **Non-convergent exploration.** Reachable set grows sublinearly (259→439 cells at 50K→740K, k=12). Growth decays ~2 cells/100K. Steps 528-529.
 
@@ -50,9 +50,9 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 | # | Constraint | Evidence | Source |
 |---|---|---|---|
-| U1 | No separate learn/infer modes | Codebook, LSH — task demands online learning | C1, Steps 72, 453 |
+| U1 | No separate learn/infer modes | Codebook, LSH  - task demands online learning | C1, Steps 72, 453 |
 | U3 | Structural zero forgetting (growth-only) | Codebook entries, graph edges, LSH cells all accumulate | C5, Step 65 |
-| U4 | Minimal description (design principle) | Team requirement — complexity = frozen frames | Design |
+| U4 | Minimal description (design principle) | Team requirement  - complexity = frozen frames | Design |
 | U7 | Iteration amplifies dominant features | Codebook → dominant eigenvector, Reservoir → rank-1 collapse | C27, Steps 405, 438-439 |
 | U11 | Discrimination != navigation | Codebook (balanced actions, 0 levels), Graph (discriminates, doesn't navigate) | Steps 388-390, 449-451 |
 | U16 | Must encode differences from expectation | Codebook: cosine saturation without centering. LSH: hash concentration without centering. Code-verified. | Steps 414, 453 |
@@ -82,7 +82,7 @@ Interactive (unknown environment, no training phase). Must learn online.
 | U25 | Convergent action kills exploration | UPGRADE→U | 4 representations confirm. Edge growth postpones, cell growth prevents. |
 | U26 | Self-generated labels compound errors | CHALLENGED | LSH 36.2% vs codebook 9.8% (Step 573) |
 | U28 | No signal improves argmin; dense damages | PROVISIONAL | LSH-only (Steps 581d, 630-639). Hart debunked ~10% threshold. |
-| — | PENALTY=100 / op-code frozen | R3/R4 AUDIT | Should be adaptive. Hart identified as R4 violations. |
+|  - | PENALTY=100 / op-code frozen | R3/R4 AUDIT | Should be adaptive. Hart identified as R4 violations. |
 
 ---
 
@@ -90,10 +90,10 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 | Former | Constraint | Why reclassified |
 |---|---|---|
-| U1 | ~~Reclassification~~ | REVERTED — U1 reworded, remains Validated Universal |
+| U1 | ~~Reclassification~~ | REVERTED  - U1 reworded, remains Validated Universal |
 | U6→S23 | Lipschitz function limit | k-NN specific (codebook). LSH/graph don't use k-NN. |
-| U16 | ~~Reclassification~~ | REVERTED — code review confirmed LSH uses centering too |
-| U17 | ~~Reclassification~~ | REVERTED — LSH edge growth IS unbounded accumulation |
+| U16 | ~~Reclassification~~ | REVERTED  - code review confirmed LSH uses centering too |
+| U17 | ~~Reclassification~~ | REVERTED  - LSH edge growth IS unbounded accumulation |
 | U23→S26 | Distributed updates destabilize | Codebook Gram matrix specific. Neural nets use distributed updates fine. |
 | U25 | ~~Reclassification~~ | REVERTED to Provisional (not S-class). Edge ratios converge locally. |
 
@@ -169,15 +169,15 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 ---
 
-## State of the Search (1251 experiments, 16 families, bans lifted)
+## State of the Search (1252+ experiments, 16 families)
 
 ### Solved
 
-- **Navigation mechanism:** Graph + edge-count argmin. Architecture-independent. Three mapping properties predict success 100%. Bans lifted (2026-03-25).
+- **Navigation mechanism:** Graph + edge-count argmin. Architecture-independent. Three mapping properties predict success 100%.
 - **All 3 preview games multi-level:** LS20 L1-L3 5/5, FT09 6 levels 75 clicks, VC33 7 levels 176 clicks. All via source analysis (prescribed). 10/25 games fully solved by analytical solvers.
 - **Recode achieves l_pi:** LSH k=16 + self-refinement = 5/5 (Step 542). K confound (Step 589).
 - **674+running-mean = 20/20** on LS20 and FT09. Centering ~75% of gain. L1 is infrastructure, not a result (banned as metric Step 713).
-- **R3 (self-modification) — SOLVED BY COMPOSITION (Step 1251).** 7 cross-family components (centered encoding, novelty growth, transition detection, argmin, prediction-error attention, recurrent state, self-observation) composed into one substrate produce genuine self-modification of the obs→representation mapping. Jacobian ∂(attended)/∂obs differs between fresh and experienced substrate (0.05-0.09 vs 0.026 baseline). 100/100 passes across 10 games, both sequential and parallel wirings. Component-level finding, not wiring-dependent. **R3 was always achievable — the 0/1250 failure was a composition failure, not an R3 failure.**
+- **R3 (self-modification)  - SOLVED BY COMPOSITION (Step 1251).** 7 cross-family components (centered encoding, novelty growth, transition detection, argmin, prediction-error attention, recurrent state, self-observation) composed into one substrate produce genuine self-modification of the obs→representation mapping. Jacobian ∂(attended)/∂obs differs between fresh and experienced substrate (0.05-0.09 vs 0.026 baseline). 100/100 passes across 10 games, both sequential and parallel wirings. Component-level finding, not wiring-dependent. **R3 was always achievable  - the 0/1250 failure was a composition failure, not an R3 failure.**
 
 ### Open
 
@@ -187,7 +187,7 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 3. **R1-compliant classification.** LSH 36.2% self-labels (Step 573). Far below supervised. Unsolved.
 
-4. **Purposeful exploration (I6, I9).** Argmin unbeatable within current framework. L2 requires different mechanism. Coupled to R3→action bridge — a state-conditioned selector may provide purposeful exploration as a byproduct.
+4. **Purposeful exploration (I6, I9).** Argmin unbeatable within current framework. L2 requires different mechanism. Coupled to R3→action bridge  - a state-conditioned selector may provide purposeful exploration as a byproduct.
 
 5. **L2+ across all games.** L2 reached twice (Steps 1074, 1211), never reproduced. 0/1251 substrates reliably reach L2. Blocked by open items 1+2.
 
@@ -197,11 +197,11 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 ### External Audit (13 findings, 2026-03-18)
 
-Integrated: 4, 5, 7, 12. Partially: 1. Outstanding: 2 (HIGH — no CL head-to-head), 3, 6, 8, 9, 11. Low: 10, 13.
+Integrated: 4, 5, 7, 12. Partially: 1. Outstanding: 2 (HIGH  - no CL head-to-head), 3, 6, 8, 9, 11. Low: 10, 13.
 
 ### Phase Transitions
 
-Phase 1 (416 exp): codebook characterized, LVQ=argmin. Phase 2: 12 families killed except LSH. Phase 3 (post-777): both bans active. Constraint map was biased — feasible region LARGER than claimed.
+Phase 1 (416 exp): codebook characterized, LVQ=argmin. Phase 2: 12 families killed except LSH. Phase 3 (post-777): both bans active. Constraint map was biased  - feasible region LARGER than claimed.
 
 ---
 
@@ -242,7 +242,7 @@ Phase 1 (416 exp): codebook characterized, LVQ=argmin. Phase 2: 12 families kill
 
 ### Constraints invalidated by graph ban
 
-Algorithm invariance, U3 (needs re-test), U17 (needs re-test), U24 (reframe needed), U25 (mechanism gone, principle survives), U28 (invalidated), three mapping properties (partially valid — mapping survives, graph doesn't), argmin purity (invalidated), L1 perception-limited (needs re-test within post-ban framework).
+Algorithm invariance, U3 (needs re-test), U17 (needs re-test), U24 (reframe needed), U25 (mechanism gone, principle survives), U28 (invalidated), three mapping properties (partially valid  - mapping survives, graph doesn't), argmin purity (invalidated), L1 perception-limited (needs re-test within post-ban framework).
 
 ---
 

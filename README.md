@@ -2,11 +2,11 @@
 
 Can a system improve itself by criteria it generates?
 
-1252+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games, scoring = action efficiency squared). All architectural bans lifted. **R3 (self-modification) solved by component composition** (Step 1251, 100/100 across 10 games). First temporal structure signal (Step 1252, I4=1.00). Current bottleneck: R3→action bridge — the substrate modifies its world model but action selection doesn't read from it.
+1252+ experiments across 16 architecture families testing substrates for recursive self-improvement on published benchmarks (Split-CIFAR-100, Atari 100K) and interactive games (ARC-AGI-3, 150+ games, scoring = action efficiency squared). R3 (self-modification) achieved by component composition (Step 1251, 100/100 across 10 games). Current bottleneck: I1 (encoding doesn't distinguish game states).
 
 ## Results (honest)
 
-**Phase 1 — Reference substrate (Steps 1-416):**
+**Phase 1  - Reference substrate (Steps 1-416):**
 
 | Benchmark | Substrate | Result | Compare |
 |-----------|-----------|--------|---------|
@@ -18,7 +18,7 @@ Can a system improve itself by criteria it generates?
 | R3 (self-modification) | 674 | FAIL (8 U elements) | Solved by composition (Step 1251, 100/100) |
 | Atari 100K (no reward) | 674 | 6/26 above random | RoadRunner 11x, most at/below random |
 
-**Phase 2 — Post-ban exploration (Steps 417-1081):**
+**Phase 2  - Post-ban exploration (Steps 417-1081):**
 
 | Benchmark | Substrate | Result | Compare |
 |-----------|-----------|--------|---------|
@@ -29,7 +29,7 @@ Can a system improve itself by criteria it generates?
 | R3 encoding | 895 prediction-error attention | alpha=[60,51,52] UNIVERSAL on FT09 | First post-ban R3 encoding (Prop 22) |
 | Bans lifted (Step 1017) | Full graph + all mechanisms | FT09/VC33 still 0% | Bans are NOT the cause |
 
-**Debate v3 — ARC-AGI-3 sprint (Steps 1082-1097, 15 experiments):**
+**Debate v3  - ARC-AGI-3 sprint (Steps 1082-1097, 15 experiments):**
 
 | Metric | Defense (ℓ₁ reactive) | Prosecution (ℓ_π forward model) |
 |--------|----------------------|-------------------------------|
@@ -43,19 +43,19 @@ Can a system improve itself by criteria it generates?
 - **ℓ_π ≈ ℓ₁ at L1 (PB26 CONFIRMED).** Draw-robustness falsified both sides' ARC claims. All non-zero ARC scores were game-draw artifacts.
 - **Simplicity is load-bearing (PB30).** Adding complexity to either architecture degrades performance (n=5+). No optimizer (R2) means extra parameters accumulate noise. Prop 32.
 - **0% wall = ~2/3 random ARC games.** TWO failure modes: Mode 1 (near-inert, noise) and Mode 2 (responsive, oscillating). Neither architecture solves Mode 2.
-- **FT09/VC33 unsolved — bans are NOT the cause (Step 1017).** Full graph + all bans lifted = still 0%.
+- **FT09/VC33 unsolved  - bans are NOT the cause (Step 1017).** Full graph + all bans lifted = still 0%.
 - **R3 encoding achieved (Prop 22).** Alpha discovers game-informative dims from prediction error alone.
 - **L2+ = 0 across entire search.** No substrate has ever autonomously solved Level 2 of any game.
 
-**Phase 3 — Component composition (Steps 1251-1252+):**
+**Phase 3 - Component composition (Steps 1251+):**
 
-| Finding | Step | Evidence |
-|---------|------|----------|
-| **R3 solved by composition** | 1251 | 7 cross-family components composed → Jacobian ∂(attended)/∂obs differs fresh vs experienced. 100/100 (10 games, both wirings). Component-level, not wiring-dependent. |
-| **Hierarchy inverted** | 1251 | R3 passes FIRST (100%), I1 and I4 fail. R3 was always achievable — 0/1250 was a composition failure. |
-| **Argmin dead in R3 compositions** | 1251 | I3 identical for composed substrate and argmin-alone (0.67). Argmin ignores modified representation. |
-| **First temporal structure (I4)** | 1252 | Allosteric substrate (W = encoding = action selector, LPL update). I4=1.00 all games. First I4 signal in 1252 experiments. |
-| **R3→action bridge = bottleneck** | 1251-1252 | R3 works, action selection ignores it. 200+ debate experiments enumerate which bridges DON'T work. Current target: allosteric substrate where encoding IS action selection. |
+| Step | What | Result |
+|------|------|--------|
+| 1251 | 7 cross-family components composed | R3 = 100/100 (10 games, both wirings). I1 = 0/100. I3 = 0.67 (same as argmin-alone). |
+| 1252 | Allosteric substrate (shared W for encoding + action, LPL update) | I4 = 1.00 (temporal structure). I3 = 0.40 (argmax locks). L1 = 0/8 games. |
+| 1253 | Allosteric + adaptive softmax | R3 = 4/5, I3 = 5/5 on VC33 (coexist). I1 = 0/15. L1 = 0 except VC33 control. |
+
+Bottleneck: I1 (encoding doesn't distinguish game states). R3 works. Action selection reads from encoding (allosteric). The encoding lacks state-distinguishing capacity.
 
 ## Structure
 
@@ -101,7 +101,7 @@ from substrates.step0674 import Substrate674
 results = ConstitutionalJudge().audit(Substrate674)
 for rule in ['R1','R2','R3','R4','R5','R6']:
     r = results.get(rule, {})
-    print(f'{rule}: {\"PASS\" if r.get(\"pass\") else \"FAIL\"} — {r.get(\"detail\",\"\")}')
+    print(f'{rule}: {\"PASS\" if r.get(\"pass\") else \"FAIL\"}  - {r.get(\"detail\",\"\")}')
 "
 
 # Run reference substrate on ARC game (requires ARC-AGI-3 API key)
@@ -121,13 +121,13 @@ Six rules for recursive self-improvement (R1-R6):
 | R5 | One fixed ground truth | Only environmental signals (death, level transitions) |
 | R6 | No deletable parts | Every component behaviorally load-bearing |
 
-**R3 is solved.** Step 1251: 7 cross-family components composed produce R3 (100/100 across 10 games). The wall is now the **R3→action bridge** — the substrate modifies its world model but action selection ignores it. Step 1252: allosteric substrate (shared W for encoding and action) produces first temporal structure signal (I4=1.00). All bans lifted — the search is unconstrained except by R1-R6.
+R3 passes when 7 cross-family components compose (Step 1251, 100/100). Current bottleneck: I1 (state-distinguishing encoding).
 
 ## Citation
 
 ```bibtex
 @article{han2026search,
-  title={Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments},
+  title={Self-Modification by Composition: R3 Solved, the Bridge Remains},
   author={Han, Hyun Jun},
   year={2026}
 }

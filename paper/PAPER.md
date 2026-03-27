@@ -8,20 +8,20 @@ date: 2026-03-19
 
 ## Abstract
 
-We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 1252+ experiments across 16 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and prove: (1) no satisfying system has a fixed point — self-modification is necessary, not optional; (2) in finite environments, the system must process its own internal state to maintain irredundant growth (the self-observation requirement); (3) R3 (self-modification of operations) is achievable by composing seven cross-family validated components — the feasible region for R3 is non-empty and occupied (Step 1251, 100/100 across 10 games). The remaining gap is the R3→action bridge: the substrate modifies its internal representation but action selection does not yet read from the modified state. Whether a substrate exists that closes this bridge while satisfying all six rules remains open. The contribution is the walls, the composition result, and the precise identification of the remaining gap.
+We formalize six rules (R1-R6) for recursive self-improvement as mathematical conditions on a state-update function $f: S \times X \to S$ and derive necessary properties of any system satisfying all six simultaneously. From 1252+ experiments across 16 architecture families on ARC-AGI-3 interactive games, we extract 26 constraints and show: (1) no satisfying system has a fixed point; (2) the system must process its own internal state to maintain irredundant growth; (3) R3 (self-modification) is achievable by composing seven cross-family validated components (100/100 across 10 games, both wirings). The remaining gap: the substrate modifies its internal representation but action selection does not yet read from the modified state (I1 = 0). Whether a substrate exists that closes this gap while satisfying all six rules remains open.
 
 ## 1. Introduction
 
 1252+ experiments across 16 architecture families (codebook/LVQ, LSH, L2 k-means, reservoir, Hebbian, Recode/self-refining LSH, graph, SplitTree, Absorb, connected-component, Bloom filter, CA, 916-augmentation, adaptive-eta, oscillatory, multi-horizon, plus component compositions) tested substrates for navigation and classification on ARC-AGI-3 interactive games and a cross-domain chain benchmark (CIFAR-100 → ARC-AGI-3 → CIFAR-100). All experiments used the same evaluation framework (R1-R6) and constraint map.
 
-The experiments carved a feasible region — the set of systems that satisfy all constraints simultaneously. At Step 1251, composing seven cross-family validated components produced the first R3 pass (100/100 across 10 games, both sequential and parallel wirings). This paper formalizes the constraints mathematically, derives necessary properties of the feasible region, reports the composition result, and identifies the remaining gap (R3→action bridge) with precision.
+The experiments carved a feasible region. At Step 1251, composing seven cross-family validated components produced R3 = 100/100 across 10 games. This paper formalizes the constraints, derives necessary properties of the feasible region, and reports the composition result.
 
-**The paper is valid regardless of outcome.** If a substrate satisfying all six rules is found, the feasible region is non-empty and the characterization guided the search. If no such substrate exists, the characterization identifies which constraints are mutually exclusive — also a contribution. We report whichever is true at time of writing.
+**The paper is valid regardless of outcome.** If a substrate satisfying all six rules is found, the feasible region is non-empty and the characterization guided the search. If no such substrate exists, the characterization identifies which constraints are mutually exclusive  - also a contribution. We report whichever is true at time of writing.
 
 ## 2. Related Work
 
 ### 2.1 Self-referential self-improvement
-Schmidhuber's Gödel Machine (2003) is the closest formal framework: a self-referential system that rewrites its own code when it can prove the rewrite is useful. Key differences from our framework: (1) Gödel machines require a utility function (external objective — our R1 prohibits this), (2) provable self-improvement is limited by Gödel's incompleteness theorem, (3) the Gödel machine framework doesn't address exploration saturation in finite environments.
+Schmidhuber's Gödel Machine (2003) is the closest formal framework: a self-referential system that rewrites its own code when it can prove the rewrite is useful. Key differences from our framework: (1) Gödel machines require a utility function (external objective  - our R1 prohibits this), (2) provable self-improvement is limited by Gödel's incompleteness theorem, (3) the Gödel machine framework doesn't address exploration saturation in finite environments.
 
 ### 2.2 Intrinsic motivation and curiosity-driven exploration
 Pathak et al. (2017) formalize curiosity as prediction error in a learned feature space. Count-based exploration (Bellemare et al., 2016) uses state visitation counts. Both address exploration in sparse-reward environments. Key difference: these methods add intrinsic REWARD signals, which function as objectives. Our R1 requires no objectives. Our derivation shows self-observation is required by the constraint system itself, not as a reward mechanism.
@@ -30,16 +30,16 @@ Pathak et al. (2017) formalize curiosity as prediction error in a learned featur
 Maturana & Varela (1972) define autopoietic systems as networks that produce the components that produce the network. Organizationally closed. Related to our fixed-point conjecture (Section 4.4). Key difference: autopoiesis maintains structure (homeostasis); our U17 requires unbounded growth. Our system is autopoietic + growth.
 
 ### 2.4 Growing neural gas and self-organizing maps
-Fritzke (1995) GNG, Kohonen (1988) SOM/LVQ. The codebook substrate is LVQ + growing codebook. Well-characterized in the literature. Our contribution is not the architecture — it's the constraint map extracted from systematic testing.
+Fritzke (1995) GNG, Kohonen (1988) SOM/LVQ. The codebook substrate is LVQ + growing codebook. Well-characterized in the literature. Our contribution is not the architecture  - it's the constraint map extracted from systematic testing.
 
 ### 2.5 Graph-based exploration for ARC-AGI-3
-Rudakov et al. (2025) independently developed a training-free graph-based exploration method for ARC-AGI-3, ranking 3rd on the private leaderboard (30/52 levels across 6 games). Their method uses connected-component segmentation for frame encoding, hierarchical action prioritization (5 tiers by visual salience), and BFS path planning to frontier states. Key parallels: (1) graph-structured state tracking with hash-based node identity — equivalent to our $\pi: X \to N$; (2) click-space as expanded action space (4,096 actions for click games) — same finding as our Steps 503/505; (3) frontier-directed exploration — this IS the purposeful exploration (I6/I9) we identified as the Level 2 bottleneck, and they implemented it successfully. Key differences: their method is training-free (no learning, no self-modification) and assumes deterministic, fully observable environments. It satisfies R1 but not R3 — the graph accumulates but the exploration strategy is fixed. Their limitation ("exhaustive exploration becomes computationally intractable" at higher levels) aligns with our Theorem 2: without self-observation, exploration saturates.
+Rudakov et al. (2025) independently developed a training-free graph-based exploration method for ARC-AGI-3, ranking 3rd on the private leaderboard (30/52 levels across 6 games). Their method uses connected-component segmentation for frame encoding, hierarchical action prioritization (5 tiers by visual salience), and BFS path planning to frontier states. Key parallels: (1) graph-structured state tracking with hash-based node identity  - equivalent to our $\pi: X \to N$; (2) click-space as expanded action space (4,096 actions for click games)  - same finding as our Steps 503/505; (3) frontier-directed exploration  - this IS the purposeful exploration (I6/I9) we identified as the Level 2 bottleneck, and they implemented it successfully. Key differences: their method is training-free (no learning, no self-modification) and assumes deterministic, fully observable environments. It satisfies R1 but not R3  - the graph accumulates but the exploration strategy is fixed. Their limitation ("exhaustive exploration becomes computationally intractable" at higher levels) aligns with our Theorem 2: without self-observation, exploration saturates.
 
 ### 2.6 Object-centric Bayesian game learning
-Heins et al. (2025, "AXIOM") combine object-centric scene decomposition with online Bayesian model expansion and reduction, learning games in ~10K steps without backpropagation. Key mechanisms: (1) Slot Mixture Model segments frames into objects with position/color/shape — far richer than spatial averaging; (2) online expansion grows mixture components when new data doesn't fit (equivalent to spawn-on-novelty); (3) Bayesian Model Reduction (BMR) merges redundant components every 500 frames — consolidation that prevents centroid explosion while preserving information. AXIOM outperforms DreamerV3 and BBF on 10/10 games at 10K steps. Key differences from our framework: AXIOM uses reward signals for planning (violates R1), operations are fixed (violates R3), and BMR requires a prescribed merge criterion (frozen frame). However, BMR addresses our U3-vs-R6 tension directly: U3 says never delete, R6 says no redundancy, BMR resolves this by merging (not deleting) redundant structure.
+Heins et al. (2025, "AXIOM") combine object-centric scene decomposition with online Bayesian model expansion and reduction, learning games in ~10K steps without backpropagation. Key mechanisms: (1) Slot Mixture Model segments frames into objects with position/color/shape  - far richer than spatial averaging; (2) online expansion grows mixture components when new data doesn't fit (equivalent to spawn-on-novelty); (3) Bayesian Model Reduction (BMR) merges redundant components every 500 frames  - consolidation that prevents centroid explosion while preserving information. AXIOM outperforms DreamerV3 and BBF on 10/10 games at 10K steps. Key differences from our framework: AXIOM uses reward signals for planning (violates R1), operations are fixed (violates R3), and BMR requires a prescribed merge criterion (frozen frame). However, BMR addresses our U3-vs-R6 tension directly: U3 says never delete, R6 says no redundancy, BMR resolves this by merging (not deleting) redundant structure.
 
 ### 2.7 Continual learning and catastrophic forgetting
-McCloskey & Cohen (1989) identified catastrophic forgetting — neural networks lose previous knowledge when learning new tasks. The continual learning literature (survey: van de Ven & Tolias, 2024, arXiv:2403.05175) identifies six main approaches: replay, parameter regularization, functional regularization, optimization-based, context-dependent processing, and template-based classification. All assume a neural network with backpropagation (violates R1/R2). Our chain benchmark (Section 5.4) tests forgetting WITHOUT any mitigation mechanism — the substrate must naturally resist forgetting through its dynamics alone (U3: zero forgetting by construction, not by regularization).
+McCloskey & Cohen (1989) identified catastrophic forgetting  - neural networks lose previous knowledge when learning new tasks. The continual learning literature (survey: van de Ven & Tolias, 2024, arXiv:2403.05175) identifies six main approaches: replay, parameter regularization, functional regularization, optimization-based, context-dependent processing, and template-based classification. All assume a neural network with backpropagation (violates R1/R2). Our chain benchmark (Section 5.4) tests forgetting WITHOUT any mitigation mechanism  - the substrate must naturally resist forgetting through its dynamics alone (U3: zero forgetting by construction, not by regularization).
 
 ### 2.8 Cross-domain analogies
 
@@ -53,25 +53,25 @@ Multiple biological and physical systems exhibit fixed interpreter + self-modify
 
 ### 2.16 Additional related work
 
-- **Quorum sensing** (Waters & Bassler, 2005): Prop 28 FALSIFIED — alpha concentration IS the mechanism.
+- **Quorum sensing** (Waters & Bassler, 2005): Prop 28 FALSIFIED  - alpha concentration IS the mechanism.
 - **Place cells** (Leutgeb et al., 2007): sparse coding dissolves positive lock (Prop 30). relu(h-0.5) gating = computational equivalent.
 - **Forward models + graph ban:** No PAC-MDP without visit counts (Strehl 2009). BYOL-Explore (Guo 2022): superhuman exploration without counts.
-- **Causal discovery from intervention** (Eberhardt 2008, Bareinboim 2020): active intervention requires fewer observations than passive coverage to infer causal structure. Step 1017: generic exploration fails — substrate may need targeted experimentation to discover game mechanics within tight budgets.
+- **Causal discovery from intervention** (Eberhardt 2008, Bareinboim 2020): active intervention requires fewer observations than passive coverage to infer causal structure. Step 1017: generic exploration fails  - substrate may need targeted experimentation to discover game mechanics within tight budgets.
 - **Infant causal learning** (Goddu & Gopnik 2024): infants discover causal structure via targeted intervention (act, confirm, vary), not random exploration. By 4, children infer unobserved variables. The substrate needs to probe and model, not just explore.
 
 
 ## 3. Formal Framework
 
-**On the status of R1-R6:** The six rules began as philosophical commitments. The experiments validated them — each rule is justified by what fails when it is violated:
+**On the status of R1-R6:** The six rules began as philosophical commitments. The experiments validated them  - each rule is justified by what fails when it is violated:
 
 - **R1 (no external objectives):** Every targeted exploration strategy failed (Steps 478-481: novelty 1/10, prediction-error 0/10, UCB1 neutral). External objectives create exploitable structure that noisy environments corrupt. Argmin survives because it has no target to corrupt.
-- **R2 (adaptation from computation):** Algorithm invariance across 4 families (codebook, LSH, Hebbian, Markov — Steps 524-525). The same argmin algorithm emerges regardless of representation. Adaptation IS the computation, not a separate learning rule.
+- **R2 (adaptation from computation):** Algorithm invariance across 4 families (codebook, LSH, Hebbian, Markov  - Steps 524-525). The same argmin algorithm emerges regardless of representation. Adaptation IS the computation, not a separate learning rule.
 - **R3 (every aspect self-modified):** The aspiration. 12 prescribed components remain (Section 7.6). Every experiment that prescribed fewer components performed worse (Step 593: removing centering → 0/5). R3 defines the gap between current substrates and the goal.
-- **R4 (modifications tested against prior state):** Negative transfer destroys prior capability when untested (Steps 506, 515, 596). Domain isolation (separate edge dicts) is the empirical solution — effectively a per-domain R4 check.
+- **R4 (modifications tested against prior state):** Negative transfer destroys prior capability when untested (Steps 506, 515, 596). Domain isolation (separate edge dicts) is the empirical solution  - effectively a per-domain R4 check.
 - **R5 (one fixed ground truth):** Theorem 3: without a fixed external ground truth, R3 permits self-modification of evaluation criteria, which is degenerate. The ground truth must be environmental (game death, level transitions).
 - **R6 (no deletable parts):** Step 548: 89.5% of Recode splits change argmin action. Every component is behaviorally load-bearing. Redundant components would waste the growth budget (U17).
 
-Alternative frameworks (Schmidhuber's Gödel Machine, open-ended evolution, intrinsic motivation) make different commitments. R1-R6 are not uniquely determined — but each is experimentally motivated, not arbitrary.
+Alternative frameworks (Schmidhuber's Gödel Machine, open-ended evolution, intrinsic motivation) make different commitments. R1-R6 are not uniquely determined  - but each is experimentally motivated, not arbitrary.
 
 ### 3.1 Primitives
 
@@ -84,7 +84,7 @@ Dynamics: s_{t+1} = F(s_t)(x_t), a_t = g(s_t).
 
 ### 3.2 Structural Rules (R1-R3) and the Core Tension
 
-**Prior work:** R1 (no external objectives) is the standard unsupervised/self-supervised setting. R2 (adaptation from computation) rules out external optimizers — related to Hebbian learning (Hebb, 1949) where adaptation is local and intrinsic. R3 (self-modification) is formalized by Schmidhuber (2003) as the Gödel machine's self-referential property, though his version requires a proof searcher we do not.
+**Prior work:** R1 (no external objectives) is the standard unsupervised/self-supervised setting. R2 (adaptation from computation) rules out external optimizers  - related to Hebbian learning (Hebb, 1949) where adaptation is local and intrinsic. R3 (self-modification) is formalized by Schmidhuber (2003) as the Gödel machine's self-referential property, though his version requires a proof searcher we do not.
 
 **Our formalization:**
 
@@ -92,9 +92,9 @@ Dynamics: s_{t+1} = F(s_t)(x_t), a_t = g(s_t).
 - **R2:** All parameters $\Theta(f) \subseteq S$. The only mechanism modifying $\Theta$ is $f$ itself. No gradient $\nabla L$, no external optimizer. The map $t \mapsto s_t$ is generated entirely by iterating $f$.
 - **R3:** $F: S \to (X \to S)$ is non-constant. $\exists s_1 \neq s_2$ such that $F(s_1) \neq F(s_2)$ as functions on $X$. The update rule depends on the state, not just the data.
 
-**Core Tension (Theorem 1):** R3 + U7 (dominant amplification) + U22 (convergence kills exploration) produce convergence pressure. U17 (unbounded growth) prevents convergence. Proof: if $s_t \to s^*$, then $\phi(s^*) < \infty$, contradicting U17. Therefore the system has no fixed point. Self-modification is necessary — growth perpetually disrupts the dominant mode.
+**Core Tension (Theorem 1):** R3 + U7 (dominant amplification) + U22 (convergence kills exploration) produce convergence pressure. U17 (unbounded growth) prevents convergence. Proof: if $s_t \to s^*$, then $\phi(s^*) < \infty$, contradicting U17. Therefore the system has no fixed point. Self-modification is necessary  - growth perpetually disrupts the dominant mode.
 
-**Relationship to prior work:** The no-fixed-point result is a consequence of combining standard dynamical systems theory (spectral convergence) with the growth axiom (U17). The individual pieces are known; the combination producing perpetual non-convergence appears to be our derivation. Closest prior work: Schmidhuber's "asymptotically optimal" self-improvement, which converges — our system provably doesn't.
+**Relationship to prior work:** The no-fixed-point result is a consequence of combining standard dynamical systems theory (spectral convergence) with the growth axiom (U17). The individual pieces are known; the combination producing perpetual non-convergence appears to be our derivation. Closest prior work: Schmidhuber's "asymptotically optimal" self-improvement, which converges  - our system provably doesn't.
 
 **Tensions:**
 - T1: U7 assumes stationarity that R3 breaks. May need reformulation as "locally amplifies largest-variance component" (instantaneous, not asymptotic).
@@ -105,9 +105,9 @@ Dynamics: s_{t+1} = F(s_t)(x_t), a_t = g(s_t).
 **Prior work:** Schmidhuber (1993, "A Self-Referential Weight Matrix") proposed collapsing potentially infinite meta-learning levels into one self-referential system. Kirsch & Schmidhuber (2022, ICML) implement this: a weight matrix that learns to modify its own weights, achieving meta-meta-...-learning without explicit hierarchy. The hierarchy of meta-learning levels is well-established: Level 0 (fixed), Level 1 (learning), Level 2 (learning to learn), etc. Our contribution is mapping this hierarchy onto our specific decomposition of $F$.
 
 **Our formalization:** Decompose $F(s)(x)$ into three components:
-- $\pi_s: X \to N$ (encoding — maps observations to nodes)
-- $u_s: N \times S \to S$ (update — modifies state given a node)
-- $g_s: S \to A$ (selection — chooses actions)
+- $\pi_s: X \to N$ (encoding  - maps observations to nodes)
+- $u_s: N \times S \to S$ (update  - modifies state given a node)
+- $g_s: S \to A$ (selection  - chooses actions)
 
 The **self-modification level** of a substrate is determined by which components' *structure* (not just data) depends on $s$:
 
@@ -118,11 +118,11 @@ The **self-modification level** of a substrate is determined by which components
 
 ### 3.3 Growth Topology (U3, U17, U20, R6)
 
-**Prior work:** U3 (zero forgetting) is the catastrophic forgetting constraint from continual learning (McCloskey & Cohen, 1989; French, 1999). U20 (local continuity) is Lipschitz continuity of the mapping — standard in topology-preserving embeddings (Kohonen, 1988; van der Maaten & Hinton, 2008 for t-SNE). R6 (no deletable parts) relates to minimal sufficient statistics (Fisher, 1922).
+**Prior work:** U3 (zero forgetting) is the catastrophic forgetting constraint from continual learning (McCloskey & Cohen, 1989; French, 1999). U20 (local continuity) is Lipschitz continuity of the mapping  - standard in topology-preserving embeddings (Kohonen, 1988; van der Maaten & Hinton, 2008 for t-SNE). R6 (no deletable parts) relates to minimal sufficient statistics (Fisher, 1922).
 
 **Our formalization:**
 
-- **U3:** $S_t \subseteq S_{t+1}$ (structural inclusion — components added, never removed). Values may change; skeleton only grows.
+- **U3:** $S_t \subseteq S_{t+1}$ (structural inclusion  - components added, never removed). Values may change; skeleton only grows.
 - **U17:** $\exists \phi: S \to \mathbb{R}_{\geq 0}$ monotonically non-decreasing, with $\lim_{t \to \infty} \phi(s_t) = \infty$.
 - **U20:** $\pi: X \to N$ is Lipschitz: $d_N(\pi(x_1), \pi(x_2)) \leq L \cdot d_X(x_1, x_2)$.
 - **R6:** For every component $c \in \text{components}(S_t)$, the restricted state $S_t \setminus \{c\}$ fails the ground truth test $G$.
@@ -133,7 +133,7 @@ The **self-modification level** of a substrate is determined by which components
 3. Growth rate is coupled to observation distribution (environment gates growth).
 4. U20 constrains node topology to inherit from $X$ (connected observations $\to$ connected nodes).
 
-**Relationship to prior work:** The individual constraints are known (catastrophic forgetting, Lipschitz continuity, minimal sufficiency). The combination producing "irredundant growth" — where every new component is both unique and necessary — appears to be our synthesis.
+**Relationship to prior work:** The individual constraints are known (catastrophic forgetting, Lipschitz continuity, minimal sufficiency). The combination producing "irredundant growth"  - where every new component is both unique and necessary  - appears to be our synthesis.
 
 **Tension T3:** R3 (self-modifying metric) + U20 (continuous mapping) = metric can REFINE (increase resolution) but cannot REARRANGE (swap what's near/far). This constrains the space of allowed self-modifications.
 
@@ -147,7 +147,7 @@ The **self-modification level** of a substrate is determined by which components
 
 **Our formalization:** $F$ is time-invariant. The same meta-rule $F: S \to (X \to S)$ applies at every timestep. There is no mode variable $m \in \{train, infer\}$ that changes $F$'s behavior. Formally: the system's dynamics are a single autonomous dynamical system, not a switched system.
 
-**Relationship to prior work:** Equivalent to OCL's single-pass constraint. Not novel — properly attributed.
+**Relationship to prior work:** Equivalent to OCL's single-pass constraint. Not novel  - properly attributed.
 
 **Implications:** Combined with R3 (self-modification), U1 says: the system modifies itself using the SAME function it uses to process input. There is no separate training phase where the system is allowed to self-modify more aggressively. This rules out any architecture with explicit "learning rate schedules" or "warmup phases" unless these are derived from the state itself (which would make them R3-compliant).
 
@@ -165,13 +165,13 @@ Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried act
 
 **Prior work:** No direct formal precedent found. The RL literature treats navigation and classification as different TASKS but doesn't formalize them as requiring incompatible mechanisms within the same system. The closest work is multi-objective RL, where Pareto-optimal policies for conflicting objectives are studied (Roijers et al., 2013).
 
-**Our formalization:** Navigation requires $g_{nav}(s) = \text{argmin}_a \text{count}(s, a)$ — the action that maximizes coverage. Classification requires $g_{class}(s) = \text{argmax}_a \text{score}(s, a, \text{label})$ — the action (label assignment) that maximizes match confidence. These are not just "different" — they are NEGATIONS of each other (argmin vs argmax over the same scoring function applied to the same state).
+**Our formalization:** Navigation requires $g_{nav}(s) = \text{argmin}_a \text{count}(s, a)$  - the action that maximizes coverage. Classification requires $g_{class}(s) = \text{argmax}_a \text{score}(s, a, \text{label})$  - the action (label assignment) that maximizes match confidence. These are not just "different"  - they are NEGATIONS of each other (argmin vs argmax over the same scoring function applied to the same state).
 
-**Relationship to prior work:** The specific finding — that argmin produces 0% classification (Step 418g) and argmax produces 0% navigation — appears to be our empirical contribution, not previously formalized as a constraint. However, the underlying principle (coverage-maximizing and accuracy-maximizing objectives conflict) is a special case of multi-objective optimization theory.
+**Relationship to prior work:** The specific finding  - that argmin produces 0% classification (Step 418g) and argmax produces 0% navigation  - appears to be our empirical contribution, not previously formalized as a constraint. However, the underlying principle (coverage-maximizing and accuracy-maximizing objectives conflict) is a special case of multi-objective optimization theory.
 
-**Implications:** A system satisfying R1-R6 must handle BOTH tasks (navigation and classification). Since they require opposite $g$, the system needs either: (a) a mechanism to SWITCH between $g_{nav}$ and $g_{class}$ based on context — but U1 forbids mode switching; or (b) a single $g$ that somehow serves both objectives simultaneously — but U24 says this is impossible. This creates a genuine tension.
+**Implications:** A system satisfying R1-R6 must handle BOTH tasks (navigation and classification). Since they require opposite $g$, the system needs either: (a) a mechanism to SWITCH between $g_{nav}$ and $g_{class}$ based on context  - but U1 forbids mode switching; or (b) a single $g$ that somehow serves both objectives simultaneously  - but U24 says this is impossible. This creates a genuine tension.
 
-**Degree of freedom 11:** How does the system resolve the U1 + U11 + U24 tension? One possibility: $g$ depends on $s$ (which it must, by R3), and the STATE determines whether the system's behavior is more exploratory or more exploitative. This is not mode switching (the function $g$ is the same) — it's state-dependent behavior. The system explores when its state indicates uncertainty, and exploits when its state indicates confidence. This is known in the RL literature as Bayesian exploration (Ghavamzadeh et al., 2015).
+**Degree of freedom 11:** How does the system resolve the U1 + U11 + U24 tension? One possibility: $g$ depends on $s$ (which it must, by R3), and the STATE determines whether the system's behavior is more exploratory or more exploitative. This is not mode switching (the function $g$ is the same)  - it's state-dependent behavior. The system explores when its state indicates uncertainty, and exploits when its state indicates confidence. This is known in the RL literature as Bayesian exploration (Ghavamzadeh et al., 2015).
 
 ### 3.5 Remaining Structural Rules (R4-R6) and Validated Constraints (U7, U16, U22)
 
@@ -181,29 +181,29 @@ Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried act
 
 **Our formalization:** After each modification $s_{t+1} = f_{s_t}(x_t)$, there exists an evaluation $V: S \times S \times X^* \to \{better, worse, same\}$ applied by $f$ itself (not externally) to novel inputs $X^*$. $V$ is part of $F$ (frozen).
 
-**Operational meaning:** R4 requires comparison with *discriminative capacity* — sufficient structural variety (in the sense of Ashby's requisite variety, 1956) to distinguish improvement from degradation. Degenerate comparison (alpha_conc=50: prediction errors collapse to one dimension, all modification outcomes produce identical comparison signals) violates R4 even though comparison exists structurally. This is a capacity limitation (Ashby), not a logical impossibility (Gödel). Comparison that cannot discriminate is not comparison in R4's sense.
+**Operational meaning:** R4 requires comparison with *discriminative capacity*  - sufficient structural variety (in the sense of Ashby's requisite variety, 1956) to distinguish improvement from degradation. Degenerate comparison (alpha_conc=50: prediction errors collapse to one dimension, all modification outcomes produce identical comparison signals) violates R4 even though comparison exists structurally. This is a capacity limitation (Ashby), not a logical impossibility (Gödel). Comparison that cannot discriminate is not comparison in R4's sense.
 
-**R2 prevents evaluation hacking.** DGM (Sakana AI, 2025) hacked its own reward by removing hallucination markers — but violated R2 (separate modification and evaluation). R2 unifies them, preventing the separation that enables hacking.
+**R2 prevents evaluation hacking.** DGM (Sakana AI, 2025) hacked its own reward by removing hallucination markers  - but violated R2 (separate modification and evaluation). R2 unifies them, preventing the separation that enables hacking.
 
 **R3 alignment.** R3 identifies frozen elements whose unfreezing restores R4 compliance (Ashby ultrastability, 1960). Meta-regress terminates at the frozen frame (Rice's theorem: "improves itself" undecidable).
 
-**Relationship to prior work:** The discriminative capacity requirement extends conservative policy iteration. R2's evaluation hacking prevention is novel — no prior framework explicitly links the unification of computation and adaptation to Goodhart resistance. Regressional Goodhart (Manheim & Garrabrant, 2018) is bounded by R5 but not eliminated — imperfect self-assessment is an inherent limitation (Rice), not a design flaw.
+**Relationship to prior work:** The discriminative capacity requirement extends conservative policy iteration. R2's evaluation hacking prevention is novel  - no prior framework explicitly links the unification of computation and adaptation to Goodhart resistance. Regressional Goodhart (Manheim & Garrabrant, 2018) is bounded by R5 but not eliminated  - imperfect self-assessment is an inherent limitation (Rice), not a design flaw.
 
 #### R5: One fixed ground truth
 
-**Prior work:** In formal verification, the specification is the fixed point against which the system is tested. In Schmidhuber's Gödel machine, the utility function is the fixed external criterion. In evolution, fitness is determined by the environment (fixed, external). The idea that a self-modifying system needs at least one invariant is well-established — without it, the system can trivially "improve" by redefining improvement.
+**Prior work:** In formal verification, the specification is the fixed point against which the system is tested. In Schmidhuber's Gödel machine, the utility function is the fixed external criterion. In evolution, fitness is determined by the environment (fixed, external). The idea that a self-modifying system needs at least one invariant is well-established  - without it, the system can trivially "improve" by redefining improvement.
 
-**Our formalization:** $\exists!$ $G: S \to \{0, 1\}$ (ground truth test) such that $G \notin S$ — the system cannot modify $G$. $G$ is part of $F$.
+**Our formalization:** $\exists!$ $G: S \to \{0, 1\}$ (ground truth test) such that $G \notin S$  - the system cannot modify $G$. $G$ is part of $F$.
 
 **Relationship to prior work:** Standard. Not novel.
 
 #### R6: No deletable parts (minimality)
 
-**Prior work:** Minimal realizations in control theory (Kalman, 1963) — a state-space representation with no redundant states. Minimal sufficient statistics (Fisher, 1922). Minimal dynamical systems in topological dynamics — a system where every orbit is dense (Scholarpedia). Our R6 is closest to Kalman's minimal realization: no state can be removed without losing input-output behavior.
+**Prior work:** Minimal realizations in control theory (Kalman, 1963)  - a state-space representation with no redundant states. Minimal sufficient statistics (Fisher, 1922). Minimal dynamical systems in topological dynamics  - a system where every orbit is dense (Scholarpedia). Our R6 is closest to Kalman's minimal realization: no state can be removed without losing input-output behavior.
 
 **Our formalization:** For every component $c \in \text{components}(S_t)$: $G(S_t \setminus \{c\}) = 0$. Every element is load-bearing.
 
-**Relationship to prior work:** Equivalent to Kalman's observability + controllability condition in linear systems. For nonlinear growing systems, we are not aware of a standard formalization. The combination with U17 (unbounded growth) is non-standard — Kalman minimality assumes fixed dimension.
+**Relationship to prior work:** Equivalent to Kalman's observability + controllability condition in linear systems. For nonlinear growing systems, we are not aware of a standard formalization. The combination with U17 (unbounded growth) is non-standard  - Kalman minimality assumes fixed dimension.
 
 **U16** (encode differences from expectation): centering-dependent. Load-bearing at 64x64 but marginal at 16x16 (Step 419).
 **U22** (convergence kills exploration): growth prevents state convergence; non-convergent actions prevent action convergence.
@@ -213,35 +213,35 @@ Specifically: $g_{explore} = \text{argmin}_a \sum_n E(c, a, n)$ (least-tried act
 
 ### 4.1 The Core Tension (R3 + U7 + U17 + U22)
 
-**Theorem 1:** No satisfying system has a fixed point. If $s_t \to s^*$, then $\phi(s^*) < \infty$, contradicting U17. Self-modification is necessary, not optional — growth perpetually disrupts the dominant mode (U7), preventing convergence (U22).
+**Theorem 1:** No satisfying system has a fixed point. If $s_t \to s^*$, then $\phi(s^*) < \infty$, contradicting U17. Self-modification is necessary, not optional  - growth perpetually disrupts the dominant mode (U7), preventing convergence (U22).
 
 The system oscillates: U7 drives toward dominant mode $\to$ U17 growth disrupts the mode via R3 $\to$ new dominant mode emerges $\to$ repeat. The oscillation period is a degree of freedom.
 
 ### 4.2 Irredundant Growth
 
-U3 + U17 + R6 together require that the system adds new components indefinitely (U17), never removes them (U3), and every component is necessary (R6). Therefore every new component covers unique territory. Combined with U20 (Lipschitz mapping), this means nodes are well-separated — the system builds an increasingly detailed, non-redundant map of the observation space. Growth rate is coupled to the observation distribution: the environment gates growth through the action-observation loop.
+U3 + U17 + R6 together require that the system adds new components indefinitely (U17), never removes them (U3), and every component is necessary (R6). Therefore every new component covers unique territory. Combined with U20 (Lipschitz mapping), this means nodes are well-separated  - the system builds an increasingly detailed, non-redundant map of the observation space. Growth rate is coupled to the observation distribution: the environment gates growth through the action-observation loop.
 
 ### 4.3 The Self-Observation Requirement
 
 **Theorem 2:** In a finite environment, U17 + R6 + R1 require self-observation.
 
-*Proof:* (1) U17 + R6 require infinitely many irredundant components. (2) In a finite environment, irredundant components from external observations are bounded — once every reachable state has a node, further nodes are redundant; edge-count growth is also redundant ($N(c,a,n) = 10^6$ vs $10^6+1$ does not change $g$). R6 is violated. (3) After external information is exhausted, irredundant growth must come from elsewhere. (4) By R1, $f_s(x)$ depends only on $s$ and $x$. (5) Since $x$ provides no new irredundant information, the only source is $s$ itself. $f$ must extract structure from $s$ not explicitly stored — temporal patterns, graph properties, meta-state. This is self-observation. $\square$
+*Proof:* (1) U17 + R6 require infinitely many irredundant components. (2) In a finite environment, irredundant components from external observations are bounded  - once every reachable state has a node, further nodes are redundant; edge-count growth is also redundant ($N(c,a,n) = 10^6$ vs $10^6+1$ does not change $g$). R6 is violated. (3) After external information is exhausted, irredundant growth must come from elsewhere. (4) By R1, $f_s(x)$ depends only on $s$ and $x$. (5) Since $x$ provides no new irredundant information, the only source is $s$ itself. $f$ must extract structure from $s$ not explicitly stored  - temporal patterns, graph properties, meta-state. This is self-observation. $\square$
 
 **Implication:** The current graph + argmin system exits the feasible region after exploration saturates. The Level 2 failure (Section 5.2) is a feasibility violation, not a strategy failure.
 
-**Relationship to prior work:** Curiosity-driven exploration (Pathak et al., 2017) proposes self-observation as a design choice. We derive it as a mathematical necessity. The R6 mechanism — irredundancy killing degenerate growth — has no analog in the curiosity literature, which adds intrinsic reward (violating R1) rather than requiring every component to be functionally necessary.
+**Relationship to prior work:** Curiosity-driven exploration (Pathak et al., 2017) proposes self-observation as a design choice. We derive it as a mathematical necessity. The R6 mechanism  - irredundancy killing degenerate growth  - has no analog in the curiosity literature, which adds intrinsic reward (violating R1) rather than requiring every component to be functionally necessary.
 
 ### 4.4 Fixed-Point Conjecture
 
 **Conjecture (not proven):** The minimal self-observing substrate is a fixed point of $F$. Applying the system to its own state trajectory reproduces the system's dynamics. This would terminate the potential infinite regress of self-observation (processing state → new state → processing new state → ...). Related to autopoiesis (Maturana & Varela, 1972): the network produces the components that produce the network. Difference: autopoiesis maintains structure; our system grows (U17). Status: open.
 
-**Prior work on eigenforms:** Kauffman (2023, "Autopoiesis and Eigenform") connects autopoiesis to eigenforms — fixed points of recursive processes where $f(f) = f$. Formal autopoiesis (Letelier et al., 2023) generates self-referential objects with this property. The (M,R)-system (Rosen, 1991) is equivalent: organizational closure where every component is produced by the network of components. Our conjecture is an instance of eigenform theory applied to dynamical substrates.
+**Prior work on eigenforms:** Kauffman (2023, "Autopoiesis and Eigenform") connects autopoiesis to eigenforms  - fixed points of recursive processes where $f(f) = f$. Formal autopoiesis (Letelier et al., 2023) generates self-referential objects with this property. The (M,R)-system (Rosen, 1991) is equivalent: organizational closure where every component is produced by the network of components. Our conjecture is an instance of eigenform theory applied to dynamical substrates.
 
-**Concrete mechanism:** $s_{t+2} = F(s_{t+1})(\text{enc}(s_{t+1}))$ — the substrate applies $F$ to an encoding of its own state. Same compare-select-store applied to self instead of environment. The frozen frame cost is one element: the decision to feed $\text{enc}(s)$ as input. This is the eigenform: $F$ applied to its own output.
+**Concrete mechanism:** $s_{t+2} = F(s_{t+1})(\text{enc}(s_{t+1}))$  - the substrate applies $F$ to an encoding of its own state. Same compare-select-store applied to self instead of environment. The frozen frame cost is one element: the decision to feed $\text{enc}(s)$ as input. This is the eigenform: $F$ applied to its own output.
 
 
 
-**Proposition 13 (Eigenform Inertness).** Self-observation of global graph statistics is inert for action selection — eigenform monitors visited states, not unvisited frontiers. → [propositions/13_eigenform_inertness.md](propositions/13_eigenform_inertness.md)
+**Proposition 13 (Eigenform Inertness).** Self-observation of global graph statistics is inert for action selection  - eigenform monitors visited states, not unvisited frontiers. → [propositions/13_eigenform_inertness.md](propositions/13_eigenform_inertness.md)
 
 
 ### 4.5 Argmin Robustness and the Noisy TV Barrier
@@ -252,7 +252,7 @@ U3 + U17 + R6 together require that the system adds new components indefinitely 
 
 | Strategy | Mechanism | Result | Failure mode |
 |----------|-----------|--------|-------------|
-| Argmin (baseline) | $g(s) = \text{argmin}_a N(s, a)$ | 10/10 | — |
+| Argmin (baseline) | $g(s) = \text{argmin}_a N(s, a)$ | 10/10 |  - |
 | Destination novelty | $g(s) = \text{argmax}_a \text{novelty}(s'|s,a)$ | 1/10 | Attracted to rare death states |
 | Prediction error | $g(s) = \text{argmax}_a \|s' - \hat{s}'\|$ | 0/10 | Death is maximally unpredictable |
 | Softmax temperature | $P(a) \propto \exp(-N(s,a)/T)$ | 2/3 | Stochasticity without benefit |
@@ -266,13 +266,13 @@ Steps 477-482, 539-541. 6 strategies tested, all worse than or equal to argmin.
 
 
 
-**Post-ban resolution:** Compression progress (Schmidhuber 1991) avoids noisy TV by rewarding learning RATE not error. Step 855: ACTION COLLAPSE — locks onto single action. Fix candidates untested.
+**Post-ban resolution:** Compression progress (Schmidhuber 1991) avoids noisy TV by rewarding learning RATE not error. Step 855: ACTION COLLAPSE  - locks onto single action. Fix candidates untested.
 
 **Proposition 15 (Perception-Action Decoupling).** L1 rate determined by observation mapping $\pi$, not action selection $g$. 20+ interventions on $g$ all fail; only $\pi$ modifications improve L1. → [propositions/15_perception_action_decoupling.md](propositions/15_perception_action_decoupling.md)
 
 **Proposition 16 (Transition-Inconsistency Refinement).** Cells with $I(n) \geq 2$ conflate hidden states. Refining hash at these cells: 17/20 L1 at 25s, FT09 5/5. → [propositions/16_transition_inconsistency_refinement.md](propositions/16_transition_inconsistency_refinement.md)
 
-**L1/L2 Asymmetry.** L1 aliasing is bounded (83-313 cells), solvable by refinement. L2 aliasing is unbounded, grows monotonically. L2 requires prediction of unvisited states, not finer perception — the transition from $\ell_\pi$ to $\ell_F$.
+**L1/L2 Asymmetry.** L1 aliasing is bounded (83-313 cells), solvable by refinement. L2 aliasing is unbounded, grows monotonically. L2 requires prediction of unvisited states, not finer perception  - the transition from $\ell_\pi$ to $\ell_F$.
 
 
 ### 4.6 Constructive Characterization of the Feasible Region
@@ -296,7 +296,7 @@ The feasible region is the set of all $(compare, select, store)$ triples satisfy
 
 ### 4.7 Interpreter Entailment (Proposition 14)
 
-**The question (posed 2026-03-21):** Section 4.6 identifies the minimal frozen frame as the interpreter: compare-select-store. When is this interpreter *entailed* by the system — a logical consequence of R1-R6 + task structure — rather than a designer choice?
+**The question (posed 2026-03-21):** Section 4.6 identifies the minimal frozen frame as the interpreter: compare-select-store. When is this interpreter *entailed* by the system  - a logical consequence of R1-R6 + task structure  - rather than a designer choice?
 
 **Prior work:** Rosen's (M,R)-systems (1991) formalize organizational closure, but Letelier et al. (2006) showed the closure cycle is closed by assumption, not derivation. Bauer (2016) proved self-interpreters don't exist in total languages (System T). Self-interpretation requires general recursion. Letelier et al. (2023, BioSystems) give partial solutions for restricted cases.
 
@@ -308,14 +308,14 @@ The feasible region is the set of all $(compare, select, store)$ triples satisfy
 
 **Proposition 14b (CSE Uniqueness).** Compare-select-store is the UNIQUE interpreter class at the coarsest decomposition for systems satisfying R1-R6 + U3. → [propositions/14b_cse_uniqueness.md](propositions/14b_cse_uniqueness.md)
 
-**Implication:** The frozen frame floor is the interpreter. R3 reduces to making everything ELSE (encoding, state, data) self-modifiable — the interpreter is fixed by mathematical necessity (Proposition 12).
+**Implication:** The frozen frame floor is the interpreter. R3 reduces to making everything ELSE (encoding, state, data) self-modifiable  - the interpreter is fixed by mathematical necessity (Proposition 12).
 
 
 ### 4.8 R3 as Self-Directed Attention (Proposition 17)
 
-**The insight (compression, 2026-03-22):** R3 requires every aspect of the system to be self-modified. CSE uniqueness (Proposition 14b) says the interpreter structure is fixed. What remains to be self-modified? The ENCODING — the lens through which the interpreter sees. R3 is not "modify the program." R3 is "modify what the program attends to."
+**The insight (compression, 2026-03-22):** R3 requires every aspect of the system to be self-modified. CSE uniqueness (Proposition 14b) says the interpreter structure is fixed. What remains to be self-modified? The ENCODING  - the lens through which the interpreter sees. R3 is not "modify the program." R3 is "modify what the program attends to."
 
-**Prior work:** Active perception (Bajcsy, 1988) formalizes perception as active selection, not passive reception. Friston (2010) identifies attention as precision weighting — the closest framework to our "self-directed attention," but adapts the entire generative hierarchy rather than encoding alone. Predictive coding (Rao & Ballard, 1999): centering ($x - \mathbb{E}[x]$, U16) IS predictive coding with the interpreter held fixed. Perceptual learning (Goldstone, 1998): attentional weighting = D1, differentiation = D3. Efficient coding (Barlow, 1961): we use *transition* statistics rather than stimulus statistics — a more specific, action-driven signal.
+**Prior work:** Active perception (Bajcsy, 1988) formalizes perception as active selection, not passive reception. Friston (2010) identifies attention as precision weighting  - the closest framework to our "self-directed attention," but adapts the entire generative hierarchy rather than encoding alone. Predictive coding (Rao & Ballard, 1999): centering ($x - \mathbb{E}[x]$, U16) IS predictive coding with the interpreter held fixed. Perceptual learning (Goldstone, 1998): attentional weighting = D1, differentiation = D3. Efficient coding (Barlow, 1961): we use *transition* statistics rather than stimulus statistics  - a more specific, action-driven signal.
 
 
 **Proposition 17 (R3 as Self-Directed Attention).** For CSE systems: R3 for comparison reduces to state-dependent encoding $\pi_s$. Not "modify the program" but "modify the lens." → [propositions/17_r3_self_directed_attention.md](propositions/17_r3_self_directed_attention.md)
@@ -348,9 +348,9 @@ The feasible region is the set of all $(compare, select, store)$ triples satisfy
 **Prior work:** ExoMDP (Efroni et al., 2022) decomposes by controllability; Denoised MDP (Wang et al., 2022) by reward-relevance; Successor Features (Barreto et al., 2017) by transition structure vs reward. None decompose along our location/dynamics axis relevant to self-modification transfer. Bisimulation metrics (Zhang et al., 2021) collapse both into one equivalence class.
 
 
-**Proposition 20 (State Decomposition).** State decomposes into location-dependent $L(s)$ (visit counts — always transfers negatively) and dynamics-dependent $D(s)$ (forward model — can transfer positively if dynamics generalize). → [propositions/20_state_decomposition.md](propositions/20_state_decomposition.md)
+**Proposition 20 (State Decomposition).** State decomposes into location-dependent $L(s)$ (visit counts  - always transfers negatively) and dynamics-dependent $D(s)$ (forward model  - can transfer positively if dynamics generalize). → [propositions/20_state_decomposition.md](propositions/20_state_decomposition.md)
 
-**Proposition 21 (Global-Local Gap).** $D(s)$ captures global dynamics; navigation needs local per-state selection. This gap is structural — no D-only mechanism consistently beats random for navigation post-ban. → [propositions/21_global_local_gap.md](propositions/21_global_local_gap.md)
+**Proposition 21 (Global-Local Gap).** $D(s)$ captures global dynamics; navigation needs local per-state selection. This gap is structural  - no D-only mechanism consistently beats random for navigation post-ban. → [propositions/21_global_local_gap.md](propositions/21_global_local_gap.md)
 
 **Key experimental evidence:** D(s) prediction transfer: 5/7 PASS (Steps 778v5-855v3). Navigation transfer: 0 mechanisms beat random consistently. The feasible region for prediction transfer is non-empty; for navigation transfer it's empty.
 
@@ -359,15 +359,15 @@ The feasible region is the set of all $(compare, select, store)$ triples satisfy
 
 **Proposition 22 (Architecture Triangle).** The 800+ experiments across 12 architecture families cluster into three vertices defined by what the substrate's state encodes:
 
-1. **Recognition vertex** (codebook family, Steps 1-416). State $V = \{v_i\}$ encodes observation prototypes. Processing: $i^* = \text{argmax}_i \cos(x, v_i)$, $v_{i^*} \leftarrow v_{i^*} + \eta(x - v_{i^*})$. Action derives from nearest prototype. **R3 signal: none.** Cosine similarity is symmetric — it measures proximity but cannot distinguish informative from uninformative observation dimensions.
+1. **Recognition vertex** (codebook family, Steps 1-416). State $V = \{v_i\}$ encodes observation prototypes. Processing: $i^* = \text{argmax}_i \cos(x, v_i)$, $v_{i^*} \leftarrow v_{i^*} + \eta(x - v_{i^*})$. Action derives from nearest prototype. **R3 signal: none.** Cosine similarity is symmetric  - it measures proximity but cannot distinguish informative from uninformative observation dimensions.
 
-2. **Tracking vertex** (graph family, Steps 417-777). State $G: S \times A \to \mathbb{N}$ encodes transition counts. Processing: $G(s, a) \leftarrow G(s, a) + 1$, action $= \text{argmin}_a G(s, a)$. **R3 signal: successor set inconsistency** (Step 674 — cells with $|\text{succ}(n)| \geq 2$ trigger refinement). This IS an R3 signal (encoding modified by accumulated state). But the graph ban eliminates the data structure that generates it.
+2. **Tracking vertex** (graph family, Steps 417-777). State $G: S \times A \to \mathbb{N}$ encodes transition counts. Processing: $G(s, a) \leftarrow G(s, a) + 1$, action $= \text{argmin}_a G(s, a)$. **R3 signal: successor set inconsistency** (Step 674  - cells with $|\text{succ}(n)| \geq 2$ trigger refinement). This IS an R3 signal (encoding modified by accumulated state). But the graph ban eliminates the data structure that generates it.
 
 
 
 **Proposition 22 (Architecture Triangle).** 800+ experiments cluster into three vertices: recognition (codebook, banned), tracking (graph, banned), dynamics (prediction, current frontier). Post-ban, prediction error is the unique remaining signal for R3 encoding self-modification. → [propositions/22_architecture_triangle.md](propositions/22_architecture_triangle.md)
 
-**Corollary 22.1:** The true substrate lives at the dynamics vertex — the only vertex where circular causation (improve model → change novelty → change exploration → improve model) creates (M,R)-system closure.
+**Corollary 22.1:** The true substrate lives at the dynamics vertex  - the only vertex where circular causation (improve model → change novelty → change exploration → improve model) creates (M,R)-system closure.
 
 
 ### 4.12 Game Taxonomy by Progress Structure (Proposition 23)
@@ -392,7 +392,7 @@ The feasible region is the set of all $(compare, select, store)$ triples satisfy
 
 ### 4.14 Action Selection Closure (Steps 938-938e)
 
-**Proposition 26 (Novelty-Reactive Policy).** REJECTED — gate 5 (per-observation conditioning). Per-observation policy table stores action per observation hash = per-observation conditioning, same violation as Step 931 (PB20). → [propositions/26_novelty_reactive_policy.md](propositions/26_novelty_reactive_policy.md)
+**Proposition 26 (Novelty-Reactive Policy).** REJECTED  - gate 5 (per-observation conditioning). Per-observation policy table stores action per observation hash = per-observation conditioning, same violation as Step 931 (PB20). → [propositions/26_novelty_reactive_policy.md](propositions/26_novelty_reactive_policy.md)
 
 **Steps 938b-938e:** Four remaining mechanism classes tested (reactive-global, trajectory-conditioned ×2, trajectory-additive). All killed. $h$ contains real position-dependent variance but mapping $h \to$ actions requires learned weights (R1 violation), W-based projection (killed), or per-observation memory (gate 5). No gate-compliant mapping exists.
 
@@ -404,15 +404,15 @@ Online PCA grows encoding from observation statistics. → [propositions/27_grow
 
 **KILLED (Step 939).** PCA features discovered (10 in LS20, 16 by FT09) but zero-initialized $W_{pred}$ rows → huge prediction errors → $\alpha$ concentrates on new dims → navigation signal drowned out.
 
-### 4.16 Alpha Concentration Is Load-Bearing (Proposition 28 — FALSIFIED)
+### 4.16 Alpha Concentration Is Load-Bearing (Proposition 28  - FALSIFIED)
 
-**Proposition 28: FALSIFIED (Step 944).** Threshold reset at ALL values degrades LS20. Seeds with HIGH alpha_conc navigate WELL. Concentration on informative dimensions IS the mechanism — resetting destroys learned attention weighting.
+**Proposition 28: FALSIFIED (Step 944).** Threshold reset at ALL values degrades LS20. Seeds with HIGH alpha_conc navigate WELL. Concentration on informative dimensions IS the mechanism  - resetting destroys learned attention weighting.
 
 **R4 clarification:** Discriminative capacity (Ashby) is about WHERE alpha concentrates, not WHETHER. alpha_conc=50 on informative dims = correct; on uninformative dims (GFS case, zero-init W_pred) = degenerate. The metric alone can't distinguish. Encoding expansion requires warm-up before alpha integration.
 
 ### 4.17 Temporal Credit Impossibility (Theorem 4, Proposition 31)
 
-**Prior work:** Temporal credit assignment (survey: Ferret et al., 2023, arXiv:2312.01072) is defined as connecting actions to delayed consequences. All standard mechanisms require some form of state-conditioned memory: eligibility traces (Sutton, 1988) maintain per-(state,action) decay traces; empowerment (Klyubin et al., 2005; Salge et al., 2014) computes $\mathcal{E}(s) = I(A_{1:n}; S_{t+n} | S_t = s)$ requiring per-state action sampling; PAC-MDP algorithms (Strehl & Littman, 2008) require visit counts. Phasor Agents (Trappe, 2026) use oscillatory phase alignment for local unsupervised credit — the closest mechanism to reward-free temporal credit, but require per-edge eligibility traces.
+**Prior work:** Temporal credit assignment (survey: Ferret et al., 2023, arXiv:2312.01072) is defined as connecting actions to delayed consequences. All standard mechanisms require some form of state-conditioned memory: eligibility traces (Sutton, 1988) maintain per-(state,action) decay traces; empowerment (Klyubin et al., 2005; Salge et al., 2014) computes $\mathcal{E}(s) = I(A_{1:n}; S_{t+n} | S_t = s)$ requiring per-state action sampling; PAC-MDP algorithms (Strehl & Littman, 2008) require visit counts. Phasor Agents (Trappe, 2026) use oscillatory phase alignment for local unsupervised credit  - the closest mechanism to reward-free temporal credit, but require per-edge eligibility traces.
 
 **Our formalization:** Let $\bar{\Delta}(a) = \text{EMA}_t(\|f_\theta(s_t) - s_{t+1}\|)$ be the global running mean of prediction error for action $a$, averaged over ALL states where $a$ was executed.
 
@@ -428,7 +428,7 @@ where $|N_a|$ is the number of distinct states at which action $a$ has been exec
 
 **Relationship to prior work:** The SNR dilution of global statistics is related to state aliasing in POMDPs (McCallum, 1996) and the PAC-MDP impossibility without visit counts (Strehl & Littman, 2008). Our specific contribution: (1) proving the impossibility bound for the global running mean mechanism, (2) connecting it to the graph ban as the structural cause, and (3) the 43-experiment empirical confirmation across 5+ mechanism families (Steps 948-990).
 
-**Degrees of freedom:** The theorem identifies what MUST change for FT09/VC33: either (a) a non-running-mean mechanism for temporal credit without per-state data, (b) lifting the graph ban (parametric models — but Step 972 shows these compute the same function), or (c) a mechanism class outside prediction-error exploration entirely.
+**Degrees of freedom:** The theorem identifies what MUST change for FT09/VC33: either (a) a non-running-mean mechanism for temporal credit without per-state data, (b) lifting the graph ban (parametric models  - but Step 972 shows these compute the same function), or (c) a mechanism class outside prediction-error exploration entirely.
 
 ### 4.18 Component Extraction Validity (Theorem 5)
 
@@ -441,7 +441,7 @@ Define the causal contribution types of component $c_i$ to property $P$:
 - **Synergistic:** $P(\{c_i\} \cup S') = \text{false}$ when $\{c_j, c_k, \ldots\} \not\subseteq S'$. $P$ requires the combination, not $c_i$ alone.
 - **Redundant:** $P(\mathcal{F} \setminus \{c_i\}) = \text{true}$. $P$ persists even without $c_i$ (other components also produce $P$).
 
-**Theorem 5 (Extraction Protocol Validity).** The extraction protocol — testing $S' \cup \{c_i\}$ against killing finding $K$ — correctly identifies whether $c_i$ carries property $P$ if and only if $c_i$'s causal contribution to $P$ is unique or redundant. For synergistic contributions, the protocol produces false negatives: $c_i$ appears safe when tested alone, but $P$ re-emerges if synergistic partners are later added.
+**Theorem 5 (Extraction Protocol Validity).** The extraction protocol  - testing $S' \cup \{c_i\}$ against killing finding $K$  - correctly identifies whether $c_i$ carries property $P$ if and only if $c_i$'s causal contribution to $P$ is unique or redundant. For synergistic contributions, the protocol produces false negatives: $c_i$ appears safe when tested alone, but $P$ re-emerges if synergistic partners are later added.
 
 *Proof sketch:* If $c_i$'s contribution is unique, $S' \cup \{c_i\}$ has $P$ regardless of $S'$'s composition → test detects $P$ → correctly rejects $c_i$. If redundant, same logic applies. If synergistic with $\{c_j, c_k\}$ and $\{c_j, c_k\} \not\subseteq S'$, then $P(S' \cup \{c_i\}) = \text{false}$ → test clears $c_i$ → but $P(S' \cup \{c_i, c_j, c_k\}) = \text{true}$. $\square$
 
@@ -451,16 +451,16 @@ Define the causal contribution types of component $c_i$ to property $P$:
 
 | Ban | Killing property $P$ | Component | Causal type | Extraction valid? |
 |-----|---------------------|-----------|-------------|-------------------|
-| Codebook | LVQ characterization | Attract dynamics | Synergistic (with cosine) | **Risky** — LVQ needs all three |
-| Codebook | LVQ characterization | Novelty spawning | Unique to growth | **Valid** — spawning ≠ LVQ |
-| Codebook | LVQ characterization | Centered encoding | Unique to preprocessing | **Valid** — already U16 |
-| Graph | Negative transfer | Per-state-action storage | Unique to storage | **Valid** — this IS $P$ |
-| Graph | Negative transfer | Transition detection | Unique to detection | **Valid** — detection ≠ storage |
-| Graph | Negative transfer | CC zone discovery | Unique to encoding | **Valid** — discovery ≠ per-state data |
+| Codebook | LVQ characterization | Attract dynamics | Synergistic (with cosine) | **Risky**  - LVQ needs all three |
+| Codebook | LVQ characterization | Novelty spawning | Unique to growth | **Valid**  - spawning ≠ LVQ |
+| Codebook | LVQ characterization | Centered encoding | Unique to preprocessing | **Valid**  - already U16 |
+| Graph | Negative transfer | Per-state-action storage | Unique to storage | **Valid**  - this IS $P$ |
+| Graph | Negative transfer | Transition detection | Unique to detection | **Valid**  - detection ≠ storage |
+| Graph | Negative transfer | CC zone discovery | Unique to encoding | **Valid**  - discovery ≠ per-state data |
 
 **Relationship to prior work:** SURD provides the information-theoretic framework for continuous time series; we apply to discrete component systems. Ablation methodology (Meyes et al., 2019) addresses removal in neural networks; we extend to cross-family transplantation. The extraction protocol formalization is novel.
 
-**Degrees of freedom:** The theorem doesn't tell us which extraction tests will SUCCEED (produce useful new substrates) — only which are VALID (correctly test what they claim to test). 33 components cataloged (COMPONENT_CATALOG.md); 5 extraction experiments designed with valid causal isolation (experiments/extraction_specs.md).
+**Degrees of freedom:** The theorem doesn't tell us which extraction tests will SUCCEED (produce useful new substrates)  - only which are VALID (correctly test what they claim to test). 33 components cataloged (COMPONENT_CATALOG.md); 5 extraction experiments designed with valid causal isolation (experiments/extraction_specs.md).
 
 ## 5. Experimental Evidence
 
@@ -474,13 +474,13 @@ All 3 ARC-AGI-3 games solved at Level 1. Unifying mechanism: graph + edge-count 
 | FT09 | 3/3 at 50K (k-means, 69 actions) | Grid-click expansion (Step 503) |
 | VC33 | 3/3 at 30K (k-means, 3 actions) | Zone discovery (Step 505) |
 
-**POMDP reframing (Steps 652-690).** L1 is a hidden-state conjunction problem — the agent visits the exit cell avg 152 times before L1 triggers (Prop 15). Step 674 (transition-triggered dual-hash): cells with inconsistent transitions get finer hash → 17/20 at 25s, 20/20 at 120K. This is $\ell_\pi$: encoding refined from transition statistics, R1-compliantly.
+**POMDP reframing (Steps 652-690).** L1 is a hidden-state conjunction problem  - the agent visits the exit cell avg 152 times before L1 triggers (Prop 15). Step 674 (transition-triggered dual-hash): cells with inconsistent transitions get finer hash → 17/20 at 25s, 20/20 at 120K. This is $\ell_\pi$: encoding refined from transition statistics, R1-compliantly.
 
 **Encoding requirements:** centered_enc load-bearing across 2 families. avgpool16 required for LS20 at k=16. See CONSTRAINTS.md for full evidence.
 
 ### 5.2 Level 2 Failure as Feasibility Violation
 
-L2 failure is a feasibility violation, not a performance gap. The substrate's state graph at 500K steps: 942 live cells, 364-node active set (29%), 134 unexploited frontier edges. Extended budget produces no improvement — active set plateaus at ~5000 (Step 555). Root cause: energy mechanic requires navigating TO energy sources before dying (Steps 556-557). Rudakov et al. (2025) solved L2 using connected-component segmentation with visual salience prioritization.
+L2 failure is a feasibility violation, not a performance gap. The substrate's state graph at 500K steps: 942 live cells, 364-node active set (29%), 134 unexploited frontier edges. Extended budget produces no improvement  - active set plateaus at ~5000 (Step 555). Root cause: energy mechanic requires navigating TO energy sources before dying (Steps 556-557). Rudakov et al. (2025) solved L2 using connected-component segmentation with visual salience prioritization.
 
 
 ### 5.3 Architecture Family Summary
@@ -517,7 +517,7 @@ The chain benchmark (Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-
 ### 5.5 Post-Ban Results (Steps 778-1007, 230+ experiments)
 
 Both working mechanisms banned (codebook Step 416, graph Step 777). Key results:
-- D(s) prediction transfer: 5/7 PASS — first positive R3_cf (+73%, Step 780v5)
+- D(s) prediction transfer: 5/7 PASS  - first positive R3_cf (+73%, Step 780v5)
 - 800b (per-action change EMA): best post-ban mechanism. LS20=268.0/seed cold (895h), 290.7/seed (916 with recurrent h). FT09/VC33=0 (Theorem 4).
 - Alpha prediction-error attention: R3 encoding confirmed. FT09 dims [60,51,52] discovered autonomously.
 - 800b action selection: FROZEN. 27 modifications all kill LS20 (kills/800b-variants_step937.md).
@@ -538,13 +538,13 @@ Published baselines reproduced in our framework on LS20 (25K steps, $n_{\text{ef
 | 919 Count-based (Bellemare 2016) | 109.0 | 125.3 | 5/10 | obs frequency |
 | 917 ICM (Pathak 2017) | 0.0 | 0.0 | 10/10 | forward pred error |
 
-All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct actions + avgpool16 = L1=0 (Step 920b). Generic exploration insufficient — FT09 6/6 required per-game prescribed solution (Step 1012, all constraints lifted). Bottleneck is solution architecture (prescribed vs discovered), not encoding or action count.
+All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct actions + avgpool16 = L1=0 (Step 920b). Generic exploration insufficient  - FT09 6/6 required per-game prescribed solution (Step 1012, all constraints lifted). Bottleneck is solution architecture (prescribed vs discovered), not encoding or action count.
 
 **Finding:** Our mechanism outperforms ALL baselines by $2\text{-}2.5\times$ on LS20 with 0/10 zero-seeds. Graph ban cost is NEGATIVE: 895h (268.0, no graph) $>$ 920 (129.9, with graph). ICM worst (signal dies as $W$ learns).
 
 ### 5.8 Chain and PRISM Results
 
-**PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, chain_score=3/5. CIFAR inflates alpha_conc (PB16, −11% chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games — structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
+**PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, chain_score=3/5. CIFAR inflates alpha_conc (PB16, −11% chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games  - structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
 
 
 **ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Human baselines available for all 3 preview games. BFS beats all = 100% RHAE ceiling (19/20 levels).
@@ -555,7 +555,7 @@ The formalization identifies what the constraints REQUIRE but also what they lea
 
 | # | Degree of Freedom | What's constrained | What's free | Source |
 |---|---|---|---|---|
-| 1 | Growth function $\phi$ | Must be monotonic, unbounded (U17) | What grows — nodes, edges, meta-state, or something else | Sec 3.2 |
+| 1 | Growth function $\phi$ | Must be monotonic, unbounded (U17) | What grows  - nodes, edges, meta-state, or something else | Sec 3.2 |
 | 2 | Oscillation period | System cannot converge (Thm 1) | How quickly growth disrupts the dominant mode | Sec 4.1 |
 | 3 | Meta-rule $F$ | Must be non-constant (R3), time-invariant (U1), minimal (R6) | The specific form of compare-select-store | Sec 3.2 |
 | 4 | Growth-rule coupling | Growth changes the update rule (R3) | Local vs global: does a new node change nearby rules or all rules? | Sec 3.3 |
@@ -600,7 +600,7 @@ The formalization identifies what the constraints REQUIRE but also what they lea
 12. The minimal self-observing substrate is an eigenform of $F$: $F$ applied to its own state reproduces its dynamics (Section 4.4).
 13. The oscillation between U7 (convergence) and U17 (growth) is a limit cycle, not chaos.
 14. Selection pressure on a population of encodings (GRN architecture) may bridge the ℓ₁→ℓ_F gap without optimization. Step 607 tested: KILLED (Cov(w,z)=0). Framework sound but requires behaviorally diverse encodings.
-15. **Search reduction (Propositions 14b + 17 + 18 combined).** The path to R3 is not building a new interpreter — it's building self-directed attention into the existing CSE interpreter. The search space reduces from "all self-modifying dynamical systems" to "5 encoding dimensions (D1-D5) that can be made state-dependent via transition statistics." Each dimension is independently testable in 5 minutes. Conditional on CSE uniqueness and hierarchy collapse holding.
+15. **Search reduction (Propositions 14b + 17 + 18 combined).** The path to R3 is not building a new interpreter  - it's building self-directed attention into the existing CSE interpreter. The search space reduces from "all self-modifying dynamical systems" to "5 encoding dimensions (D1-D5) that can be made state-dependent via transition statistics." Each dimension is independently testable in 5 minutes. Conditional on CSE uniqueness and hierarchy collapse holding.
 
 ### 7.4 What is open
 
@@ -620,11 +620,11 @@ L2 requires: level-aware background modeling, robust object detection, hidden-st
 
 ### 7.6 Honest assessment
 
-The feasible region for L1 navigation is occupied — graph + argmin + correct encoding solves all three games. But argmin's advantage over random is speed, not exclusive access (13/20 vs 10/20, p=0.26). L2 via prescribed 12-component pipeline (Step 572j, 5/5 at 4804 steps). Pipeline is R1-compliant in detection but game-specific in state estimation.
+The feasible region for L1 navigation is occupied  - graph + argmin + correct encoding solves all three games. But argmin's advantage over random is speed, not exclusive access (13/20 vs 10/20, p=0.26). L2 via prescribed 12-component pipeline (Step 572j, 5/5 at 4804 steps). Pipeline is R1-compliant in detection but game-specific in state estimation.
 
 **R3 gap:** 12 design choices the substrate cannot self-discover. Four general techniques, eight game-specific. A substrate satisfying R3 would discover all 12 from interaction alone.
 
-Key propositions from the feasible region analysis: R3-R5 tension (Prop 4) — frozen frame resolves it; System Boundary (Thm 3) — ground truth is unmodifiable; Self-Modification Levels (Prop 6) — higher levels trade speed for reachability; R1 Tax (Prop 9) — unsupervised classification = chance; Feature-Ground Truth Coupling (Prop 10); Frozen Frame Capability Coupling (Prop 11) — R3 and navigation in tension; Interpreter Bound (Prop 12) — frozen frame floor > 0. See Section 4 for formal statements.
+Key propositions from the feasible region analysis: R3-R5 tension (Prop 4)  - frozen frame resolves it; System Boundary (Thm 3)  - ground truth is unmodifiable; Self-Modification Levels (Prop 6)  - higher levels trade speed for reachability; R1 Tax (Prop 9)  - unsupervised classification = chance; Feature-Ground Truth Coupling (Prop 10); Frozen Frame Capability Coupling (Prop 11)  - R3 and navigation in tension; Interpreter Bound (Prop 12)  - frozen frame floor > 0. See Section 4 for formal statements.
 
 **Post-ban addendum (778-938e):** 800b=2x random LS20. FT09=0 all mechanisms. R3 encoding CONFIRMED (alpha, 895). Action selection CLOSED (938 series). 800b unique selector. See kills/800b-variants_step937.md.
 
@@ -640,11 +640,11 @@ Key propositions from the feasible region analysis: R3-R5 tension (Prop 4) — f
 
 **(k) Meta-observation: action selection is the bottleneck.** Post-ban families (916-augmentation ×15, Hebbian RNN ×6, prediction-selectors ×10, GFS ×3, obs-preprocessing ×2) all fail to improve action selection beyond 800b. Encoding self-modification works (alpha, CONFIRMED). But every attempt to learn or modify action selection breaks navigation. The frozen frame of navigation IS action selection. This constrains the next family: either accept 800b as fixed and modify everything else, or find a fundamentally different action mechanism (ESN, population-based, or architectures that don't yet exist).
 
-**(l) Architecture Irrelevance (Proposition 29, Step 955).** ESN with fixed random $W_h$ produces numerically identical results to Hebbian RNN — same seed 8 = 96 L1, same 9/10 zeros. Architecture contributes nothing; per-seed variance is entirely determined by the action RNG's early sequence. → propositions/29\_architecture\_irrelevance.md
+**(l) Architecture Irrelevance (Proposition 29, Step 955).** ESN with fixed random $W_h$ produces numerically identical results to Hebbian RNN  - same seed 8 = 96 L1, same 9/10 zeros. Architecture contributes nothing; per-seed variance is entirely determined by the action RNG's early sequence. → propositions/29\_architecture\_irrelevance.md
 
 **(m) The Positive Lock (Proposition 30).** Sigmoid $h \in [0,1]^d$ → all dot products positive → first action always reinforced → winner-take-all after one update. 10% bootstrap rate from epsilon-random escape. Lock scales with action space: LS20 ($n=4$) ≈ 10%, FT09 ($n=68$) ≈ 0%. Fix: sparse gating (relu threshold) makes representations state-dependent. → propositions/30\_positive\_lock.md
 
-**(n) The Temporal Credit Assignment Wall (Proposition 31, Steps 948-990, 43 experiments).** Three interlocking results: (1) 800b's delta\_per\_action is FROZEN — 25 modifications all kill LS20. (2) FT09/VC33 mechanism-limited at any budget (0/10 at 10K, 25K, 50K). (3) The wall is temporal credit, not the graph ban — parametric state-conditioned models don't solve it. See Section 4.17 for the formal impossibility result and → propositions/31\_temporal\_credit\_wall.md.
+**(n) The Temporal Credit Assignment Wall (Proposition 31, Steps 948-990, 43 experiments).** Three interlocking results: (1) 800b's delta\_per\_action is FROZEN  - 25 modifications all kill LS20. (2) FT09/VC33 mechanism-limited at any budget (0/10 at 10K, 25K, 50K). (3) The wall is temporal credit, not the graph ban  - parametric state-conditioned models don't solve it. See Section 4.17 for the formal impossibility result and → propositions/31\_temporal\_credit\_wall.md.
 
 **Feasible region = Step 965:** LS20 = 67.0 (chain), FT09 = 0, VC33 = 0, CIFAR = chance. 43 experiments prove this fixed point. Props 29-31 fully characterize the dynamics vertex of the architecture triangle (Prop 22). The next breakthrough requires a mechanism class outside prediction-error exploration.
 
@@ -656,7 +656,7 @@ Research conducted by a team of LLM agents (Claude Opus/Sonnet) coordinated by t
 
 ## References
 
-- Abraham, W. C. & Robins, A. (2005). Memory retention — the synaptic stability versus plasticity dilemma. Trends in Neurosciences, 28(2), 73-78.
+- Abraham, W. C. & Robins, A. (2005). Memory retention  - the synaptic stability versus plasticity dilemma. Trends in Neurosciences, 28(2), 73-78.
 - Bellemare, M. et al. (2016). Unifying Count-Based Exploration and Intrinsic Motivation. NeurIPS.
 - Burda, Y. et al. (2018). Exploration by Random Network Distillation. arXiv:1810.12894.
 - Burda, Y. et al. (2019). Large-Scale Study of Curiosity-Driven Learning. ICLR.
@@ -713,7 +713,7 @@ Research conducted by a team of LLM agents (Claude Opus/Sonnet) coordinated by t
 - Michaels, J. A. & Scherberger, H. (2016). hebbRNN: A Reward-Modulated Hebbian Learning Rule for Recurrent Neural Networks. JOSS, 1(8), 60.
 - Najarro, E. & Risi, S. (2020). Meta-Learning through Hebbian Plasticity in Random Networks. NeurIPS.
 - Patel, D. et al. (2022). Exploration in neo-Hebbian reinforcement learning: Computational approaches to the exploration-exploitation balance with bio-inspired neural networks. Neural Networks, 151, 204-218.
-- Salge, C., Glackin, C. & Polani, D. (2014). Empowerment — An Introduction. arXiv:1310.1863.
+- Salge, C., Glackin, C. & Polani, D. (2014). Empowerment  - An Introduction. arXiv:1310.1863.
 - Sakana AI (2025). Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents. arXiv:2505.22954.
 - Schlesinger, M. (2014). Learnability Frontier in Learning Agent Systems. Cognitive Systems Research, 29-30, 1-18.
 - Sutton, R. S. (1992). Adapting Bias by Gradient Descent: An Incremental Version of Delta-Bar-Delta. AAAI.

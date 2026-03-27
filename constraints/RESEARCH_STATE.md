@@ -1,4 +1,4 @@
-# Research State — Live Document
+# Research State  - Live Document
 *Source of truth for active work. Restructured 2026-03-27.*
 
 ---
@@ -8,7 +8,7 @@
 The search finds substrates by composing validated components, testing against developmental stages, identifying the failing stage, finding or building the component for that stage, and composing again.
 
 **Unit of search:** a composition of components, not an individual substrate.
-**Architecture:** allosteric — encoding and action selection share parameters (W).
+**Architecture:** allosteric  - encoding and action selection share parameters (W).
 **Test framework:** stages I3, I1, I4, I5, R3, measured simultaneously on every run.
 **Parts bin:** component catalog (C1-C33+), extended as gaps are identified.
 
@@ -51,15 +51,15 @@ raw pixels → avgpool4 → centered encoding (U16)
 | C25 | Prediction-error attention | 2 families | R3 encoding | SUBSUMED by LPL (same principle, tighter coupling) |
 | C21/C26 | Recurrent state | 3 families | I4 temporal | AVAILABLE (not in current allosteric) |
 | C22 | Self-observation | 2 families | R3 meta | AVAILABLE |
-| NEW | LPL (Hebbian + predictive) | — | I1, R3 | ACTIVE (single-layer, insufficient for I1) |
-| NEW | Adaptive softmax (T=1/std) | — | I3 explore/exploit | ACTIVE |
-| NEEDED | IncSFA / multi-layer LPL | — | I1 state distinction | NOT YET BUILT |
+| NEW | LPL (Hebbian + predictive) |  - | I1, R3 | ACTIVE (single-layer, insufficient for I1) |
+| NEW | Adaptive softmax (T=1/std) |  - | I3 explore/exploit | ACTIVE |
+| NEEDED | IncSFA / multi-layer LPL |  - | I1 state distinction | NOT YET BUILT |
 
 ---
 
 ## Solved (locked findings)
 
-1. **R3 solved by composition** (Step 1251). 7 cross-family components → Jacobian change 100/100 across 10 games, both wirings. Component-level, not wiring-dependent. R3 was always achievable — 0/1250 was a composition failure.
+1. **R3 solved by composition** (Step 1251). 7 cross-family components composed. Jacobian change 100/100 across 10 games, both wirings. Component-level, not wiring-dependent.
 
 2. **Allosteric principle confirmed** (Steps 1252-1253). Shared W for encoding and action selection. When W changes, both change. No separate bridge needed. First I4 signal (1252). R3+I3 coexist (1253, VC33).
 
