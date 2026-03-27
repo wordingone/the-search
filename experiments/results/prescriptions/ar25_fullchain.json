@@ -4,7 +4,22 @@
   "method": "fast_bfs_deepcopy",
   "levels": {
     "L2": {
-      "status": "NO_ACTIONS"
+      "status": "SOLVED",
+      "actions": [
+        2,
+        2,
+        1335,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "length": 11,
+      "time": 30.92
     }
   },
   "full_sequence": [
@@ -22,8 +37,19 @@
     2,
     2,
     2,
-    2
+    2,
+    2,
+    2,
+    1335,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
   ],
-  "max_level_solved": 1,
-  "total_actions": 15
+  "max_level_solved": 2,
+  "total_actions": 26
 }
