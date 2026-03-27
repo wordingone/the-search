@@ -64,12 +64,11 @@
         1541
       ],
       "length": 55,
-      "method": "random_search"
+      "method": "existing"
     },
     "L2": {
       "status": "UNSOLVED",
-      "unique_actions": 440,
-      "note": "click-only game, massive action space"
+      "time": 305.34
     },
     "L3": {
       "status": "UNSOLVED",
