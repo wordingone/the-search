@@ -1,62 +1,145 @@
 {
   "game": "sp80",
-  "levels": {},
-  "total_actions": 54,
-  "max_level": 2,
+  "method": "abstract_model_bfs",
+  "levels": {
+    "1": {
+      "status": "SOLVED",
+      "abstract_actions": [
+        3,
+        3,
+        4
+      ],
+      "game_actions": [
+        3,
+        3,
+        4
+      ],
+      "length": 3,
+      "time": 0.0
+    },
+    "2": {
+      "status": "SOLVED",
+      "abstract_actions": [
+        3,
+        3,
+        6,
+        2,
+        4
+      ],
+      "game_actions": [
+        3,
+        3,
+        1576,
+        2,
+        4
+      ],
+      "length": 5,
+      "time": 0.02
+    },
+    "3": {
+      "status": "SOLVED",
+      "abstract_actions": [
+        2,
+        5,
+        2,
+        4
+      ],
+      "game_actions": [
+        2,
+        1848,
+        2,
+        4
+      ],
+      "length": 4,
+      "time": 0.01
+    },
+    "4": {
+      "status": "SOLVED",
+      "abstract_actions": [
+        3,
+        3,
+        5,
+        2,
+        8,
+        3,
+        4
+      ],
+      "game_actions": [
+        3,
+        3,
+        1945,
+        2,
+        2740,
+        3,
+        4
+      ],
+      "length": 7,
+      "time": 1.2
+    },
+    "5": {
+      "status": "SOLVED",
+      "abstract_actions": [
+        2,
+        4,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "game_actions": [
+        2,
+        4,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        4
+      ],
+      "length": 9,
+      "time": 9.12
+    },
+    "6": {
+      "status": "UNSOLVED",
+      "time": 177.25
+    }
+  },
   "sequence": [
     3,
-    6,
-    1672,
-    1,
-    1,
-    0,
+    3,
     4,
     3,
-    0,
-    5,
     3,
-    0,
-    4,
-    1204,
-    943,
-    3,
-    0,
-    1407,
-    76,
-    1,
-    3,
-    0,
-    2629,
-    0,
-    6,
-    1,
-    1068,
-    3638,
-    85,
-    0,
-    1,
-    1,
-    4,
-    6,
-    3296,
-    3,
-    5,
-    2214,
-    1,
-    5,
+    1576,
     2,
-    1240,
-    5,
-    3175,
-    2570,
-    3282,
+    4,
+    2,
+    1848,
+    2,
+    4,
+    3,
+    3,
+    1945,
+    2,
+    2740,
+    3,
+    4,
+    2,
+    4,
     0,
-    3,
-    3,
-    1364,
-    3,
-    702,
-    0,
+    2,
+    2,
+    2,
+    2,
+    2,
     4
-  ]
+  ],
+  "max_level": 5,
+  "total_time": 187.6,
+  "verified_levels": 1,
+  "total_actions": 28
 }

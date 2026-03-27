@@ -1,41 +1,38 @@
 {
   "game": "lf52",
-  "total_levels": 10,
+  "version": "271a04aa",
+  "method": "abstract_dfs_peg_solitaire",
+  "max_level_solved": 1,
+  "total_actions": 8,
   "levels": {
     "L1": {
       "status": "SOLVED",
       "actions": [
-        1241,
-        1253,
-        1253,
-        1265,
-        1265,
-        2033,
-        2033,
-        2801
+        1306,
+        1318,
+        1318,
+        1330,
+        1330,
+        2098,
+        2098,
+        2866
       ],
-      "length": 8
+      "length": 8,
+      "time": 0.0
     },
     "L2": {
       "status": "UNSOLVED",
-      "info": {
-        "timeout": true,
-        "depth": 57,
-        "explored": 13090
-      }
+      "time": 0.0
     }
   },
-  "full_sequence": [
-    1241,
-    1253,
-    1253,
-    1265,
-    1265,
-    2033,
-    2033,
-    2801
-  ],
-  "method": "undo_dfs_v2",
-  "max_level_solved": 1,
-  "total_actions": 8
+  "all_actions": [
+    1306,
+    1318,
+    1318,
+    1330,
+    1330,
+    2098,
+    2098,
+    2866
+  ]
 }
