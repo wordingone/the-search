@@ -1,6 +1,8 @@
 {
   "game": "lf52",
+  "version": "271a04aa",
   "total_levels": 10,
+  "method": "bfs_set_level",
   "levels": {
     "L1": {
       "status": "SOLVED",
@@ -15,11 +17,14 @@
         2801
       ],
       "length": 8,
-      "method": "known"
+      "method": "analytical"
     },
     "L2": {
       "status": "UNSOLVED",
-      "time": 73.14
+      "unique_actions": 4,
+      "bfs_depth_reached": 185,
+      "states_explored": 17568,
+      "note": "peg solitaire with board movement. Linear state chain, solution >200 depth."
     }
   },
   "full_sequence": [
@@ -32,7 +37,6 @@
     2033,
     2801
   ],
-  "method": "bfs_set_level",
   "max_level_solved": 1,
   "total_actions": 8
 }

@@ -1,6 +1,8 @@
 {
   "game": "r11l",
+  "version": "aa269680",
   "total_levels": 6,
+  "method": "bfs_set_level + random_search",
   "levels": {
     "L1": {
       "status": "SOLVED",
@@ -62,11 +64,28 @@
         1541
       ],
       "length": 55,
-      "method": "known"
+      "method": "random_search"
     },
     "L2": {
       "status": "UNSOLVED",
-      "time": 301.55
+      "unique_actions": 440,
+      "note": "click-only game, massive action space"
+    },
+    "L3": {
+      "status": "UNSOLVED",
+      "unique_actions": 157
+    },
+    "L4": {
+      "status": "UNSOLVED",
+      "unique_actions": 158
+    },
+    "L5": {
+      "status": "UNSOLVED",
+      "unique_actions": 209
+    },
+    "L6": {
+      "status": "UNSOLVED",
+      "unique_actions": 207
     }
   },
   "full_sequence": [
@@ -126,7 +145,6 @@
     2,
     1541
   ],
-  "method": "bfs_set_level",
   "max_level_solved": 1,
   "total_actions": 55
 }
