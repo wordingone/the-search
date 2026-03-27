@@ -60,16 +60,21 @@ Can a system improve itself by criteria it generates?
 ## Structure
 
 ```
-paper/           Research paper (PDF + source)
-constraints/     Constraint map (CONSTRAINTS.md), constitution (R1-R6), experiment log
-experiments/     1097+ experiment scripts (chronological)
-substrates/      Active substrate code:
-  base.py          BaseSubstrate interface (5 methods)
-  step0674.py      Reference substrate (transition-triggered dual-hash)
-  chain.py         Chain benchmark runner (pluggable — any gym env)
-  judge.py         ConstitutionalJudge (R1-R6 audit + R3 counterfactual)
-  archive/         Killed families (12+ architectures, preserved)
-viz/             Search space visualization
+paper/                    Research paper (PDF + source)
+constraints/              Constraint map, constitution (R1-R6), composition loop state
+  CONSTITUTION.md           R1-R6 rules
+  MAP.md                    Constraint map (1252+ experiments)
+  RESEARCH_STATE.md         Composition loop state (current composition, stages, bottleneck)
+  COMPONENT_CATALOG.md      Parts bin (C1-C33+)
+  FAMILY_KILLS.md           Killed family register
+experiments/
+  compositions/             Composition-era experiments (Step 1251+)
+  components/               Validated component implementations
+  archive/                  Pre-composition experiments (Steps 1-1250, 1300+ scripts)
+  results/                  Raw experiment data (never deleted)
+  solvers/                  Analytical game solvers (gitignored)
+substrates/               Active substrate code
+viz/                      Search space visualization
 ```
 
 ## Quick Start

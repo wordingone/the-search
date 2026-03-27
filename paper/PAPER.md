@@ -1,5 +1,5 @@
 ---
-title: "Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments"
+title: "Self-Modification by Composition: R3 Solved, the Bridge Remains"
 author: "Hyun Jun Han"
 date: 2026-03-19
 ---
