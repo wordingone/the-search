@@ -1,0 +1,23 @@
+{
+  "game": "cd82",
+  "condition": "allo",
+  "draw": 5,
+  "seed": 500,
+  "steps_taken": 10000,
+  "elapsed_seconds": 57.9,
+  "max_level": 0,
+  "L1_solved": false,
+  "l1_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "I3_cv": 4.5095,
+  "I1_within": null,
+  "I1_between": null,
+  "I1_p_value": 1.0,
+  "I1_pass": false,
+  "I4_reduction_pct": -70.92,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0084,
+  "R3_pass": false
+}

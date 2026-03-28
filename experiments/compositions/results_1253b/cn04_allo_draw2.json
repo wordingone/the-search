@@ -1,0 +1,23 @@
+{
+  "game": "cn04",
+  "condition": "allo",
+  "draw": 2,
+  "seed": 200,
+  "steps_taken": 10000,
+  "elapsed_seconds": 55.93,
+  "max_level": 0,
+  "L1_solved": false,
+  "l1_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "I3_cv": 4.6218,
+  "I1_within": null,
+  "I1_between": null,
+  "I1_p_value": 1.0,
+  "I1_pass": false,
+  "I4_reduction_pct": -72.2,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0083,
+  "R3_pass": false
+}

@@ -1,0 +1,25 @@
+{
+  "game": "vc33",
+  "condition": "ctl",
+  "draw": 4,
+  "seed": 401,
+  "steps_taken": 10000,
+  "elapsed_seconds": 4.15,
+  "max_level": 1,
+  "L1_solved": true,
+  "l1_step": 2118,
+  "level_first_step": {
+    "1": 2118
+  },
+  "arc_score": 2e-06,
+  "I3_cv": 4.4176,
+  "I1_within": 0.4915,
+  "I1_between": 1.7849,
+  "I1_p_value": 0.0,
+  "I1_pass": true,
+  "I4_reduction_pct": -79.55,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": null,
+  "R3_pass": false
+}

@@ -1,0 +1,23 @@
+{
+  "game": "ls20",
+  "condition": "ctl",
+  "draw": 3,
+  "seed": 301,
+  "steps_taken": 10000,
+  "elapsed_seconds": 4.86,
+  "max_level": 0,
+  "L1_solved": false,
+  "l1_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "I3_cv": 0.0173,
+  "I1_within": null,
+  "I1_between": null,
+  "I1_p_value": 1.0,
+  "I1_pass": false,
+  "I4_reduction_pct": -0.03,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": null,
+  "R3_pass": false
+}

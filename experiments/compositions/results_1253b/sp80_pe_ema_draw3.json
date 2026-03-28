@@ -1,0 +1,23 @@
+{
+  "game": "sp80",
+  "condition": "pe_ema",
+  "draw": 3,
+  "seed": 302,
+  "steps_taken": 10000,
+  "elapsed_seconds": 3.21,
+  "max_level": 0,
+  "L1_solved": false,
+  "l1_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "I3_cv": 4.4176,
+  "I1_within": null,
+  "I1_between": null,
+  "I1_p_value": 1.0,
+  "I1_pass": false,
+  "I4_reduction_pct": -79.55,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0091,
+  "R3_pass": false
+}

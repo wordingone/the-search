@@ -1,0 +1,25 @@
+{
+  "game": "ft09",
+  "condition": "pe_ema",
+  "draw": 5,
+  "seed": 502,
+  "steps_taken": 10000,
+  "elapsed_seconds": 10.18,
+  "max_level": 1,
+  "L1_solved": true,
+  "l1_step": 4997,
+  "level_first_step": {
+    "1": 4997
+  },
+  "arc_score": 1e-06,
+  "I3_cv": 4.4176,
+  "I1_within": 0.8212,
+  "I1_between": 1.4262,
+  "I1_p_value": 0.0,
+  "I1_pass": true,
+  "I4_reduction_pct": -79.55,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0095,
+  "R3_pass": false
+}

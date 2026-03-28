@@ -1,0 +1,25 @@
+{
+  "game": "vc33",
+  "condition": "pe_ema",
+  "draw": 4,
+  "seed": 402,
+  "steps_taken": 10000,
+  "elapsed_seconds": 7.42,
+  "max_level": 1,
+  "L1_solved": true,
+  "l1_step": 2118,
+  "level_first_step": {
+    "1": 2118
+  },
+  "arc_score": 2e-06,
+  "I3_cv": 4.4176,
+  "I1_within": 0.5518,
+  "I1_between": 1.8882,
+  "I1_p_value": 0.0,
+  "I1_pass": true,
+  "I4_reduction_pct": -79.55,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0091,
+  "R3_pass": false
+}

@@ -1,0 +1,25 @@
+{
+  "game": "lp85",
+  "condition": "allo",
+  "draw": 1,
+  "seed": 100,
+  "steps_taken": 10000,
+  "elapsed_seconds": 60.01,
+  "max_level": 1,
+  "L1_solved": true,
+  "l1_step": 1070,
+  "level_first_step": {
+    "1": 1070
+  },
+  "arc_score": 2.2e-05,
+  "I3_cv": 4.5322,
+  "I1_within": 0.0957,
+  "I1_between": 1.7202,
+  "I1_p_value": 0.0,
+  "I1_pass": true,
+  "I4_reduction_pct": -71.22,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0084,
+  "R3_pass": false
+}

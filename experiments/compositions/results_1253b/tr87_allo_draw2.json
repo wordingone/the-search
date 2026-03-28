@@ -1,0 +1,23 @@
+{
+  "game": "tr87",
+  "condition": "allo",
+  "draw": 2,
+  "seed": 200,
+  "steps_taken": 10000,
+  "elapsed_seconds": 6.48,
+  "max_level": 0,
+  "L1_solved": false,
+  "l1_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "I3_cv": 0.6518,
+  "I1_within": null,
+  "I1_between": null,
+  "I1_p_value": 1.0,
+  "I1_pass": false,
+  "I4_reduction_pct": -12.24,
+  "I4_pass": false,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0,
+  "R3_pass": false
+}
