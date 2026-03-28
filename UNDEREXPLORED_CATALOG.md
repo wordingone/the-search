@@ -56,6 +56,9 @@
 35. **178 experiments without PRISM** (Steps 778-963). **Chain interactions never backfilled.**
 36. **"Does the substrate understand what a game is?"** **No experiment has measured internal task-structure representation.**
 37. **5 untested MAP.md gap analysis items.** Per-cell action discrimination, 674+raw 64x64, 674 on benchmarks, clean Recode, non-argmin under running-mean. **All untested.**
+38. **avgpool4 encoding may be Phase 1 artifact** (Leo, 2026-03-28). Validated under argmin (which doesn't need spatial structure). StochasticGoose (leaderboard leader) uses 2D conv that PRESERVES spatial structure. avgpool4 DESTROYS it (64×64 → 4×4 → flatten → 256D). If the substrate needs spatial awareness for efficient click-game action selection, the encoding is the bottleneck. **Premature to test before forward model gets first experiment.**
+39. **Action hierarchy (type → position)** (from StochasticGoose analysis). Our substrate treats all 4103 actions as flat vector. StochasticGoose decomposes: 5 action types, then 64×64 click position. Hierarchical action decomposition = smaller search space. **Never explored.**
+40. **Level transition detection** (from StochasticGoose analysis). StochasticGoose resets experience buffer on level transitions = explicit phase awareness. Our substrate has never detected level transitions. **Connected to Jun's "does the substrate understand what a game is?" (#36).**
 
 ## 11 Signal moments — how many became directions?
 
