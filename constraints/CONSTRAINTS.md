@@ -2,7 +2,7 @@
 
 *Revised 2026-03-25. Compressed per doc-system limits. Full narratives in RESEARCH_STATE.md. Component extraction catalog in COMPONENT_CATALOG.md.*
 
-*1067+ experiments across 16 families. ALL BANS LIFTED permanently (Jun, 2026-03-25). See bans/POLICY.md for history. Codebook and graph findings remain valid as data.*
+*1067+ experiments across 16 families. ALL BANS LIFTED permanently (2026-03-25). See bans/POLICY.md for history. Codebook and graph findings remain valid as data.*
 
 **Classification:**
 - **Task Requirement**: What the TASK demands of any substrate (derived from successes AND failures across families)
@@ -223,7 +223,7 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 5. **Unconstrained diagnostic COMPLETE (Step 1017):** ALL bans lifted + ALL rules suspended = FT09/VC33 still 0%. **Bans and constitution are orthogonal to the click game problem.** The constraint map describes LS20 navigation, not the full search space. The substrate lacks basic task competence (causal discovery of game mechanics) — a pre-constitutional capability that R1-R6 don't address.
 
-6. **Debate v3 sprint (PB26-28, Steps 1040-1069).** 27+ experiments testing ℓ_π (encoding modification) vs ℓ₁ (parameter modification) within adaptive cascade + multivariate detection. Early sprint: approximate parity (2-2-1). Step 1067: v14 (ℓ_π) = 80%/70%/0% vs v16 (ℓ₁ 4096D SPSA) = 0%/0%/0% — appeared decisive. **Step 1069: v17 (ℓ₁ block-reduced 64D SPSA) = NO ZERO GAMES (5/5 L1>0).** Dimensionality was the confound, not ℓ-level. PB26 reverts to PROVISIONAL. L2+ = 0 across everything. Opaque games discovered (Jun: data, not wall). All bans lifted permanently (Jun, 2026-03-25). Same-seed controlled comparison needed.
+6. **Debate v3 sprint (PB26-28, Steps 1040-1069).** 27+ experiments testing ℓ_π (encoding modification) vs ℓ₁ (parameter modification) within adaptive cascade + multivariate detection. Early sprint: approximate parity (2-2-1). Step 1067: v14 (ℓ_π) = 80%/70%/0% vs v16 (ℓ₁ 4096D SPSA) = 0%/0%/0% — appeared decisive. **Step 1069: v17 (ℓ₁ block-reduced 64D SPSA) = NO ZERO GAMES (5/5 L1>0).** Dimensionality was the confound, not ℓ-level. PB26 reverts to PROVISIONAL. L2+ = 0 across everything. Opaque games discovered (data, not wall). All bans lifted permanently (2026-03-25). Same-seed controlled comparison needed.
 
 7. **ARC-AGI-3 full set LIVE (2026-03-25).** 150+ games, 1000+ levels. API still at 25. PRISM auto-enumerates available games.
 
@@ -269,12 +269,12 @@ Algorithm invariance (argmin banned), U3/U17 (graph growth banned — what accum
 | PB21 | Generic exploration = 0 on click games even with ALL bans lifted (Step 1017). Gap is discovery mechanism, not constraints. | CONFIRMED (Step 1017) |
 | PB22 | Direction 1: 5 extraction experiments (1007-1014) = 0 FT09/VC33 signal | CONFIRMED |
 | PB23 | Game-agnostic base (no 800b/alpha/h) maintains LS20 via bootloader only | CONFIRMED (Step 1014) |
-| PB24 | LS20-tuned foundation (600 steps hill-climbing) may contaminate extraction experiments | PROVISIONAL (Jun observation, 2026-03-24, no controlled test) |
+| PB24 | LS20-tuned foundation (600 steps hill-climbing) may contaminate extraction experiments | PROVISIONAL (2026-03-24, no controlled test) |
 | PB25 | Hardcoded game coordinates become stale across versions (572u = 0 on LS20/9607627b) | CONFIRMED (Step 1015) |
-| PB26 | ℓ_π vs ℓ₁ = **PARITY at L1.** 14 experiments (Steps 1082-1096), distinct architectures (Jun mandate). Both sides solve ~1/3 ARC games on lucky draws, 0/3 on new draws (Steps 1095-1096). Draw-robustness test falsified both sides' ARC advantage claims. The 66x efficiency gap was noise — both sides equally draw-dependent. Bottleneck = 0% wall (~2/3 games), orthogonal to ℓ-level. | **CONFIRMED** (Steps 1042-1096, 14 distinct-architecture experiments + draw robustness. Parity.) |
+| PB26 | ℓ_π vs ℓ₁ = **PARITY at L1.** 14 experiments (Steps 1082-1096), distinct architectures (mandate). Both sides solve ~1/3 ARC games on lucky draws, 0/3 on new draws (Steps 1095-1096). Draw-robustness test falsified both sides' ARC advantage claims. The 66x efficiency gap was noise — both sides equally draw-dependent. Bottleneck = 0% wall (~2/3 games), orthogonal to ℓ-level. | **CONFIRMED** (Steps 1042-1096, 14 distinct-architecture experiments + draw robustness. Parity.) |
 | PB27 | **0% wall = TWO failure modes (Steps 1079, 1082).** Mode 1 (near-inert): noise, confirmed dead (Step 1081). Mode 2 (responsive-unsolved): OSCILLATION is the bottleneck (Step 1082). Actions produce directional effects (kb1=+0.37 toward, kb6=-0.50 away) but game state oscillates (47/74 sign changes). MI misses signal (directional, not variable). Substrate needs state-dependent action selection. Sequence evolution = wrong architecture. | CONFIRMED (Steps 1079-1082. Mode 1=noise. Mode 2=oscillation→needs state-conditioned actions.) |
 | PB29 | MI detection = best L1 method. Improves over z-score and Mahalanobis on responsive games. Does NOT enable L2 (Step 1074 L2 was draw luck, Step 1076 no reproduction). Does not break 0% wall. IDA (Mazzaglia & Cohen 2024) direction. | PROVISIONAL (Steps 1074-1077. Single L2 not reproduced.) |
-| PB28 | Adaptive cascade superseded. Cascade (Steps 1042-1065) was never evaluated under ARC scoring (predates Jun's ARC Prize directive). Post-cascade architectures (defense v21 reactive, prosecution v20 attention-trajectory) produce ARC efficiency scores. Chain performance comparable (~3/5 for both eras). Whether cascade would have produced ARC scores is unknown. Jun mandated distinct architectures (2026-03-25). | **SUPERSEDED** (Steps 1084-1087. Cascade untested under ARC scoring. Chain scores comparable.) |
+| PB28 | Adaptive cascade superseded. Cascade (Steps 1042-1065) was never evaluated under ARC scoring (predates ARC Prize scoring directive). Post-cascade architectures (defense v21 reactive, prosecution v20 attention-trajectory) produce ARC efficiency scores. Chain performance comparable (~3/5 for both eras). Whether cascade would have produced ARC scores is unknown. Distinct architectures mandated (2026-03-25). | **SUPERSEDED** (Steps 1084-1087. Cascade untested under ARC scoring. Chain scores comparable.) |
 | PB30 | Simplicity observation: adding complexity to winning architecture degrades both sides. Defense: v22-v25 all killed v21's signal. Prosecution: v21 killed v20's signal. Observed in 2 families (n=5 defense, n=1 prosecution). Post-hoc: no optimizer to fit extra parameters. Untested. | **PROVISIONAL** (observed in 2 families, n=6 total. Post-hoc explanation untested.) |
 | PB31 | **Encoding resolution IS a bottleneck (Steps 1101, 1104).** avgpool4 (256D) consistently solves games invisible at avgpool8 (64D). v30 ARC=0.4701 (draw 1) → ARC=0.3319 (draw 2). **DRAW-ROBUST** — first substrate with non-zero ARC across multiple draws. Prosecution v26/v27 (same avgpool4, forward model) = ARC=0 → encoding necessary but not sufficient; the ℓ₁ reactive mechanism adds value GIVEN adequate encoding. 0% wall persists on ~2/5 non-trivial games. | **CONFIRMED** (Steps 1101+1104, 2 draws. Defense v30 draw-robust. Prosecution fails on same encoding.) |
 
@@ -289,7 +289,7 @@ Prediction transfer region non-empty (PB5). Navigation transfer region empty. Ga
 - **Building sprint (PB26, Steps 1042-1065).** ℓ_π vs ℓ₁ head-to-head: 2-2-1 on same game draws. Aggregate ~1.5:1 prosecution, confounded by different random draws. Both sides 8 distinct responsive games. Neither side solved L2+. Provisional.
 - **FT09 bottleneck REVISED (PB19, Steps 920/920b/1017 vs 1012).** Generic exploration = 0 even unconstrained. Prescribed solution = 6/6. Variable is discovery mechanism, not encoding or constraints.
 - **Constraint cost measured (PB21, Step 1017).** ALL bans lifted = still 0% on click games. Gap is discovery, not constraints. LS20 cost ≈ 0.
-- **ALL BANS LIFTED (Jun, 2026-03-25).** Codebook and graph bans removed permanently. Ban-era findings remain valid as data. Any mechanism now allowed. See bans/POLICY.md.
+- **ALL BANS LIFTED (2026-03-25).** Codebook and graph bans removed permanently. Ban-era findings remain valid as data. Any mechanism now allowed. See bans/POLICY.md.
 
 ---
 

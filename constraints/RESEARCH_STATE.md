@@ -61,7 +61,7 @@ raw pixels → avgpool4 → centered encoding (U16)
 
 **Step 1267 (anomaly flow + frozen-mean control):** COMPLETE (45 runs, 3 conditions). Mean drift is negligible: live SAL=0.800 vs frozen SAL=0.764 (nearly identical). Frozen I4=9.5% vs live I4=4.8% — slight improvement. Anomaly flow signal is real, not an artifact. VC33 5/5 L1 both conditions. LS20 L1=0/5 both (regression from 1266 raw-flow 1/5, different seeds).
 
-**DIRECTION CHANGE (Jun, 2026-03-27):** Stop testing at L1. L1 selects for coverage (argmin), not understanding. Higher levels require game understanding — mechanics, sequences, complex configurations. Use analytical solvers to fast-forward to L3/L5/L7, test substrate there. The mechanism that handles L7 is a superset of L1. Design for the hardest level, not the easiest.
+**DIRECTION CHANGE (2026-03-27):** Stop testing at L1. L1 selects for coverage, not understanding. Higher levels require game understanding. Test: substrate observes solver playing all levels on seed A, then acts on seed B. Did the observation transfer?
 
 **Step 1268 (per-level L_max instrumentation, SP80/FT09/TR87):** COMPLETE (30 runs). L_max=0 on ALL 30 draws — substrate never escapes L0 within 10K steps. Confirms direction change: solver handoff mandatory. FT09 physarum reached L1 (4/5 draws, ~7K steps), never L2. R3 passes on SP80/FT09 (0.083), dead on TR87 (0.003). SAL near-zero (rho<0.1 everywhere). I4=0 everywhere. lmax_i4 metric unmeasurable without solver transport. Awaiting Leo spec-gate resolution (missing control baseline + wiring spec) before building solver handoff infrastructure.
 
