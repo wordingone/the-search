@@ -592,15 +592,18 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Verdict: ALLO killed.** C#19 allosteric softmax not viable for current composition. PE-EMA (C#17 from step 1282) remains best non-argmin action selector. Original step 1253 abandonment was effectively correct — PE-EMA was already superior. Catalog entry for C#19 confirmed negative.
   - **Script self-check printed:** "PASS: ALLO beats CTL on >= 1 game. Original step 1253 was abandoned prematurely." This refers to criterion #1 only. Criterion #2 (I3cv) triggers the kill.
 
-- **Step 1299 (action-aware forward model C34 — plasticity gate): RUNNING.** Leo mail 3661. 3 conditions × 11 games × 10 draws = 330 pairs.
-  - Conditions: FORWARD-GATE (plasticity gated by forward PE per action), OBS-PE-GATE (obs PE, action-blind comparison), NO-GATE (forward model but gate=1.0 ablation)
-  - Base: 1297 (N=64, NEG-DIAG W_recur, W_drive init 0.1)
-  - W_forward[a]: per-action (256×256), lazy init (FWD_CAP=500), shared fallback for large action spaces
-  - forward_pe = ||enc_{t+1} - W_forward[a] @ enc_t||; gate = min(fwd_pe / fwd_pe_median, 2.0)
-  - Gate applied to: W_drive Oja, W_recur, W_readout updates
-  - Hypothesis: loop actions (same state transitions) → fwd_pe drops → gate closes → substrate stops learning loop-consistent behaviors
+- **Step 1299 (action-aware forward model C34 — plasticity gate): COMPLETE. KILL — W_inhibit dominance confirmed, architecture dead end.** 330 draws (3 conditions × 11 games × 10 draws), 6218s.
+  - **L1=0/10 all games, all conditions.** R3=0.0001-0.0003 (0 pass). Three conditions (FWD/OBS/NOGATE) IDENTICAL — gate has zero effect.
+  - **Forward PE learning IS happening:** 91/110 FWD draws show forward PE decrease for ≥1 action. Signal present, nowhere to land.
+  - **Confirmed diagnosis (Leo early read):** W_inhibit (frozen, 0.5-1.5 uniform) >> W_drive (init 0.1) dominates. W_drive Oja fires ~9999/10000 steps but Jacobian sensitivity = 0.0001. LP85 regressed 5/5→0/5 vs 1282 base — architecture kills what 1282 could do.
+  - **Conclusion:** 64-neuron competitive inhibition network is architecturally incompatible with R2. Frozen W_inhibit = frozen evaluator (same violation as argmin). Forward model concept valid — has no substrate to improve.
+  - **Next:** Step 1301 — return to linear reflexive map (Step 1264 base) with anti-Hebbian decorrelation to fix collapse.
 
-- **Step 1300 (StochasticGoose PRISM baseline — leaderboard leader): RUNNING.** Jun directive, Leo mail 3662/3663. 11 games × 20 draws = 220 pairs. ETA ~12-13 hours.
+- **Step 1301 (DHL anti-collapse linear reflexive map): RUNNING.** Leo mail 3665. 3 conditions × 11 games × 5 draws = 165 runs. ETA ~25 min.
+  - DHL: Oja + sparse anti-Hebbian (K=20) + soft bound. OJA-ONLY: Oja alone (expected to collapse). ARGMIN-PE: 1282 reference.
+  - Kill: DHL collapse >80% on 3+ games; DHL I3_cv >3× ARGMIN-PE on 3+ games.
+
+- **Step 1300 (StochasticGoose PRISM baseline — leaderboard leader): RUNNING.** Jun directive, Leo mail 3662/3663. 11 games × 20 draws = 220 pairs. ETA ~8 hours remaining.
   - Port of DriesSmit/ARC3-solution (exact CNN architecture, training loop, buffer)
   - CNN: Conv2d 32→64→128→256 + MaxPool action head (5 discrete) + spatial coord head (4096)
   - Binary frame-change reward; buffer reset + model reset on level transition
