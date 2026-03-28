@@ -395,7 +395,7 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
 
 **Step 1286b (topological diagnostic, SP80 KBI 3K steps):** NOT SEPARABLE. h-trajectories during KB vs click action windows occupy same encoding region. Cosine within-KB=0.9406, within-click=0.9970, between=0.9849. Separation ratio=1.017 (threshold 1.2). PCA: KB centroid at (-0.015, -0.067), click centroid at (0.000, +0.001). LPL encoding does not represent action-type information in h-space. Caveat: measures pre-action h_t, not post-action h_{t+1}. Implication: eigenoptions (W_action SVD) unlikely to find KB-specific directions on undifferentiated-encoding games.
 
-**Composition loop status (Steps 1271-1285, 15 experiments):**
+**Composition loop status (Steps 1271-1287, 17 experiments):**
 - Confirmed composition: LPL + pe_ema + argmin, alpha=0.1, eta_h=0.05 (Step 1276/1282)
 - Ceiling: 3/10 games at L1 (FT09 5/5, VC33 5/5, LP85 5/5)
 - Wall: 7/10 games need sequence discovery. Argmin-of-counts structurally incompatible (count dominance). KB coverage insufficient (1284). N-step displacement insufficient (1285).
