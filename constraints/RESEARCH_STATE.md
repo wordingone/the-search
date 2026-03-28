@@ -591,3 +591,21 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **L1 by game:** lp85=5/5 (all), ft09: pe_ema=4, allo=2, ctl=0. vc33: ctl+pe_ema=5, allo=0. All 8 other games: 0/5 all conditions.
   - **Verdict: ALLO killed.** C#19 allosteric softmax not viable for current composition. PE-EMA (C#17 from step 1282) remains best non-argmin action selector. Original step 1253 abandonment was effectively correct — PE-EMA was already superior. Catalog entry for C#19 confirmed negative.
   - **Script self-check printed:** "PASS: ALLO beats CTL on >= 1 game. Original step 1253 was abandoned prematurely." This refers to criterion #1 only. Criterion #2 (I3cv) triggers the kill.
+
+- **Step 1299 (action-aware forward model C34 — plasticity gate): RUNNING.** Leo mail 3661. 3 conditions × 11 games × 10 draws = 330 pairs.
+  - Conditions: FORWARD-GATE (plasticity gated by forward PE per action), OBS-PE-GATE (obs PE, action-blind comparison), NO-GATE (forward model but gate=1.0 ablation)
+  - Base: 1297 (N=64, NEG-DIAG W_recur, W_drive init 0.1)
+  - W_forward[a]: per-action (256×256), lazy init (FWD_CAP=500), shared fallback for large action spaces
+  - forward_pe = ||enc_{t+1} - W_forward[a] @ enc_t||; gate = min(fwd_pe / fwd_pe_median, 2.0)
+  - Gate applied to: W_drive Oja, W_recur, W_readout updates
+  - Hypothesis: loop actions (same state transitions) → fwd_pe drops → gate closes → substrate stops learning loop-consistent behaviors
+
+- **Step 1300 (StochasticGoose PRISM baseline — leaderboard leader): RUNNING.** Jun directive, Leo mail 3662/3663. 11 games × 20 draws = 220 pairs. ETA ~12-13 hours.
+  - Port of DriesSmit/ARC3-solution (exact CNN architecture, training loop, buffer)
+  - CNN: Conv2d 32→64→128→256 + MaxPool action head (5 discrete) + spatial coord head (4096)
+  - Binary frame-change reward; buffer reset + model reset on level transition
+  - CUDA (RTX 4090) for feasibility — architecture unchanged
+  - Action mapping: SG 0-4 → PRISM keyboard 0-4; SG 5-4100 → PRISM click 7-4102
+  - Limitation: SG can't access keyboard actions 5-6 (7-key games like LS20 lose 2 keys)
+  - MBPP: random fallback (SG not designed for text obs)
+  - Research questions: L2+ reachability, RHAE, second-exposure speedup (zero by design — buffer+model reset at each level), vs RAND/ARGMIN/PE-EMA
