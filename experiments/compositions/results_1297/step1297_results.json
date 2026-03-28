@@ -1,0 +1,1 @@
+{"total_elapsed": 958.4, "n_runs": 165, "conditions": ["learned_ro", "frozen_ro", "ungated_ro"], "games": ["ls20", "ft09", "vc33", "tr87", "sp80", "sb26", "tu93", "cn04", "cd82", "lp85", "mbpp_0"], "frozen_ro_baseline": {"ft09": {"lock": 0.771, "k": 4.0}}}

@@ -550,6 +550,18 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
     - C: Remove competitive inhibition architecture entirely. Replace with direct normalized W_drive (no W_inhibit). Cleaner but loses NEG-DIAG recurrence baseline.
   - **Next:** Fix W_drive init (Option A or B), rerun. Step 1297.
 
+- **Step 1297 (W_drive init 0.01 → 0.1, full PRISM chain): OJA FIX CONFIRMED — R3 still near zero, new bottleneck.** 165 runs, ~21 min.
+  - **Oja fix CONFIRMED:** oja_fire_count≈9997-9999/10000 steps (was 0 in 1296). W_drive IS now learning.
+  - **wdrive_drift measurable:** 0.11–3.73 across games (was 0 in 1296). Largest: CN04 FRO=3.73, SP80 LRO=2.99, MBPP LRO=3.34.
+  - **win_act non-trivial:** 0.0003–2.95 (was ≈0 in 1296). CN04 FRO=1.04, MBPP FRO=2.95. Competitive inhibition is now actually competitive.
+  - **Attractors STABLE:** sil > 0.86 everywhere (was feared < 0.5 if inhibition was load-bearing). Architecture intact.
+  - **Kill criteria NOT triggered:** FT09 LRO lock=0.753 (mean, < 0.8 threshold). Individual seeds: [0.421, 0.999, 1.0, 0.526, 0.82] — seeds 2/3 fully locked, but average passes. No I3cv kill (LRO/FRO ratio < 3 on all games).
+  - **L1 = 0/10 games.** R3 = 0.0001–0.0028 (STILL below 0.05 threshold). W_drive is changing but Jacobian sensitivity is unchanged.
+  - **I3cv inflated dramatically:** FT09 LRO=61 (was 4.4 in 1296), VC33 LRO=18, SP80 LRO=25. Action selection is now highly concentrated — substrate picks few actions repeatedly. Not a kill (LRO/FRO ratio ≈1.02 for FT09), but coverage collapsed.
+  - **New bottleneck — Jacobian gap:** wdrive_drift=3.7 (significant weight change) but R3=0.0001 (Jacobian unchanged). Two explanations: (A) Oja converges W_drive toward input eigenvectors, but fresh W_drive is already oriented similarly in high-dimensional space (eigenvectors of random inputs), or (B) _enc_frame has small Jacobian (obs perturbations don't propagate to encoding). MBPP (R3=0.0028, highest) supports explanation B — MBPP has simpler obs structure.
+  - **Three problems now isolated:** (1) W_readout scale — FIXED in 1296. (2) W_drive Oja activity — FIXED in 1297. (3) Jacobian sensitivity — NEW. R3 metric may not capture W_drive learning in this architecture. Need R3 recalibration or direct comparison of W_drive action distributions.
+  - **Next:** PRISM baseline sweep (20 draws × 3 conditions × 11 games = 660 runs). Jun directive. Establishes THE reference for all future comparisons. Step 1298.
+
 - **Step 1253b (catalog revisit — allosteric softmax vs CTL vs PE-EMA, full PRISM chain): KILL CRITERION TRIGGERED — I3cv inflation on 3 games.** 166 runs (150 ARC + 15 MBPP + 1 duplicate), ~35 min.
   - **Kill criterion #1** (ALLO L1 ≤ CTL L1 all games): NOT triggered. ALLO beats CTL on FT09 (2/5 vs 0/5), ties on LP85 (5/5).
   - **Kill criterion #2** (ALLO I3cv > 3× CTL on 3+ games): **TRIGGERED.** LS20=23x, TR87=22x, TU93=18x. Softmax concentrates on specific actions in small-space games → coverage collapse on 3 games.
