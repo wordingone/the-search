@@ -157,3 +157,5 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 6. **PHY advantage** (ft09 only): R3+I3+I1 all pass, PHY L1=4/5 vs CTL=0/5. Composition provides real benefit on exactly ONE game.
 
 **Key finding:** Composition works on FT09 only. The wall is not I1 (encoding works when L1 is reached), but stage prerequisites (R3 failing → no Physarum dynamics; I3 failing → Physarum reinforcement hurts coverage). LP85/VC33 L1 is free — CTL argmin also solves.
+
+**Step 1275 (novelty-gated tube flow):** Fix I3 regression on cd82/cn04/ls20. flow_a = |delta_a - EMA(delta)| × novelty_a, where novelty_a = 1 - cos_sim(delta_a, EMA_a(delta)). Suppresses repetitive state changes from reinforcing tubes. Prediction: I3 improves on regression games, ft09 L1 maintained. Also: R3 failure on tr87/tu93/ls20 correlates with small action space (7 actions, ~1400 visits/action → Jacobian converges). Possible measurement bias.
