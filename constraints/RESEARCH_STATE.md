@@ -127,4 +127,4 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 ## Next Step
 
-**Next:** ARC score metric is correct but not a gradient at current scale. FT09 composition reaches L1 (4/5 vs 0/5 control) but uses 7500 steps vs solver's 4. The gap is in speed/efficiency, not reachability. Design target: reduce steps-to-L1 by 10-100x. Candidate approaches: (1) IncSFA/multi-layer LPL for state distinction (I1 still at 0), (2) recurrent depth for temporal structure (I4=0), (3) multi-layer composition. Check with Leo on direction.
+**Step 1272 (IncSFA for I1):** Add IncSFA layer to Physarum+argmin composition. I1=0 is the wall; encoding doesn't distinguish states. IncSFA extracts slowly-varying features via Oja's rule on derivative covariance. Slow features concatenated with centered encoding → W input expands from 16 to 24 dims. Predictions: I1 improves (slow features cluster states by behavioral role), R3 maintained, FT09 L1 maintained. Kill: if I1 stays at 0 after 3 IncSFA variants.
