@@ -1,8 +1,11 @@
 """
-Step 1273 — repr_log fix + re-run base composition.
+Step 1273 — repr_log fix + re-run base composition (v2: dual I1).
 
-ONE change from Step 1271/1272: repr_log now samples every 100 steps across the full
-run (not just steps 0-1000). This makes I1 measurable for draws that reach L1/L2.
+TWO changes from Step 1271/1272:
+1. repr_log samples every 100 steps across the full run (was: steps 0-1000)
+2. Log BOTH enc (256-dim) AND activation (W_action @ ext) — compute two I1 measurements:
+   - I1_enc: encoding clusters by level (state-space distinction)?
+   - I1_act: action-salience clusters by level (policy coherence)?
 
 Composition: Physarum+argmin (Step 1266/1271 config, no IncSFA)
 Control:     Control C (argmin-alone)
@@ -11,7 +14,9 @@ Draws:       5 per condition per game = 30 runs
 Budget:      10K steps, 300s per run
 
 What this tells us:
-- Is I1 passing on FT09 (where L1/L2 are reached)?
+- I1_enc pass / I1_act fail: encoding distinguishes states but W_action doesn't translate (bridge problem)
+- Both pass: full pipeline works
+- Both fail: encoding genuinely can't distinguish
 - Is I1=0 on SP80/TR87 (where L_max=0)?
 - If I1 passes on FT09: wall is not I1.
 - If I1=0 even on FT09 with full repr_log: I1 is genuinely the wall.
@@ -212,7 +217,8 @@ class ControlC:
     def process(self, obs_raw) -> int:
         obs = np.asarray(obs_raw, dtype=np.float32)
         enc = self._centered_encode(obs)
-        self._prev_repr = enc.copy()
+        self._prev_repr = enc.copy()   # action-salience equiv: use enc (no W_action in ControlC)
+        self._prev_enc = enc.copy()    # encoding (same as repr for ControlC)
         action = int(np.argmin(self.action_counts))
         self.action_counts[action] += 1
         self.step += 1
@@ -254,7 +260,8 @@ class PhysarumSubstrate:
         self._prev_enc_flow = None
         self._prev_ext = None
         self._last_action = None
-        self._prev_repr = None  # activation = W_action @ ext
+        self._prev_repr = None  # activation = W_action @ ext (action-salience)
+        self._prev_enc = None   # centered encoding (256-dim)
         self.step = 0
 
     def _centered_encode(self, obs: np.ndarray) -> np.ndarray:
@@ -286,7 +293,8 @@ class PhysarumSubstrate:
         self.action_counts[action] += 1
         self._sal_sum += activation.astype(np.float64)
         self._sal_steps += 1
-        self._prev_repr = activation.copy()
+        self._prev_repr = activation.copy()  # action-salience (n_actions-dim)
+        self._prev_enc = enc.copy()          # centered encoding (256-dim)
         self._prev_enc_flow = enc.copy()
         self._prev_ext = ext.copy()
         self._last_action = action
@@ -467,7 +475,8 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta, solver_lev
     obs = env.reset(seed=seed)
 
     action_log = []
-    repr_log = []      # (repr_vector, level) sampled every I1_SAMPLE_FREQ steps
+    repr_log_act = []  # (activation, level) — action-salience, n_actions-dim
+    repr_log_enc = []  # (enc, level) — centered encoding, 256-dim
     obs_store = []
 
     i3_action_counts = None
@@ -499,9 +508,12 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta, solver_lev
         if len(obs_store) > 200:
             obs_store.pop(0)
 
-        # I1: sample repr every I1_SAMPLE_FREQ steps across FULL run
-        if steps % I1_SAMPLE_FREQ == 0 and substrate._prev_repr is not None:
-            repr_log.append((substrate._prev_repr.copy(), level))
+        # I1: sample both enc and activation every I1_SAMPLE_FREQ steps across FULL run
+        if steps % I1_SAMPLE_FREQ == 0:
+            if substrate._prev_repr is not None:
+                repr_log_act.append((substrate._prev_repr.copy(), level))
+            if hasattr(substrate, '_prev_enc') and substrate._prev_enc is not None:
+                repr_log_enc.append((substrate._prev_enc.copy(), level))
 
         if steps == I3_STEP:
             i3_action_counts = substrate.action_counts[:min(7, n_actions)].copy()
@@ -551,10 +563,13 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta, solver_lev
 
     # Final repr sample
     if substrate._prev_repr is not None:
-        repr_log.append((substrate._prev_repr.copy(), level))
+        repr_log_act.append((substrate._prev_repr.copy(), level))
+    if hasattr(substrate, '_prev_enc') and substrate._prev_enc is not None:
+        repr_log_enc.append((substrate._prev_enc.copy(), level))
 
     i3_rho, i3_pass = compute_i3(i3_action_counts, kb_delta) if i3_action_counts is not None else (None, None)
-    i1_result = compute_i1(repr_log)
+    i1_act_result = compute_i1(repr_log_act)
+    i1_enc_result = compute_i1(repr_log_enc)
     i4_result = compute_i4(action_log, n_actions)
 
     l1_step = level_first_step.get(1)
@@ -583,14 +598,18 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta, solver_lev
             arc_per_level[int(lv)] = round(min(1.0, ratio * ratio), 6)
 
     label = 'PHY' if condition == 'physarum' else 'CTL'
-    i1_str = (f"I1={'P' if i1_result['pass'] else 'F'}(w={i1_result['within']},b={i1_result['between']})"
-              if i1_result['within'] is not None else "I1=null")
+    def i1_str(r, tag):
+        if r['within'] is not None:
+            return f"{tag}={'P' if r['pass'] else 'F'}(w={r['within']},b={r['between']})"
+        return f"{tag}=null"
+    n_repr_act = len(repr_log_act)
+    n_repr_enc = len(repr_log_enc)
+    n_levels_act = len(set(lv for _, lv in repr_log_act))
+    n_levels_enc = len(set(lv for _, lv in repr_log_enc))
     i3_str = f"I3ρ={i3_rho:.2f}" if i3_rho is not None else "I3=null"
     r3_str = f"R3={r3_result['jacobian_diff']:.4f}" if r3_result['jacobian_diff'] else "R3=null"
     arc_str = f"ARC={arc_score:.4f}" if arc_score > 0 else "ARC=0"
-    n_repr = len(repr_log)
-    n_levels_in_repr = len(set(lv for _, lv in repr_log))
-    print(f" [{label}] Lmax={max_level} | {i1_str} | {i3_str} | {r3_str} | {arc_str} | repr_n={n_repr}(lvls={n_levels_in_repr}) | {elapsed:.1f}s")
+    print(f" [{label}] Lmax={max_level} | {i1_str(i1_enc_result,'I1enc')} | {i1_str(i1_act_result,'I1act')} | {i3_str} | {r3_str} | {arc_str} | enc_n={n_repr_enc}(L={n_levels_enc}) | {elapsed:.1f}s")
 
     return {
         'game': game_name.lower(),
@@ -608,14 +627,20 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta, solver_lev
         'arc_score': round(arc_score, 6),
         'arc_per_level': arc_per_level,
         'solver_level_steps': {int(k): int(v) for k, v in solver_level_steps.items()},
-        'repr_log_n_entries': n_repr,
-        'repr_log_n_levels': n_levels_in_repr,
+        'repr_log_act_n': n_repr_act,
+        'repr_log_enc_n': n_repr_enc,
+        'repr_log_act_levels': n_levels_act,
+        'repr_log_enc_levels': n_levels_enc,
         'I3_spearman_rho': round(i3_rho, 4) if i3_rho is not None else None,
         'I3_pass': i3_pass,
-        'I1_within_dist': i1_result['within'],
-        'I1_between_dist': i1_result['between'],
-        'I1_p_value': i1_result['p_value'],
-        'I1_pass': i1_result['pass'],
+        'I1_enc_within': i1_enc_result['within'],
+        'I1_enc_between': i1_enc_result['between'],
+        'I1_enc_p_value': i1_enc_result['p_value'],
+        'I1_enc_pass': i1_enc_result['pass'],
+        'I1_act_within': i1_act_result['within'],
+        'I1_act_between': i1_act_result['between'],
+        'I1_act_p_value': i1_act_result['p_value'],
+        'I1_act_pass': i1_act_result['pass'],
         'I4_entropy_100': i4_result['entropy_100'],
         'I4_entropy_5000': i4_result['entropy_5000'],
         'I4_reduction_pct': i4_result['reduction_pct'],
@@ -637,8 +662,8 @@ def main():
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
     print("=" * 70)
-    print("STEP 1273 — repr_log FIX + re-run base composition")
-    print("ONE change: repr sampled every 100 steps across full run (was: steps 0-1000)")
+    print("STEP 1273 — repr_log FIX + dual I1 (enc + activation)")
+    print("v2: log enc (256-dim) AND activation (n_actions-dim), compute I1_enc + I1_act")
     print("=" * 70)
     print(f"Games: {GAMES}")
     print(f"Conditions: physarum (Physarum+argmin), control_c (pure argmin)")
@@ -704,29 +729,34 @@ def main():
         summary.append({k: result[k] for k in [
             'game', 'condition', 'draw', 'seed', 'max_level',
             'L1_solved', 'arc_score',
-            'I3_pass', 'I1_pass', 'I4_pass', 'I5_pass', 'R3_pass', 'SAL_pass',
+            'I3_pass', 'I1_enc_pass', 'I1_act_pass', 'I4_pass', 'I5_pass', 'R3_pass', 'SAL_pass',
             'R3_jacobian_diff', 'I3_spearman_rho', 'SAL_rho',
-            'I1_within_dist', 'I1_between_dist', 'I1_p_value',
-            'repr_log_n_entries', 'repr_log_n_levels',
+            'I1_enc_within', 'I1_enc_between', 'I1_enc_p_value',
+            'I1_act_within', 'I1_act_between', 'I1_act_p_value',
+            'repr_log_act_n', 'repr_log_enc_n', 'repr_log_act_levels', 'repr_log_enc_levels',
         ]})
     with open(os.path.join(RESULTS_DIR, 'step1273_results.json'), 'w') as f:
         json.dump({'runs': summary, 'total_elapsed': round(total_elapsed, 1)}, f, indent=2)
 
-    print("I1 Summary (KEY METRIC — with fixed repr_log):")
+    print("I1 Summary (KEY METRIC — dual enc+act measurement):")
     for game in GAMES:
         for cond in ['physarum', 'control_c']:
             runs = [r for r in all_results if r['game'] == game and r['condition'] == cond]
-            passes = [r['I1_pass'] for r in runs if r.get('I1_pass') is not None]
-            within = [r['I1_within_dist'] for r in runs if r['I1_within_dist'] is not None]
-            between = [r['I1_between_dist'] for r in runs if r['I1_between_dist'] is not None]
             label = 'PHY' if cond == 'physarum' else 'CTL'
-            rate = sum(passes) / len(passes) if passes else None
-            w_mean = float(np.mean(within)) if within else None
-            b_mean = float(np.mean(between)) if between else None
-            rate_str = f"{rate:.2f} ({sum(passes)}/{len(passes)})" if rate is not None else "null"
-            w_str = f"{w_mean:.4f}" if w_mean is not None else "null"
-            b_str = f"{b_mean:.4f}" if b_mean is not None else "null"
-            print(f"  {game.upper()} {label}: I1={rate_str} within={w_str} between={b_str}")
+            for tag, pk, wk, bk in [
+                ('enc', 'I1_enc_pass', 'I1_enc_within', 'I1_enc_between'),
+                ('act', 'I1_act_pass', 'I1_act_within', 'I1_act_between'),
+            ]:
+                passes = [r[pk] for r in runs if r.get(pk) is not None]
+                within = [r[wk] for r in runs if r[wk] is not None]
+                between = [r[bk] for r in runs if r[bk] is not None]
+                rate = sum(passes) / len(passes) if passes else None
+                w_mean = float(np.mean(within)) if within else None
+                b_mean = float(np.mean(between)) if between else None
+                rate_str = f"{rate:.2f} ({sum(passes)}/{len(passes)})" if rate is not None else "null"
+                w_str = f"{w_mean:.4f}" if w_mean is not None else "null"
+                b_str = f"{b_mean:.4f}" if b_mean is not None else "null"
+                print(f"  {game.upper()} {label} I1_{tag}: {rate_str} within={w_str} between={b_str}")
 
     print("\nARC + L1 + L2 Summary:")
     for game in GAMES:
