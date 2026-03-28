@@ -212,3 +212,32 @@ FT09 L1 restored (3/5 vs CTL 0/5). Kill criterion triggered by I3 regressions on
 Root cause: normalization bounds pe to [0,1] but does NOT make pe invisible on KB games. EMA ramps up from first visit (~14 visits/action by step 100 on 7-action games). At step 100: LS20 pe_ema mean=0.276 (max/mean=1.06x), TR87 mean=0.042 (max/mean=1.38x), TU93 mean=0.124 (max/mean=1.36x). After normalization, top7 pe_norm values differ by ~0.15 → score difference ~0.015 against visit_count ~14. Early EMA bootstrap creates order-dependent bias before I3 measurement at step 200. FT09 pe@100 mean=0.000005 (4103 actions, only 7 visited) — normalization is essentially inactive on click games.
 
 **Consolidated finding — pe signal on KB games:** Any pe-based action selection has early-step bootstrap problems on small action spaces (7 actions). Pe EMA ramps up faster than I3 can measure coverage (I3 measured at step 200, pe active from step 1). Scale-based fix (normalization) does not help because the signal is already structured by step 100. Temporal-based fix needed (delayed activation past step 200) OR a different signal that is zero at uniform visitation.
+
+**Step 1279 (pe tiebreaker):** KILL. 100 runs, 519.5s.
+
+| Game  | PTB I3        | CTL I3        | PTB L1 | CTL L1 |
+|-------|---------------|---------------|--------|--------|
+| ft09  | 0.964 (5/5)   | 0.964 (5/5)   | 3/5    | 0/5    |
+| ls20  | 0.307 (2/5)   | 0.643 (5/5)   | 0/5    | 0/5    |
+| tr87  | 0.421 (3/5)   | 0.750 (5/5)   | 0/5    | 0/5    |
+| tu93  | -0.000 (0/5)  | 0.857 (5/5)   | 0/5    | 0/5    |
+| vc33  | 0.964 (5/5)   | 0.964 (5/5)   | 5/5    | 5/5    |
+| (others unchanged vs CTL)         |        |        |
+
+Kill criterion: I3 regressions on LS20/TR87/TU93. FT09 L1=3/5 (maintained).
+
+**I3 ARTIFACT CONFIRMED — LS20 I3 is broken metric (Step 1279 permutation diagnostic):**
+
+CTL I3=0.64 on LS20 is entirely deterministic:
+- CTL counts at step 200: [29,29,29,29,28,28,28] — IDENTICAL across all 5 draws/seeds
+- LS20 kb_delta = [376,16,232,232,0,0,0] — actions 0-3 are responsive, 4-6 = 0
+- Argmin always visits actions 0-3 first (200/7=28r4 → first 4 get extra visit)
+- LS20's responsive actions happen to be indices 0-3 → Spearman=0.64 is fully determined by index ordering, not coverage quality
+
+**Permutation test (10 runs, LS20):**
+- CTL (index order): I3=0.643 (5/5 pass) — all seeds identical
+- CTL (random permutation): I3=-0.279 (1/5 pass) — ranges from -0.857 to +0.64 depending on permutation
+
+**Implication:** I3 "regressions" on LS20 in Steps 1274-1278 were measuring whether pe dynamics changed which action wins the argmin tie at step 200 — NOT whether coverage quality degraded. TR87 and TU93 are likely also artifact games (small action spaces, deterministic tie order correlating with kb_delta). All pe-based "LS20 I3 kills" may be false alarms from a broken metric.
+
+I3 criterion on KB games needs replacement. SAL (action salience vs kb_responsiveness) is the better coverage proxy for small-action-space games. Pending Leo decision on retroactive reanalysis of 1275-1278.
