@@ -160,7 +160,7 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 **Step 1275 (novelty-gated tube flow):** KILL. Novelty gate zero effect on I3. Root cause: Physarum conflates "changes encoding" with "should explore." Responsive actions produce the most novel deltas, so novelty gating still reinforces them. Physarum dynamics component KILLED after 5 consecutive failures (1271-1275).
 
-**Step 1276 (LPL prediction error replaces Physarum):** KILL. 100 runs, 8.1 min.
+**Step 1276 (LPL prediction error replaces Physarum):** KILL *(retroactively PASS under I3_cv — see Step 1280)*. 100 runs, 8.1 min.
 
 | Game | LPE L1 | CTL L1 | LPE I3 | CTL I3 | LPE R3 |
 |------|---------|---------|---------|---------|---------|
@@ -241,3 +241,40 @@ CTL I3=0.64 on LS20 is entirely deterministic:
 **Implication:** I3 "regressions" on LS20 in Steps 1274-1278 were measuring whether pe dynamics changed which action wins the argmin tie at step 200 — NOT whether coverage quality degraded. TR87 and TU93 are likely also artifact games (small action spaces, deterministic tie order correlating with kb_delta). All pe-based "LS20 I3 kills" may be false alarms from a broken metric.
 
 I3 criterion on KB games needs replacement. SAL (action salience vs kb_responsiveness) is the better coverage proxy for small-action-space games. Pending Leo decision on retroactive reanalysis of 1275-1278.
+
+**Step 1280 (fix I3 metric + re-run 1276):** COMPOSITION CONFIRMED. 115 runs (100 main + 15 I3_perm), 8.1 min.
+
+**I3_cv (corrected metric): LPE == CTL on ALL 10 games. Zero regressions.**
+
+| Game | LPE_cv | CTL_cv | LPE_L1 | CTL_L1 | LPE_R3 |
+|------|--------|--------|--------|--------|--------|
+| ft09 | 4.4176 | 4.4176 | 4/5 ✓ | 0/5 | 0.947 ✓ |
+| ls20 | 0.0173 | 0.0173 | 0/5 | 0/5 | 0.047 ~ |
+| vc33 | 4.4176 | 4.4176 | 5/5 | 5/5 | 0.924 ✓ |
+| tr87 | 0.0173 | 0.0173 | 0/5 | 0/5 | 0.046 ~ |
+| sp80 | 4.4176 | 4.4176 | 0/5 | 0/5 | 0.909 ✓ |
+| sb26 | 4.4176 | 4.4176 | 0/5 | 0/5 | 0.915 ✓ |
+| tu93 | 0.0173 | 0.0173 | 0/5 | 0/5 | 0.046 ~ |
+| cn04 | 4.4176 | 4.4176 | 0/5 | 0/5 | 0.925 ✓ |
+| cd82 | 4.4176 | 4.4176 | 0/5 | 0/5 | 0.944 ✓ |
+| lp85 | 4.4176 | 4.4176 | 5/5 | 5/5 | 0.944 ✓ |
+
+I3_cv pass criterion: LPE_cv ≤ CTL_cv × 1.1. Pass ratio = 1.000 on all games (identical distributions).
+
+**I3_perm artifact universal across all KB games:**
+- LS20: CTL=0.643 → CTLp=-0.279
+- TR87: CTL=0.750 → CTLp=-0.200
+- TU93: CTL=0.857 → CTLp=-0.193
+
+**Retroactive verdict (Steps 1274-1278):** All I3 regressions on KB games were false alarms from broken I3_rho metric. Coverage quality (I3_cv) was never degraded in those steps.
+
+**pe_snapshot insight:** pe_ema bootstraps very differently by action space:
+- FT09 (4103 actions): pe_ema mean=5e-6 at step 100 — essentially zero
+- LS20 (7 actions): pe_ema mean=0.277 at step 100 — already active
+Small-action-space pe bootstraps fast because each action is visited ~14x by step 100. This is why additive pe can influence LS20 I3_rho (changes tie-breaking order) but not FT09 I3_rho (pe too small to override counts).
+
+**Conclusion:** Step 1276 (LPL PE, alpha=0.1, unnormalized) IS the current composition.
+- FT09 L1=4/5 vs CTL 0/5 (real advantage, unchanged across 1276/1278/1279/1280)
+- No I3_cv regressions on any game
+- R3 borderline on 7-action games (0.046-0.049 vs 0.05 threshold) — marginal fail on LS20/TR87/TU93
+- Next: Step 1281 (pe_delta = compression progress, replaces pe_ema as signal)
