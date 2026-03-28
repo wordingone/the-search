@@ -179,4 +179,15 @@ Root cause: W_pred (256×256 linear) cannot discriminate loop vs game-advancing 
 
 **Critical realization from 1276 PE diagnostic:** FT09 pe≈0 for all actions (mean 0.001). LPE ≈ pure argmin on FT09. Yet FT09 L1=4/5 vs CTL 0/5. The ONLY difference is LPL encoding modification (R3). The FT09 advantage was never from dynamics (Physarum or LPE). It's from R3. 12 steps investigating dynamics (1264-1276) when the encoding was doing all the work.
 
-**Step 1277 (strip dynamics, bare LPL+argmin):** Test the minimal composition: LPL encoding + pure argmin. No Physarum, no PE, no tube bias. If FT09 L1≈4/5: dynamics were always irrelevant, R3 encoding IS the composition. If I3 regressions disappear: dynamics were the problem, not missing the solution.
+**Step 1277 (strip dynamics, bare LPL+argmin):** COMPLETE (100 runs, 7.9 min). Hypothesis overturned — and more precise.
+
+FT09 L1=0/5 (same as CTL). R3 encoding alone does NOT explain FT09 advantage. Pe signal was contributing even at mean 0.001 — tiny absolute values create selective bias across 4103 actions when most have visit_count=0-2.
+
+I3 FULLY RECOVERED: LS20=0.64(5/5), TR87=0.75(5/5), TU93=0.86(5/5) — all match CTL exactly. Pe dynamics WERE the regression source. Strip them → CTL I3 behavior restored.
+
+**Key finding — pe scale sensitivity:** Pe signal has opposite effects by action space size:
+- Large (FT09, 4103 actions): pe_ema mean=0.001, max=0.055. Tiny pe sufficient to differentiate game-advancing from loop clicks at scale. HELPS.
+- Small (LS20, 7 actions): pe_ema mean=0.35. Pe values dominate argmin, kill coverage. HURTS.
+- SELECTION_ALPHA=0.1 appropriate for FT09 but 100x too strong for LS20.
+
+**Gap: pe normalization.** score = action_counts - alpha * (pe_ema / (max(pe_ema) + eps)) would bound signal to [0,1] regardless of action space. Preserves relative ordering on all games.
