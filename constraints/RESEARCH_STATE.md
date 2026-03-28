@@ -345,7 +345,26 @@ Kill: FT09 L1 3/5 (TPE) vs 5/5 (LPE). W_pred on [enc;h] adds noise to PE signal 
 
 **PE+argmin ceiling:** 3/10 games (FT09/VC33/LP85). PE works when L1 = 1-2 unique high-index click positions. Fails when L1 needs ordered sequences or ≥7 unique clicks. Remaining 7 games require temporal credit assignment (prospective, not retrospective PE).
 
-**Step 1284 (KB injection diagnostic):** CONFIRMED — KB coverage insufficient. 200 forced KB actions per seed (~29 visits per KB action). Zero new L1 games. SP80 0/5, SB26 0/5. Wall is sequential credit assignment: the substrate needs to discover which action SEQUENCES advance the game, not just visit individual actions. Individual KB visits don't compose into the ordered pairs/sequences that L1 requires.
+**Step 1284 (KB injection diagnostic: forced KB action every 50 steps):** DIAGNOSTIC — wall confirmed as sequences, not coverage. 100 runs, ~14 min.
+
+KB injection confirmed working: 200 forced KB actions per seed (steps % 50 == 0), ~28-33 visits per KB index 0-6.
+
+| Game | KBI L1 | LPE L1 | KBI R3 | KBI I3cv | LPE I3cv |
+|------|--------|--------|--------|---------|---------|
+| ft09 | **4/5 ↓** | 5/5 | 0.949 (5/5) ✓ | 4.487 | 4.418 |
+| ls20 | 0/5 | 0/5 | 0.076 (5/5) ✓ | 0.017 | 0.017 |
+| vc33 | 5/5 | 5/5 | 0.924 (5/5) ✓ | 4.487 | 4.418 |
+| tr87 | 0/5 | 0/5 | 0.046 (0/5) ✗ | 0.017 | 0.017 |
+| sp80 | 0/5 | 0/5 | 0.909 (5/5) ✓ | 4.487 | 4.418 |
+| sb26 | 0/5 | 0/5 | 0.915 (5/5) ✓ | 4.487 | 4.418 |
+| tu93 | 0/5 | 0/5 | 0.053 (5/5) ✓ | 0.017 | 0.017 |
+| cn04 | 0/5 | 0/5 | 0.925 (5/5) ✓ | 4.487 | 4.418 |
+| cd82 | 0/5 | 0/5 | 0.944 (5/5) ✓ | 4.487 | 4.418 |
+| lp85 | 5/5 | 5/5 | 0.944 (5/5) ✓ | 4.487 | 4.418 |
+
+FT09 slight regression (4/5 KBI vs 5/5 LPE): I3rho drops 0.96→~0.26 mean from forced KB injections polluting PE correlation on click-heavy games. I3cv unchanged. L1 maintained on VC33/LP85 despite I3rho drop (their prescriptions are simpler).
+
+**Conclusion:** KB coverage alone is insufficient. ~29 visits per KB index, zero new games unlocked. SP80 and SB26 unchanged (Leo's predicted improvements did not materialize). Wall = sequential credit assignment: substrate visited KB actions but cannot detect which SEQUENCES advance the game. Next component class: temporal abstractions / macro-actions / successor representations for sequence discovery without reward signal.
 
 **Composition loop status (Steps 1271-1284, 14 experiments):**
 - Confirmed composition: LPL + pe_ema + argmin, alpha=0.1, eta_h=0.05 (Step 1276/1282)

@@ -1,0 +1,116 @@
+{
+  "game": "vc33",
+  "condition": "kb_inject",
+  "draw": 3,
+  "seed": 301,
+  "steps_taken": 10000,
+  "elapsed_seconds": 7.77,
+  "max_level": 1,
+  "L1_solved": true,
+  "L2_solved": false,
+  "l1_step": 2161,
+  "l2_step": null,
+  "level_first_step": {
+    "1": 2161
+  },
+  "arc_score": 2e-06,
+  "arc_per_level": {
+    "1": 2e-06
+  },
+  "solver_level_steps": {
+    "1": 3,
+    "2": 10,
+    "3": 33,
+    "4": 56,
+    "5": 105,
+    "6": 127,
+    "7": 176
+  },
+  "repr_log_enc_n": 100,
+  "repr_log_enc_levels": 2,
+  "I3_rho": 0.5,
+  "I3_rho_pass": true,
+  "I3_cv": 4.486697,
+  "I3_counts_at_200": [
+    1.0,
+    2.0,
+    1.0,
+    2.0,
+    1.0,
+    2.0,
+    1.0
+  ],
+  "I1_enc_within": 0.4728,
+  "I1_enc_between": 1.5579,
+  "I1_enc_p_value": 0.0,
+  "I1_enc_pass": true,
+  "I1_act_within": 0.5683,
+  "I1_act_between": 1.229,
+  "I1_act_p_value": 0.0,
+  "I1_act_pass": true,
+  "I4_entropy_100": 4.5913,
+  "I4_entropy_5000": 8.2374,
+  "I4_reduction_pct": -79.41,
+  "I4_pass": false,
+  "I5_level_actions": {
+    "1": 45
+  },
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.9358,
+  "R3_n_obs_used": 100,
+  "R3_pass": true,
+  "SAL_rho": -0.4286,
+  "SAL_pass": false,
+  "SAL_n_actions_visited": 7,
+  "pe_snapshots": {
+    "100": {
+      "mean": 9.1e-05,
+      "max": 0.006033,
+      "top7": [
+        0.0,
+        0.0,
+        0.0,
+        0.005627,
+        0.0,
+        0.000624,
+        0.000539
+      ]
+    },
+    "1000": {
+      "mean": 0.000904,
+      "max": 0.019398,
+      "top7": [
+        0.009886,
+        0.011277,
+        0.002998,
+        0.019398,
+        0.006897,
+        0.005393,
+        0.011475
+      ]
+    },
+    "5000": {
+      "mean": 0.007717,
+      "max": 0.225153,
+      "top7": [
+        0.079547,
+        0.110505,
+        0.024172,
+        0.059239,
+        0.038007,
+        0.06778,
+        0.064427
+      ]
+    }
+  },
+  "kb_injection_count": 200,
+  "kb_visit_counts": {
+    "0": 33,
+    "1": 36,
+    "2": 19,
+    "3": 35,
+    "4": 28,
+    "5": 23,
+    "6": 32
+  }
+}

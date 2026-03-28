@@ -1,0 +1,111 @@
+{
+  "game": "sb26",
+  "condition": "kb_inject",
+  "draw": 5,
+  "seed": 501,
+  "steps_taken": 10000,
+  "elapsed_seconds": 6.11,
+  "max_level": 0,
+  "L1_solved": false,
+  "L2_solved": false,
+  "l1_step": null,
+  "l2_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "arc_per_level": {},
+  "solver_level_steps": {
+    "1": 9,
+    "2": 24,
+    "3": 39,
+    "4": 54,
+    "5": 71,
+    "6": 90,
+    "7": 107,
+    "8": 124
+  },
+  "repr_log_enc_n": 100,
+  "repr_log_enc_levels": 1,
+  "I3_rho": 0.2857,
+  "I3_rho_pass": false,
+  "I3_cv": 4.486697,
+  "I3_counts_at_200": [
+    1.0,
+    2.0,
+    1.0,
+    2.0,
+    1.0,
+    2.0,
+    1.0
+  ],
+  "I1_enc_within": null,
+  "I1_enc_between": null,
+  "I1_enc_p_value": 1.0,
+  "I1_enc_pass": false,
+  "I1_act_within": null,
+  "I1_act_between": null,
+  "I1_act_p_value": 1.0,
+  "I1_act_pass": false,
+  "I4_entropy_100": 4.5913,
+  "I4_entropy_5000": 8.2377,
+  "I4_reduction_pct": -79.42,
+  "I4_pass": false,
+  "I5_level_actions": null,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.9205,
+  "R3_n_obs_used": 100,
+  "R3_pass": true,
+  "SAL_rho": 0.4643,
+  "SAL_pass": true,
+  "SAL_n_actions_visited": 7,
+  "pe_snapshots": {
+    "100": {
+      "mean": 0.0,
+      "max": 0.000104,
+      "top7": [
+        0.000104,
+        6.9e-05,
+        5.2e-05,
+        4.1e-05,
+        0.0,
+        3.7e-05,
+        3e-05
+      ]
+    },
+    "1000": {
+      "mean": 4e-05,
+      "max": 0.001428,
+      "top7": [
+        0.00024,
+        0.000673,
+        0.000231,
+        0.00015,
+        0.001428,
+        0.000262,
+        0.000626
+      ]
+    },
+    "5000": {
+      "mean": 0.000939,
+      "max": 0.019657,
+      "top7": [
+        0.019657,
+        0.011908,
+        0.004837,
+        0.004984,
+        0.005635,
+        0.004978,
+        0.011154
+      ]
+    }
+  },
+  "kb_injection_count": 200,
+  "kb_visit_counts": {
+    "0": 27,
+    "1": 33,
+    "2": 29,
+    "3": 27,
+    "4": 31,
+    "5": 33,
+    "6": 26
+  }
+}

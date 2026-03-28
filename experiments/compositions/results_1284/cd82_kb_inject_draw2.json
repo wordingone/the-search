@@ -1,0 +1,109 @@
+{
+  "game": "cd82",
+  "condition": "kb_inject",
+  "draw": 2,
+  "seed": 201,
+  "steps_taken": 10000,
+  "elapsed_seconds": 5.71,
+  "max_level": 0,
+  "L1_solved": false,
+  "L2_solved": false,
+  "l1_step": null,
+  "l2_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "arc_per_level": {},
+  "solver_level_steps": {
+    "1": 24,
+    "2": 78,
+    "3": 94,
+    "4": 108,
+    "5": 124,
+    "6": 140
+  },
+  "repr_log_enc_n": 100,
+  "repr_log_enc_levels": 1,
+  "I3_rho": 0.3571,
+  "I3_rho_pass": false,
+  "I3_cv": 4.486697,
+  "I3_counts_at_200": [
+    2.0,
+    1.0,
+    2.0,
+    1.0,
+    2.0,
+    1.0,
+    1.0
+  ],
+  "I1_enc_within": null,
+  "I1_enc_between": null,
+  "I1_enc_p_value": 1.0,
+  "I1_enc_pass": false,
+  "I1_act_within": null,
+  "I1_act_between": null,
+  "I1_act_p_value": 1.0,
+  "I1_act_pass": false,
+  "I4_entropy_100": 4.5913,
+  "I4_entropy_5000": 8.2381,
+  "I4_reduction_pct": -79.43,
+  "I4_pass": false,
+  "I5_level_actions": null,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.9495,
+  "R3_n_obs_used": 100,
+  "R3_pass": true,
+  "SAL_rho": 0.6786,
+  "SAL_pass": true,
+  "SAL_n_actions_visited": 7,
+  "pe_snapshots": {
+    "100": {
+      "mean": 0.000269,
+      "max": 0.080141,
+      "top7": [
+        0.006207,
+        0.000106,
+        0.080141,
+        0.022693,
+        0.066753,
+        0.055679,
+        0.04713
+      ]
+    },
+    "1000": {
+      "mean": 0.004193,
+      "max": 0.289318,
+      "top7": [
+        0.006207,
+        0.015609,
+        0.148104,
+        0.0978,
+        0.289318,
+        0.058227,
+        0.053387
+      ]
+    },
+    "5000": {
+      "mean": 0.009083,
+      "max": 0.418994,
+      "top7": [
+        0.030817,
+        0.268565,
+        0.279464,
+        0.377755,
+        0.418994,
+        0.055893,
+        0.061966
+      ]
+    }
+  },
+  "kb_injection_count": 200,
+  "kb_visit_counts": {
+    "0": 24,
+    "1": 31,
+    "2": 29,
+    "3": 32,
+    "4": 27,
+    "5": 34,
+    "6": 29
+  }
+}

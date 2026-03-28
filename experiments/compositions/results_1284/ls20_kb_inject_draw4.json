@@ -1,0 +1,110 @@
+{
+  "game": "ls20",
+  "condition": "kb_inject",
+  "draw": 4,
+  "seed": 401,
+  "steps_taken": 10000,
+  "elapsed_seconds": 5.63,
+  "max_level": 0,
+  "L1_solved": false,
+  "L2_solved": false,
+  "l1_step": null,
+  "l2_step": null,
+  "level_first_step": {},
+  "arc_score": 0.0,
+  "arc_per_level": {},
+  "solver_level_steps": {
+    "1": 13,
+    "2": 58,
+    "3": 99,
+    "4": 142,
+    "5": 186,
+    "6": 258,
+    "7": 311
+  },
+  "repr_log_enc_n": 100,
+  "repr_log_enc_levels": 1,
+  "I3_rho": -0.0357,
+  "I3_rho_pass": false,
+  "I3_cv": 0.017321,
+  "I3_counts_at_200": [
+    29.0,
+    28.0,
+    29.0,
+    29.0,
+    28.0,
+    29.0,
+    28.0
+  ],
+  "I1_enc_within": null,
+  "I1_enc_between": null,
+  "I1_enc_p_value": 1.0,
+  "I1_enc_pass": false,
+  "I1_act_within": null,
+  "I1_act_between": null,
+  "I1_act_p_value": 1.0,
+  "I1_act_pass": false,
+  "I4_entropy_100": 1.9454,
+  "I4_entropy_5000": 1.9459,
+  "I4_reduction_pct": -0.03,
+  "I4_pass": false,
+  "I5_level_actions": null,
+  "I5_pass": null,
+  "R3_jacobian_diff": 0.0761,
+  "R3_n_obs_used": 100,
+  "R3_pass": true,
+  "SAL_rho": 0.8214,
+  "SAL_pass": true,
+  "SAL_n_actions_visited": 7,
+  "pe_snapshots": {
+    "100": {
+      "mean": 0.275631,
+      "max": 0.312258,
+      "top7": [
+        0.30411,
+        0.254604,
+        0.288887,
+        0.312258,
+        0.24045,
+        0.278556,
+        0.250554
+      ]
+    },
+    "1000": {
+      "mean": 0.427095,
+      "max": 0.48531,
+      "top7": [
+        0.471192,
+        0.3946,
+        0.447729,
+        0.48531,
+        0.375849,
+        0.435962,
+        0.379022
+      ]
+    },
+    "5000": {
+      "mean": 0.32998,
+      "max": 0.450232,
+      "top7": [
+        0.449888,
+        0.290955,
+        0.382203,
+        0.450232,
+        0.245771,
+        0.246519,
+        0.244289
+      ]
+    }
+  },
+  "kb_injection_count": 200,
+  "kb_visit_counts": {
+    "0": 1429,
+    "1": 1429,
+    "2": 1429,
+    "3": 1429,
+    "4": 1428,
+    "5": 1428,
+    "6": 1428
+  }
+}
