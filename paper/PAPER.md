@@ -82,6 +82,10 @@ The substrate is a triple (f, g, F):
 
 Dynamics: s_{t+1} = F(s_t)(x_t), a_t = g(s_t).
 
+**Definition (Reflexive Map).** A parameterized map $W: X \to A$ is *reflexive* if the computation $W(x)$ both produces the system's action output and generates the signal that modifies $W$ itself. Formally: $a_t = \phi(W \cdot x_t)$ and $W_{t+1} = W_t + \eta \cdot h(W_t \cdot x_t, x_t)$ where $\phi$ is the action selection function and $h$ is the update rule, and both depend on the same quantity $W \cdot x_t$. Encoding and action selection are the same operation through $W$, not separate stages.
+
+R2 requires the map to be reflexive: the signal driving self-modification ($h$) arises from the same computation that produces the output ($\phi$). A system where $g: S \to A$ is independent of $W$ (e.g., argmin over visit counts) violates R2 — the action selector is a separate evaluator, not a byproduct of computation. R3 measures whether the map IS reflexive empirically: does $W$ change with experience? Steps 1251-1291 (40 experiments) confirmed R3 for encoding but showed action selection remained decoupled under all separate selectors tested.
+
 ### 3.2 Structural Rules (R1-R3) and the Core Tension
 
 **Prior work:** R1 (no external objectives) is the standard unsupervised/self-supervised setting. R2 (adaptation from computation) rules out external optimizers  - related to Hebbian learning (Hebb, 1949) where adaptation is local and intrinsic. R3 (self-modification) is formalized by Schmidhuber (2003) as the Gödel machine's self-referential property, though his version requires a proof searcher we do not.

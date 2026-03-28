@@ -8,21 +8,24 @@
 The search finds substrates by composing validated components, testing against developmental stages, identifying the failing stage, finding or building the component for that stage, and composing again.
 
 **Unit of search:** a composition of components, not an individual substrate.
-**Architecture:** allosteric  - encoding and action selection share parameters (W).
+**Architecture:** reflexive map  - W both encodes observations and selects actions through the same computation (R2). Any separate selector is frozen frame.
 **Test framework:** stages I3, I1, I4, I5, R3, measured simultaneously on every run.
 **Parts bin:** component catalog (C1-C33+), extended as gaps are identified.
 
 ---
 
-## Current Composition
+## Current Composition (Reflexive Map)
+
+*"Reflexive map" = W both encodes and selects through the same computation. R2 requires this. Any separate selector is frozen frame.*
 
 ```
 raw pixels → avgpool4 → centered encoding (C4, 256 dims)
-  → W (shared: encoding projection + action salience)
-  → LPL update (Hebbian + predictive, modifies W)
-  → adaptive softmax (T = 1/std(salience))
-  → action
+  → W (reflexive map: encoding + action selection, same computation)
+  → update dynamics: OPEN — LPL Hebbian trains W for visual responsiveness, not level advancement
+  → action selection through W: OPEN — 3 selectors tested (softmax/refractory/dead), all fail identically
 ```
+
+**Status (2026-03-28):** Reflexive map validated for encoding (R3=100/100). W-driven action selection fails due to training signal (Steps 1289-1291: 3 selectors, same failure → W_action problem, not selector problem). Next: fix W's update dynamics (competitive inhibition, winnerless competition, anti-Hebbian).
 
 **Stage results (Step 1253, 3 games × 5 draws):**
 
@@ -96,19 +99,23 @@ raw pixels → avgpool4 → centered encoding (C4, 256 dims)
 
 1. **R3 solved by composition** (Step 1251). 7 cross-family components composed. Jacobian change 100/100 across 10 games, both wirings. Component-level, not wiring-dependent.
 
-2. **Allosteric principle confirmed** (Steps 1252-1253). Shared W for encoding and action selection. When W changes, both change. No separate bridge needed. First I4 signal (1252). R3+I3 coexist (1253, VC33).
+2. **Reflexive map principle confirmed** (Steps 1252-1253). Shared W for encoding and action selection through the same computation. When W changes, both change. No separate bridge needed. First I4 signal (1252). R3+I3 coexist (1253, VC33).
 
-3. **Hierarchy inverted** (Step 1251). R3 passes first, not last. The assumed order I3→I1→I4→I5→R3 is wrong. R3 and I3 are already solved. I1 is the current wall. I4 partially solved. I5 blocked by I1.
+3. **Hierarchy inverted** (Step 1251). R3 passes first, not last. R3 and I3 are already solved. I4 partially solved. I5 blocked by L1 reachability.
 
-4. **Argmin dead in R3 compositions** (Step 1251). I3 identical for composed substrate and argmin-alone. Argmin ignores modified representation. Replaced by allosteric softmax.
+4. **Separate selectors violate R2** (Steps 1251-1291, Jun 2026-03-28). Argmin, pe_ema, visit counts, refractory — all frozen frame components that decouple action selection from encoding. Argmin survived 30+ experiments through asymmetric kill criteria and broken I3_rho metric (Step 1279: 24+ false kills from index ordering artifact), not through constitutional compliance. Proposition 3 ("action selection solved") revised to NARROW — proves only that count-monotone → argmin, not that action selection is solved.
 
-5. **Simplicity load-bearing** (PB30, n=6+). Adding complexity degrades. The allosteric substrate has 3 frozen parameters (k, eta_h, eta_p). Fewer than any previous substrate.
+5. **Simplicity load-bearing** (PB30, n=6+). Adding complexity degrades. Fewer frozen parameters = better.
+
+6. **W_action training signal is the bottleneck** (Steps 1289-1291). Three different selectors (softmax, refractory, dead-W) on same LPL-Hebbian W_action all produce VC33=0/5. LPL Hebbian trains W to track visual responsiveness, not level advancement. The selector is not the problem. The update dynamics are.
+
+7. **Preview games are comfort zone traps** (Jun observation, 2026-03-28). FT09/VC33/LP85 (the 3 games argmin solves) select for argmin and against reflexive-map-driven selection. The 7 failing games are the real test. 10+ experiments solving only the same 3 games = per-game tuning of the search process itself.
 
 ---
 
 ## Negative Map (what doesn't work as R3→action bridge)
 
-From 200+ debate experiments: alpha attention, forward models, directional attention, state-conditioned rankings, MI+attention, pixel scanning, EMA recency, empowerment, anti-correlated pairs, softmax concentration. All tested, all failed. The allosteric principle (shared W) is the one architecture that isn't on this list.
+From 200+ debate experiments: alpha attention, forward models, directional attention, state-conditioned rankings, MI+attention, pixel scanning, EMA recency, empowerment, anti-correlated pairs, softmax concentration. All tested, all failed. The reflexive map (shared W) is the one architecture that isn't on this list. But the reflexive map's W_action training signal (LPL Hebbian) is on this list as of Step 1291.
 
 ---
 

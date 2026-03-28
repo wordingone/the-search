@@ -14,6 +14,8 @@ Principles and tests any system must satisfy for recursive self-improvement. Arc
 
 **Recursive self-improvement:** A system that improves itself by criteria it generates, where "improves" means measurably better performance on tasks the system was not specifically designed for. The singularity is the limit where the frozen frame reaches zero.
 
+**Reflexive map:** A parameterized map W where the computation W(x) both produces the system's output and modifies W itself. Encoding and action selection are the same operation through W, not separate stages. R2 requires the map to be reflexive. R3 measures whether it is. Any component that selects actions without reading from W is a separate evaluator — frozen frame that violates R2.
+
 ---
 
 ## The Five Principles
@@ -74,6 +76,7 @@ The deletion test (S2 from operational tests). If you can remove a component and
 2. **R3 audits must account for emergent interactions, not just frozen elements.** Enumerating frozen elements misses load-bearing properties that arise from their coupling. The audit question is not only "what's frozen?" but "what coupling survives?"
 3. **R3 audits include the entire system.** The encoding pipeline (pooling, normalization, centering, action mapping) is part of the frozen frame. A "22-line substrate" that requires avgpool16 + centered_enc + F.normalize is not a 22-line system. Audit everything between raw input and action output.
 4. **Forced != unjustified.** An element where every alternative is killed by a universal constraint is Irreducible, not Unjustified. See R3_AUDIT.md encoding compilation.
+5. **Incumbent components face kill criteria.** If a frozen frame component survives only because alternatives are killed faster, it is not validated — it is protected. The R6 deletion test on a frozen frame component that proves the system has separable parts is evidence of poor design, not irreducibility. (Step 1291: argmin survived 30+ experiments through asymmetric evaluation and a broken metric, not through constitutional compliance.)
 
 ---
 
