@@ -612,6 +612,8 @@ def run_single(game_name, condition, draw, substrate_seed, n_actions, kb_delta,
     phase2_level = target_level  # start AT target_level; solved = advancing past it (done=True)
     lmax_solved = False
     lmax_solved_step = None
+    # done=True tracking: distinguish solve (reward>0 or level advanced) from timeout
+    done_events = []   # list of {step, reward, cl_before, cl_after, info_keys}
     t_phase2 = time.time()
     fresh_episode = True
 
@@ -668,15 +670,26 @@ def run_single(game_name, condition, draw, substrate_seed, n_actions, kb_delta,
         if cl > phase2_level:
             phase2_level = cl
 
-        # lmax_solved = substrate caused done=True in L_max phase (completed the level)
-        if done and not lmax_solved:
-            lmax_solved = True
-            lmax_solved_step = steps
-            obs = env.reset(seed=TRANSPORT_SEED)
-            if hasattr(substrate, 'on_level_transition'):
-                substrate.on_level_transition()
-            fresh_episode = True
-        elif done:
+        if done:
+            # Log reward and info at done=True to distinguish solve from timeout
+            info_keys = sorted(info.keys()) if isinstance(info, dict) else []
+            game_state_val = info.get('state', info.get('game_state', None)) \
+                if isinstance(info, dict) else None
+            done_events.append({
+                'step': steps,
+                'reward': float(reward),
+                'cl_at_done': cl,
+                'game_state': str(game_state_val) if game_state_val is not None else None,
+                'info_keys': info_keys,
+                'info_full': {k: str(v) for k, v in info.items()} if isinstance(info, dict) else {},
+            })
+
+            # Solve = reward > 0 at done
+            is_solve = float(reward) > 0
+            if is_solve and not lmax_solved:
+                lmax_solved = True
+                lmax_solved_step = steps
+
             obs = env.reset(seed=TRANSPORT_SEED)
             if hasattr(substrate, 'on_level_transition'):
                 substrate.on_level_transition()
@@ -730,10 +743,17 @@ def run_single(game_name, condition, draw, substrate_seed, n_actions, kb_delta,
         'SAL_rho': sal_result['rho'],
         'SAL_pass': sal_result['pass'],
         'SAL_n_actions_visited': sal_result['n_actions_visited'],
+        'done_events_count': len(done_events),
+        'first_done': done_events[0] if done_events else None,
+        'done_rewards': [e['reward'] for e in done_events[:10]],  # first 10 rewards at done
     }
 
+    # Classify lmax_solved based on reward evidence
+    first_done_reward = done_events[0]['reward'] if done_events else None
+    solve_str = f"r={first_done_reward:.1f}" if first_done_reward is not None else "r=null"
     transport_str = f"T={transport_steps}steps/{transport_elapsed:.1f}s"
-    lmax_str = f"Lmax={'SOLVED@' + str(lmax_solved_step) if lmax_solved else 'FAIL'}"
+    lmax_str = f"Lmax={'SOLVE' if lmax_solved else 'FAIL'}@{lmax_solved_step}({solve_str})" \
+        if lmax_solved_step else f"Lmax=FAIL({solve_str})"
     i3_str = f"I3ρ={i3_rho:.2f}" if i3_rho is not None else "I3=null"
     sal_str = f"SAL={sal_result['rho']:.3f}" if sal_result['rho'] is not None else "SAL=null"
     r3_str = f"R3={r3_result['jacobian_diff']:.4f}" if r3_result['jacobian_diff'] else "R3=null"

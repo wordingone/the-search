@@ -5,13 +5,13 @@
   "seed": 402,
   "transport_ok": true,
   "transport_steps": 71,
-  "transport_elapsed": 0.03,
+  "transport_elapsed": 0.04,
   "lmax_level": 5,
-  "lmax_solved": true,
-  "lmax_solved_step": 120,
+  "lmax_solved": false,
+  "lmax_solved_step": null,
   "steps_in_lmax": 10000,
-  "phase2_elapsed": 1.31,
-  "total_elapsed": 1.34,
+  "phase2_elapsed": 1.37,
+  "total_elapsed": 1.41,
   "I3_spearman_rho": -0.4643,
   "I3_pass": false,
   "I1_within_dist": null,
@@ -27,5 +27,30 @@
   "R3_pass": false,
   "SAL_rho": null,
   "SAL_pass": false,
-  "SAL_n_actions_visited": 0
+  "SAL_n_actions_visited": 0,
+  "done_events_count": 330,
+  "first_done": {
+    "step": 120,
+    "reward": 0.0,
+    "cl_at_done": 5,
+    "game_state": null,
+    "info_keys": [
+      "level"
+    ],
+    "info_full": {
+      "level": "5"
+    }
+  },
+  "done_rewards": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
 }
