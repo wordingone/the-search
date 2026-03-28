@@ -160,4 +160,19 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 **Step 1275 (novelty-gated tube flow):** KILL. Novelty gate zero effect on I3. Root cause: Physarum conflates "changes encoding" with "should explore." Responsive actions produce the most novel deltas, so novelty gating still reinforces them. Physarum dynamics component KILLED after 5 consecutive failures (1271-1275).
 
-**Step 1276 (LPL prediction error replaces Physarum):** Dynamics component swap. Replace Physarum tube flow with per-action LPL prediction error as argmin weight. Loop actions become predicted (pe drops → suppressed). Novel-destination actions stay unpredicted (pe stays high → prioritized). Decouples "large encoding change" from "should explore." Full 10-game PRISM chain.
+**Step 1276 (LPL prediction error replaces Physarum):** KILL. 100 runs, 8.1 min.
+
+| Game | LPE L1 | CTL L1 | LPE I3 | CTL I3 | LPE R3 |
+|------|---------|---------|---------|---------|---------|
+| ft09 | 4/5 | 0/5 | 0.96 (5/5) | 0.96 (5/5) | 0.947 (5/5) |
+| ls20 | 0/5 | 0/5 | 0.31 (2/5) | 0.64 (5/5) | 0.047 (0/5) |
+| vc33 | 5/5 | 5/5 | 0.96 (5/5) | 0.96 (5/5) | 0.924 (5/5) |
+| tr87 | 0/5 | 0/5 | 0.42 (3/5) | 0.75 (5/5) | 0.046 (0/5) |
+| sp80 | 0/5 | 0/5 | -0.46 (0/5) | -0.46 (0/5) | 0.909 (5/5) |
+| sb26 | 0/5 | 0/5 | 0.89 (5/5) | 0.89 (5/5) | 0.915 (5/5) |
+| tu93 | 0/5 | 0/5 | -0.00 (0/5) | 0.86 (5/5) | 0.046 (0/5) |
+| cn04 | 0/5 | 0/5 | -0.68 (0/5) | -0.68 (0/5) | 0.925 (5/5) |
+| cd82 | 0/5 | 0/5 | 0.39 (0/5) | 0.39 (0/5) | 0.944 (5/5) |
+| lp85 | 5/5 | 5/5 | null | null | 0.944 (5/5) |
+
+Root cause: W_pred (256×256 linear) cannot discriminate loop vs game-advancing actions. Loop actions at different game states produce different encoding deltas → W_pred can't learn stable predictions → pe stays high for loop actions. PE diagnostic confirms no differentiation: LS20 top7 pe@5000 all similar (0.30-0.43), TR87 top7 all similar (0.085-0.103). New regression on TU93 (I3 -0.00 vs CTL 0.86). I3 regressed further on LS20/TR87 (worse than Physarum). FT09 L1 maintained (pe≈0 on click games, mechanism neutral). KILL: per-action prediction error signal is too noisy to differentiate action types in high-dimensional encoding space.
