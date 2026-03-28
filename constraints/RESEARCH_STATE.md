@@ -129,4 +129,4 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 ## Next Step
 
-**Next spec needed:** I1 measurement fix. Extend repr_log to full run (not just steps 0-1000) so between-level pairs exist. I1 cannot gate future decisions until this is resolved.
+**Step 1273 (repr_log fix + re-run base):** Fix repr_log to sample every 100 steps across full run (not just steps 0-1000). Re-run Physarum+argmin (no IncSFA) on FT09/SP80/TR87 with Control C. Critical test: is I1 actually passing on FT09 (where L1/L2 are reached)? One I1 measurement from 1272 (w=0.0001, b=1.0012) suggests strong signal. If confirmed, I1 is not the wall.
