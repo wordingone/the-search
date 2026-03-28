@@ -65,6 +65,12 @@ raw pixels → avgpool4 → centered encoding (U16)
 
 **Step 1268 (per-level L_max instrumentation, SP80/FT09/TR87):** COMPLETE (30 runs). L_max=0 on ALL 30 draws — substrate never escapes L0 within 10K steps. Confirms direction change: solver handoff mandatory. FT09 physarum reached L1 (4/5 draws, ~7K steps), never L2. R3 passes on SP80/FT09 (0.083), dead on TR87 (0.003). SAL near-zero (rho<0.1 everywhere). I4=0 everywhere. lmax_i4 metric unmeasurable without solver transport. Awaiting Leo spec-gate resolution (missing control baseline + wiring spec) before building solver handoff infrastructure.
 
+**Step 1269 (solver handoff, SP80):** COMPLETE (10 runs). All 10 draws Lmax=FAIL(r=0.0). Solver transports substrate to L5 but substrate can't act within L5 — game timeout at step 120. Confirmed: solver handoff insufficient, substrate needs game-understanding not just placement.
+
+**Step 1270 (observe-then-act, SP80):** CANCELLED after 1 partial draw. Observed all 6 levels on seed A (max_level_observed=6), R3=0.083 passes, but no L1 solve on act phase (seed B). Direction cancelled by Leo mail 3508.
+
+**Step 1271 (ARC score vs solver baseline, SP80/FT09/TR87):** COMPLETE (30 runs). ARC=0.0 everywhere — efficiency gap ~1900x on FT09 (substrate L1 at ~7500 steps, solver at 4 steps). FT09 PHY: L1=4/5 vs CtrlC 0/5 (composition provides real L1 benefit). SP80/TR87: Lmax=0 all draws. R3 passes PHY on SP80/FT09 (5/5), fails TR87 (0/5). I3: FT09 both conditions 5/5, TR87 CtrlC 5/5 / PHY 0/5, SP80 0/5 (large action space). ARC score metric correct but provides no gradient at current performance — substrate is 1000-2000x less efficient than solver.
+
 ---
 
 ## Component Catalog (validated)
@@ -121,4 +127,4 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 ## Next Step
 
-**Step 1269 (solver handoff):** Pending Leo spec-gate resolution. Need: (1) control baseline condition specified, (2) wiring of observation phase explicit (what substrate updates during solver transport). Gates 4+9 fail on mail 3501 spec. Current best substrate: Step 1266 Physarum+argmin. Test games: 7 with working solvers (SP80, FT09, TR87, SB26, TU93, CN04, CD82).
+**Next:** ARC score metric is correct but not a gradient at current scale. FT09 composition reaches L1 (4/5 vs 0/5 control) but uses 7500 steps vs solver's 4. The gap is in speed/efficiency, not reachability. Design target: reduce steps-to-L1 by 10-100x. Candidate approaches: (1) IncSFA/multi-layer LPL for state distinction (I1 still at 0), (2) recurrent depth for temporal structure (I4=0), (3) multi-layer composition. Check with Leo on direction.
