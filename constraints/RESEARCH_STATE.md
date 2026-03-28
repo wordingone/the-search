@@ -491,3 +491,30 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Pe gate confirmed effective:** Three-factor rule prevents temporal drift (corr: 3F=0.083 vs UNG=0.835), reduces lock (0.928→0.748 on FT09), and triggers 42x more surprise-reorganization vs FROZEN (2.2). The gate works — it just doesn't solve the structural problem.
   - **R3=0.0 everywhere** (W_readout frozen, expected).
   - **Decision tree outcome (Leo spec):** "Prediction 3 confirmed, 4 wrong → attractors form but not game-phase-aware. Need different surprise signal or longer timescale." Recurrence-adds-lock finding is NEW — not in decision tree. Recurrent winner feedback is a structural problem separate from the learning rule.
+
+- **Step 1294 (zero-diagonal recurrence): ZERO-DIAG KILLED, NEG-DIAG CONFIRMED.** 39 runs (3 ARC games × 3 cond × 4 draws + MBPP × 3 cond × 1 draw), 234s.
+  - **Kill criterion triggered for ZERO-DIAG:** ZD lock=0.926 > 3F lock=0.748 on FT09. Removing self-excitation (diagonal=0) made lock WORSE. Off-diagonal off-diagonal entries A→B→A create compensating lock chains.
+  - **NEG-DIAG confirmed prediction 1:** ND lock=0.549 < FROZEN baseline 0.551 on FT09 (barely). Active self-suppression works where passive removal fails.
+  - **Per-game results:**
+
+| | LS20 | FT09 | SP80 |
+|---|---|---|---|
+| 3F lock (control) | 0.998 | 0.748 | 0.490 |
+| ZD lock | 0.997 | 0.926 ← KILL | 0.475 |
+| ND lock | 0.997 | 0.549 ← BELOW FROZEN | 0.473 |
+| 3F sil(k) | 0.990(2.0) | 0.934(3.5) | 0.922(4.8) |
+| ZD sil(k) | 0.990(2.0) | 0.934(3.8) | 0.934(4.5) |
+| ND sil(k) | 0.990(2.0) | 0.919(4.0) | 0.919(5.2) |
+| 3F corr | 0.932 | 0.083 | 0.186 |
+| ZD corr | 0.500 | 0.891 | 0.145 |
+| ND corr | 0.883 | -0.008 | 0.172 |
+| 3F mi | 0.009 | 0.476 | 0.273 |
+| ZD mi | 0.016 | 0.156 | 0.374 |
+| ND mi | 0.021 | 0.861 | 0.373 |
+
+  - **Key finding 1:** Zero-diagonal makes it WORSE (0.926 > 0.748). Off-diagonal recurrent entries form lock chains independently of self-excitation. Plain removal insufficient.
+  - **Key finding 2:** Negative diagonal (-0.1) reduces FT09 lock to 0.549, just below FROZEN baseline (0.551). Active self-suppression creates refractory-like dynamics from within W_recur.
+  - **Corr reversal:** ZD creates high temporal correlation (0.891) but MORE lock. ND creates near-zero corr (-0.008) but LESS lock. Active inhibition suppresses both locking AND temporal structure.
+  - **ND MI explosion:** ND FT09 mi=0.861 vs 3F mi=0.476. Higher sequential MI suggests richer action sequence dynamics when self-suppression forces winner cycling.
+  - **MBPP baseline confirmed:** All 3 conditions: L1=0/1, arc=0.000. Random action substrate generates no valid Python. Numerical overflow in 3F MBPP (W_drive instability at 10K steps of continuous ASCII input — different from ARC game episodic resets).
+  - **Decision tree outcome:** ZD: "Prediction 1 wrong → off-diagonal W_recur entries also create lock chains → need full E/I separation." ND: "Prediction 1 confirmed AND dramatically better than ZD → active self-suppression is the key mechanism. Build into architecture permanently." Phase 2 (unfreeze W_readout) triggered by ND confirmation.
