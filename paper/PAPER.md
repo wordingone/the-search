@@ -636,9 +636,9 @@ Key propositions from the feasible region analysis: R3-R5 tension (Prop 4)  - fr
 
 **Central question:** Can a substrate accumulate transferable knowledge without tracking where it has been?
 
-**Resolved:** (a) D-only substrate navigates at 2x random (800b). (b) D(s) produces positive R3_cf (5/7 PASS). (d) Prediction-error attention achieves R3 encoding (alpha, CONFIRMED). (e) W is sufficient for encoding but useless for action selection. (h) Epistemic action selection FAILS (Steps 934-938e). **(c) Action selection is CLOSED at 800b under current constraints (Section 4.14).**
+**Resolved:** (a) D-only substrate navigates at 2x random (800b). (b) D(s) produces positive R3_cf (5/7 PASS). (d) Prediction-error attention achieves R3 encoding (alpha, CONFIRMED). (e) W is sufficient for encoding but useless for action selection. (h) Epistemic action selection FAILS (Steps 934-938e). **(c) Action selection REOPENED (2026-03-28): Prop 3 revised to NARROW (tautology). All count-based selectors violate R2 (separate evaluator). Argmin survived through broken I3\_rho + asymmetric kill criteria. 5 network experiments (1289-1294): Hebbian winner-feedback is universal pathology. 64-neuron network forms attractors (sil=0.94) but winner self-excitation through W\_recur adds inference-time lock. NEG-DIAG (active self-suppression, diag=-0.1) first mechanism to reduce lock below no-recurrence baseline.**
 
-**Open:** (g) Interior point of architecture triangle: encoding achieved, action selection frozen at 800b. (i) FT09 solvable under current constraints?
+**Open:** (g) Can a reflexive network (W as dynamical network, not linear map) develop compositional representations from its own dynamics? (h) Can self-predictive consolidation produce second-exposure speedup? (i) No substrate has ever progressed through any game — L1 is accidental coverage, not understanding.
 
 **(j) Hebbian RNN family (Steps 948-953, DEAD).** First non-916 navigation (seed 8 = 96 L1) but structurally brittle (1/10 seeds, 6 experiments). Requires lucky initialization path. Algorithm invariance QUALIFIED: non-argmin navigation exists but is unreliable. → kills/hebbian-rnn\_step953.md
 
