@@ -84,7 +84,7 @@ raw pixels → avgpool4 → centered encoding (C4, 256 dims)
 | C15/C20 | Transition detection | 3 families | I1 signal | AVAILABLE |
 | C14 | Argmin selection | 2 families | I3 coverage | REPLACED by allosteric softmax |
 | C25 | Prediction-error attention | 2 families | R3 encoding | SUBSUMED by LPL (same principle, tighter coupling) |
-| C21/C26 | Recurrent state | 3 families | I4 temporal | AVAILABLE (not in current allosteric) |
+| C21/C26 | Recurrent state | 3 families | I4 temporal | ACTIVE (frozen W_h/W_in, h=64 dims, since Step 1276) |
 | C22 | Self-observation | 2 families | R3 meta | AVAILABLE |
 | NEW | LPL (Hebbian + predictive) |  - | I1, R3 | ACTIVE (single-layer, insufficient for I1) |
 | NEW | Adaptive softmax (T=1/std) |  - | I3 explore/exploit | ACTIVE |
