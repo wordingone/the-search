@@ -411,4 +411,10 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
 - **Step 1287 (pairwise transition count argmin): KILL.** Zero new L1 on failing games. R3 regression LS20/TU93 (0.047 vs 0.086). Root cause: pairwise degenerates to pe_ema-argmax on click games (all pairs count=0 when prev=click), KB-KB pairs never accumulate consecutively.
   - I3 CV explosion on click games: FT09 PAR=32.81 vs CTL=4.42. Concentrated selection pattern.
   - FT09/VC33/LP85 maintained (no regression). 7 failing games unchanged.
-- **Step 1288 (encoding-change momentum): RUNNING.** Repeat last action when enc_change > running_median(window=100). Targets I4=0. Game-agnostic signal. 100 runs (MOM vs CTL), launched after Step 1286 completion.
+- **Step 1288 (encoding-change momentum): KILL.** 100 runs (10 games × 2 conditions × 5 draws).
+  - **FT09 hard regression:** MOM L1=0/5 vs CTL 0.80. Momentum fires at 34.6% on FT09, breaking systematic argmin coverage needed to find 2 target clicks among 4103.
+  - **I3_cv regression +116%:** MOM I3_cv=6.678 vs CTL=3.098. Concentrated visitation — momentum repeats high-enc_change actions (any visually-responsive click), creating skewed distribution.
+  - **I4 unchanged or worse:** MOM I4=-62.5% vs CTL=-55.7%. VC33/SP80 much worse (-141.9%/-131.1% vs -79.5%). No temporal structure improvement.
+  - **R3 intact:** No R3 regression (0.670 both). R3 kill criterion not triggered.
+  - Root cause: adaptive threshold (running median) means momentum fires on ~50% of all steps — far too frequently. High-enc_change actions are visually-interesting clicks, not game-advancing sequences. Temporal structure problem unresolved.
+  - Open: fixed/higher-percentile threshold (90th?) would fire less and preserve I3 coverage. Not tested.
