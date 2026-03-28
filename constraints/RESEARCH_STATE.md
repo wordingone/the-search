@@ -533,3 +533,30 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **MBPP LRO drift=1.201:** Readout DID learn on 128-action space. Still L1=0 (random substrate can't generate Python), but learning mechanism itself works. Confirms problem is scale, not architecture.
   - **Fix required:** Normalize activation before readout update (`act_norm = activation / max(||activation||, eps)`) OR increase W_drive init from 0.01 to 0.1 to get 10x larger drive magnitudes. Either ensures update magnitude is ~0.001 per step regardless of absolute activation scale.
   - **Decision tree outcome:** Falls outside spec's 3 branches. New failure mode: "activation scale too small for readout learning at large action spaces." Not "readout learns but fails" — readout doesn't learn. Fix: normalized activation update, then retry Phase 2.
+
+- **Step 1296 (Phase 2 retry — activation normalization fix, full PRISM chain): SCALE FIX CONFIRMED — W_drive bottleneck exposed.** 165 runs (150 ARC + 15 MBPP), ~21 min.
+  - **L1=0/10 games** across all conditions. R3=0.000 everywhere. Both predictions wrong on progression.
+  - **Scale fix CONFIRMED:** ro_drift now measurable where action space is smaller. 1295's problem (near-zero updates) is solved.
+    - VC33 LRO ro_drift=0.262 (was 0.000 in 1295), SP80 LRO=0.678, CN04 LRO=0.352, CD82 LRO=0.103, MBPP LRO=0.191
+    - FT09 LRO ro_drift still low (large action space, few visits/row) but not zero on all games
+  - **NEW ROOT CAUSE — W_drive bottleneck:** W_readout is now learning on accessible action spaces, but W_drive (Oja) NEVER fires. Reason: competitive inhibition W_inhibit (0.5-1.5 uniform init) >> W_drive (init 0.01). Win_act ≈ 0 throughout all 165 runs → Oja gate `win_act > 1e-8` never triggers → W_drive frozen → R3=0.000 identically.
+  - **Kill criteria not triggered:** FT09 LRO lock=0.771 < 0.8 (threshold). LRO I3_cv not > 3× FRO on 2+ games. Architecture structurally stable.
+  - **Two separate problems now identified:**
+    1. W_readout scale — FIXED in 1296 (activation normalization)
+    2. W_drive learning — NEW: W_inhibit overwhelms W_drive signal. Oja rule never fires. R3=0 is a structural consequence, not a learning failure.
+  - **Fix options for W_drive bottleneck:**
+    - A: Increase W_drive init from 0.01 to 0.1-0.5 (10-50x). W_drive can compete with W_inhibit.
+    - B: Reduce W_inhibit scale (0.5-1.5 → 0.01-0.05). Balance changes; same win_act magnitude.
+    - C: Remove competitive inhibition architecture entirely. Replace with direct normalized W_drive (no W_inhibit). Cleaner but loses NEG-DIAG recurrence baseline.
+  - **Next:** Fix W_drive init (Option A or B), rerun. Step 1297.
+
+- **Step 1253b (catalog revisit — allosteric softmax vs CTL vs PE-EMA, full PRISM chain): KILL CRITERION TRIGGERED — I3cv inflation on 3 games.** 166 runs (150 ARC + 15 MBPP + 1 duplicate), ~35 min.
+  - **Kill criterion #1** (ALLO L1 ≤ CTL L1 all games): NOT triggered. ALLO beats CTL on FT09 (2/5 vs 0/5), ties on LP85 (5/5).
+  - **Kill criterion #2** (ALLO I3cv > 3× CTL on 3+ games): **TRIGGERED.** LS20=23x, TR87=22x, TU93=18x. Softmax concentrates on specific actions in small-space games → coverage collapse on 3 games.
+  - **Per-game trade-off (KILL condition):** ALLO gains FT09 (2/5) but kills VC33 (0/5 vs CTL 5/5). Improves one game at the cost of another = per-game tuning pattern = KILL.
+  - **PE-EMA strictly dominates ALLO:** FT09 pe_ema=4/5 vs allo=2/5. VC33 pe_ema=5/5 vs allo=0/5. No I3cv inflation on PE-EMA (identical to CTL on all 10 games).
+  - **R3 signal (weak):** ALLO R3=0.003-0.009, PE-EMA R3=0.005-0.011, CTL R3=0.000. Both learning substrates show nonzero Jacobian diff but no functional consequence (L1=0 on 8/10 games for ALLO).
+  - **RHAE=0 everywhere.** All conditions RHAE-dead (lp85 achieves L1 but efficiency²=0 without optimal solving).
+  - **L1 by game:** lp85=5/5 (all), ft09: pe_ema=4, allo=2, ctl=0. vc33: ctl+pe_ema=5, allo=0. All 8 other games: 0/5 all conditions.
+  - **Verdict: ALLO killed.** C#19 allosteric softmax not viable for current composition. PE-EMA (C#17 from step 1282) remains best non-argmin action selector. Original step 1253 abandonment was effectively correct — PE-EMA was already superior. Catalog entry for C#19 confirmed negative.
+  - **Script self-check printed:** "PASS: ALLO beats CTL on >= 1 game. Original step 1253 was abandoned prematurely." This refers to criterion #1 only. Criterion #2 (I3cv) triggers the kill.
