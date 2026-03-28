@@ -393,9 +393,12 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
 
 **Literature connection — eigenoptions (Eli mail 3605):** W_action (4103×256) is already a one-step empirical SR. SVD → top-k right singular vectors = encoding directions most coupled to actions. Eigenoption policy: argmin_a ||h + W_action[a] - h_target|| where h_target = projection onto eigenvector subspace. Produces emergent sequences (goal-conditioned single-action selection). The Sketched Jacobian measured for R3 IS the same Jacobian eigenoptions exploit. Papers: Machado et al. JMLR 2023 (arxiv:2110.05740), ICLR 2024.
 
+**Step 1286b (topological diagnostic, SP80 KBI 3K steps):** NOT SEPARABLE. h-trajectories during KB vs click action windows occupy same encoding region. Cosine within-KB=0.9406, within-click=0.9970, between=0.9849. Separation ratio=1.017 (threshold 1.2). PCA: KB centroid at (-0.015, -0.067), click centroid at (0.000, +0.001). LPL encoding does not represent action-type information in h-space. Caveat: measures pre-action h_t, not post-action h_{t+1}. Implication: eigenoptions (W_action SVD) unlikely to find KB-specific directions on undifferentiated-encoding games.
+
 **Composition loop status (Steps 1271-1285, 15 experiments):**
 - Confirmed composition: LPL + pe_ema + argmin, alpha=0.1, eta_h=0.05 (Step 1276/1282)
 - Ceiling: 3/10 games at L1 (FT09 5/5, VC33 5/5, LP85 5/5)
 - Wall: 7/10 games need sequence discovery. Argmin-of-counts structurally incompatible (count dominance). KB coverage insufficient (1284). N-step displacement insufficient (1285).
 - Two broken measurements fixed (I1 repr_log, I3 index artifact)
-- Queued: Step 1286 (causal controls A/B/C for paper), Step 1287 (eigenoption-directed exploration — replaces pe_ema with W_action SVD goal-conditioned selection)
+- Running: Step 1286 (causal controls A/B/C: frozen_init, frozen_mid, eta_slow — paper-quality allosteric claim test), Step 1287 (pairwise transition count argmin: count[a_{t-1},a] replaces count[a] — tests sequence emergence from pair statistics)
+- Step 1288 (eigenoption-directed exploration, W_action SVD goal-conditioned selection) held pending 1287 results

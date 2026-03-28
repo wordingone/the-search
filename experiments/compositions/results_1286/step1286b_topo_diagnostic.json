@@ -1,0 +1,30 @@
+{
+  "game": "sp80",
+  "seed": 42,
+  "n_steps": 3000,
+  "elapsed_seconds": 0.84,
+  "n_kb_steps": 66,
+  "n_click_steps": 2934,
+  "pca_variance_explained": [
+    0.270581,
+    0.247144,
+    0.113104,
+    0.083698,
+    0.051749,
+    0.042969,
+    0.033406,
+    0.030664,
+    0.025067,
+    0.017928
+  ],
+  "centroid_distance_pc_space": 0.136664,
+  "pc1_kb_mean": -0.015351,
+  "pc1_click_mean": 0.000345,
+  "pc2_kb_mean": -0.067205,
+  "pc2_click_mean": 0.001512,
+  "cosine_within_kb": 0.940634,
+  "cosine_within_click": 0.997022,
+  "cosine_between": 0.984924,
+  "separation_ratio": 1.0166,
+  "verdict": "NOT SEPARABLE \u2014 KB and click h-trajectories overlap. Topological wall: encoding does not represent action type. Neither pairwise nor eigenoptions will help."
+}
