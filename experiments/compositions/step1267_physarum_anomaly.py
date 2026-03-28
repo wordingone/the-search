@@ -54,6 +54,7 @@ ETA_FLOW = 0.01       # flow learning rate (tube thickening)
 DECAY = 0.001         # tube thinning rate (all tubes)
 EMA_RATE = 0.9        # per-action delta EMA rate (frozen)
 REFRACTORY_DECAY = 0.8
+FREEZE_MEAN_STEP = 100  # step at which to freeze running mean (for physarum_frozen condition)
 
 # Instrumentation
 I3_STEP = 200
@@ -233,8 +234,10 @@ class PhysarumSubstrate:
     SAL: per-action mean activation vs per-action mean state-change.
     """
 
-    def __init__(self, n_actions: int, seed: int):
+    def __init__(self, n_actions: int, seed: int, freeze_mean: bool = False):
         self.n_actions = n_actions
+        self.freeze_mean = freeze_mean  # if True: freeze running_mean after step FREEZE_MEAN_STEP
+        self._mean_frozen = False
         rng = np.random.RandomState(seed)
         rng_w = np.random.RandomState(seed + 10000)
 
@@ -285,8 +288,11 @@ class PhysarumSubstrate:
     def _centered_encode(self, obs: np.ndarray) -> np.ndarray:
         x = _enc_frame(obs)
         self.n_obs += 1
-        a = 1.0 / self.n_obs
-        self.running_mean = (1 - a) * self.running_mean + a * x
+        if not self._mean_frozen:
+            a = 1.0 / self.n_obs
+            self.running_mean = (1 - a) * self.running_mean + a * x
+            if self.freeze_mean and self.step >= FREEZE_MEAN_STEP:
+                self._mean_frozen = True
         return x - self.running_mean
 
     def get_internal_repr_readonly(self, obs_raw, frozen_rm, frozen_h, frozen_W_action) -> np.ndarray:
@@ -381,6 +387,7 @@ class PhysarumSubstrate:
         self._prev_enc_flow = None
         self._prev_ext = None
         self._delta_ema[:] = 0
+        self._mean_frozen = False
         self._last_action = None
         self._attn_snapshots = {}
         self._prev_repr = None
@@ -558,7 +565,9 @@ def run_single(game_name, condition, draw, seed, n_actions, kb_delta):
     if condition == 'control_c':
         substrate = ControlC(n_actions=n_actions, seed=seed)
     elif condition == 'physarum':
-        substrate = PhysarumSubstrate(n_actions=n_actions, seed=seed)
+        substrate = PhysarumSubstrate(n_actions=n_actions, seed=seed, freeze_mean=False)
+    elif condition == 'physarum_frozen':
+        substrate = PhysarumSubstrate(n_actions=n_actions, seed=seed, freeze_mean=True)
     else:
         raise ValueError(f"Unknown condition: {condition}")
 
@@ -743,8 +752,8 @@ def main():
     print("STEP 1267 — PHYSARUM ANOMALY FLOW + ARGMIN SELECTION (TUBE-WEIGHTED)")
     print("=" * 70)
     print(f"Games: {GAMES}")
-    print(f"Conditions: control_c, physarum")
-    print(f"Draws: {N_DRAWS} per condition per game = 30 runs")
+    print(f"Conditions: control_c, physarum (live mean), physarum_frozen (mean frozen @step {FREEZE_MEAN_STEP})")
+    print(f"Draws: {N_DRAWS} per condition per game = 45 runs")
     print(f"Budget: {MAX_STEPS} steps / {MAX_SECONDS}s per run")
     print()
     print("anomaly_flow = ||delta - delta_ema[action]||. Barlow 1961: informativeness ~ surprise.")
@@ -764,10 +773,10 @@ def main():
         print(f"GAME: {game_name.upper()} | n_actions={game_n_actions}")
         print(f"{'─'*60}")
 
-        for condition in ['control_c', 'physarum']:
+        for condition in ['control_c', 'physarum', 'physarum_frozen']:
             print(f"\n  Condition: {condition}")
             for draw in range(1, N_DRAWS + 1):
-                seed = draw * 100 + (0 if condition == 'control_c' else 1)
+                seed = draw * 100 + {'control_c': 0, 'physarum': 1, 'physarum_frozen': 2}.get(condition, 1)
                 result = run_single(
                     game_name=game_name,
                     condition=condition,
@@ -785,7 +794,7 @@ def main():
     print(f"STEP 1267 COMPLETE — {len(all_results)} runs in {total_elapsed:.1f}s")
     print(f"{'='*70}\n")
 
-    conditions_run = ['control_c', 'physarum']
+    conditions_run = ['control_c', 'physarum', 'physarum_frozen']
     stages = ['I3_pass', 'I1_pass', 'I4_pass', 'R3_pass', 'SAL_pass']
     print(f"{'Stage':<12}", end='')
     for c in conditions_run:
@@ -807,34 +816,40 @@ def main():
             runs = [r for r in all_results if r['condition'] == cond and r['game'] == game]
             solved = sum(1 for r in runs if r['L1_solved'])
             steps = [r['l1_step'] for r in runs if r['L1_solved']]
-            label = 'CtrlC' if cond == 'control_c' else 'PHY'
+            label = {'control_c': 'CtrlC', 'physarum': 'PHY', 'physarum_frozen': 'PHY_frozen'}.get(cond, cond)
             print(f"  {game.upper()} {label}: {solved}/5  steps={steps}")
 
     print()
-    print("SAL:")
-    for game in GAMES:
-        lpl_runs = [r for r in all_results if r['condition'] == 'physarum' and r['game'] == game]
-        rhos = [r['SAL_rho'] for r in lpl_runs if r.get('SAL_rho') is not None]
-        rho_str = f"rho={np.mean(rhos):.3f}±{np.std(rhos):.3f}" if rhos else "rho=null"
-        print(f"  {game.upper()}: {rho_str}")
+    print("SAL (per condition):")
+    for cond in ['physarum', 'physarum_frozen']:
+        label = 'live' if cond == 'physarum' else 'frozen'
+        for game in GAMES:
+            runs = [r for r in all_results if r['condition'] == cond and r['game'] == game]
+            rhos = [r['SAL_rho'] for r in runs if r.get('SAL_rho') is not None]
+            rho_str = f"rho={np.mean(rhos):.3f}±{np.std(rhos):.3f}" if rhos else "rho=null"
+            print(f"  {game.upper()} [{label}]: {rho_str}")
 
     print()
-    print("R3:")
-    for game in GAMES:
-        r3s = [r['R3_jacobian_diff'] for r in all_results
-               if r['condition'] == 'physarum' and r['game'] == game
-               and r['R3_jacobian_diff'] is not None]
-        print(f"  {game.upper()}: R3={np.mean(r3s):.4f}±{np.std(r3s):.4f}" if r3s else f"  {game.upper()}: null")
+    print("R3 (per condition):")
+    for cond in ['physarum', 'physarum_frozen']:
+        label = 'live' if cond == 'physarum' else 'frozen'
+        for game in GAMES:
+            r3s = [r['R3_jacobian_diff'] for r in all_results
+                   if r['condition'] == cond and r['game'] == game
+                   and r['R3_jacobian_diff'] is not None]
+            print(f"  {game.upper()} [{label}]: R3={np.mean(r3s):.4f}±{np.std(r3s):.4f}" if r3s else f"  {game.upper()} [{label}]: null")
 
     print()
-    print("I4 (entropy reduction):")
-    for game in GAMES:
-        lpl_runs = [r for r in all_results if r['condition'] == 'physarum' and r['game'] == game]
-        reductions = [r['I4_reduction_pct'] for r in lpl_runs if r.get('I4_reduction_pct') is not None]
-        if reductions:
-            print(f"  {game.upper()}: {np.mean(reductions):.1f}%±{np.std(reductions):.1f}%")
-        else:
-            print(f"  {game.upper()}: null")
+    print("I4 (per condition):")
+    for cond in ['physarum', 'physarum_frozen']:
+        label = 'live' if cond == 'physarum' else 'frozen'
+        for game in GAMES:
+            runs = [r for r in all_results if r['condition'] == cond and r['game'] == game]
+            reductions = [r['I4_reduction_pct'] for r in runs if r.get('I4_reduction_pct') is not None]
+            if reductions:
+                print(f"  {game.upper()} [{label}]: {np.mean(reductions):.1f}%±{np.std(reductions):.1f}%")
+            else:
+                print(f"  {game.upper()} [{label}]: null")
 
     out_path = os.path.join(RESULTS_DIR, 'step1267_results.json')
     with open(out_path, 'w') as f:
