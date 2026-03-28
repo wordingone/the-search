@@ -63,6 +63,8 @@ raw pixels → avgpool4 → centered encoding (U16)
 
 **DIRECTION CHANGE (Jun, 2026-03-27):** Stop testing at L1. L1 selects for coverage (argmin), not understanding. Higher levels require game understanding — mechanics, sequences, complex configurations. Use analytical solvers to fast-forward to L3/L5/L7, test substrate there. The mechanism that handles L7 is a superset of L1. Design for the hardest level, not the easiest.
 
+**Step 1268 (per-level L_max instrumentation, SP80/FT09/TR87):** COMPLETE (30 runs). L_max=0 on ALL 30 draws — substrate never escapes L0 within 10K steps. Confirms direction change: solver handoff mandatory. FT09 physarum reached L1 (4/5 draws, ~7K steps), never L2. R3 passes on SP80/FT09 (0.083), dead on TR87 (0.003). SAL near-zero (rho<0.1 everywhere). I4=0 everywhere. lmax_i4 metric unmeasurable without solver transport. Awaiting Leo spec-gate resolution (missing control baseline + wiring spec) before building solver handoff infrastructure.
+
 ---
 
 ## Component Catalog (validated)
@@ -119,4 +121,4 @@ ft09 (6L, 75 clicks), ls20 (7L, 311 moves), vc33 (7L, 176 clicks), tr87 (6L, 123
 
 ## Next Step
 
-**DIRECTION CHANGE under discussion (Leo/Jun, 2026-03-27):** Stop optimizing for L1. Test substrate at L5/L7 using analytical solvers to fast-forward. Awaiting Leo's response on solver-game-version validity and handoff structure before building infrastructure. Current best substrate: Step 1266 Physarum+argmin (VC33 5/5, LS20 1/5, SAL=0.829 on LS20).
+**Step 1269 (solver handoff):** Pending Leo spec-gate resolution. Need: (1) control baseline condition specified, (2) wiring of observation phase explicit (what substrate updates during solver transport). Gates 4+9 fail on mail 3501 spec. Current best substrate: Step 1266 Physarum+argmin. Test games: 7 with working solvers (SP80, FT09, TR87, SB26, TU93, CN04, CD82).
