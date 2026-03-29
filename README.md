@@ -40,6 +40,8 @@ Four phases: LVQ characterization (Steps 1-416, R1-R6 formalized), family testin
 
 ## The Organism
 
+Every ML algorithm is ultimately derived from human cognition. The search is systematically reassembling these scattered pieces under constitutional constraints. Each experiment rediscovers one aspect of what humans do naturally — prediction, credit assignment, spatial segmentation, generalization, temporal reasoning, functional categorization. The organism is human cognition rebuilt from scratch under R0-R6.
+
 A cell has hundreds of components but one principle: self-catalyzing chemistry. The components are diverse. The coupling is uniform.
 
 R2 says the mechanism that drives change IS the mechanism that processes input. It does not say there is only one component. It says there is only one mechanism. A composite with one coupling mechanism satisfies R2.
