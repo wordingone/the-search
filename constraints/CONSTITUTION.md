@@ -32,6 +32,16 @@ Principles and tests any system must satisfy for recursive self-improvement. Arc
 
 *Phase 1 (416 experiments) proved: sequential stage-climbing doesn't work. The stages were self-assessed, circularly validated, and the system (LVQ/codebook) hit an architecture ceiling at Stage 7. The correct framing: these are simultaneous constraints, not sequential milestones. A substrate either satisfies ALL of them or it doesn't.*
 
+### R0: The system's dynamics dominate its initial conditions (2026-03-29)
+
+Any starting state converges to the same behavior under R1-R6. The system does not depend on privileged initialization. Environmental input breaks symmetry; the interaction law does the rest.
+
+*R0 is not an independent principle — it is the operational test of whether R1-R6 are jointly sufficient. If the dynamics (R1-R6) are strong enough, initial conditions are overwritten. If initial conditions determine behavior, at least one of R1-R6 is too weak. R0 bridges the constitutional blind spot at t=0: R1-R6 describe a running system, not a birth. R0 demands that birth doesn't matter.*
+
+*Evidence (Step 1313): T_chain=1.17 from deterministic orthogonal init. Prediction transfer survives without random seeds. Dynamics dominate initialization for prediction. RHAE=0 — dynamics do not yet dominate for action.*
+
+*Test: run from multiple different initializations. If T_chain and compression are consistent → R0 satisfied. If init-dependent → R0 fails → dynamics too weak.*
+
 ### R1: The system computes without external objectives (Principle I)
 
 Remove all external loss functions, reward signals, and evaluation metrics. The system still produces distinguishable outputs for distinguishable inputs.
