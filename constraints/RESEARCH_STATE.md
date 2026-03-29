@@ -1244,4 +1244,22 @@ Mode map persists try1→try2. Zone update freq=100 steps, threshold=1%.
 
 **Compression:** Both conditions cr≈0.08 (MLP encodes all modalities uniformly, mode map didn't affect compression).
 
-**Decision:** KILL. Mode map C23 in isolation doesn't help — zones are episode-specific, not game-specific. The discovery mechanism works (zones found in try1) but doesn't transfer to try2's different episode. Same structural problem as TP: need representations that capture game mechanics independent of episode layout. → Step 1339: Allosteric temperature (prediction confidence → action precision).
+**Decision:** KILL. Mode map C23 in isolation doesn't help — zones are episode-specific, not game-specific. The discovery mechanism works (zones found in try1) but doesn't transfer to try2's different episode. Same structural problem as TP: need representations that capture game mechanics independent of episode layout.
+
+**Direction change:** Leo mail 3802 replaced allosteric temperature with meta-plasticity. → Step 1339: Meta-plasticity (substrate discovers its own update rule using TP credit signal).
+
+---
+
+## Step 1339 (BUILT — Meta-plasticity: substrate discovers update rule, AWAITING TIMING APPROVAL):
+
+3 games × 2 conditions (META-MLP-TP, MLP-TP control) × 2 tries. 10K steps per try (5× standard — theta needs time to converge). Seed-free.
+
+**Architecture:** MLP + TP + learnable theta per forward layer. theta=[alpha_hebb, alpha_anti, alpha_decay, lr_scale]. Modified update: ΔW += lr*lr_scale*((alpha_hebb-alpha_anti)*outer(h,x) + alpha_decay*(-W)) added after Adam TP step. Credit = pred_loss_before_K - pred_loss_after_K (K=100 training steps). Theta carries from try1→try2. Control: MLP-TP without theta.
+
+**Runtime flag:** Estimated ~28 min (14ms per ARC step × 10K × 12 episodes). Exceeds 5-min cap. Flagged to Leo (mail 3806) before running. Awaiting step count approval.
+
+**Kill criteria:**
+- META RHAE ≤ MLP RHAE AND theta trivial (~0) → KILL
+- META RHAE ≤ MLP RHAE but theta non-trivial (|alpha|>0.01) → CONTINUE
+- META RHAE > MLP RHAE → SIGNAL
+- META RHAE > 0 → LANDMARK
