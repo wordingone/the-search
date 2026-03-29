@@ -34,15 +34,9 @@ ARC-AGI-3: 150+ game environments. Each game: 64x64 pixel grid, 16 colors, multi
 
 MBPP: text/code generation. 128 ASCII actions. Each action = one character. Predicting the next character IS selecting the next action — prediction and action are the same operation. This matters because: (1) it's the purest test of whether self-supervised prediction produces functional output, and (2) text has explicit sequential dependencies — learning to predict text develops temporal credit assignment capacity that visual games need but don't explicitly teach.
 
-## How We Got Here (1322 experiments in 4 phases)
+## History
 
-**Phase 1 (Steps 1-416):** The substrate was LVQ (1988). 416 experiments characterized its limits. R1-R6 formalized as simultaneous constraints. Finding: sequential stage-climbing doesn't work.
-
-**Phase 2 (Steps 417-1081):** 16 substrate families tested, 8 killed. Bans on graph memory and codebook imposed then lifted. Finding: the constraint map is path-dependent. Kill criteria are ~70% family-dependent.
-
-**Phase 3 / Debate (Steps 1082-1250):** Prosecution vs defense on whether the substrate can surpass L1. Finding: both sides hit the same wall. Bridge mechanisms from this era listed in the negative map below.
-
-**Phase 4 / Composition era (Steps 1251+):** Components composed from catalog. R3 solved (100/100, Step 1251). Reflexive map defined. Then: CNN experiments (1305-1308), multi-layer LPL (1309-1322), inverse model, mode map, organism framing. Current phase.
+Four phases: LVQ characterization (Steps 1-416, R1-R6 formalized), family testing (Steps 417-1081, 16 families, 8 killed), debate on L1 ceiling (Steps 1082-1250), composition era (Steps 1251+, R3 solved, reflexive map, CNN/LPL experiments). Detailed phase records in `docs/`.
 
 ## The Organism
 
