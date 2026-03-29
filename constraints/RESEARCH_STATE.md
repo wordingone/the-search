@@ -870,3 +870,19 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Leo's decision tree (mail 3746):** speedup > 1 → "CNN learns from experience. Then we find R2-compliant alternatives." This branch is now active.
   - **Open questions:** (1) Is speedup genuine (learned weights → better predictions → L1) or lucky (try2 action noise → easier path)? (2) lp85 shows no speedup despite CNN active — game-specific? (3) What R2-compliant mechanism replicates Adam's credit assignment?
   - **Decision:** NO KILL. Capability confirmed. Search: R2-compliant equivalent to CNN+Adam that shows second_exposure_speedup. → Leo spec.
+
+- **Step 1324 (CNN SELFSUP-ENT all 10 ARC + MBPP, second_exposure_speedup, 1K steps/try): WEAK SIGNAL — 1/4 L1-reaching games show speedup (sp80=10.5x), 3/4 show anti-speedup. Kill criterion: NOT triggered (speedup > 1 on at least 1 game).** 11 games (full sweep), 1 condition, try1+try2. 1K steps/try, MAX_SECONDS=12. R2 VIOLATION flagged.
+  - **Kill criterion (speedup ≤ 1 on ALL L1-reaching games): NOT triggered.** sp80 speedup=10.5x.
+  - **3-game threshold for "CNN learns" (from Leo spec): NOT triggered.** Only 1/4 L1-reaching games show positive speedup.
+  - **Games that reached L1 in any try (4/11):**
+    - cd82: try1 L1@416, try2 fail → speedup=0 (ANTI-speedup)
+    - cn04: try1 L1@730, try2 fail → speedup=0 (ANTI-speedup)
+    - ls20: try1 L1@427, try2 fail → speedup=0 (ANTI-speedup)
+    - sp80: try1 L1@84, try2 L1@8 → speedup=10.5x (STRONG SIGNAL)
+  - **Games with no L1 on either try (7/11):** ft09, lp85, sb26, tr87, tu93, vc33, MBPP.
+    - lp85 notable: cr=224.9584 (pred_loss INCREASED 225× over 1K steps — CNN destabilized on lp85).
+  - **sp80 L1@8 in try2:** After training on try1, substrate reached L1 in just 8 actions. sp80 is a uniform-response game (107 actions, key movements). CNN learned action-outcome patterns from try1 → immediately found level-advancing action on try2. This is the clearest learning-from-experience signal seen across all 1324 experiments.
+  - **Anti-speedup pattern (cd82/cn04/ls20):** Trained weights HURT try2 performance. Likely mechanism: CNN trained on seed A's visual patterns → lower entropy on try2 → deterministically explores wrong direction OR seeds A/B have different visual layouts, trained model confidently predicts wrong outcomes.
+  - **Runtime:** 180s total (within 5-min cap). 1K steps sufficient to answer the question.
+  - **Chain speedup = 10.5** (mean of 1 finite positive game). Dominated by sp80.
+  - **Decision:** NOT KILL per primary criterion. Mixed signal: CNN shows genuine speedup on sp80 (game with simple L1 mechanism), anti-speedup on 3 others. The question is what differs about sp80. → Leo spec.
