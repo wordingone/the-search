@@ -1,0 +1,253 @@
+{
+  "step": 1329,
+  "results": [
+    {
+      "game": "mbpp",
+      "condition": "tp",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.01,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.8343,
+        "action_kl": 4.2501,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.02,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.7869,
+        "action_kl": 5.3536,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "second_exposure_speedup": null,
+      "compression_ratio": null,
+      "n_actions": 128
+    },
+    {
+      "game": "mbpp",
+      "condition": "dfa",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.02,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.8343,
+        "action_kl": 4.2501,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.02,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.7869,
+        "action_kl": 5.3536,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "second_exposure_speedup": null,
+      "compression_ratio": null,
+      "n_actions": 128
+    },
+    {
+      "game": "cn04",
+      "condition": "tp",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 21.59,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 24.949,
+        "action_kl": 2.9594,
+        "wdrift": 7.784,
+        "pred_loss_traj": {
+          "500": 0.003121,
+          "1000": 0.001045,
+          "2000": 0.000257
+        },
+        "compression_ratio": 0.0823
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 22.72,
+        "max_level": 1,
+        "level_first_step": {
+          "1": 1328
+        },
+        "arc_score": 4.6e-05,
+        "RHAE": 4.6e-05,
+        "I3_cv": 24.2526,
+        "action_kl": 3.0828,
+        "wdrift": 8.4069,
+        "pred_loss_traj": {
+          "500": 0.000153,
+          "1000": 9.1e-05,
+          "2000": 3.1e-05
+        },
+        "compression_ratio": 0.2026
+      },
+      "second_exposure_speedup": Infinity,
+      "compression_ratio": 0.0823,
+      "n_actions": 4103
+    },
+    {
+      "game": "cn04",
+      "condition": "dfa",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 16.46,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 22.7422,
+        "action_kl": 4.0201,
+        "wdrift": 0.3557,
+        "pred_loss_traj": {
+          "500": 0.002556,
+          "1000": 0.002166,
+          "2000": 0.001633
+        },
+        "compression_ratio": 0.6389
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 16.69,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 24.3076,
+        "action_kl": 3.0387,
+        "wdrift": 0.5961,
+        "pred_loss_traj": {
+          "500": 0.001448,
+          "1000": 0.001295,
+          "2000": 0.001063
+        },
+        "compression_ratio": 0.7341
+      },
+      "second_exposure_speedup": null,
+      "compression_ratio": 0.6389,
+      "n_actions": 4103
+    },
+    {
+      "game": "tu93",
+      "condition": "tp",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.24,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.1682,
+        "action_kl": 0.031,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.31,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.136,
+        "action_kl": 0.047,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "second_exposure_speedup": null,
+      "compression_ratio": null,
+      "n_actions": 7
+    },
+    {
+      "game": "tu93",
+      "condition": "dfa",
+      "try1": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.26,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.1682,
+        "action_kl": 0.031,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "try2": {
+        "steps_taken": 2000,
+        "elapsed_seconds": 0.3,
+        "max_level": 0,
+        "level_first_step": {},
+        "arc_score": 0.0,
+        "RHAE": 0.0,
+        "I3_cv": 0.136,
+        "action_kl": 0.047,
+        "wdrift": 0.0,
+        "pred_loss_traj": {
+          "500": null,
+          "1000": null,
+          "2000": null
+        },
+        "compression_ratio": null
+      },
+      "second_exposure_speedup": null,
+      "compression_ratio": null,
+      "n_actions": 7
+    }
+  ]
+}
