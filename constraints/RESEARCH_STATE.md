@@ -703,3 +703,15 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Masked PRISM violation (fixed):** During development, game IDs computed and mailed to Leo. Jun corrected: structural enforcement required, not behavioral. Created permanent `prism_masked.py` infrastructure. Step 1310+ uses this infrastructure — game IDs structurally invisible.
   - **Finding:** Single-layer Hebbian (LPL + predictive term) fails for same reason as Steps 1264/1289-1291: positive feedback without credit assignment. W learns to track high-magnitude responses, not prediction targets. Confirms: update dynamics = the problem. Need depth (multi-layer error signals) or non-Hebbian objective.
   - **Decision:** KILL. Multi-layer predictive coding next — depth creates proper error signals at each layer (Whittington & Bogacz 2017). → Step 1310.
+
+- **Step 1310 (multi-layer predictive coding, W&B 2017, masked PRISM): COMPLETE. NO KILL — MLPL cr=0.9282, RAND cr=1.0004.** 18 runs, ~25 min. Random games: MBPP + 2 masked ARC games (seed 1310).
+  - **Kill assessment: NOT triggered.** MLPL cr=0.9282 < 1.0 (primary criterion passes). MLPL score (1/cr × kl)=8.01 > RAND=7.47. MLPL action_KL=7.44 ≥ 0.01 (no collapse).
+  - **Chain aggregates (masked):**
+    - MLPL: mean_RHAE=0.0, mean_wdrift=0.1862, mean_action_KL=7.44, mean_I3cv=2.00, mean_cr=0.9282
+    - RAND: mean_RHAE=0.0, mean_wdrift=0.0, mean_action_KL=7.47, mean_I3cv=1.82, mean_cr=1.0004
+  - **pred_loss trajectory (MLPL):** 0.9588 → 0.9452 → 0.9304 → 0.8908 (steps 500/1000/1500/2000). Systematic decrease — depth compresses.
+  - **pred_loss trajectory (RAND):** 0.9753 → 0.9757 → 0.9753 → 0.9757 (flat — fixed W1 can't compress).
+  - **Per-game breakdown omitted (masked PRISM — chain aggregates only).**
+  - **Credit assignment confirmed:** Multi-layer outperforms single-layer (1309 cr=1.44 → 1310 cr=0.93). Proper error signals at each layer matter.
+  - **RHAE=0 everywhere:** Neither mechanism reaches L1 consistently. Prediction compression ≠ task progress yet.
+  - **Decision:** NO KILL. First multi-layer PC experiment confirms depth enables compression on click games. Next question: can compression drive action selection toward game-advancing actions? → Leo spec.
