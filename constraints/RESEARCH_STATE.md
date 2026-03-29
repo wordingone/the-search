@@ -1350,3 +1350,28 @@ All three games show novelty_var ≈ 0 (well below 0.01 threshold). The 2-layer 
 - MBPP: character identity (128-dim one-hot or embedding). Each char distinct.
 
 **Decision:** KILL. 2-layer pred_head with 6-dim type encoding still can't differentiate actions. Need richer action encoding — spatial position for ARC, character identity for MBPP. Next: Leo to spec step 1343.
+
+---
+
+## Step 1343 (KILL — Rich action encoding: MBPP char_embed shows weak signal, ARC still flat):
+
+3 games × 2 conditions (AC-ENC, MLP-TP) × 2 tries. 2K steps, warmup=500, K=32 noop-relative.
+Action encoding: ARC=(type_1hot[7], x_norm, y_norm, pad)=16-dim. MBPP=char_embed(128→16).
+
+**RHAE(try2): AC-ENC = 0.0000, MLP-TP = 0.0001.** AC-ENC gets 0; control beats it.
+
+**Novelty variance (>0.01 = differentiates):**
+- MBPP: try1=0.004684, try2=0.000405. Approaching threshold (10× better than 1342). Char_embed learning.
+- ARC games: try1=6e-05 to 1.4e-04, try2=4e-06. Essentially flat. Position encoding not helping.
+
+**Action entropy:**
+- AC-ENC MBPP: 0.921/0.897 (concentrating vs MLP-TP 0.991). Some signal on MBPP.
+- AC-ENC ARC: 0.780/0.757 (more concentrated than MLP-TP 0.877). Concentration is HURTING — wrong actions selected. AC-ENC RHAE=0, MLP-TP RHAE=0.0001 on Game A.
+
+**MLP-TP reached RHAE=0.0001 on Game A:** speedup=0.8638, eff²=0.000175. First non-zero RHAE from MLP-TP in 1340-1343 series. Game A reached progress with random action selection.
+
+**Root cause for ARC still flat:** Noop baseline is meaningless. The model never observes a "noop" action in the environment. pred_noop (output when given zero-vector action) is arbitrary — not calibrated to "no change". So (pred_act - pred_noop) is random for all actions → near-zero variance. The noop-relative criterion fails when noop is unobserved.
+
+**MBPP char_embed starts learning (nov_var=0.004) but collapses in try2 (0.000405):** Try2 model already learned char dynamics from try1. In try2, pred_next is similar for all chars (model converged) → low variance. The char_embed works but novelty variance drops when model is well-calibrated.
+
+**Decision:** KILL. Noop-relative novelty is fundamentally flawed (unobserved noop). Fix: drop noop baseline, use variance across K candidates (self-relative novelty) OR direct ||pred_act - h3||. Next: Leo to spec 1344.
