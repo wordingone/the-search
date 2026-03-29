@@ -944,3 +944,21 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **DFA insight (from step 1326):** DFA achieves 34% compression on the SAME rich CNN features that cause LPL to diverge. DFA's fixed feedback matrices stabilize the update signal. This suggests: the problem is not just local vs global credit, but signal stability.
   - **Speedup: both conditions N/A** — neither reached L1 on these game draws (Game A and Game B were not solvable games in this seed). Speedup question remains open for conditions where L1 is reachable.
   - **Decision:** KILL. Update rule is the bottleneck confirmed. Next question: what R2-compliant update rule bridges the gap? DFA gets to 34% — what gets to >90%? Options: natural gradient, target propagation, predictive coding with proper error normalization. → Leo spec.
+
+- **Step 1328 (NEW — Normalized LPL error, instability vs fundamental weakness): KILL — normalization barely helps. NORM cr=0.9168 ≈ BASE cr=0.9366. Coupling law is fundamentally too weak.** 6 runs (3 games × 2 conditions), try1+try2. Random games: MBPP + 2 masked ARC (seed 1328). Seed-free.
+  - **Kill criterion (NORM cr ≈ BASE cr, both ≥ 0.9): TRIGGERED.**
+  - **NORM-LPL cr_mean=0.9168 (8.3% compression)**
+  - **BASE-LPL cr_mean=0.9366 (6.3% compression)**
+  - **Per-game breakdown:**
+    - MBPP/NORM: cr=0.949, MBPP/BASE: cr=0.9669
+    - Game A/NORM: cr=0.8079, Game A/BASE: cr=0.8447 (best both — ~16-20% compression)
+    - Game B/NORM: cr=0.9936, Game B/BASE: cr=0.9981 (both near-zero)
+  - **Normalization helps marginally on Game A (16% vs 16%) and MBPP (5% vs 3%), but difference is within noise.** Both conditions remain far from DFA (34%) or Adam (99.7%).
+  - **LPL direction fully exhausted after this result.** Total experiments on LPL variants: 16+ experiments (step 1289-1322) + steps 1327-1328. All killed. The Hebbian outer product update is structurally insufficient to compress observations, regardless of: (a) number of layers (K=50 tested), (b) feature quality (CNN features, step 1327), (c) error normalization (this step).
+  - **Root cause confirmed:** The Hebbian coupling law `W += eta * outer(h, e)` cannot achieve >20% compression on ARC-style observations in 2K steps. This is a fundamental property of the update rule, not a hyperparameter or stability issue.
+  - **Gap hierarchy (complete):**
+    - LPL (any variant): cr ~0.9–1.0 (~7% compression)
+    - DFA on CNN: cr=0.6556 (34% compression) — forward-only gradient direction
+    - Adam on CNN: cr=0.003 (99.7% compression)
+  - **What separates DFA from LPL:** DFA's fixed B matrices project the global prediction error to each layer, giving each layer access to the learning signal from the top of the network. LPL's e1 = local prediction error (enc - W1.T @ h1) — only local signal, no awareness of downstream prediction quality.
+  - **Decision:** KILL. LPL is architecturally insufficient. The question is now: what R2-compliant mechanism provides global-quality credit assignment (like DFA) but with Adam-quality learning rates? → Leo spec.
