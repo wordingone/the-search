@@ -764,3 +764,26 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **KEY FINDING — RHAE=1.5e-5:** INV is the FIRST architecture to show RHAE above the 1e-6 floor (argmin floor). Small but non-trivial. INV exploration (different from pure systematic argmin) found at least one level.
   - **Why cr regressed:** Inverse model changes action selection → different observations → different W1/W2 trajectories. INV explores differently (action_KL 12.15 vs 8.38), visiting states with harder-to-predict observations. Indirect effect on compression, not a direct W3→W1/W2 coupling.
   - **Decision:** KILL per spec criteria (cr). But T_chain signal and RHAE both point toward this direction. Fix: decouple cr kill from inverse model — if T_chain>3 is the primary signal, cr may be wrong kill criterion here. → Leo spec.
+
+- **Step 1315 (inverse model W3, W3_ETA=eta/10, T_chain, masked PRISM): COMPLETE. KILL — reduced rate killed the signal.** 9 runs. Random games: MBPP + 2 masked ARC (seed 1315). Seed-free.
+  - **Kill triggered on both criteria.**
+  - **Chain aggregates (masked):**
+    - INV-SLOW: mean_RHAE=0.00e+00, mean_wdrift=0.071, mean_action_KL=8.5124, mean_I3cv=1.8499, cr=1.0017, T_chain=1.0107
+    - BASE: mean_RHAE=0.00e+00, mean_wdrift=0.011, mean_action_KL=7.6195, cr=0.9987, T_chain=439.7 (anomaly — see below)
+  - **Predictions:** P1 (cr ≈ BASE): WRONG (still cr=1.0017 > BASE=0.9987). P2 (T_chain > BASE): WRONG (1.01 ≤ 439). P3 (RHAE ≥ BASE): CONFIRMED (both 0).
+  - **BASE T_chain=439 is game-set anomaly:** One game produced near-zero experienced_B pred_loss (BASE learned episode A so well that episode B fit trivially). Dominates chain mean. Not a signal — a numerical artifact of this specific game set with this seed.
+  - **eta/10 killed the signal:** INV-SLOW T_chain=1.01 vs 1314's INV T_chain=5.72. Reduced rate eliminated transfer. Not just reduced — near-zero. Rate is the mechanism.
+  - **Key finding:** Inverse model transfer scales with W3 learning rate. eta → large T_chain signal. eta/10 → near-zero T_chain. The transfer is rate-sensitive, not architecture-sensitive. But full eta caused cr regression from exploration disruption.
+  - **Decision:** KILL. Trade-off between rate and cr can't be resolved by rate reduction. Need different approach: decoupled W3 learning (e.g., normalize W3 updates, or separate T_chain from cr kill criterion). → Leo spec.
+
+- **Step 1316 (inverse model W3, full eta, RHAE-based T_chain, masked PRISM): COMPLETE. KILL — T_chain=5.72 was measurement artifact, not task transfer.** 9 episodes. Random games: MBPP + 2 masked ARC (seed 1316). Seed-free.
+  - **Kill triggered:** experienced_RHAE_B=0.00e+00 ≤ fresh_RHAE_B=0.00e+00 → self-reinforcement confirmed.
+  - **Chain aggregates (masked):**
+    - INV: mean_RHAE_A=0.00e+00, mean_wdrift=0.0931, mean_action_KL=12.2768, mean_I3cv=2.4686, cr=0.9893
+    - T_chain_pred (fresh-INV denom)=1.0036
+    - RHAE_experienced_B=0.00e+00, RHAE_fresh_B=0.00e+00
+  - **Prediction 1 (experienced_RHAE_B > fresh_RHAE_B): WRONG.** Both zero.
+  - **CRITICAL FINDING — T_chain=5.72 was denominator artifact:** 1314 used fresh-BASE as denominator. 1316 used fresh-INV. With proper denominator: T_chain_pred=1.0036. The 5.72 in 1314 measured BASE-cold-start vs INV-experienced (cross-architecture comparison), not experience effect. Fresh-BASE predicts episode B worse than experienced-INV because it's a different architecture with different action distribution — not because of transfer.
+  - **RHAE=0 everywhere (A and B).** Substrate doesn't solve levels on any game in this set. The RHAE=1.5e-5 from 1314 was game-set-specific (seed=1314 happened to include a game where INV found L1; seed=1316 did not).
+  - **Inverse model direction: DEAD.** T_chain=5.72 was the entire case for this direction. It was measurement error. action_KL signal (12.28) persists — INV does change exploration — but no task transfer.
+  - **Decision:** KILL direction. Multi-layer LPL + inverse model W3 does not produce genuine task transfer. Cross-episode T_chain measurement must use same-architecture fresh denominator. → Leo spec (new direction).

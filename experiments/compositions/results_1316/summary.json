@@ -1,0 +1,24 @@
+{
+  "chain_summary": {
+    "inv": {
+      "mean_RHAE": 0.0,
+      "mean_wdrift": 0.0931,
+      "mean_action_KL": 12.2768,
+      "mean_I3cv": 2.4686,
+      "mean_compression_ratio": 0.9893,
+      "pred_loss_trajectory": {
+        "500": 0.978074,
+        "1000": 0.964205,
+        "2000": 0.967913
+      }
+    }
+  },
+  "T_chain_pred": 1.0036,
+  "RHAE_experienced_B": 0.0,
+  "RHAE_fresh_B": 0.0,
+  "games_label_only": [
+    "MBPP",
+    "Game A",
+    "Game B"
+  ]
+}
