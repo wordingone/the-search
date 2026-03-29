@@ -1421,3 +1421,29 @@ K=10 vs K=1 action decimation. Same 5 draw seeds (13440-13444). MLP+TP, entropy.
 **Decision tree outcome: NO DELIBERATION SIGNAL.** 200 random actions also can't reach progress. Leo's prediction confirmed: "K=10 random will be WORSE than K=1 random because fewer shots at the right action." Both fail at zero.
 
 **Implication:** Action decimation alone doesn't help — it trades action variety for training density. The next test is deliberation + informed selection (1347): does the better-trained model USE its K=10 training to make better choices?
+
+---
+
+## Step 1347 (KILL — K=10 + model-based selection RHAE=0. All 3 deliberation variants fail.):
+
+K=10 + action-conditional selection (argmax ||pred_h3_next - h3|| over 32 candidates). Same 5 seeds. 30 episodes.
+
+**RHAE per draw: [0.0, 0.0, 0.0, 0.0, 0.0]. Chain mean = 0.000000. Non-zero: 0/5 draws.**
+
+**Compression comparison:**
+- MBPP cr=0.69-0.80 (vs K10-ENT cr=1.0 from 1346, vs K1-ENT cr=0.36-0.44 from 1344)
+- ARC cr=1.0 (same as K10-ENT — model doesn't compress ARC with only 200 transitions)
+
+**MBPP compression improvement is real:** Model-based selection (argmax novelty) selects more diverse MBPP characters than entropy → more unique training transitions → better compression. But no actual progress toward L1.
+
+**Two Game B draws crashed (0.8s, cr=None):** Specific ARC games exited immediately in draws 0 and 2. Not affecting the research conclusion.
+
+**Contingency check — 1346 RHAE=0 AND 1347 RHAE=0:** Both met. Proceed to 1348 (childhood pre-training).
+
+**Summary of deliberation series (1344-1347):**
+- K1-ENT (1344): 2000 random actions → RHAE=0
+- K1-ADAM (1345): 2000 Adam actions → RHAE=0 (Adam diverges on ARC)
+- K10-ENT (1346): 200 random actions → RHAE=0, cr=1.0 (too sparse)
+- K10-MODEL (1347): 200 model-selected actions → RHAE=0, MBPP cr improves but no L1
+
+**Root problem confirmed:** No substrate has EVER reached L1 on these game draws. The bottleneck is not the update rule, not action selection, not action frequency. The substrate has zero prior knowledge — starts from scratch every episode. 1348 tests whether accumulated cross-game experience changes this.

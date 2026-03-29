@@ -1,0 +1,52 @@
+{
+  "step": 1348,
+  "n_draws": 5,
+  "draw_seeds": [
+    13440,
+    13441,
+    13442,
+    13443,
+    13444
+  ],
+  "n_childhood_arc": 10,
+  "n_childhood_mbpp": 3,
+  "childhood_steps": 500,
+  "rhae_per_draw": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "chain_mean": 0.0,
+  "nonzero_draws": 0,
+  "nonzero_games": 0,
+  "all_eff_sq": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "fresh_baseline": {
+    "rhae_per_draw": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "chain_mean": 0.0,
+    "step": 1344
+  }
+}
