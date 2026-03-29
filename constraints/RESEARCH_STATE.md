@@ -753,3 +753,14 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **RAND cr ≈ 1.0 (0.9998):** No compression without weight updates. Contrast confirms MLPL compression is real.
   - **RHAE=0 everywhere.** Compression ≠ task progress yet.
   - **Decision:** NO KILL. Architecture validated with deterministic init. T_chain confirms transfer. → Next: probe what drives T_chain. Is it W1/W2 (encoding) or W3 (action)? Leo spec.
+
+- **Step 1314 (inverse model W3, e3=action_onehot−softmax(W3@h2), T_chain, masked PRISM): COMPLETE. KILL — INV cr=0.8661 > BASE cr=0.8152. Inverse model hurts prediction.** 9 runs. Random games: MBPP + 2 masked ARC (seed 1314). Seed-free.
+  - **Kill triggered:** INV cr=0.8661 > BASE cr=0.8152 (primary criterion — inverse model indirectly hurts W1/W2 compression via changed exploration).
+  - **Chain aggregates (masked):**
+    - INV: mean_RHAE=1.50e-05, mean_wdrift=0.1791, mean_action_KL=12.1533, mean_I3cv=2.3364, cr=0.8661, T_chain=5.7188
+    - BASE: mean_RHAE=6.00e-06, mean_wdrift=0.2175, mean_action_KL=8.3825, mean_I3cv=3.9482, cr=0.8152, T_chain=3.2263
+  - **Predictions:** P1 (INV action_KL ≠ BASE): CONFIRMED (diff=3.77). P2 (INV T_chain > BASE): CONFIRMED. P3 (INV cr ≈ BASE): WRONG (diff=0.051).
+  - **KEY FINDING — T_chain=5.72 vs 3.23:** Inverse model produces 77% more transfer than Hebbian. Largest T_chain difference seen. Confirms: when W3 is prediction-error-coupled (not just Hebbian), cross-episode transfer of action-state associations is qualitatively stronger.
+  - **KEY FINDING — RHAE=1.5e-5:** INV is the FIRST architecture to show RHAE above the 1e-6 floor (argmin floor). Small but non-trivial. INV exploration (different from pure systematic argmin) found at least one level.
+  - **Why cr regressed:** Inverse model changes action selection → different observations → different W1/W2 trajectories. INV explores differently (action_KL 12.15 vs 8.38), visiting states with harder-to-predict observations. Indirect effect on compression, not a direct W3→W1/W2 coupling.
+  - **Decision:** KILL per spec criteria (cr). But T_chain signal and RHAE both point toward this direction. Fix: decouple cr kill from inverse model — if T_chain>3 is the primary signal, cr may be wrong kill criterion here. → Leo spec.
