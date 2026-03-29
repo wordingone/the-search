@@ -158,12 +158,13 @@ def format_speedup(speedup):
 
 
 def write_experiment_results(results_dir, step, speedup_by_condition,
-                              all_results, conditions):
+                              all_results, conditions, game_labels=None):
     """Write summary.json (speedup only) and diagnostics.json (everything else).
 
     summary.json: ONE metric per condition — second_exposure_speedup.
     diagnostics.json: all raw results for post-hoc analysis. NOT printed. NOT
-    referenced in kill decisions.
+    referenced in kill decisions. Game IDs are MASKED to labels when game_labels
+    is provided — structural enforcement, same as stdout.
 
     Args:
         results_dir: Output directory.
@@ -171,6 +172,9 @@ def write_experiment_results(results_dir, step, speedup_by_condition,
         speedup_by_condition: dict mapping condition -> speedup value (float or None).
         all_results: list of all per-game per-condition result dicts.
         conditions: list of condition names.
+        game_labels: Optional dict mapping game_id -> label. When provided, replaces
+            raw game IDs with masked labels in diagnostics.json. ALWAYS pass this
+            for masked PRISM experiments.
     """
     os.makedirs(results_dir, exist_ok=True)
 
@@ -182,6 +186,16 @@ def write_experiment_results(results_dir, step, speedup_by_condition,
     with open(os.path.join(results_dir, 'summary.json'), 'w') as f:
         json.dump(summary, f, indent=2)
 
-    # diagnostics.json — full results, NOT for kill decisions
+    # diagnostics.json — full results, game IDs masked to labels
+    if game_labels:
+        masked_results = []
+        for r in all_results:
+            mr = dict(r)
+            if 'game' in mr and mr['game'] in game_labels:
+                mr['game'] = game_labels[mr['game']]
+            masked_results.append(mr)
+    else:
+        masked_results = all_results
+
     with open(os.path.join(results_dir, 'diagnostics.json'), 'w') as f:
-        json.dump({'step': step, 'results': all_results}, f, indent=2, default=str)
+        json.dump({'step': step, 'results': masked_results}, f, indent=2, default=str)

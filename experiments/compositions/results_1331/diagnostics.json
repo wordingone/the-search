@@ -2,7 +2,7 @@
   "step": 1331,
   "results": [
     {
-      "game": "mbpp",
+      "game": "MBPP",
       "condition": "tp_mode",
       "try1": {
         "steps_taken": 2000,
@@ -47,7 +47,7 @@
       "n_actions": 128
     },
     {
-      "game": "cd82",
+      "game": "Game A",
       "condition": "tp_mode",
       "try1": {
         "steps_taken": 2000,
@@ -92,7 +92,7 @@
       "n_actions": 4103
     },
     {
-      "game": "lp85",
+      "game": "Game B",
       "condition": "tp_mode",
       "try1": {
         "steps_taken": 2000,

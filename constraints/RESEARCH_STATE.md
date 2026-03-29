@@ -1016,3 +1016,21 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
     - Adam: cr=0.003 (99.7% compression)
   - **Core problem:** Compression validates across games. Speedup does NOT. Anti-speedup is caused by episode-specific calibration — g_i inverses learned on try1 misfire on try2's different game state. TP's strength (accurate top-down targets) is also its weakness (overfits to the specific episode).
   - **Decision:** SIGNAL HOLDS. TP compression validated across 7 games (60% mean). Anti-speedup is a structural property of any adapting encoder — not unique to TP. Next question: disentangle learned direction vs adaptive LR (run DFA+local Adam to isolate), OR address anti-speedup mechanism (freeze g_i between tries, or meta-outer-loop). → Leo spec.
+
+- **Step 1331 (NEW — TP + pixel-level mode map, action space reduction, INCONCLUSIVE — no L1 in game draw): INCONCLUSIVE — speedup untestable. Mode map detected 1 region on Game A but over-restricted action space. Game B detected 0 regions.** 3 runs (3 games × 1 condition), try1+try2. Random games: MBPP + Game A + Game B (seed 1331).
+  - **Speedup: N/A (no game reached L1 in either try)**
+  - **Per-game breakdown (diagnostics):**
+    - MBPP: cr=None (128 actions → random fallback)
+    - Game A: cr=0.0704 (93% compression!), mode_map=1R/1C. Neither try reached L1.
+    - Game B: cr=0.2914 (71% compression), mode_map=0R/0C. Neither try reached L1.
+  - **Mode map findings:**
+    - Game A: 1 region, 1 centroid found after try1. Mode map active in try2.
+    - Game B: 0 regions found even after 4000 steps. Pixel changes too diffuse OR change_freq everywhere < 5% threshold.
+  - **Critical issue — over-restriction on Game A:** Mode map restricted Game A to 1 click centroid + 5 keyboard. try2 action_kl=0.0082 (near-zero — substrate stuck clicking same position). compare try1 action_kl=0.8257 (normal exploration). 1 centroid is too few for a game that likely requires multiple click positions. The mode map actively PREVENTED exploration rather than guiding it.
+  - **TP transfer still evident in Game A try2:** try2 loss at 500 steps = 0.000103 vs try1 loss at 500 = 0.002629 — 25× lower starting loss. Pre-trained weights transfer to try2. But over-restriction in action space prevents L1.
+  - **Game B try2 diverges (cr=9.35):** Loss goes UP in try2 (0.001577 → 0.014741). Trained model miscalibrates on seed_1 episode. Confirms anti-speedup mechanism is active even with mode map.
+  - **Two problems identified:**
+    1. Threshold calibration: 5% too high for some games (Game B: 0 regions in 4000 steps)
+    2. Over-restriction: 1 centroid = too few. Game needs multiple interaction points.
+  - **What to fix:** (a) lower threshold to 1-2% to catch weaker change signals, (b) keep top-K centroids (K ≥ 5) instead of all centroids from connected components, or (c) add minimum action count: if mode_map gives < min_actions, fall back to full action space.
+  - **Decision:** INCONCLUSIVE. Game draw didn't include an easy-L1 game. Mode map mechanism is valid but needs threshold + coverage calibration. → Leo spec.
