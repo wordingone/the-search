@@ -1034,3 +1034,14 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
     2. Over-restriction: 1 centroid = too few. Game needs multiple interaction points.
   - **What to fix:** (a) lower threshold to 1-2% to catch weaker change signals, (b) keep top-K centroids (K ≥ 5) instead of all centroids from connected components, or (c) add minimum action count: if mode_map gives < min_actions, fall back to full action space.
   - **Decision:** INCONCLUSIVE. Game draw didn't include an easy-L1 game. Mode map mechanism is valid but needs threshold + coverage calibration. → Leo spec.
+
+- **Step 1332 (NEW — TP + mode map calibration v2, threshold 1% + K=8 bbox + min 20 clicks): INCONCLUSIVE — mode map calibration improved but game draw still no L1.** 3 runs × 1 condition, try1+try2. Random games: MBPP + Game A + Game B (seed 1332).
+  - **Speedup: N/A (neither game reached L1 in either try)**
+  - **Per-game breakdown:**
+    - MBPP: 0R/0C, random fallback
+    - Game A: cr=0.0686 (93% compression!), mode_map=1R/20C. Neither try reached L1.
+    - Game B: 0R/0C, elapsed=1.1s → small-action game (TP/mode map inactive)
+  - **Calibration improvement confirmed:** Game A now 1R/20C (step 1331 was 1R/1C). Min coverage of 20 clicks is working. 1% threshold didn't help Game B (still 0 regions — likely a small-action game that bypasses mode map entirely).
+  - **TP still compressing excellently:** Game A cr=0.0686 (93%). The TP mechanism is working well.
+  - **Persistent problem:** 2 consecutive game draws (seeds 1331, 1332) did not include a game that reaches L1 in both tries. The mode map hypothesis requires L1 in both try1 AND try2 to measure speedup. Without L1, speedup is undefined.
+  - **Decision:** INCONCLUSIVE. The mode map IS working (1R/20C on Game A). The test is simply failing because the game draw keeps selecting games where the substrate can't reach L1 in 2K steps. Need games known to reach L1 (from step 1330 data: Game A-type games reached L1). → Leo spec (suggest fixed game or extended seed search).
