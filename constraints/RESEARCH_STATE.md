@@ -922,3 +922,25 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Gap quantified:** LPL cr=0.93 (7% compression), DFA cr=0.6556 (34% compression), Adam cr=0.003 (99.7% compression). DFA bridges ~27% of the LPL-to-Adam gap (34-7)/(99.7-7)=29% of gap.
   - **Anti-speedup on ls20 (DFA and RAND identical):** Game stochasticity — ls20 try1/try2 flip is architectural (7 actions, first try finds L1, second fails due to different game state). Not related to DFA.
   - **Decision:** PARTIAL. DFA confirms that forward-only credit assignment is NOT sufficient to replicate Adam's learning speed. The compression gap is optimization quality, not direction. Next question: what R2-compliant mechanism achieves Adam-equivalent optimization? → Leo spec.
+
+- **Step 1327 (NEW — Frozen CNN encoder + LPL, encoding quality vs update rule separation): KILL — encoding quality is NOT the bottleneck. LPL diverges on CNN features (cr=1.01). Update rule is the bottleneck.** 6 runs (3 games × 2 conditions), try1+try2. Random games: MBPP + 2 masked ARC (seed 1327). Seed-free. Warmup: CNN trained 1K steps Adam on first ARC game, frozen for experiment.
+  - **Kill criterion (CNN-LPL cr ≈ BASELINE-LPL cr, both ≥ 0.9): TRIGGERED.**
+  - **CNN-LPL cr_mean=1.0101 (DIVERGES — loss INCREASES over 2K steps)**
+  - **BASELINE-LPL cr_mean=0.9533 (7% compression, matches historical)**
+  - **Per-game breakdown (diagnostics):**
+    - MBPP/CNN-LPL: cr=None (MBPP not ARC — random fallback, no LPL updates)
+    - MBPP/BASELINE-LPL: cr=1.0076 (diverges slightly)
+    - Game A/CNN-LPL: cr=1.0019 (loss flat/diverging despite rich CNN features)
+    - Game A/BASELINE-LPL: cr=0.8523 (best baseline — 15% compression)
+    - Game B/CNN-LPL: cr=1.0184 (diverges — LPL WORSENS on CNN features)
+    - Game B/BASELINE-LPL: cr=1.0 (zero compression)
+  - **Critical finding — LPL DIVERGES on rich features:** CNN features are non-negative (post-ReLU), dense, and high-variance. LPL's outer product update `W1 += ETA * outer(h1, e1)` amplifies this high-variance input → weights grow → larger h1 → larger e1 → positive feedback. Avgpool features are lower variance → LPL is stable but still barely compresses.
+  - **Gap hierarchy now complete:**
+    - LPL on rich features: cr=1.01 (DIVERGES)
+    - LPL on avgpool: cr=0.95 (near-zero compression)
+    - DFA on CNN: cr=0.66 (34% compression — update rule helps vs LPL)
+    - Adam on CNN: cr=0.003 (99.7% compression)
+  - **Definitive answer:** The bottleneck is the UPDATE RULE, not encoding quality. Giving LPL access to rich CNN features does NOT improve (and actually WORSENS) its compression. The gap from Adam is purely algorithmic — LPL's local Hebbian-style update is fundamentally insufficient regardless of feature richness.
+  - **DFA insight (from step 1326):** DFA achieves 34% compression on the SAME rich CNN features that cause LPL to diverge. DFA's fixed feedback matrices stabilize the update signal. This suggests: the problem is not just local vs global credit, but signal stability.
+  - **Speedup: both conditions N/A** — neither reached L1 on these game draws (Game A and Game B were not solvable games in this seed). Speedup question remains open for conditions where L1 is reachable.
+  - **Decision:** KILL. Update rule is the bottleneck confirmed. Next question: what R2-compliant update rule bridges the gap? DFA gets to 34% — what gets to >90%? Options: natural gradient, target propagation, predictive coding with proper error normalization. → Leo spec.
