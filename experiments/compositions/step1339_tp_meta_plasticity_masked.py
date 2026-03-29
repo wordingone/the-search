@@ -28,9 +28,8 @@ Theta per layer: [alpha_hebb, alpha_anti, alpha_decay, lr_scale]
 Credit: pred_loss_before_K - pred_loss_after_K (positive = updates helped)
 Theta update: theta_l += eta * credit * grad_approx_l (gradient wrt each alpha)
 
-Budget: 10K steps × 2 tries × 3 games × 2 conditions = 120K steps.
-WARNING: Actual runtime ~28 min (exceeds 5-min cap). Flagged to Leo.
-Theta needs time to converge — 10K per Leo's spec.
+Budget: 5K steps × 2 tries × 3 games × 2 conditions = 60K steps.
+Leo approved 5K steps (~14 min, within 15-min threshold). Mail 3807.
 
 Kill:  META RHAE(try2) ≤ MLP RHAE(try2). KILL.
 Signal: theta converges to non-trivial values. CONTINUE.
@@ -882,9 +881,9 @@ def main():
             if done_t or obs_t is None:
                 obs_t = env_t.reset(seed=0)
         elapsed_100 = time.time() - t0
-        est_10k = elapsed_100 / 100 * 10000
-        est_total = est_10k * len(GAMES) * len(CONDITIONS) * 2
-        print(f"  100 steps: {elapsed_100:.1f}s → est 10K: {est_10k:.0f}s → est total: {est_total:.0f}s")
+        est_5k = elapsed_100 / 100 * 5000
+        est_total = est_5k * len(GAMES) * len(CONDITIONS) * 2
+        print(f"  100 steps: {elapsed_100:.1f}s → est 5K: {est_5k:.0f}s → est total: {est_total:.0f}s")
         print()
 
     all_results = []

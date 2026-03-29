@@ -1256,10 +1256,22 @@ Mode map persists try1→try2. Zone update freq=100 steps, threshold=1%.
 
 **Architecture:** MLP + TP + learnable theta per forward layer. theta=[alpha_hebb, alpha_anti, alpha_decay, lr_scale]. Modified update: ΔW += lr*lr_scale*((alpha_hebb-alpha_anti)*outer(h,x) + alpha_decay*(-W)) added after Adam TP step. Credit = pred_loss_before_K - pred_loss_after_K (K=100 training steps). Theta carries from try1→try2. Control: MLP-TP without theta.
 
-**Runtime flag:** Estimated ~28 min (14ms per ARC step × 10K × 12 episodes). Exceeds 5-min cap. Flagged to Leo (mail 3806) before running. Awaiting step count approval.
+**Runtime:** 5K steps × 12 episodes (Leo approved, mail 3807). Actual: ~25 min.
 
-**Kill criteria:**
-- META RHAE ≤ MLP RHAE AND theta trivial (~0) → KILL
-- META RHAE ≤ MLP RHAE but theta non-trivial (|alpha|>0.01) → CONTINUE
-- META RHAE > MLP RHAE → SIGNAL
-- META RHAE > 0 → LANDMARK
+**RHAE(try2): META-MLP-TP = 0.0000, MLP-TP = 0.0000.** No progress. KILL.
+
+**Theta trajectory (META condition):** All layers — hebb=0.00000, anti=-0.00000, decay=-0.00000, lr_scale=1.00000, net=0.00000. Theta did NOT move.
+
+**Loss trajectories (consistent across all games):**
+- try1: pred_loss@2000 ≈ 5e-5, @5000 ≈ 9e-6 (5.5× compression during try1)
+- try2: pred_loss@2000 ≈ 9e-6, @5000 ≈ 9e-6 (FLAT — weights carried, already compressed)
+
+**Root cause — credit signal too small:** Pred_loss values (9e-6 to 5e-5) make absolute credit negligible. Credit per K-window ≈ 4e-5 max. With eta=0.001 and g≈0.06 (h_rms*x_rms), delta_theta ≈ 2.4e-9 per window. Invisible at 5dp precision. Try2 is entirely flat (credit≈0 throughout).
+
+**Fix identified:** Normalize credit: `credit = (loss_before - loss_after) / loss_before` → relative improvement ≈ 0.82 for early window → delta_theta ≈ 5e-5 per window (visible, meaningful).
+
+**Bugs found (for next iteration fix):**
+1. `theta_try1_end` captured before `reset_for_try2()` sets it → always None in output
+2. `get_compression_ratio()` uses `get(10000)` but LOSS_CHECKPOINTS=[2000,5000,10000] → cr=None at 5K runs. Fix: use `get(5000)` or use last available checkpoint.
+
+**Decision:** KILL. Credit signal not informative enough in absolute form. Next: normalize credit OR use different credit signal (behavioral change, not pred_loss delta).
