@@ -76,11 +76,11 @@ This is NOT "R2 is wrong." LPL Hebbian is ONE R2-compliant update rule. We teste
 
 ## What Doesn't Work (negative map)
 
-**Action selection on W3 (8 mechanisms, ~25 experiments, all killed):** argmax predicted delta, REINFORCE dreaming, three-factor pe modulation, inverse model, eigenoptions, action generalization, MI detection, allosteric softmax. Common failure: prediction selects visually-responsive actions, not task-advancing ones.
+**One pattern explains most kills:** prediction-based action selection optimizes for visual responsiveness (what changes the screen), not task advancement (what advances the level). This single failure mode killed 8 action mechanisms across ~25 experiments: argmax predicted delta, REINFORCE dreaming, three-factor pe modulation, inverse model, eigenoptions, action generalization, MI detection, allosteric softmax. Entropy-driven (random) action selection outperforms all of them because it doesn't concentrate on visually-responsive actions.
 
-**R2-compliant architectures (all produce RHAE=0):** single-layer linear + Hebbian, single-layer + LPL, multi-layer LPL (K=5 and K=50), competitive inhibition network, Lotka-Volterra.
+**R2-compliant architectures produce zero task progress** across 14 experiments (Steps 1309-1322): single-layer Hebbian, single-layer LPL, multi-layer LPL at K=5 and K=50, competitive inhibition, Lotka-Volterra. The update rules are too weak for credit assignment.
 
-**Collapse:** Any Hebbian rule that strengthens the winner creates winner-take-all (Steps 1264, 1289-1292). Anti-Hebbian decorrelation insufficient (Steps 1301-1302). Negative-diagonal recurrence partially fixes inference-time lock (Step 1294).
+**Hebbian collapse:** Any Hebbian rule that strengthens the winner creates winner-take-all (Steps 1264, 1289-1292). Anti-Hebbian insufficient (Steps 1301-1302). Negative-diagonal recurrence partially fixes it (Step 1294).
 
 ## What's Untested (catalog, 40 directions)
 
