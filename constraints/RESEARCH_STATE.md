@@ -1406,3 +1406,18 @@ Reference experiment (R2-violating). Same 5 draw seeds as 1344 (13440-13444). ML
 **Decision tree outcome: NOT CREDIT DEPTH.** Both Adam (global gradient, full backprop) and TP (local targets) produce RHAE=0 on the same games. The update rule is not the bottleneck. These games are too hard for any 2K-step substrate — the gap is budget or game difficulty.
 
 **Implication:** Deeper credit assignment alone will not unlock RHAE > 0. The problem is not the learning rule. The problem is either (a) 2K steps insufficient for any substrate to reach L1, or (b) the action space (4103 ARC actions) is too large for random exploration to hit L1 at all.
+
+---
+
+## Step 1346 (KILL — No deliberation signal. K=10 RHAE=0 same as K=1. cr=1.0 reveals new problem.):
+
+K=10 vs K=1 action decimation. Same 5 draw seeds (13440-13444). MLP+TP, entropy. 5 draws × 3 games × 2 conditions × 2 tries = 60 episodes.
+
+**K=10 RHAE per draw: [0.0, 0.0, 0.0, 0.0, 0.0]. Chain mean = 0.000000. Non-zero: 0/5 draws.**
+**K=1  RHAE per draw: [0.0, 0.0, 0.0, 0.0, 0.0]. Chain mean = 0.000000. Non-zero: 0/5 draws.**
+
+**Critical diagnostic — K=10 cr=1.0 on ALL 15 games.** K=1 cr=0.36-0.44 (as in 1344). With K=10, the substrate collects only 200 action-transitions (vs 2000 for K=1). Fewer unique training examples → model doesn't compress. More training updates on sparse data ≠ better features. The internal training batches are repeatedly fitting the same ~200 examples.
+
+**Decision tree outcome: NO DELIBERATION SIGNAL.** 200 random actions also can't reach progress. Leo's prediction confirmed: "K=10 random will be WORSE than K=1 random because fewer shots at the right action." Both fail at zero.
+
+**Implication:** Action decimation alone doesn't help — it trades action variety for training density. The next test is deliberation + informed selection (1347): does the better-trained model USE its K=10 training to make better choices?

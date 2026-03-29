@@ -1,0 +1,37 @@
+{
+  "step": 1346,
+  "n_draws": 5,
+  "draw_seeds": [
+    13440,
+    13441,
+    13442,
+    13443,
+    13444
+  ],
+  "conditions": {
+    "k10": {
+      "K": 10,
+      "rhae_per_draw": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "chain_mean": 0.0,
+      "nonzero_draws": 0
+    },
+    "k1": {
+      "K": 1,
+      "rhae_per_draw": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "chain_mean": 0.0,
+      "nonzero_draws": 0
+    }
+  }
+}
