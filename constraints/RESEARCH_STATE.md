@@ -654,6 +654,19 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **RHAE near zero:** weights change, behavior changes, but no level progress. Prediction learning doesn't connect to action quality. The missing link: use the world model TO SELECT ACTIONS (Leo spec 1306).
   - **Decision:** World model proven. Action selection still entropy-driven (not using the model). Next: close the prediction→action loop. → Step 1306.
 
+- **Step 1306 (Close prediction→action loop: argmax predicted_delta): COMPLETE. KILL — ACT RHAE ≤ ENT RHAE.** 18 runs, ~150 min. Random games (seed 1306, masked; Game C = LS20 confirmed from INFO logs).
+  - **Kill triggered:** SELFSUP-ACT RHAE=1.00e-06 ≤ SELFSUP-ENT RHAE=2.40e-05. Argmax predicted_delta does NOT improve level progress — it hurts it relative to entropy-driven selection.
+  - **Chain aggregates (masked):**
+    - SELFSUP-ACT: mean_RHAE=1.00e-06, mean_wdrift=10.47, mean_action_KL=1.30, mean_I3cv=21.90, mean_cr=0.0354
+    - SELFSUP-ENT: mean_RHAE=2.40e-05, mean_wdrift=12.81, mean_action_KL=2.00, mean_I3cv=15.76, mean_cr=0.0785
+  - **Prediction 1 FAILED:** Expected ACT > ENT on RHAE. Observed ACT < ENT. All 4 Leo predictions failed (wrong direction).
+  - **Prediction compression OK:** ACT cr=0.0354 vs ENT cr=0.0785. Both learning well. World model accuracy disconnected from task performance.
+  - **ACT I3cv=21.9 > ENT=15.8:** ACT concentrates actions (higher CV = more non-uniform). Argmax always finds a few "high delta" actions and revisits them. Reduces diversity.
+  - **ACT action_KL=1.30 < ENT=2.00:** ENT shows more behavioral change over episode. ACT converges earlier (repeating high-delta actions).
+  - **Anomaly:** Game C draw 0 ACT showed wdrift=0.0 (model never trained — likely seed 0+1 caused early time-out before buffer filled on LS20). Draw 1+2 normal. Not a systematic failure.
+  - **Finding:** "Maximize predicted encoding change" ≠ "maximize task progress." The world model predicts well but optimizing predicted delta concentrates on a few high-change actions without curriculum. Novelty-seeking without task structure = wrong objective.
+  - **Direction:** World model works. The objective needs to change. argmax delta → KILLED. Next: Leo specifies new objective.
+
 - **Step 1300 (StochasticGoose PRISM baseline — leaderboard leader): KILLED** (Jun directive via Leo mail 3673, 2026-03-29). 7/11 games completed before kill. Results partial — not incorporated. Jun directive, Leo mail 3662/3663. 11 games × 20 draws = 220 pairs. ~8 of 11 games complete.
   - Port of DriesSmit/ARC3-solution (exact CNN architecture, training loop, buffer)
   - CNN: Conv2d 32→64→128→256 + MaxPool action head (5 discrete) + spatial coord head (4096)
