@@ -1391,3 +1391,18 @@ Assessment: 1343 Game A (RHAE=0.0001) was a single lucky draw. The MLP+TP baseli
 **Critical finding — compression anomaly:** All prior steps (1337-1343) showed cr≈0.08 (8% residual = 92% compression). Step 1344 shows cr=0.36-0.46 (36-46% residual = 54-64% compression). FIVE TIMES WORSE. The game selections from seeds 13440-13444 are harder to predict than the 1337-1343 games. The "92% compression" result was specific to easy-to-predict games — it does NOT generalize.
 
 **Decision:** KILL baseline paradigm. MLP+TP+entropy is RHAE-dead. The 92% compression metric was misleading — it measured learning on easy games, not capability. Need a fundamentally different approach: either better exploration (not just entropy) OR different learning objective (not just TP prediction error). Next: Leo to spec direction.
+
+---
+
+## Step 1345 (KILL — Adam RHAE=0 same as TP. Not credit depth. Budget/difficulty is the gap.):
+
+Reference experiment (R2-violating). Same 5 draw seeds as 1344 (13440-13444). MLP+Adam lr=1e-3. Entropy action selection. 2K steps/try. All else identical to 1344.
+
+**RHAE per draw: [0.0, 0.0, 0.0, 0.0, 0.0]. Chain mean = 0.000000.**
+**Non-zero draws: 0/5. Non-zero games: 0/15.**
+
+**cr=None on all games.** Adam likely diverges (NaN loss) with lr=1e-3 on 65536-dim ARC inputs — same games that showed cr=0.36-0.46 for TP. TP at least trains stably; Adam doesn't even compress.
+
+**Decision tree outcome: NOT CREDIT DEPTH.** Both Adam (global gradient, full backprop) and TP (local targets) produce RHAE=0 on the same games. The update rule is not the bottleneck. These games are too hard for any 2K-step substrate — the gap is budget or game difficulty.
+
+**Implication:** Deeper credit assignment alone will not unlock RHAE > 0. The problem is not the learning rule. The problem is either (a) 2K steps insufficient for any substrate to reach L1, or (b) the action space (4103 ARC actions) is too large for random exploration to hit L1 at all.
