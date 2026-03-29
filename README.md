@@ -24,9 +24,9 @@ Seven simultaneous constraints. All must hold. If one is wrong, fix the principl
 
 ## One Metric
 
-**second_exposure_speedup = steps_to_L1(try1) / steps_to_L1(try2)**
+**RHAE(try2) = mean(efficiency²) across all games, measured on try2 (with weights from try1).**
 
-Does the system solve faster on its second attempt? If > 1: it learned from experience. If = 1: it didn't. Everything else is diagnostic. This metric IS R4.
+ARC Prize scoring IS the metric. External judgment. The substrate plays each game twice: try1 (fresh weights), try2 (carrying try1's weights). Score = how efficiently it performs on try2. Speedup from experience is implicit — if try1 helped, try2 is more efficient. If it hurt, less. MBPP (text) is always in the game pool. Everything else is diagnostic.
 
 ## The Test Environment
 
