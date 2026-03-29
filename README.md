@@ -8,6 +8,12 @@ Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP
 
 Can a system improve itself by criteria it generates?
 
+## Feasibility
+
+One known system satisfies all seven constitutional constraints simultaneously: biology. Cells self-modify (R3) through metabolic dynamics that ARE the computation (R2), without external objectives (R1). Environmental selection tests modifications against prior fitness (R4). DNA provides the fixed ground truth (R5). Every organelle is essential (R6). Identical genomes in different environments produce different organisms (R0).
+
+This is not a theoretical exercise. The constitution is extracted from observing what already works. The open question is whether computation (discrete, finite precision) can implement what chemistry (continuous, molecular) does. A single computational substrate satisfying R0-R6 with RHAE > 0 would resolve this.
+
 ## Metric
 
 **RHAE(try2) = mean(efficiency²)** across all games, measured on try2 (with weights from try1).
