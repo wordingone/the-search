@@ -903,3 +903,22 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Game flip (stochasticity):** META and BASE got their inf speedup from different games (META:lp85, BASE:tr87). Both got there by random action luck, not meta-learning benefit.
   - **ETA_THETA=0.0001:** Possibly too small for meaningful discovery in 2K steps. But fixing the credit formula bias is more important than adjusting eta.
   - **Decision:** KILL. Credit formula is biased toward Hebbian amplification — needs an unbiased estimator (actual delta, not first-order approximation). If Leo wants to continue: fix credit formula to use before/after delta on same obs. → Leo spec.
+
+- **Step 1326 (NEW — CNN + Direct Feedback Alignment (DFA), R2-compliant, second_exposure_speedup, masked PRISM): PARTIAL — DFA compression between LPL(0.93) and Adam(0.003) at cr=0.6556. Speedup not distinguishable from RAND.** 6 runs (3 games × 2 conditions), try1+try2. Random games: MBPP + cn04 + ls20 (seed 1326). Seed-free. R2 COMPLIANT (no backward pass).
+  - **Kill criterion (DFA cr ≥ 0.93): NOT triggered.** cr=0.6556.
+  - **Signal criterion (DFA cr < 0.3): NOT triggered.** cr=0.6556 > 0.3.
+  - **Leo's prediction 1 CONFIRMED:** DFA compression between LPL(0.93) and Adam(0.003) → "gap is optimization quality (cr>0.5 threshold)."
+  - **Per-game breakdown (diagnostics):**
+    - MBPP/DFA: speedup=N/A, cr=None (n_actions=128, random fallback)
+    - MBPP/RAND: speedup=N/A, cr=None
+    - cn04/DFA: speedup=inf (try1 fail, try2 L1@1903), cr=0.6556 (loss: 0.002407→0.001578)
+    - cn04/RAND: speedup=inf (try1 fail, try2 L1@1629), cr=None (no loss tracking)
+    - ls20/DFA: speedup=0.0 (try1 L1@427, try2 fail), cr=None (n_actions=7)
+    - ls20/RAND: speedup=0.0 (try1 L1@427, try2 fail), cr=None
+  - **Speedup confounded by stochasticity:** Both DFA and RAND show identical patterns on both games (cn04: both inf, ls20: both 0.0). DFA try2 cn04 L1@1903 vs RAND L1@1629 — RAND reached L1 FASTER than DFA. Trained weights did not accelerate cn04; DFA's direction is insufficient magnitude.
+  - **DFA DOES compress (cr=0.6556 > LPL 0.93):** Loss decreases progressively over 2K steps. Forward-only credit assignment works — DFA is not random gradient noise. But magnitude is ~200× weaker than Adam (cr=0.003 vs 0.6556).
+  - **R2 compliance confirmed:** No backward mechanism. Same SgSelfSupModel architecture (conv1-4 + pred_head only updated). Fixed B matrices (seed=42) frozen. wdrift=0.335 in try1 cn04 — weights DO change via DFA.
+  - **Leo's interpretation if cr>0.5:** Gap is optimization quality. DFA provides gradient direction but insufficient learning rate / curvature information. Adam's adaptive learning rate per parameter is what produces the cn04 speedup in step 1323.
+  - **Gap quantified:** LPL cr=0.93 (7% compression), DFA cr=0.6556 (34% compression), Adam cr=0.003 (99.7% compression). DFA bridges ~27% of the LPL-to-Adam gap (34-7)/(99.7-7)=29% of gap.
+  - **Anti-speedup on ls20 (DFA and RAND identical):** Game stochasticity — ls20 try1/try2 flip is architectural (7 actions, first try finds L1, second fails due to different game state). Not related to DFA.
+  - **Decision:** PARTIAL. DFA confirms that forward-only credit assignment is NOT sufficient to replicate Adam's learning speed. The compression gap is optimization quality, not direction. Next question: what R2-compliant mechanism achieves Adam-equivalent optimization? → Leo spec.

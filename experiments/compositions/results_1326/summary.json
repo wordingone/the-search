@@ -1,0 +1,7 @@
+{
+  "step": 1326,
+  "speedup": {
+    "dfa": Infinity,
+    "rand": Infinity
+  }
+}
