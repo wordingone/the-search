@@ -833,3 +833,26 @@ Open questions: Is the wall the window size (need N≫10 for full sequence captu
   - **Single-metric infrastructure (Jun 2026-03-29) confirmed working:** summary.json has only `{"step": 1320, "speedup": {"modemap": Infinity, "base": null}}`. All diagnostics in diagnostics.json. Stdout shows speedup only.
   - **RHAE=0 everywhere.** Both conditions.
   - **Decision:** KILL. Mode map never activated — threshold calibration needed or replace absolute delta with relative change detection. → Leo spec.
+
+- **Step 1321 (shared representation: action from h1, no W3, second_exposure_speedup, masked PRISM): KILL — both conditions L1=0, difficult game draw (cd82/cn04), speedup unmeasurable. But: SHARED collapse-resistant where BASE collapses.** 6 runs (3 SHARED + 3 BASE), try1+try2. Random games: MBPP + cd82 + cn04 (seed 1321). Seed-free.
+  - **Kill triggered:** Both conditions L1=0, speedup=N/A for all games.
+  - **Game draw issue:** seed 1321 selected cd82 and cn04 — both historically 0% L1 rate (large action spaces, no composition has solved them). Kill is a game-draw artifact, not architecture verdict.
+  - **Key diagnostic — SHARED is collapse-resistant:**
+    - SHARED I3cv: MBPP=2.53, cd82=4.46, cn04=7.13 — stable coverage throughout
+    - BASE I3cv: MBPP=5.68, cd82=4.53, cn04=35.66 (COLLAPSE!) → 55.10 in try2
+    - W3 positive feedback collapsed BASE on cn04. SHARED has no W3 → no collapse.
+  - **Prediction 1 partially confirmed:** SHARED maintains coverage where BASE collapses. h1-driven action selection doesn't inherit W3's positive feedback pathology.
+  - **Wiring changes worked:** no relu needed (architecture is linear throughout), softmax prevents collapse, hash logits for large action spaces functional.
+  - **Not yet testable:** speedup signal requires easy games (lp85, vc33, ft09) in the draw. Neither cd82 nor cn04 has ever been solved by any composition.
+  - **Decision:** KILL on primary metric (no L1). But architecture is structurally sound. Need to test on draw with solvable games. → Leo spec.
+
+- **Step 1322 (multi-layer LPL K=50 + shared representation, second_exposure_speedup, masked PRISM): KILL — K=50 gives zero compression improvement. LPL fundamentally weaker than gradient.** 6 runs (3 K50 + 3 BASE), try1+try2. Random games: MBPP + 2 masked ARC (seed 1322). Seed-free.
+  - **Kill triggered:** K50 speedup=N/A AND K50 cr=0.9971 ≥ 0.93 (no compression gain).
+  - **Chain aggregates (masked):**
+    - K50: speedup=N/A, cr=0.9971 (chain mean of 0.9965/0.9926/1.0023)
+    - BASE: speedup=N/A, cr=0.9996
+  - **Both conditions near-zero compression on this game set.** Different from step 1310 (K=5, cr=0.9282). Seed 1322 game selection produces observations that are harder to compress via LPL.
+  - **Prediction 1 WRONG:** K=50 does NOT improve compression (cr=0.9971 vs 1310 reference=0.9282 at K=5 — K=50 is WORSE). More inference iterations do not help because: (a) more convergence → smaller e1 → smaller W1 updates per step, or (b) game-set specificity dominates.
+  - **W&B interpretation (Leo):** LPL approximates backprop only as K→∞. K=50 is insufficient. But also: game observations may lack the low-rank structure LPL can exploit efficiently.
+  - **K direction closed:** Both K=5 (1310) and K=50 (1322) produce ~0% compression on hard game sets. The gap vs CNN (98% compression with gradient) is architectural, not an inference budget issue.
+  - **Decision:** KILL. More inference iterations don't help. LPL compression is fundamentally limited on ARC-style observations. → Leo spec.
