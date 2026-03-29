@@ -1,21 +1,24 @@
 """
-Step 1307 — Dreaming: Backprop Through Forward Model to Action Head
-Leo mail 3684, 2026-03-29.
+Step 1307 — Dreaming: REINFORCE gradient through forward model to action head
+Leo mail 3684 + amendment 3686, 2026-03-29.
 
-World model confirmed (1305). argmax predicted_delta killed (1306) — noise, not signal.
-1307: gradient-averaged delivery. Dream step every K=5 steps:
+World model confirmed (1305). argmax predicted_delta killed (1306).
+1307: REINFORCE delivery (amendment: Gumbel-softmax rejected — forward model trained on
+one-hot vectors, soft Gumbel vectors are extrapolation → garbage gradient).
+
+REINFORCE dream step every K=5 steps:
   1. Forward pass on obs → action_logits, avg_features
-  2. M=16 Gumbel-softmax samples from logits → soft action vectors
-  3. predict_next(avg_features.detach(), soft_action) → imagined_next
-  4. dream_loss = -mean(||imagined - avg_features||) over M samples
-  5. Backprop: dream_loss → pred_head (frozen) → soft_action → gumbel → action_logits → action_head
+  2. Sample M=16 discrete actions from softmax policy
+  3. Evaluate forward model on ONE-HOT action vectors (training distribution)
+  4. dream_reward = ||imagined - avg_features|| (no grad)
+  5. REINFORCE loss = -mean(log_prob × (dream_reward - baseline))
   6. Action head learns: "shift distribution toward actions predicted to change encoding most"
 
-R1 compliant: no external reward.
-R2 compliant: gradient updates action head through same encoding computation.
+Why REINFORCE over Gumbel: forward model only trained on one-hot vectors. Soft inputs
+are extrapolation. REINFORCE is noisier but operates on familiar inputs → honest signal.
 
 Conditions:
-  DREAM: CNN + self-supervised prediction + Gumbel-softmax dream steps
+  DREAM: CNN + self-supervised prediction + REINFORCE dream steps
   ENT: CNN + self-supervised prediction + entropy-driven selection (1305 baseline)
 
 Kill criteria (chain-level, masked):
@@ -71,8 +74,7 @@ N_KEYBOARD = 7
 
 # Dream hyperparameters
 _DREAM_LR = 0.0001
-_DREAM_M = 16        # Gumbel samples per dream step
-_DREAM_TAU = 1.0    # Gumbel temperature
+_DREAM_M = 16        # REINFORCE samples per dream step
 _DREAM_FREQ = 5     # dream step every N train steps
 
 LOSS_CHECKPOINTS = [1000, 3000, 5000, 7000, 9000]
@@ -360,6 +362,9 @@ class EntSubstrate(SgSelfSupBase):
 # ---------------------------------------------------------------------------
 
 class DreamSubstrate(SgSelfSupBase):
+    """REINFORCE dream steps: samples discrete actions, evaluates forward model on
+    one-hot vectors (training distribution), gradient via policy gradient."""
+
     def __init__(self, n_actions, seed):
         super().__init__(n_actions, seed)
 
@@ -371,66 +376,79 @@ class DreamSubstrate(SgSelfSupBase):
 
         self._recent_dream_losses = deque(maxlen=50)
         self._dream_loss_at = {ck: None for ck in LOSS_CHECKPOINTS}
+        # Running baseline for REINFORCE variance reduction
+        self._dream_reward_baseline = 0.0
+        self._dream_reward_ema = 0.1  # EMA alpha for baseline
 
     def get_dream_loss_trajectory(self):
         return dict(self._dream_loss_at)
 
     def _train_step(self):
-        # Regular prediction training
         super()._train_step()
 
-        # Dream step every _DREAM_FREQ train steps
         self._dream_step_counter += 1
         if self._dream_step_counter % _DREAM_FREQ == 0 and len(self._buffer) >= _BATCH_SIZE:
             self._run_dream_step()
 
     def _run_dream_step(self):
-        """Backprop through forward model to action head via Gumbel-softmax."""
+        """REINFORCE: sample discrete action, evaluate forward model on one-hot,
+        gradient flows only through log_prob → policy distribution → action head."""
         n = len(self._buffer)
         buf_list = list(self._buffer)
-        # Use one observation from buffer for dream
         idx = int(self._rng.randint(n))
         state = torch.from_numpy(
             buf_list[idx]['state'].astype(np.float32)
         ).unsqueeze(0).to(_DEVICE)
 
-        # Forward pass: get action logits and avg_features
-        dream_logits, dream_avg = self._model(state)  # (1, 5) action logits
-
-        # Detach avg_features so grad doesn't flow to backbone via feature path
+        # Forward pass: action logits + avg_features from backbone
+        dream_logits, dream_avg = self._model(state)
         avg_feat_detached = dream_avg.detach()
 
-        # Build 6-dim logits (5 discrete types + 1 click) — click logit fixed at 0
-        action_logits_5 = dream_logits[0, :5]  # (5,) — grad flows here
-        click_logit = torch.zeros(1, device=_DEVICE)
-        logits_6 = torch.cat([action_logits_5, click_logit]).unsqueeze(0)  # (1, 6)
+        # Policy over 5 discrete action types
+        action_probs = torch.softmax(dream_logits[0, :5], dim=-1)
+        action_dist = torch.distributions.Categorical(action_probs)
 
-        # Freeze pred_head to prevent forward model corruption
-        for p in self._model.pred_head.parameters():
-            p.requires_grad_(False)
-
-        # M=16 Gumbel-softmax samples → dream loss
-        dream_deltas = []
+        # M=16 REINFORCE samples for lower-variance gradient estimate
+        log_probs = []
+        rewards = []
         for _ in range(_DREAM_M):
-            soft_action = F.gumbel_softmax(logits_6, tau=_DREAM_TAU, hard=False)  # (1, 6)
-            imagined_next = self._model.predict_next(avg_feat_detached, soft_action)
-            delta = torch.norm(imagined_next - avg_feat_detached)
-            dream_deltas.append(delta)
+            sampled = action_dist.sample()  # discrete integer
+            # One-hot vector matching training distribution
+            a_vec = torch.zeros(1, 6, device=_DEVICE)
+            a_idx = int(sampled.item())
+            if a_idx < 5:
+                a_vec[0, a_idx] = 1.0
+            else:
+                a_vec[0, 5] = 1.0  # click category
 
-        # Maximize mean predicted encoding change
-        dream_loss = -torch.stack(dream_deltas).mean()
+            # Evaluate forward model on discrete one-hot (no grad)
+            with torch.no_grad():
+                imagined_next = self._model.predict_next(avg_feat_detached, a_vec)
+                dream_reward = torch.norm(imagined_next - avg_feat_detached).item()
+
+            log_probs.append(action_dist.log_prob(sampled))
+            rewards.append(dream_reward)
+
+        # Update baseline (running EMA of rewards)
+        mean_reward = float(np.mean(rewards))
+        self._dream_reward_baseline = (
+            (1.0 - self._dream_reward_ema) * self._dream_reward_baseline
+            + self._dream_reward_ema * mean_reward
+        )
+
+        # REINFORCE loss: -log_prob × (reward - baseline)
+        dream_loss = torch.tensor(0.0, device=_DEVICE, requires_grad=False)
+        dream_loss_sum = sum(
+            -(lp * (r - self._dream_reward_baseline))
+            for lp, r in zip(log_probs, rewards)
+        ) / _DREAM_M
 
         self._dream_optimizer.zero_grad()
-        dream_loss.backward()
+        dream_loss_sum.backward()
         self._dream_optimizer.step()
 
-        # Unfreeze pred_head
-        for p in self._model.pred_head.parameters():
-            p.requires_grad_(True)
-
-        # Log dream loss (positive = mean predicted change)
-        dl_val = float(-dream_loss.item())
-        self._recent_dream_losses.append(dl_val)
+        # Log dream loss trajectory (mean reward = signal strength)
+        self._recent_dream_losses.append(mean_reward)
         for ck in LOSS_CHECKPOINTS:
             if self._dream_loss_at[ck] is None and self.step >= ck:
                 self._dream_loss_at[ck] = round(float(np.mean(list(self._recent_dream_losses))), 6)
@@ -673,7 +691,7 @@ def main():
     print(f"Device: {_DEVICE}")
     print(f"Games: {list(GAME_LABELS.values())} (masked)")
     print(f"Conditions: {CONDITIONS}")
-    print(f"Dream: M={_DREAM_M} Gumbel samples, tau={_DREAM_TAU}, every {_DREAM_FREQ} train steps")
+    print(f"Dream: REINFORCE, M={_DREAM_M} samples/step, every {_DREAM_FREQ} train steps, baseline EMA")
     print(f"Total: {len(CONDITIONS) * len(GAMES) * N_DRAWS} runs")
     print()
 
