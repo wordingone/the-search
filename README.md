@@ -108,13 +108,21 @@ No one has built this yet. The search is finding the pieces.
 
 Can R2-compliant dynamics produce the same capability as gradient?
 
-Empirically mapped compression by update rule (Steps 1305-1326):
+Empirically mapped compression by update rule (Steps 1305-1328):
 
-| Update rule | Compression (cr) | R2 status | Task progress |
-|---|---|---|---|
-| LPL Hebbian | 7% (cr=0.93) | Compliant | None |
-| DFA (forward-only) | 34% (cr=0.66) | Compliant | None |
-| Adam (backprop) | 99.7% (cr=0.003) | Violating | speedup=10.5× on sp80 |
+| Update rule | Compression (cr) | R2 status | Task progress | Key step |
+|---|---|---|---|---|
+| LPL Hebbian | 5% (cr=0.95) | Compliant | None | 1310 |
+| LPL normalized | 9% (cr=0.91) | Compliant | None | 1328 |
+| LPL on CNN features | -1% (cr=1.01, diverges) | Compliant | None | 1327 |
+| DFA (random backward) | 34% (cr=0.66) | Compliant | None | 1326 |
+| Adam (full gradient) | 99.7% (cr=0.003) | Violating | speedup=10.5× on sp80 | 1324 |
+
+Key findings from the spectrum:
+- Encoding quality is NOT the bottleneck (Step 1327: LPL diverges on rich CNN features)
+- LPL weakness is fundamental, not instability (Step 1328: normalization gives +4%, not +90%)
+- DFA proves error reaching all layers helps (34% > 9%) but random direction limits it
+- The 66% gap between DFA and Adam = direction quality + adaptive magnitude
 
 But LPL is ONE point in the space of R2-compliant update rules. Between "pure local Hebbian" and "full Adam backprop" lies a spectrum of update mechanisms with varying R2 compliance and varying power:
 
