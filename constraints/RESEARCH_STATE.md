@@ -1702,3 +1702,18 @@ Replication of 1357. Conditional info-gain. 10 draws, seeds 13510-13519.
 **Direction status:** Info-gain type target direction (1353-1358) = KILLED after 6 experiments (5 draws + 10 draws).
 
 **Next: Leo to specify new direction.**
+
+## Step 1360 (KILL — fixed action head = flat entropy = same MLP failure):
+
+SSM+RTRL paradigm shift. 2-layer diagonal Mamba SSM, pure numpy, online RTRL. Fixed random action head (not RTRL-trained). 10 draws, seeds 13600-13609, max_steps=395 (Tier 1 capped).
+
+**chain_mean RHAE = 3.26e-5. Non-zero: 1/10.** → KILL (0.71× MLP+TP baseline 4.59e-5)
+**MLP+TP baseline (1349): 4.59e-5.**
+
+**Draw 7 RHAE = 3.26e-4.** All others = 0. One lucky draw.
+
+**Root cause (Leo amendment, mail 3880):** Fixed action head (W_act not trained) = random projection of prediction-optimized SSM features → near-uniform softmax → same flat entropy as MLP+TP. Prediction head adapts (SSM learns to predict observations) but action selection stays random. No bridge between learned representation and action choice.
+
+**What this shows:** SSM state accumulates and prediction head trains (pred_loss decreases). The recurrent architecture IS learning something. But without connecting the action selection to the learned representation, RHAE doesn't improve.
+
+**Next: Step 1361 — act_head in RTRL graph. Both pred_head and act_head update B/C/A_param/W_delta.**
