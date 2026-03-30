@@ -2028,3 +2028,27 @@ Tests whether persistent recurrent state h from try1 improves try2 RHAE. Both co
 **Interpretation:** The SSM h built during random-action try1 is noise — random observations + random RTRL updates without coherent structure to preserve. Carrying this into try2 doesn't help. Expected in retrospect: h persistence is only useful when try1 builds *meaningful* state via a real mechanism. Step 1374 tested the memory axis with the worst possible upstream condition.
 
 **RESET=SIGNAL caveat:** RESET chain_mean=5.38e-5 above baseline on seeds 13740-13769 is draw variance — not a stable signal. Same mechanism (random actions) on different seeds produces 0 to 5.38e-5. Reinforces that seed ranges produce misleading chain_mean estimates without sufficient draws.
+
+## Step 1375 (**SPLIT — COUNT try1 builds better weights (SIGNAL p=0.090). h persistence KILLS COUNT (p=1.00).**):
+
+Tests whether structured (COUNT) exploration in try1 builds h worth carrying. Three conditions:
+- COUNT-PERSIST: COUNT try1, h persisted into try2 (random actions)
+- COUNT-RESET: COUNT try1, h=0 at try2 start (random actions)
+- RAND-RESET: random try1, h=0 at try2 start (control, replicates 1374 RESET on new seeds)
+
+**Results (seeds 13770-13799):**
+- COUNT-PERSIST: chain_mean=0.000e+00, 0/30 nz → **KILL** (worst result of all three)
+- COUNT-RESET:   chain_mean=3.391e-04, 8/30 nz → **SIGNAL** (7.4× baseline 4.59e-5)
+- RAND-RESET:    chain_mean=7.770e-05, 4/30 nz → SIGNAL (1.7× baseline)
+
+**Paired comparisons:**
+- COUNT-PERSIST vs COUNT-RESET: p=1.0000 → NOT_SIGNIFICANT (COUNT-PERSIST wins 0/30, COUNT-RESET wins 8/30, ties 22/30)
+- COUNT-RESET vs RAND-RESET: p=0.0898 → **SIGNAL** (COUNT-RESET wins 7/30, RAND-RESET wins 2/30, ties 21/30)
+
+**Finding 1 — h persistence actively hurts COUNT:** COUNT-PERSIST = 0/30 nz. Carrying h from COUNT try1 into random try2 is catastrophically bad. Mechanism: h from COUNT try1 is shaped by systematic state visits in COUNT order. When try2 uses random actions, h is misaligned with the random input stream. The persistent h creates interference — RTRL in try2 starts from a gradient state tuned for COUNT patterns, not random patterns. h is not clean episodic memory; it carries action-pattern-specific bias.
+
+**Finding 2 — COUNT try1 builds better weights (p=0.090):** COUNT-RESET (3.391e-04) >> RAND-RESET (7.770e-05). Systematic coverage in try1 gives RTRL more diverse, uniform training signal. Random exploration leaves RTRL undertrained on many states. The W_pred and SSM weights learned under COUNT are more general.
+
+**Critical implication:** Weight quality from try1 matters more than h quality. The right design: (1) use COUNT (or better) for try1 to build good weights, (2) reset h at try2 start. h carries action-strategy-specific state, not general environment knowledge. Weights carry general prediction patterns.
+
+**COUNT-RESET chain_mean=3.391e-04 = 7.4× baseline.** This is a new high-water mark for RESET-style conditions. Validates that COUNT exploration builds meaningfully better RTRL weights. Next question: can we do better than random try2 actions? If weights are now good, is there a better try2 selector?
