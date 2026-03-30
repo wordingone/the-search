@@ -61,6 +61,9 @@ Each finding cites the experiments that support it and states what would falsify
 | 9 | Game reachability is ~10-30% with random actions in 2K steps | 3/30 games reached progress (Step 1349, 10 draws). 3/10 draws non-zero. Both TP and Adam score zero on hard seeds (Steps 1344-1345). | >50% of games reachable by random play, or 0% reachable (1349 was PRNG luck). |
 | 10 | Adam also fails on hard games — not credit depth | MLP+Adam RHAE=0 on same 5 hard seeds as MLP+TP (Step 1345). Adam diverges on 65536-dim input. | Adam reaches progress where TP doesn't on matched seeds. |
 | 11 | Cross-game features don't transfer (childhood) | cr=1.0 on eval game after 10-game childhood (Step 1348). Weights from 10 random games don't help on new game. | Childhood weights produce cr < 0.5 on first observation of eval game. |
+| 12 | Hierarchical action improves reachability 1.64× | HIER 4/10 non-zero, RHAE=7.53e-5 vs FLAT 3/10, 4.59e-5 (Steps 1351-1352). Structural keyboard coverage, not learned. | FLAT matches or exceeds HIER on 10+ draws. |
+| 13 | Type_head CAN learn from self-supervised signal | Entropy drops 0.16 with change-magnitude target (Step 1353), 0.11 with info-gain (Step 1354). First self-supervised action distribution shift in 1354 experiments. | Type entropy stays flat (=max) under any self-supervised target. |
+| 14 | Both trained type targets suppress clicks and regress RHAE | Change-magnitude (1353): click_frac 0.094, RHAE=0. Info-gain (1354): click_frac 0.087, RHAE=5e-6. Both worse than untrained HIER (click_frac 0.123, RHAE=7.53e-5). Action space asymmetry: keyboard always wins per-step metrics. | A type target that increases click_frac and improves RHAE simultaneously. |
 
 ## What doesn't work
 
@@ -75,6 +78,8 @@ Each finding cites the experiments that support it and states what would falsify
 | Overfitting detection (internal R4) | Step 1334 | Detection triggers but LR reduction too aggressive. Calibration issue, not concept failure. |
 | Meta-learned plasticity | Steps 1325, 1339 | Theta found correct direction (1325) but credit signal too weak. Theta frozen at init (1339) — normalized credit fix identified but untested. |
 | Mode map / zone discovery | Step 1338 | Zones are spatial (episode-specific), not functional. try1 zones don't persist to try2. |
+| Trained type_head (change-magnitude) | Step 1353 | Entropy drops 0.16 (learns!) but favors keyboard (change=15.6) over click (change=1.7). Regresses RHAE to 0/5. |
+| Trained type_head (info-gain) | Step 1354 | Entropy drops 0.11. Also favors keyboard (denser exploration → more learning per step). click_frac drops to 0.087. RHAE=5e-6 (1/5), regression vs untrained HIER. |
 
 ## Compression spectrum (empirically mapped)
 
