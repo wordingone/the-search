@@ -1,0 +1,1 @@
+{"draw": 2, "label": "Game A", "game": "Game A", "condition": "INTENTIONAL", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 10, "t1": 1.59, "t2": 1.68, "pred_loss_mean": 0.02392, "pred_loss_try2": 0.005525, "r3_weight_diff": 0.0, "i3_cv": 1.6301422136264478, "action_kl": 1.222506, "i5_max_level": 0}

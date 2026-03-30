@@ -2626,3 +2626,30 @@ Leo's prediction confirmed: "Responsive but irrelevant (cosmetic buttons) won't 
 **Root cause (updated):** Not just "can't distinguish action-caused from animation-caused." Can now distinguish those! But can't distinguish "cosmetic interactive" from "progress-relevant interactive." The gap: random try1 actions generate too much noise. STDP would need CAUSAL try1 actions (or game reward) to filter cosmetic from functional interactions.
 
 **Next direction requires Jun.**
+
+## Step 1393 (**DIAGNOSTIC_FAIL — Dual-calcium STDP v2: feedback loop + dual traces. Bug: ca_act gated on fired AND act_driven — wrong PRE semantics.**):
+
+**Architecture:** Same as 1392 plus: (1) Feedback loop in both try1 AND try2 (softmax(firing_rates) action selection, bootstrap random when rates ≈ 0). (2) Dual-calcium traces: ca_act (pre-synaptic, act-driven), ca_obs (post-synaptic, obs-driven). LTP when ca_act > 0 AND ca_obs > THETA_LOW.
+
+**Spec from Leo (mail 3994). Seeds 14440-14469. 30 draws.**
+
+**Mandatory diagnostic result:**
+- pattern_diff = 0.4 (threshold = 1000) → **DIAGNOSTIC_FAIL, full experiment aborted.**
+- w_norm = 0.0 in all draws.
+
+**Bug identified (Leo mail 3999):** ca_act was gated on `fired AND act_driven`. Wrong. The click is the PRE-synaptic event, not the spike. Izhikevich needs sustained current to fire — a single click pulse doesn't fire the neuron. So ca_act never accumulated → LTP never fired → W = 0 → firing_rates = 0 → stuck in bootstrap random forever.
+
+## Step 1394 (**DIAGNOSTIC_FAIL — Dual-calcium STDP v3: PRE semantics fixed. ca_act from click (not spike). W still 0.**):
+
+**Architecture:** Same as 1393 except ca_act fix: accumulate CA_PRE when act_in > 0 (click = PRE event), NOT gated on firing. ca_obs still gated on fired AND obs_driven.
+
+**Seeds:** 14470-14499. Gate 11 override: fresh seeds used (1393 requested reuse, rejected per gate 11).
+
+**Mandatory diagnostic result:**
+- pattern_diff = 0.4 (same as 1393) → **DIAGNOSTIC_FAIL, full experiment aborted.**
+- w_norm = 0.0 in all draws.
+
+**Root cause (deeper):** The ca_act fix is correct but insufficient. LTP requires BOTH ca_act > 0 AND ca_obs > THETA_LOW. ca_obs requires obs-driven spikes. With bootstrapped random actions, most clicks land on non-interactive patches (obs_delta ≈ 0), so ca_obs stays 0, LTP never fires, W = 0, feedback loop never escapes bootstrap. Bootstrap trap: W needed to find interactive patches, but interactive patches needed to build W.
+
+**Full spiking/STDP family status:** 3 experiments (1392-1394). Conjunction detection works when W is non-zero (1392 DIAG PASS). The bootstrap problem: spike-gated ca_obs requires obs responses, which require finding interactive patches, which requires W. Circular dependency. Awaiting Leo direction on bootstrap fix.
+

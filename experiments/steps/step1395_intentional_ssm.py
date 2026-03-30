@@ -1,6 +1,7 @@
 """
-Step 1394 — Intentional SSM: state-conditioned gates.
+Step 1395 — Intentional SSM: state-conditioned gates.
 Leo mail 3995 (spec) + 3997 (gate fixes), 2026-03-30. All 11 gates passed.
+Step number corrected from 1394 (taken by STDP v3) — 2026-03-30.
 
 ANIMA separation theorem: reactive SSMs (Δ,B,C = f(x_t)) can't route based on
 accumulated state — their gates are blind to history. FIX: make gates INTENTIONAL
@@ -8,7 +9,7 @@ by conditioning on previous output y_{t-1} = f(h_{t-1}).
 
 ONE architectural change from Steps 1379-1391:
   REACTIVE (1379+): gate_input = u_t
-  INTENTIONAL (1394): gate_input = concat(y_prev, u_t)  [2*D dims]
+  INTENTIONAL (1395): gate_input = concat(y_prev, u_t)  [2*D dims]
 
 W_delta, W_B, W_C all double their input dimension. Everything else identical.
 
@@ -25,7 +26,7 @@ Full: INTENTIONAL vs DISCONNECTED vs CONTROL_C, 30 draws.
   CONTROL_C: argmin throughout, no SSM, no learning.
   Kill: INTENTIONAL ≤ DISCONNECTED (paired sign test, p > 0.10) → KILL.
 
-Seeds: 14470-14499. 30 draws. Max 2000 steps.
+Seeds: 14500-14529. 30 draws. Max 2000 steps.
 """
 
 import os
@@ -53,9 +54,9 @@ from prism_masked import (
 # Config
 # ---------------------------------------------------------------------------
 
-STEP        = 1394
+STEP        = 1395
 N_DRAWS     = 30
-DRAW_SEEDS  = [14470 + i for i in range(N_DRAWS)]
+DRAW_SEEDS  = [14500 + i for i in range(N_DRAWS)]
 N_DIAG_INIT = 3
 TRY1_STEPS  = 2000
 TRY2_STEPS  = 2000
@@ -63,7 +64,7 @@ TRY2_SEED   = 4
 MAX_SECONDS = 280
 TIER1_STEPS = 200
 
-RESULTS_DIR     = os.path.join('B:/M/the-search/experiments/compositions', f'results_{STEP}')
+RESULTS_DIR     = os.path.join('B:/M/the-search/experiments/results', f'results_{STEP}')
 MLP_TP_BASELINE = 4.59e-5
 
 # SSM dimensions — D=32, N=16 (smaller than 1391 to offset doubled gate width)
