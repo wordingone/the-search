@@ -2205,3 +2205,38 @@ Two prediction heads: (1) forward: predict next_obs from y_t (MSE), (2) inverse:
 2. **Separate action pathway**: Maintain h_action = f(action_history) separate from h_obs = SSM(obs_history). Combine at readout only. No gradient dependency.
 3. **Abandon diagonal SSM**: The diagonal A matrix may be fundamentally limiting. Full state matrix A can encode action-state interactions that diagonal cannot.
 4. **Abandon SSM paradigm**: If diagonal SSM cannot learn action conditioning in 15+ experiments, try a different substrate family entirely. LPL/Hebbian had different limitations but was not action-blind by construction.
+
+## Step 1382 (**CONFOUNDED/KILL — hard action injection shows sporadic large signal but sign test KILL. W_pred overflow confound for INJECT condition. Frozen projection geometry limits reliable exploitation of injected action info.**):
+
+Hard action injection: reserve last K=8 dims of h_concat for deterministic action encoding (prev_action). After SSM forward, overwrite last_layer.h[-K:] = encode(prev_action): keyboard one_hot in dims 0-6, click [is_click, x_norm, y_norm, 0,0,0,0,0]. Frozen projection try2. Control: STANDARD (= FWD from 1381). Diagnostic: INJECT_MASKED (zeros instead of action enc). Seeds 14050-14079, 30 draws + 10-draw diagnostic.
+
+**Results:**
+- INJECT:         chain_mean=4.72e-05, 4/30 nz → **CONFOUNDED** (above MLP_TP_BASELINE=4.59e-05 in mean)
+- STANDARD:       chain_mean=4.30e-06, 5/30 nz → **KILL**
+- INJECT_MASKED:  chain_mean=~4.3e-06, 1/10 nz (diagnostic — ~same as STANDARD)
+- Paired (INJECT vs STANDARD): 3 wins, 4 losses, 23 ties, p=0.773 → **KILL** (sign test)
+
+**Confound: W_pred overflow for INJECT:**
+INJECT pred_loss = NaN (all draws). Root cause: injecting non-zero h_act into h changes y = C@h magnitude, amplifying prediction errors, causing overflow in W_pred/b_pred updates. STANDARD and INJECT_MASKED (both produce y from all-obs or zero-injected h) do not overflow. Effect: h_obs dims are not trained in INJECT (RTRL not learning), h_act dims are correct by construction.
+
+**Action-blind ratio: N/A** (INJECT pred_try2=NaN → ratio=NaN). Cannot confirm prediction head uses h_act dims.
+
+**Comparison validity despite confound:**
+INJECT_MASKED ≈ STANDARD in both pred_loss and RHAE → "random h_obs + no h_act" ≈ "trained h_obs + no h_act." This means h_obs training contributes negligibly to RHAE (consistent with 1379-1381 findings). Therefore: INJECT comparison (random h_obs + action h_act) vs STANDARD (trained h_obs + no h_act) is still meaningful — action injection is the variable of interest.
+
+**Key finding — geometry lottery:**
+INJECT chain_mean = 4.72e-05 (11× STANDARD = 4.30e-06). Sporadic large signal: one draw RHAE ≈ 9.85e-04 (>21× MLP_TP_BASELINE). By sign test, INJECT loses more draws than it wins. This is consistent with Leo's prediction: "20% chance INJECT RHAE > STANDARD — frozen projection can read action dims but random W_fixed maps them arbitrarily." When W_fixed geometry happens to map h_act dims to useful action biases, large RHAE results. This is rare.
+
+**What the injection confirmed:**
+Action info IS in h by construction. The question was whether random W_fixed exploits it. Answer: rarely (geometry lottery). Systematic exploitation requires W_fixed to be trained, not frozen. The injection itself works (h_act encodes action identity); the bottleneck is that frozen random W_fixed can't reliably map it to good action selection.
+
+**What this closes:**
+SSM + hard action injection + frozen projection → CONFOUNDED/KILL. Even with perfect action info in h, random W_fixed cannot systematically exploit it.
+
+**Fix for W_pred overflow (for step1383):** Add nan_to_num + clip guards to _rtrl_step before W_pred/b_pred updates. Same pattern as SSMLayer.rtrl_update fix.
+
+**Structural candidates for next spec:**
+1. **INJECT + trained W (not frozen)**: If W_fixed is the bottleneck, train it. But: training W = back to Adam = R2 violation. Need R2-compliant readout update.
+2. **INJECT + Hebbian readout**: Use Hebbian rule to train W in try2 (W += alpha * h_concat * delta_reward or similar). No Adam, signal from experience.
+3. **INJECT + direct action bias**: Use h_act dims to directly bias action selection (e.g., add action-type-indexed offset to logits). Bypasses W_fixed geometry entirely.
+4. **Hierarchical INJECT**: Type selection head uses h_act (correct type bias), position head uses h_obs (spatial features). Reconnects with 1351 hierarchy result.
