@@ -113,7 +113,7 @@ Other untested:
 - **#32/#33: Self-directed pruning / activity-dependent growth** — architecture emerges from dynamics.
 - **#36: "Does the substrate understand what a game is?"** — no experiment has measured internal task-structure representation.
 
-Full catalog: `constraints/MAP.md` underexplored directions section (46 items, merged 2026-03-30)
+Full catalog: `docs/MAP.md` underexplored directions section (46 items, merged 2026-03-30)
 
 ## Competition reference
 
@@ -134,9 +134,16 @@ Full catalog: `constraints/MAP.md` underexplored directions section (46 items, m
 
 ## Repository structure
 
-- `constraints/` — Constitution (R0-R6), research state, constraint map, component catalog
-- `experiments/compositions/` — All experiment scripts and results (Steps 1334+)
-- `experiments/compositions/prism_masked.py` — PRISM infrastructure (masked game selection, RHAE computation)
-- `kills/` — Killed family documentation
-- `propositions/` — Formal propositions and theorems
-- `paper/` — Draft paper
+- `docs/` — All research documentation
+  - `CONSTITUTION.md` — R0-R6 constitutional constraints
+  - `RESEARCH_STATE.md` — Source of truth for active work
+  - `MAP.md` — Constraint map + underexplored directions
+  - `COMPONENT_CATALOG.md` — Validated component library
+  - `PAPER.md` — Draft paper
+  - `propositions/` — 24 formal propositions + 3 theorems
+  - `kills/` — Killed family documentation
+  - `bans/` — Ban policy (both lifted)
+- `experiments/` — All experiment code, infrastructure, and results
+  - `compositions/` — Live step scripts + results (Steps 1305+)
+  - `run.py` — Universal PRISM harness
+  - `environments/` — Game environment wrappers

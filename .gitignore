@@ -52,8 +52,8 @@ experiments/results/prescriptions/
 experiments/solve_*.py
 to_delete/
 
-# Abandoned project directories (signal extracted to constraints/, 2026-03-30)
-substrates/worldmodel/
+# Legacy substrates (all pre-search code, signal extracted to docs/, 2026-03-30)
+substrates/
 substrates/anima/papers/ANIMA_SEPARATION_THEOREM_V2.md
 substrates/anima/papers/The Computational Cost of Treating Context as Static.md
 substrates/anima/papers/paper1_gated_attention.md
