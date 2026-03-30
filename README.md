@@ -97,9 +97,9 @@ Tested this session: mode map (#16, killed 1338), meta-plasticity (#14, killed 1
 
 **Key eliminative finding (Steps 1344-1348):** Game seeds 13440-13444 are unreachable by ANY substrate (TP or Adam) with 2K random actions. The bottleneck on these games is not the update rule, not action selection, not credit depth, not prior knowledge — it's that random exploration in a 4103-action space with 2K steps has near-zero probability of hitting required action sequences.
 
-Top untested:
-- **Equilibrium propagation + learned halting (#43)** — R2-compliant deep credit via energy-based settling. Substrate decides when to act. Novel combination not in literature.
-- **Model-based data augmentation** — train on imagined transitions (counterfactual actions) to increase training data diversity without more actions.
+**Current direction: SSM paradigm shift (Step 1360).** MLP+TP exhausted after 25 experiments (1334-1358). Replacing with small Mamba-style SSM + RTRL (online local gradients). Sequence model processes interleaved (obs, act) stream. Recurrent state = history + world model. Actions are tokens in the sequence. RTRL gradient for diagonal SSM is local and Hebbian-like (prediction_error × state). R2-compliant by construction. Building now.
+
+Other untested:
 - **Normalized meta-plasticity credit (#46)** — fix for 1339 theta freeze. Identified, not yet tested.
 - **#32/#33: Self-directed pruning / activity-dependent growth** — architecture emerges from dynamics.
 - **#36: "Does the substrate understand what a game is?"** — no experiment has measured internal task-structure representation.
