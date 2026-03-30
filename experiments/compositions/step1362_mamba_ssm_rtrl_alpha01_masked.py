@@ -62,7 +62,7 @@ MAX_SECONDS = 280
 RESULTS_DIR = os.path.join('B:/M/the-search/experiments/compositions', f'results_{STEP}')
 
 MLP_TP_BASELINE = 4.59e-5  # Step 1349 mean RHAE
-ACT_LR_SCALE    = 0.1      # relative weight of action loss vs obs prediction loss
+TAU             = 1.0      # Gumbel-softmax temperature
 
 # SSM config (Leo mail 3876)
 PROJ_DIM      = 64    # fixed random projection: obs -> this
@@ -141,6 +141,25 @@ def _det_init(m, n, scale=0.01):
         W = np.sin(i * 1.7 + j * 2.3 + 1.0)
         norms = np.linalg.norm(W, axis=1, keepdims=True)
         return (W / (norms + 1e-8) * scale).astype(np.float32)
+
+
+# ---------------------------------------------------------------------------
+# Gumbel-softmax (differentiable discrete sampling)
+# ---------------------------------------------------------------------------
+
+def gumbel_softmax(logits, tau=1.0):
+    """Gumbel-softmax reparameterization. Returns soft one-hot (N_actions,).
+
+    Forward: differentiable relaxation. argmax gives discrete action for env.
+    Gradient flows through soft_a to W_act via obs prediction loss.
+    """
+    u = np.random.uniform(size=logits.shape).astype(np.float32)
+    u = np.clip(u, 1e-20, 1.0 - 1e-20)
+    g = (-np.log(-np.log(u))).astype(np.float32)
+    z = (logits + g) / tau
+    z = z - z.max()
+    exp_z = np.exp(z)
+    return exp_z / exp_z.sum()
 
 
 # ---------------------------------------------------------------------------
@@ -245,8 +264,8 @@ class MambaSSMSubstrate:
         # Fixed random obs projection (lazy: initialized on first obs)
         self._obs_proj = None   # (PROJ_DIM, obs_dim) float32
 
-        # Action embedding: fixed (not trained). Deterministic init.
-        self._act_embed = _det_init(n_actions, ACT_EMBED_DIM, scale=0.1)  # (n_actions, 16)
+        # Action embedding table: fixed (not trained). Differentiable via Gumbel-softmax.
+        self._E_act = _det_init(n_actions, ACT_EMBED_DIM, scale=0.1)  # (n_actions, 16)
 
         # Input merge: concat(PROJ_DIM, ACT_EMBED_DIM) -> D
         self._W_in = _det_init(D, self._in_dim, scale=0.1)  # (D, in_dim)
@@ -259,7 +278,7 @@ class MambaSSMSubstrate:
         self._W_pred = _det_init(PROJ_DIM, D, scale=0.1)   # (PROJ_DIM, D)
         self._b_pred = np.zeros(PROJ_DIM, dtype=np.float32)
 
-        # Action head: D -> n_actions (FIXED, not trained)
+        # Action head: D -> n_actions (trained via obs gradient through feedback loop)
         self._W_act = _det_init(n_actions, D, scale=0.1)   # (n_actions, D)
         self._b_act = np.zeros(n_actions, dtype=np.float32)
 
@@ -268,6 +287,11 @@ class MambaSSMSubstrate:
         self._prev_action = 0
         self._prev_y      = None
 
+        # Gumbel-softmax feedback state (for W_act 1-step gradient)
+        self._cur_soft_a      = np.zeros(n_actions, dtype=np.float32)  # soft_a at step t
+        self._soft_a_for_wact = None   # soft_a from step t-1 (used in update_after_step)
+        self._y_for_wact      = None   # y from step t-1 (outer product for W_act grad)
+
         # Diagnostics
         self._try1_ent        = {}
         self._try2_ent        = {}
@@ -275,7 +299,6 @@ class MambaSSMSubstrate:
         self._try2_state_norm = {}
         self._in_try2         = False
         self._pred_losses     = []
-        self._act_losses      = []
 
     # ---- Obs projection ----
 
@@ -291,8 +314,12 @@ class MambaSSMSubstrate:
     # ---- Forward pass ----
 
     def _ssm_forward(self, proj_obs):
-        """Full SSM forward: proj_obs (PROJ_DIM,) -> y (D,)."""
-        act_emb = self._act_embed[self._prev_action]       # (ACT_EMBED_DIM,)
+        """Full SSM forward: proj_obs (PROJ_DIM,) -> y (D,).
+
+        Action embed = soft_a @ E_act (differentiable weighted sum).
+        At warmup steps, soft_a is a one-hot (same as discrete lookup).
+        """
+        act_emb = self._cur_soft_a @ self._E_act          # (ACT_EMBED_DIM,) differentiable
         x_in = np.concatenate([proj_obs, act_emb])         # (in_dim,)
         x = self._W_in @ x_in + self._b_in               # (D,)
         y = x
@@ -302,8 +329,12 @@ class MambaSSMSubstrate:
 
     # ---- RTRL update ----
 
-    def _rtrl_step(self, proj_obs_next, y, action):
-        """Compute combined obs+act prediction error and run RTRL backward."""
+    def _rtrl_step(self, proj_obs_next, y, soft_a_for_wact, y_for_wact):
+        """Obs prediction loss only. W_act trained via 1-step obs gradient feedback.
+
+        Gradient path: obs_loss → y_t → h_t → B@x_t → x_t[PROJ_DIM:] (act_embed_{t-1})
+                      → soft_a_{t-1} @ E_act → gumbel_softmax(W_act @ y_{t-1}) → W_act
+        """
         # --- Observation prediction loss (MSE) ---
         pred = self._W_pred @ y + self._b_pred             # (PROJ_DIM,)
         obs_error = pred - proj_obs_next                   # (PROJ_DIM,)
@@ -311,25 +342,30 @@ class MambaSSMSubstrate:
         self._W_pred -= SSM_LR * np.outer(obs_error, y)
         self._b_pred -= SSM_LR * obs_error
 
-        # --- Action prediction loss (cross-entropy) ---
-        logits = self._W_act @ y + self._b_act            # (n_actions,)
-        logits_s = logits - logits.max()
-        probs = np.exp(logits_s)
-        probs /= probs.sum()
-        act_grad = probs.copy()                            # softmax gradient
-        act_grad[action] -= 1.0                            # CE grad w.r.t. logits
-        e_act = self._W_act.T @ act_grad                  # (D,) using OLD W_act
-        self._W_act -= SSM_LR * ACT_LR_SCALE * np.outer(act_grad, y)
-        self._b_act -= SSM_LR * ACT_LR_SCALE * act_grad
-
-        # --- Combined RTRL backward through SSM layers ---
-        e_combined = e_obs + ACT_LR_SCALE * e_act         # (D,)
+        # --- RTRL backward through SSM layers ---
+        e_combined = e_obs                                 # (D,)
         for layer in reversed(self._layers):
             e_combined = layer.rtrl_update(e_combined)
+        # e_combined is now grad w.r.t. x_t (first SSM layer input = W_in @ x_in)
 
         obs_loss = float(np.mean(obs_error ** 2))
-        act_loss = float(-np.log(max(probs[action], 1e-10)))
-        return obs_loss, act_loss
+
+        # --- W_act 1-step gradient via action embed feedback ---
+        # x_t = W_in @ concat(obs_proj_t, soft_a_{t-1} @ E_act)
+        # e_combined = grad w.r.t. W_in @ x_in. Backprop through W_in:
+        if soft_a_for_wact is not None and y_for_wact is not None:
+            e_x_in = self._W_in.T @ e_combined             # (in_dim,) using OLD W_in
+            e_embed = e_x_in[PROJ_DIM:]                    # (ACT_EMBED_DIM,) grad w.r.t. act_embed
+            # act_embed = soft_a @ E_act  →  grad w.r.t. soft_a:
+            e_soft_a = self._E_act @ e_embed               # (n_actions,)
+            # Softmax Jacobian: J^T @ e = s * (e - dot(e, s))
+            s = soft_a_for_wact
+            e_logits = s * (e_soft_a - float(np.dot(e_soft_a, s)))  # (n_actions,)
+            # logits = W_act @ y_{t-1}  →  grad w.r.t. W_act:
+            self._W_act -= SSM_LR * np.outer(e_logits, y_for_wact)
+            self._b_act -= SSM_LR * e_logits
+
+        return obs_loss
 
     # ---- Substrate interface ----
 
@@ -339,20 +375,28 @@ class MambaSSMSubstrate:
             self._init_obs_proj(obs_flat)
 
         proj_obs = self._obs_proj @ obs_flat              # (PROJ_DIM,)
-        y = self._ssm_forward(proj_obs)
+
+        # Store previous soft_a and y for W_act gradient (used in update_after_step)
+        self._soft_a_for_wact = self._cur_soft_a.copy()
+        self._y_for_wact = self._prev_y  # may be None at step 0
+
+        y = self._ssm_forward(proj_obs)                   # uses _cur_soft_a
         self._prev_y = y
 
-        # Action selection
+        # Action selection via Gumbel-softmax
         if self._step < WARMUP:
+            # One-hot for warmup: same as discrete lookup, no gradient leak
             action = int(np.random.randint(self.n_actions))
+            soft_a = np.zeros(self.n_actions, dtype=np.float32)
+            soft_a[action] = 1.0
         else:
-            logits = self._W_act @ y + self._b_act
-            logits = logits - logits.max()
-            probs = np.exp(logits)
-            probs /= probs.sum()
-            action = int(np.random.choice(self.n_actions, p=probs))
+            logits = self._W_act @ y + self._b_act        # (n_actions,)
+            soft_a = gumbel_softmax(logits, tau=TAU)
+            action = int(np.argmax(soft_a))
 
-        # Diagnostics at checkpoints
+        self._cur_soft_a = soft_a
+
+        # Diagnostics at checkpoints (using deterministic softmax for entropy)
         if self._step in ENT_CHECKPOINTS:
             logits = self._W_act @ y + self._b_act
             logits = logits - logits.max()
@@ -376,20 +420,25 @@ class MambaSSMSubstrate:
             return
         obs_next_flat = _encode_obs(np.asarray(obs_next, dtype=np.float32))
         proj_obs_next = self._obs_proj @ obs_next_flat
-        obs_loss, act_loss = self._rtrl_step(proj_obs_next, self._prev_y, int(action))
+        obs_loss = self._rtrl_step(proj_obs_next, self._prev_y,
+                                   self._soft_a_for_wact, self._y_for_wact)
         self._pred_losses.append(obs_loss)
-        self._act_losses.append(act_loss)
 
     def on_level_transition(self):
         for layer in self._layers:
             layer.reset_state()
         self._prev_y = None
+        self._soft_a_for_wact = None
+        self._y_for_wact = None
 
     def reset_for_try2(self):
         """Reset recurrent state. Keep learned weights (R4 compliance)."""
         for layer in self._layers:
             layer.reset_state()
         self._prev_y = None
+        self._cur_soft_a = np.zeros(self.n_actions, dtype=np.float32)
+        self._soft_a_for_wact = None
+        self._y_for_wact = None
         self._step = 0
         self._prev_action = 0
         self._in_try2 = True
@@ -397,17 +446,13 @@ class MambaSSMSubstrate:
     def get_stats(self):
         pred_loss_mean  = round(float(np.mean(self._pred_losses)), 6)  if self._pred_losses  else None
         pred_loss_final = round(float(np.mean(self._pred_losses[-50:])), 6) if len(self._pred_losses) >= 50 else pred_loss_mean
-        act_loss_mean   = round(float(np.mean(self._act_losses)), 6)   if self._act_losses   else None
-        act_loss_final  = round(float(np.mean(self._act_losses[-50:])), 6)  if len(self._act_losses)  >= 50 else act_loss_mean
         return {
-            'try1_act_ent':        self._try1_ent,
-            'try2_act_ent':        self._try2_ent,
-            'try1_state_norm':     self._try1_state_norm,
-            'try2_state_norm':     self._try2_state_norm,
-            'pred_loss_mean':      pred_loss_mean,
-            'pred_loss_final':     pred_loss_final,
-            'act_loss_mean':       act_loss_mean,
-            'act_loss_final':      act_loss_final,
+            'try1_act_ent':    self._try1_ent,
+            'try2_act_ent':    self._try2_ent,
+            'try1_state_norm': self._try1_state_norm,
+            'try2_state_norm': self._try2_state_norm,
+            'pred_loss_mean':  pred_loss_mean,
+            'pred_loss_final': pred_loss_final,
         }
 
 
