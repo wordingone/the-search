@@ -2290,3 +2290,31 @@ Hard injection (step 1382 mechanism, with W_pred NaN fix) + reward-weighted Hebb
 - Try2: frozen W_fixed replaced by reward-Hebbian W: W[action, :] += alpha * h_concat when level transition (level transition = reward event)
 - This is R2-compliant (W encodes which h patterns led to reward, selects actions via same W)
 - Minimal: only one new mechanism (Hebbian readout)
+
+## Step 1384 (**DIAGNOSTIC_FAIL — obs_diff prediction also action-blind. ratio=1.0. Path A (objective change) FULLY CLOSED.**):
+
+Predict proj_obs_{t+1} - proj_obs_t (diff in projected space) instead of proj_obs_{t+1}. Same SelectiveSSM architecture as step 1383. Hypothesis: diff is sparse and action-caused, creating gradient pressure toward action conditioning.
+
+**Results:**
+- DIFF pred_try2: [0.00445, 0.000176, 0.003736]
+- MASKED pred_try2: [0.00445, 0.000176, 0.003736]
+- Action-blind ratio: **1.0 exactly** (threshold: 1.05) → **DIAGNOSTIC_FAIL**
+- Full experiment aborted per spec.
+
+**Why diff objective is also action-blind (deeper result):**
+The ratio is EXACTLY 1.0 — not 1.002 like step 1383, but byte-identical pred_t2 between DIFF and DIFF_MASKED for all 3 draws. This means the action embedding has ZERO influence on prediction loss for the diff target.
+
+Root cause: obs_diff = proj_obs_{t+1} - proj_obs_t is mostly zero (static pixels don't change). The model learns "predict near-zero" which is achievable from obs history alone. The sparse non-zero diffs (from actual actions) are dominated by the large zero-diff signal. Action conditioning doesn't help at all for minimizing mean-squared error on a mostly-zero target.
+
+**What this closes:**
+Path A (change prediction objective) is FULLY closed:
+- obs_next prediction: action-blind (steps 1379-1383)
+- obs_diff prediction: ALSO action-blind, ratio=1.0 (step 1384)
+
+Any prediction target achievable without action conditioning will converge to action-blind solution. This includes obs_next, obs_diff, and likely any linear function of obs.
+
+**Root cause deepened:**
+The obstacle is not just "obs prediction allows action-free solution." It's that the gradient from ANY self-supervised obs-related objective flows through a mostly-static signal that dwarfs the action-conditional component. Until the learning objective REQUIRES action discrimination (e.g., reward prediction, contrastive, or direct reward signal), the substrate will remain action-blind.
+
+**Path B is mandatory:**
+Bypass gradient entirely for action conditioning. Recommended: reward-Hebbian readout (from step 1383 spec). Architectural route only — objective change route exhausted.
