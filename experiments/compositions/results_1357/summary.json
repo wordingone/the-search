@@ -1,0 +1,47 @@
+{
+  "step": 1357,
+  "n_draws": 5,
+  "draw_seeds": [
+    13500,
+    13501,
+    13502,
+    13503,
+    13504
+  ],
+  "rhae_per_draw": [
+    0.000425,
+    0.0,
+    0.0,
+    0.0,
+    4e-05
+  ],
+  "chain_mean_rhae": 9.3e-05,
+  "nonzero_draws": 2,
+  "gameb_progress": 0,
+  "mean_click_frac": 0.1247,
+  "kb_mean_eff_sq": 0.0,
+  "kb_mean_p2": null,
+  "hier_mean_eff_sq": 0.0002327,
+  "kb_type_entropy_traj": {
+    "100": 1.9162,
+    "500": 1.9065,
+    "1000": 1.8917,
+    "2000": 1.8695
+  },
+  "hier_type_entropy_traj": {
+    "100": 2.079,
+    "500": 2.079,
+    "1000": 2.079,
+    "2000": 2.079
+  },
+  "max_type_entropy": 2.0794,
+  "max_kb_entropy": 1.9459,
+  "hier_baseline_rhae": [
+    5.13e-05,
+    0.0,
+    0.0,
+    0.0001247,
+    0.0
+  ],
+  "hier_baseline_mean": 3.52e-05
+}
