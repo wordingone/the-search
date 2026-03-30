@@ -2526,3 +2526,41 @@ Result: same-seed fails. RANDOM-SAME outperforms INTERVENTION-SAME on chain_mean
 **What this session produced:** The most precise negative result in the search. We now know it's not just "prediction objectives fail" — it's "ANY pixel-level signal fails to provide the substrate with semantic understanding of game mechanics."
 
 **Next direction:** Requires Jun. The question is now architectural: does the substrate need object-centric representation, affordance learning, or something else entirely to distinguish functional from cosmetic interactions?
+
+## Step 1390 (**SLOT_WORSE — slot-based object discovery fails. Interactive slots detected but don't predict progress.**):
+
+**Architecture:** Tabular slot tracker. 64 proto-object slots (8×8 patch grid on 64×64 canvas). Per-slot mean color (3-dim). For each click at (x,y): track target slot delta vs mean other-slot delta. Interactive detection: target_delta / other_delta > 3.0. Try2 SLOT: softmax(ratio[target_slot]/T) over actions. Try2 RANDOM: uniform random.
+
+**Spec from Leo (mail 3979). Gate check: all 11 gates passed. New mechanism, inline justification (animations change globally; interactive objects change locally).**
+
+- Seeds 14330-14379, 50 draws. Conditions: SLOT vs RANDOM.
+
+**Mandatory diagnostic results:**
+- Draw 0: 4 responsive slots (ratio>3) across 3 games after 500 try1 steps
+- Draw 1: 21 responsive slots
+- Draw 2: 26 responsive slots
+- Diagnostic PASSED: slots ARE detected as locally action-responsive.
+
+**Results (summary.json):**
+- MLP_TP_BASELINE = 4.59e-5
+- SLOT chain_mean = 1.66e-5 (below baseline)
+- RANDOM chain_mean = 2.2e-6 (below baseline)
+- SLOT nz = 6/50, RANDOM nz = 7/50
+- Paired: wins=4, losses=6, ties=40, p=0.828. Verdict: SLOT_WORSE
+
+**What this confirms:**
+The diagnostic shows slot detection WORKS — 4-26 responsive slots per draw. Leo's hypothesis (local change = interactive) is operationally correct. But SLOT_WORSE anyway.
+
+Leo's prediction confirmed: "Responsive but irrelevant (cosmetic buttons) won't help." The ratio (target >> other) discriminates interactive from animated slots, but among interactive slots, the mechanism can't distinguish progress-relevant from cosmetic-interactive. A button that toggles a visual indicator might have local effect but not contribute to level completion.
+
+**Full pixel-domain tabular probe summary (1387-1390):**
+| Step | Mechanism | Verdict | Chain mean | Note |
+|------|-----------|---------|------------|------|
+| 1387 | Localized pixel magnitude | KILL | 4.04e-3 | 88× baseline, one draw outlier |
+| 1388 | 50 draws, same | INTERVENTION_WORSE | 1.14e-3 | Signal doesn't replicate |
+| 1389 | Same-seed | INTERVENTION_WORSE | 1.16e-4 | Coverage bias confirmed |
+| 1390 | Target/other slot ratio | SLOT_WORSE | 1.66e-5 | Slot detection works, progress-relevance doesn't |
+
+**Closed:** All tabular pixel-domain approaches (magnitude, localization, slot-ratio). Root cause is consistent: pixel statistics detect visual changes but cannot identify semantically meaningful interactions. The substrate needs to understand WHAT objects are and WHAT they do, not just THAT they changed.
+
+**Next direction:** Jun's call. 17 experiments confirm: pixel-level signal family exhausted. Object-level representation required.
