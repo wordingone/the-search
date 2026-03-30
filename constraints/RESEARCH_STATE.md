@@ -1833,3 +1833,19 @@ Two-condition scale experiment. SSM-2L (replication, seeds 13640-13649) + SSM-4L
 **Direction status:** SSM disconnected (2K steps, scaling) = KILLED. 4 experiments (1360, 1364, 1365-2L, 1365-4L). The SSM architecture learns (pred_loss decreases) but without a training signal connecting learned features to action selection, RHAE doesn't improve reliably.
 
 **Remaining open question:** Prediction-divergence action selection (simulate SSM(concat(obs, embed[a])) for each a, pick action with maximal predicted obs change). No gradient needed — pure forward model curiosity. This would break the W_act symmetry problem without requiring reward or gradient through discrete actions.
+
+## Step 1366 (KILL — T=0.1 doesn't sharpen. Logit variance too small.):
+
+SSM disconnected 2K steps + ACT_TEMP=0.1 (softmax(logits/T) instead of T=1.0). Seeds 13660-13669.
+
+**Results:**
+- chain_mean=2.67e-05, 3/10 nz
+- MLP+TP baseline: 4.59e-5 → KILL
+
+**Key diagnostic:**
+- Action entropy at T=0.1: 8.3195 bits = log(4103) = MAXIMUM. Temperature made no difference.
+- Autocorrelation (try1): 0.0 / (try2): 0.0007. No temporal structure.
+
+**Root cause:** W_act is initialized with scale=0.01. SSM state y has magnitude ~1 (bounded by architecture). So logits = W_act @ y + b_act have variance ~0.01. Dividing by T=0.1 gives variance ~0.1 — still tiny. softmax(logits/0.1) ≈ uniform for n_actions=4103. Temperature sharpening only works when logits have non-trivial variance. With random W_act and small init scale, they don't.
+
+**What would help:** Either (a) larger W_act init scale so logits have more variance, or (b) argmax instead of softmax (T→0), or (c) change mechanism entirely (prediction-divergence curiosity operates on a completely different signal than logits).
