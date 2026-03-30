@@ -2369,3 +2369,42 @@ Spatial encoding does break partial action-blindness. Full break likely requires
 
 **Direction change check:**
 Encoding hypothesis tested and closed: spatial structure doesn't help beyond one-hot for RHAE. Both objectives (obs_next and obs_diff) are comparable in chain_mean when controlling for architecture. Next direction: Path B (reward-Hebbian readout) or investigate whether obs_diff > obs_next on a controlled comparison.
+
+## Step 1386 (**KILL — Hebbian readout underperforms frozen random. Path B closed. Both paths exhausted.**):
+
+**Architecture:** SelectiveSSM + hard injection (1382) + spatial encoding (1385) + Hebbian W_read (Path B).
+- W_read: (n_actions, H_DIM=64), initialized zeros, updated on transition events: W_read[last_K_actions] += alpha * h_concat
+- Transition detection: ||proj_obs_diff|| > running_mean * 10, minimum 10 steps history
+- K=5 actions credited per transition, alpha=0.1
+- FROZEN control: same architecture, frozen random W_fixed (draw_seed*100+game_idx), no Hebbian updates
+- try2 uses W_read (or W_fixed) for action selection: action = argmax(W_read @ h_concat)
+- Seeds 14170-14199, 30 draws, max_steps=2000 per try
+
+**Results (summary.json):**
+- MLP_TP_BASELINE = 4.59e-5
+- HEBBIAN chain_mean = 3.2e-6 (0.07× baseline — BELOW baseline)
+- FROZEN  chain_mean = 1.28e-5 (0.28× baseline — BELOW baseline)
+- HEBBIAN nz = 5/30, FROZEN nz = 5/30 (equal nonzero count)
+- Paired: wins=3, losses=4, ties=23. p=0.773. Verdict: KILL
+- HEBBIAN total_transitions = 4763 (~159/draw avg) — W_read IS being updated
+- FROZEN beats HEBBIAN on average (losses=4 > wins=3)
+
+**Critical finding — W_read doesn't help:**
+- FROZEN (random W_fixed, never updated) outperforms HEBBIAN (4763 Hebbian updates)
+- Transition-credit assignment (last 5 actions before level-change) is too noisy: level transitions happen mid-exploration, K=5 actions before transition are not reliably the causal actions
+- W_read accumulates noise faster than signal across 4763 transitions
+- RHAE for both conditions is BELOW MLP_TP_BASELINE — Path B doesn't just fail to beat baseline, it actively underperforms
+
+**What this closes:**
+- Path A (gradient + obs prediction objective): closed at step 1384. Action-blind attractor.
+- Path B (reward-Hebbian readout without gradient): closed at step 1386. Credit assignment too noisy; W_read amplifies noise.
+- Both paths from SSM+RTRL framework exhausted.
+- SSM+RTRL paradigm: 8 experiments (1379-1386), all KILL or DIAGNOSTIC_FAIL. The combination of online RTRL + gradient-based obs prediction + Hebbian action readout does not produce above-baseline RHAE.
+
+**Open questions for next direction:**
+1. Is the problem the RTRL gradient (action-blind), the Hebbian credit assignment (noisy), or the SSM architecture itself (too few steps to build meaningful state)?
+2. Would a cleaner reward signal (actual game reward rather than transition detection) improve Hebbian credit assignment?
+3. Is there a Path C? Options: (a) direct reward prediction as objective, (b) contrastive learning (try1 vs try2 state pairs), (c) different substrate family entirely.
+
+**Direction change check:**
+SSM+RTRL paradigm with both gradient paths (obs_next, obs_diff) and Hebbian readout path exhausted across 8 experiments. Next: Leo to specify Path C direction or paradigm pivot. Awaiting Leo spec.
