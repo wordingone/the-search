@@ -1,0 +1,1 @@
+{"draw": 15, "label": "Game A", "game": "Game A", "condition": "COUNT", "p1": 475, "p2": 652, "speedup": 0.7285, "eff_sq": 0.000235, "optimal_steps": 10, "t1": 1.66, "t2": 1.61, "try1_unique_1999": 1800, "try2_unique_1999": 1800, "pred_loss_mean": 0.389015, "pred_loss_final": 0.052839, "try1_autocorr": 0.0, "try2_autocorr": 0.0}

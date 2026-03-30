@@ -1,0 +1,1 @@
+{"draw": 0, "label": "Game A", "game": "Game A", "condition": "COUNT", "p1": null, "p2": 1517, "speedup": Infinity, "eff_sq": 4.3e-05, "optimal_steps": 10, "t1": 2.34, "t2": 2.29, "try1_unique_1999": 1800, "try2_unique_1999": 1800, "pred_loss_mean": 0.236865, "pred_loss_final": 0.176619, "try1_autocorr": 0.0, "try2_autocorr": 0.0}

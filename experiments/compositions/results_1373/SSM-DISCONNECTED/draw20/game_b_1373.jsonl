@@ -1,0 +1,1 @@
+{"draw": 20, "label": "Game B", "game": "Game B", "condition": "SSM-DISCONNECTED", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 10, "t1": 1.8, "t2": 1.73, "try1_unique_1999": 1457, "try2_unique_1999": 1443, "pred_loss_mean": 0.133339, "pred_loss_final": 0.021556, "try1_autocorr": 0.0, "try2_autocorr": 0.0}
