@@ -1616,3 +1616,37 @@ Info-gain type target: type_target = argmax per-type EMA of TP prediction error 
 **Mini-chain conclusion (1353-1354):** Both observation-based self-supervised targets (visual change, prediction error) prefer keyboard because keyboard produces larger visual/encoding deltas. This is a fundamental mismatch with click games, not a target formulation problem. Any signal derived from ||obs|| or ||h3|| change magnitude will favor KB on ARC games where KB actions produce 15.6× larger pixel changes than clicks.
 
 **The bootstrap problem is the actual barrier:** The only signals that correctly favor click for click games are task-outcome signals (L1 transition, RHAE). Both require L1 to be reached first. In draws where RHAE>0 (draw0 here, draws 0/3/7/8 in 1352), L1 IS reached — those draws could seed a transition-detection signal if the type_head were updated from them. Direction: online transition detection accumulated only from draws that reach L1, decoupled from the initial random type selection.
+
+## Step 1355 (KILL for RHAE. Position learning: too sparse to work.):
+
+Position_head info-gain training within clicks only. type_head UNTRAINED (12.2% click rate confirmed). Per-position EMA of TP prediction error as position target. 5 draws, seeds 13500-13504. HIER baseline: 3.52e-5, 2/5 nz.
+
+**POS-INFO chain_mean RHAE = 0.0. Non-zero: 0/5.** → KILL (worse than HIER 2/5)
+
+**Position entropy: FLAT.** P100=8.3169 → P2000=8.3146 (drop=0.0023, max=8.3178). Position_head training produced NO concentration.
+
+**Type entropy: FLAT.** H100=2.0791 throughout. Type_head correctly stays random. click_frac=12.2% (near 12.5% expected). No type bias introduced. ✓
+
+**Root cause:** ~240 clicks per draw spread across 4096 positions = ~0.06 visits/position. Bootstrap gate fires (at least 1 position visited) but argmax(pos_info_gain) targets a single noisy position. Cross-entropy toward that single noisy target adds no useful gradient. Position_head entropy drops only 0.003 — negligible.
+
+**Confirms:** "250 clicks over 4096 positions = too sparse to learn." Position learning requires either (a) much smaller click action space, (b) much more steps, or (c) spatially structured target (not argmax).
+
+**Next: Step 1356 — reactive change_map (no learning, just follow observed changes).**
+
+## Step 1356 (KILL for RHAE. Reactive change_map concentrates but doesn't help.):
+
+Reactive spatial exploration: change_map = EMA(|obs_t - obs_{t-1}|, per pixel, alpha=0.1). Click position = softmax(change_map.flatten() / T=1.0). type_head UNTRAINED. No training. 5 draws, seeds 13500-13504. HIER baseline: 3.52e-5, 2/5 nz.
+
+**REACT chain_mean RHAE = 0.0. Non-zero: 0/5.** → KILL (same as HIER 0/5 for same seeds)
+
+**Change_map entropy: DOES concentrate.** CE100=8.2231 → CE2000=7.9162 (drop=0.31 from max 8.3178). Reactive focusing IS happening spatially.
+
+**Type entropy: FLAT.** H100=2.0789 throughout. click_frac=12.52% (≈12.5%). Type_head correctly stays random. ✓
+
+**Root cause:** Change_map concentrates near KB-generated visual changes (typing produces text = large pixel change), not near interactive click positions. When substrate selects KB action (87.5% of steps), it changes text areas; change_map concentrates clicks there. But text areas are not the interactive objects needed for game progress. Reactive following of visual change inherits the same KB-change-dominates bias as all previous approaches.
+
+**Four consecutive kills on click games (1353-1356):** Every mechanism that uses visual change or prediction error to guide click selection fails. The underlying problem is constant: KB actions produce 15.6× larger visual changes than clicks on ARC games. Any signal derived from visual change will favor KB-generated areas.
+
+**Only approach not yet tested:** Task-outcome signals (transition detection, RHAE-direct). Both require L1 first — bootstrap problem.
+
+**Next: Step 1357 — conditional KB info-gain (pivot to efficiency on reachable games, not reachability on click games).**
