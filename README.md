@@ -64,6 +64,8 @@ Each finding cites the experiments that support it and states what would falsify
 | 12 | Hierarchical action improves reachability 1.64× | HIER 4/10 non-zero, RHAE=7.53e-5 vs FLAT 3/10, 4.59e-5 (Steps 1351-1352). Structural keyboard coverage, not learned. | FLAT matches or exceeds HIER on 10+ draws. |
 | 13 | Type_head CAN learn from self-supervised signal | Entropy drops 0.16 with change-magnitude target (Step 1353), 0.11 with info-gain (Step 1354). First self-supervised action distribution shift in 1354 experiments. | Type entropy stays flat (=max) under any self-supervised target. |
 | 14 | Both trained type targets suppress clicks and regress RHAE | Change-magnitude (1353): click_frac 0.094, RHAE=0. Info-gain (1354): click_frac 0.087, RHAE=5e-6. Both worse than untrained HIER (click_frac 0.123, RHAE=7.53e-5). Action space asymmetry: keyboard always wins per-step metrics. | A type target that increases click_frac and improves RHAE simultaneously. |
+| 15 | Training the action head HURTS — random actions are optimal | SSM disconnected (1364): RHAE=1.34e-4. Every trained variant scored worse: circular CE (8.5e-6), Gumbel feedback (0.0), surprise REINFORCE (0.0). 4 SSM experiments confirm. | Trained action head outperforms random on matched seeds. |
+| 16 | SSM produces 2.92× better features than MLP for random exploration | SSM disconnected 2K (1364): RHAE=1.34e-4, 3/10 non-zero. MLP flat 2K (1349): 4.59e-5, 3/10 non-zero. Same reachability, higher efficiency per game. Sequence structure provides action-conditional prediction structurally. | MLP matches or exceeds SSM RHAE on 10+ matched draws. |
 
 ## What doesn't work
 
