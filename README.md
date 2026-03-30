@@ -1,6 +1,6 @@
 # The Search
 
-Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP. 1381 experiments, 4 phases, 16 architecture families tested.
+Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP. 1389 experiments, 4 phases, 16 architecture families tested.
 
 ---
 
