@@ -1,0 +1,1 @@
+{"draw": 6, "label": "MBPP", "game": "MBPP", "condition": "RANDOM", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 61, "t1": 0.03, "t2": 0.02, "n_responsive_slots": 0, "target_effect_norm": 0.0, "other_effect_norm": 0.0, "effect_events": 0, "i5_max_level": 0}

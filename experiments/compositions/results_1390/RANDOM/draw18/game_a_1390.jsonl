@@ -1,0 +1,1 @@
+{"draw": 18, "label": "Game A", "game": "Game A", "condition": "RANDOM", "p1": null, "p2": 1553, "speedup": Infinity, "eff_sq": 4.1e-05, "optimal_steps": 10, "t1": 1.23, "t2": 1.15, "n_responsive_slots": 27, "target_effect_norm": 16.8863, "other_effect_norm": 2.3504, "effect_events": 302, "i5_max_level": 1}
