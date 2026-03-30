@@ -1,0 +1,17 @@
+{
+  "step": 1384,
+  "verdict": "DIAGNOSTIC_FAIL",
+  "action_blind_ratio": 1.0,
+  "diag_draws": 3,
+  "diag_diff_pred_t2": [
+    0.00445,
+    0.000176,
+    0.003736
+  ],
+  "diag_masked_pred_t2": [
+    0.00445,
+    0.000176,
+    0.003736
+  ],
+  "note": "Full experiment aborted \u2014 diff objective also action-blind."
+}
