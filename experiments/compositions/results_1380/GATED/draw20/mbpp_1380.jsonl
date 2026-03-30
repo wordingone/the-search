@@ -1,0 +1,1 @@
+{"draw": 20, "label": "MBPP", "game": "MBPP", "condition": "GATED", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 61, "t1": 0.31, "t2": 0.28, "pred_loss_try1": 3.613045, "pred_loss_try2": 0.339665, "pred_loss_overall": 1.976355, "i3_cv": 0.7827, "i4_reduction": -0.0259, "i1_pass": null, "i5_max_level": 0, "r3_weight_diff": 0.000741}

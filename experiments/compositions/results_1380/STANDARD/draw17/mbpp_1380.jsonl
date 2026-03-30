@@ -1,0 +1,1 @@
+{"draw": 17, "label": "MBPP", "game": "MBPP", "condition": "STANDARD", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 61, "t1": 0.21, "t2": 0.28, "pred_loss_try1": 3.621199, "pred_loss_try2": 0.338656, "pred_loss_overall": 1.979927, "i3_cv": 0.758, "i4_reduction": 0.0339, "i1_pass": null, "i5_max_level": 0, "r3_weight_diff": 0.004984}

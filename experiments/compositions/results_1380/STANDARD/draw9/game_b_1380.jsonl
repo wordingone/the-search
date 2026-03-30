@@ -1,0 +1,1 @@
+{"draw": 9, "label": "Game B", "game": "Game B", "condition": "STANDARD", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 10, "t1": 1.81, "t2": 1.69, "pred_loss_try1": 0.152212, "pred_loss_try2": 0.022267, "pred_loss_overall": 0.087239, "i3_cv": 0.0867, "i4_reduction": 0.0278, "i1_pass": null, "i5_max_level": 0, "r3_weight_diff": 0.000194}

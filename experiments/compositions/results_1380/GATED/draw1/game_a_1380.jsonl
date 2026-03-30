@@ -1,0 +1,1 @@
+{"draw": 1, "label": "Game A", "game": "Game A", "condition": "GATED", "p1": null, "p2": 1838, "speedup": Infinity, "eff_sq": 3e-05, "optimal_steps": 10, "t1": 2.5, "t2": 2.41, "pred_loss_try1": 0.232298, "pred_loss_try2": 0.167221, "pred_loss_overall": 0.199759, "i3_cv": 4.5422, "i4_reduction": 0.0082, "i1_pass": null, "i5_max_level": 1, "r3_weight_diff": 3.6e-05}

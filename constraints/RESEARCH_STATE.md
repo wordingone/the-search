@@ -2139,3 +2139,33 @@ Replace action embedding with zero vector in SSM forward pass. Conditions: FULL 
 **What this closes:** Current SSM architecture → CLOSED. Not because SSM is wrong as a paradigm, but because the action token must be part of the state update in a way that gets predicted error backpropagated through it. Fix candidates: (a) predict next action token (not just observation), (b) action-gated SSM state update (A/B matrices conditioned on action), (c) cumulative effect tracker (separate h_action pathway). Any of these would force action-conditional h.
 
 **CRITICAL for next spec:** The fix is architectural, not hyperparameter-level. Predict-action alongside predict-obs, or make the SSM state transition genuinely action-gated. Otherwise any new SSM mechanism is still action-blind.
+
+## Step 1380 (**GATE_FAILS — multiplicative action gating doesn't force action conditioning. Prediction objective inherently indifferent to actions.**):
+
+Multiplicative action gating: h_inter = A*h + B@obs; gate = sigmoid(W_gate[:,prev_act] + b_gate); h_new = h_inter * gate. Both GATED and STANDARD use frozen projection try2. Action-blind diagnostic: GATED_MASKED (gate input = zero) on 10 draws. Kill criterion 1: GATED/MASKED ratio < 1.05.
+
+**Results (seeds 13990-14019):**
+- GATED:       chain_mean=2.9e-06, 3/30 nz → **KILL** (63% of baseline)
+- STANDARD:    chain_mean=3.1e-06, 4/30 nz → **KILL**
+- GATED_MASKED: chain_mean=5.4e-06, 2/10 nz (diagnostic, 10 draws)
+- Paired (GATED vs STANDARD): 2 wins, 2 losses, 26 ties, p=0.6875 → BOTH_KILL
+
+**Gating diagnostic:**
+- GATED pred_loss (draws 0-9):  0.798969
+- GATED_MASKED pred_loss:        0.798874
+- Ratio = 1.000119 (0.012% difference) → **GATE_FAILS** (threshold: 5%)
+- Kill criterion 1 triggered.
+
+**Why gating failed — the prediction objective is action-indifferent:** The gate is trained by: dL/dW_gate[:,a] = e_h * h_inter * gate*(1-gate) (local gradient). This gradient optimizes gate to "scale h dimensions for better prediction of next obs." But obs_{t+1} prediction doesn't require knowing a_t — the SSM already captures sufficient obs history. W_gate gets similar gradient for all actions (because obs transitions don't strongly distinguish actions from the prediction signal's perspective). Result: W_gate doesn't become action-selective → gate = sigmoid(b_gate) ≈ constant for all actions → same as GATED_MASKED.
+
+**Full RTRL for W_gate would not fix this:** Even perfect multi-step credit through W_gate doesn't help if the prediction task is achievable without action selectivity. The gradient direction points toward "which gate value predicts obs well" — same answer for all actions.
+
+**Root cause confirmed:** The SSM prediction objective (predict obs_{t+1}) is inherently action-indifferent. Obs autocorrelation dominates; actions are noise from the prediction loss perspective. Any mechanism that only uses prediction loss to train action-related parameters will fail — the gradient assigns near-zero credit to action weights.
+
+**What this closes:** Multiplicative action gating trained by prediction loss → CLOSED. The training objective must change, not just the architecture.
+
+**Fix candidates for next spec:**
+1. **Predict-action** (Leo's original candidate): Predict next action token alongside next obs. Forces h to encode action identity to reduce action prediction error. But: in random try1, next action is random → prediction error unpredictable. May not help unless actions are structured.
+2. **Inverse dynamics** (infer a_t from h_{t-1}, h_t): Forces h to contain action information as a byproduct. More direct action conditioning than obs prediction.
+3. **Contrastive action encoding**: Compare h states reached by different actions. Requires counterfactual states — not possible online.
+4. **OBJECTIVE CHANGE**: Replace obs prediction with a different self-supervised signal that inherently requires action discrimination (e.g., predict which action was taken, not just what obs resulted).
