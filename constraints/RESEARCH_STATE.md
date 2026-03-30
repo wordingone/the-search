@@ -1650,3 +1650,55 @@ Reactive spatial exploration: change_map = EMA(|obs_t - obs_{t-1}|, per pixel, a
 **Only approach not yet tested:** Task-outcome signals (transition detection, RHAE-direct). Both require L1 first — bootstrap problem.
 
 **Next: Step 1357 — conditional KB info-gain (pivot to efficiency on reachable games, not reachability on click games).**
+
+## Step 1357 (SIGNAL — 2.64× HIER. KB info-gain concentrates. First positive result in chain.):
+
+Conditional info-gain: n_actions==7 (KB) → type_head[0:7] trained via per-type EMA prediction error. n_actions==4103 (click) → type_head untrained (HIER baseline). 5 draws, seeds 13500-13504.
+
+**COND-INFO chain_mean RHAE = 9.3e-5. Non-zero: 2/5.** → SIGNAL (2.64× HIER 3.52e-5)
+**HIER baseline: chain_mean = 3.52e-5, 2/5 nz.**
+
+**RHAE per draw: [4.25e-4, 0, 0, 0, 4e-5]** vs HIER: [5.13e-5, 0, 0, 1.247e-4, 0]
+- Draw0: COND-INFO 4.25e-4 (8.3× HIER draw0)
+- Draw4: COND-INFO 4e-5 (new, HIER draw4 was 0)
+- Draw3: COND-INFO 0 (HIER draw3 was best at 1.247e-4 — regression on this draw)
+
+**gameb_progress = 0.** No click game Game B. Click game type_head untrained (HIER). ✓
+**click_frac = 12.47%.** Type_head untrained for click games. ✓
+
+**KB type entropy: DROPS.** H100=1.9162 → H2000=1.8695 (drop=0.047, max=1.9459). KB info-gain IS concentrating type_head on keyboard games. Approaching 0.05 significance threshold.
+
+**KB p2 = null.** KB games did NOT reach L1 — info-gain concentrating but not enough to discover correct key sequences within 2K steps.
+
+**Click game type entropy: FLAT.** H100=2.079 throughout. ✓ Click games untrained.
+
+**Interpretation:** RHAE improvement comes from draws 0 and 4 (click games via untrained HIER path). Draw3 regression vs HIER suggests draw-level variance. KB type_head concentrates (entropy drops 0.047) but KB games still fail at L1 — key sequences not discovered within 2K steps even with concentrated selection.
+
+**What this proves:** Conditional training on n_actions preserves click game performance (no regression overall) and provides KB info-gain benefit. KB concentration is real (entropy drops). Needs more draws to confirm signal vs variance. Possible next: replicate with 10 draws, or investigate which key info-gain selects.
+
+**Next: Leo to review and confirm signal, specify next step.**
+
+## Step 1358 (KILL — does not replicate. 1357 was draw variance.):
+
+Replication of 1357. Conditional info-gain. 10 draws, seeds 13510-13519.
+
+**COND-INFO chain_mean RHAE = 3.31e-5. Non-zero: 4/10.** → KILL (0.44× HIER 7.533e-5)
+**HIER baseline (1352, 10 draws): chain_mean = 7.533e-5, 4/10 nz.**
+
+**RHAE per draw:** COND-INFO [1e-5, 0, 0, 0, 1.68e-4, 0, 1.41e-4, 1.2e-5, 0, 0]
+**HIER per draw:** [5.13e-5, 0, 0, 1.247e-4, 0, 0, 0, 3.56e-4, 2.213e-4, 0]
+
+**nonzero draw count: same (4/10 both).** But nonzero COND-INFO values are smaller: 1e-5, 1.68e-4, 1.41e-4, 1.2e-5 vs HIER: 5.13e-5, 1.247e-4, 3.56e-4, 2.213e-4.
+
+**type entropy: drops.** Info-gain concentration mechanism is real. But RHAE does not improve.
+
+**gameb_progress = 3.** Game B made progress in 3 draws.
+**mean_click_frac = 12.48%.** Consistent with untrained type_head for click games. ✓
+
+**Interpretation:** 1357 signal was draw variance. Draw 0 in 1357 (8.3× HIER) was a lucky draw — on fresh seeds, COND-INFO is slightly worse than HIER. KB info-gain concentrates type_head (entropy drops) but this does NOT translate to higher RHAE. The conditional architecture did not help.
+
+**What this eliminates:** KB-specific info-gain signal, n_actions-conditional type_head training. Five consecutive kills on signal-based type selection (1353-1358).
+
+**Direction status:** Info-gain type target direction (1353-1358) = KILLED after 6 experiments (5 draws + 10 draws).
+
+**Next: Leo to specify new direction.**
