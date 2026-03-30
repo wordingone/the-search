@@ -2446,3 +2446,33 @@ SSM+RTRL paradigm with both gradient paths (obs_next, obs_diff) and Hebbian read
 
 **Direction change check:**
 New paradigm opened: tabular intervention tracking. Only 1 experiment (vs ≥5 needed before switching). Continue intervention direction before pivoting.
+
+## Step 1388 (**INTERVENTION_WORSE — paired 10W-11L-29T. Signal doesn't replicate. Draw variance dominates.**):
+
+**Architecture:** Identical to step 1387 (no changes). 50 draws. Seeds 14230-14279.
+
+**Results (summary.json):**
+- MLP_TP_BASELINE = 4.59e-5
+- INTERVENTION chain_mean = 1.14e-3 (24.7× above baseline)
+- RANDOM chain_mean = 2.22e-4 (4.8× above baseline)
+- INTERVENTION nz = 12/50, RANDOM nz = 15/50
+- Paired: wins=10, losses=11, ties=29, p=0.668. Verdict: INTERVENTION_WORSE
+
+**Critical discrepancy from 1387:**
+- 1387 RANDOM: nz=3/30 (10% nonzero rate). 1388 RANDOM: nz=15/50 (30% nonzero rate). 3× jump.
+- Combined across 1387+1388 (80 draws): INTERVENTION nz=18/80, RANDOM nz=18/80 — identical nonzero rate.
+- 1387's 6-2 result was not replicated in 1388 (10-11). Combined: 16W-13L-51T. Not significant.
+- INTERVENTION chain_mean > RANDOM chain_mean in both experiments, but the paired test disagrees.
+
+**Interpretation:**
+The intervention mechanism generates larger RHAE VALUES when it works (chain_mean dominance) but does NOT win MORE DRAWS than RANDOM. RANDOM wins more individual draws (smaller values, more consistent). The mechanism is game-specific: produces high signal on a few draws, zero on most. RANDOM gets low-but-nonzero RHAE from lucky coverage on more draws.
+
+This is draw variance: the mechanism discriminates between game types, not within the random draw distribution. On draws where clicks produce large localized changes AND argmin try1 reaches those regions, INTERVENTION dominates. On most draws, the effect table is too sparse or the target region isn't explored, and INTERVENTION = random.
+
+**What this means for the direction:**
+- The mechanism is NOT robust. It works on specific game types (click games with detectable effects) but fails on others.
+- The 1387 "signal" was not robust: dominated by one outlier draw (RHAE=0.115), and did not replicate.
+- The localization idea IS correct (animations no longer swamp signal), but the argmin try1 doesn't explore click regions densely enough to build reliable effect maps.
+
+**Open question:**
+Does more dense exploration in try1 (not argmin) help? Would try1 with uniform random (not argmin) build better effect maps? Or does the mechanism need to be combined with a learning substrate (SSM + intervention) to improve try1 coverage?
