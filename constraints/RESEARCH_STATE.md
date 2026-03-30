@@ -1768,11 +1768,49 @@ Architecture: W_act trained via obs gradient through action feedback loop.
 
 **What this eliminates:** Gumbel-softmax feedback + 1-step obs gradient for W_act. Gradient too sparse.
 
-## Step 1363 (running) — Surprise-modulated REINFORCE:
+## Step 1364 (SIGNAL — SSM disconnected 2K steps beats MLP+TP baseline):
 
-Architecture: Same SSM+RTRL as 1360. W_act trained separately via three-factor plasticity.
+Same as 1360 exactly. Fixed random action head, RTRL obs prediction only. Full 2K steps (1360 ran only 395).
+
+**chain_mean RHAE = 1.341e-04. Non-zero: 3/10. SIGNAL (2.92× MLP+TP baseline 4.59e-5).**
+
+Comparison:
+- MLP+TP 2K steps (1349): 4.59e-5
+- SSM disconnected 395 steps (1360): 3.26e-5
+- SSM disconnected 2K steps (1364): 1.341e-4 ← NEW
+
+**Finding:** Steps matter enormously for the disconnected SSM. More prediction training = better action-conditional features for random exploration. The SSM's action-conditional prediction (x_t includes act_embed[a_{t-1}]) produces genuinely better features than MLP's unconditional prediction when given equal steps.
+
+**Next direction:** Scale steps? Increase model size? Try entropy-based exploration on top of SSM features?
+
+---
+
+## Step 1363 (KILL — expected REINFORCE gradient = 0 under uniform policy):
+
+Architecture: Same SSM+RTRL as 1360. W_act trained via surprise-modulated REINFORCE.
 - surprise_t = |pred_loss_t - pred_loss_ema_t|
-- W_act += ACT_LR * surprise_t * REINFORCE_direction(a_t, y_t)
-- Direction: outer(log_grad, y_t) where log_grad[i] = δ(i==a_t) - π_i
-- Not using surprise as reward (1307) — using as MAGNITUDE modulator.
-- Comparison baseline: 1360 (3.26e-05). Kill: chain_mean ≤ 3.26e-05.
+- W_act += ACT_LR * surprise_t * outer(log_grad, y_t)
+- Direction: REINFORCE log_grad[i] = δ(i==a_t) - π_i
+
+**chain_mean RHAE = 0.000e+00. Non-zero: 0/10. KILL.**
+
+**Action entropy: COMPLETELY FLAT.** H=1.9459 (= log(7) = MAX for 7-action games) at ALL checkpoints (100, 500, 1000, 1999) for ALL draws, try1 AND try2. W_act never updates effectively.
+**Surprise IS non-zero:** surprise_mean ≈ 0.04-0.49 across games. Modulator fires but has no effect.
+
+**Root cause — fundamental symmetry problem:**
+- For near-uniform policy, E[log_grad] = E[e_a - π] = π - π = 0 (each action chosen equally)
+- Expected REINFORCE gradient = 0 regardless of surprise magnitude
+- 1499 updates (steps 501-1999) add random noise to W_act, no systematic direction
+- Chicken-and-egg: need non-uniform actions to get non-zero gradient, need non-zero gradient for non-uniform actions
+
+**Eliminating ALL self-supervised W_act training approaches for uniform-start policies:**
+1. CE self-prediction (1361): circular trap, gradient ≈ 0
+2. Gumbel feedback (1362): 1-step signal too weak, same near-zero issue
+3. Surprise REINFORCE (1363): expected gradient = 0 under uniform policy
+
+**The SSM learns (pred_loss decreases). Only W_act is stuck.**
+
+**What's needed:** Signal that creates ASYMMETRY before the policy is non-uniform. Options:
+1. External reward (level transitions). Substrate doesn't see this as a scalar — only sees info through observations.
+2. Intrinsic curiosity based on DIFFERENTIATING predictions by action: for each a, simulate SSM(concat(obs, embed[a])) and measure prediction spread. Prefer actions with maximal predicted obs change. This is prediction-divergence action selection — no gradient needed, pure forward model.
+3. Count-based exploration (argmin visits) — known to work for RHAE (step 1360 has RHAE from random/argmin warmup).
