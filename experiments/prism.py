@@ -47,6 +47,8 @@ Usage:
 
 import random
 import os
+import sys
+import time
 import json
 import numpy as np
 from pathlib import Path
@@ -302,3 +304,552 @@ class PRISM:
                 f"games=[{game_desc}], "
                 f"benchmarks={sorted(self.benchmarks)}, "
                 f"max_steps={self.max_steps})")
+
+    # -----------------------------------------------------------------------
+    # Game / environment factory
+    # -----------------------------------------------------------------------
+
+    def _make_game(self, game):
+        """Create game environment for the given game ID."""
+        # Ensure environments directory is on path
+        env_dir = str(Path(__file__).parent / 'environments')
+        if env_dir not in sys.path:
+            sys.path.insert(0, env_dir)
+        steps_dir = str(Path(__file__).parent / 'steps')
+        if steps_dir not in sys.path:
+            sys.path.insert(0, steps_dir)
+
+        gn = game.lower().strip()
+        if gn == 'mbpp' or gn.startswith('mbpp_'):
+            import mbpp_game
+            return mbpp_game.make(gn)
+        try:
+            import arcagi3
+            return arcagi3.make(game.upper())
+        except ImportError:
+            import util_arcagi3
+            return util_arcagi3.make(game.upper())
+
+    # -----------------------------------------------------------------------
+    # Episode runner
+    # -----------------------------------------------------------------------
+
+    def _run_episode(self, substrate, env, n_actions, seed, max_steps, max_seconds):
+        """Run one episode. Returns (steps_to_first_progress, elapsed_seconds)."""
+        try:
+            obs = env.reset(seed=seed)
+        except TypeError:
+            obs = env.reset()
+
+        steps = 0
+        level = 0
+        steps_to_first_progress = None
+        t_start = time.time()
+        fresh = True
+
+        while steps < max_steps:
+            if time.time() - t_start > max_seconds:
+                break
+            if obs is None:
+                try:
+                    obs = env.reset(seed=seed)
+                except TypeError:
+                    obs = env.reset()
+                level = 0
+                fresh = True
+                continue
+            obs_arr = np.asarray(obs, dtype=np.float32)
+            action = int(substrate.process(obs_arr)) % n_actions
+            obs_next, reward, done, info = env.step(action)
+            steps += 1
+            if fresh:
+                fresh = False
+                obs = obs_next
+                continue
+            cl = info.get('level', 0) if isinstance(info, dict) else 0
+            if cl > level:
+                if steps_to_first_progress is None:
+                    steps_to_first_progress = steps
+                level = cl
+            if done:
+                try:
+                    obs = env.reset(seed=seed)
+                except TypeError:
+                    obs = env.reset()
+                level = 0
+                fresh = True
+            else:
+                obs = obs_next
+
+        return steps_to_first_progress, round(time.time() - t_start, 2)
+
+    # -----------------------------------------------------------------------
+    # Full evaluation runner
+    # -----------------------------------------------------------------------
+
+    def run(self, substrate_cls, conditions, n_draws=1, try2=True):
+        """Execute full PRISM evaluation.
+
+        For each draw × condition × game:
+          1. Instantiate substrate (deterministic)
+          2. Try1: run max_steps actions
+          3. Try2 (if enabled): load try1 weights, reset state, rerun same episode
+          4. Compute RHAE(try2), collect results
+
+        Args:
+            substrate_cls: Class with interface process(obs)->int, get_weights(),
+                           load_weights(w), reset(). Constructor: __init__(n_actions).
+                           Optional condition kwarg: __init__(n_actions, condition=cond).
+            conditions: List of condition name strings. Each condition runs the same
+                        substrate_cls, instantiated with condition=cond_name.
+            n_draws: Number of draws (different env seeds).
+            try2: If True, run second try with try1 weights loaded.
+
+        Returns:
+            dict: {condition: rhae_try2_float}
+        """
+        if isinstance(conditions, str):
+            conditions = [conditions]
+
+        os.makedirs(self.results_dir, exist_ok=True)
+        self.seal_mapping()
+
+        raw_results = []
+
+        for draw_idx in range(n_draws):
+            draw_seed = self.seed * 1000 + draw_idx
+
+            for game_idx, game in enumerate(self.games):
+                env = self._make_game(game)
+                try:
+                    n_actions = int(env.n_actions)
+                except AttributeError:
+                    n_actions = 128
+
+                label = self.label(game)
+                env_seed = draw_seed * 100 + game_idx
+                opt = self.get_optimal_steps(game)
+
+                for cond in conditions:
+                    try:
+                        substrate = substrate_cls(n_actions, condition=cond)
+                    except TypeError:
+                        substrate = substrate_cls(n_actions)
+
+                    # Try1
+                    np.random.seed(env_seed)
+                    p1, t1 = self._run_episode(
+                        substrate, env, n_actions,
+                        env_seed, self.max_steps, self.max_seconds)
+
+                    # Try2
+                    p2, t2 = None, 0.0
+                    if try2:
+                        weights = substrate.get_weights()
+                        substrate.reset()
+                        substrate.load_weights(weights)
+                        np.random.seed(env_seed * 1000 + 1)
+                        p2, t2 = self._run_episode(
+                            substrate, env, n_actions,
+                            env_seed, self.max_steps, self.max_seconds)
+
+                    rhae_t2 = (min(1.0, opt / p2) ** 2) if (p2 is not None and opt > 0) else 0.0
+
+                    raw_results.append({
+                        'draw': draw_idx,
+                        'game': game,
+                        'label': label,
+                        'condition': cond,
+                        'steps_to_first_progress_t1': p1,
+                        'steps_to_first_progress_t2': p2,
+                        'rhae_t2': rhae_t2,
+                        'elapsed_t1': t1,
+                        'elapsed_t2': t2,
+                    })
+
+        # Aggregate RHAE per condition
+        rhae_by_condition = {}
+        for cond in conditions:
+            vals = [r['rhae_t2'] for r in raw_results if r['condition'] == cond]
+            rhae_by_condition[cond] = round(sum(vals) / len(vals), 6) if vals else 0.0
+
+        # Build output rows (mask game IDs if needed)
+        all_out = []
+        for r in raw_results:
+            all_out.append({
+                'draw': r['draw'],
+                'game': r['label'] if self.mask_game_ids else r['game'],
+                'condition': r['condition'],
+                'steps_to_first_progress_t1': r['steps_to_first_progress_t1'],
+                'steps_to_first_progress_t2': r['steps_to_first_progress_t2'],
+                'rhae_t2': r['rhae_t2'],
+                'elapsed_t1': r['elapsed_t1'],
+                'elapsed_t2': r['elapsed_t2'],
+            })
+
+        self.write_results(self.seed, rhae_by_condition, all_out, conditions)
+        return rhae_by_condition
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    import argparse
+    import importlib.util
+    import inspect
+
+    parser = argparse.ArgumentParser(description='PRISM unified evaluation framework')
+    parser.add_argument('--step', type=int, required=True,
+                        help='Experiment step number (seed for game selection)')
+    parser.add_argument('--substrate', type=str, required=True,
+                        help='Path to substrate .py file (must define class Substrate or '
+                             'a class with process/get_weights/load_weights/reset)')
+    parser.add_argument('--mode', type=str, default='masked',
+                        choices=['masked', 'full_10', 'full_25', 'full_pool', 'single', 'custom'],
+                        help='Evaluation mode (default: masked)')
+    parser.add_argument('--n_draws', type=int, default=None,
+                        help='Number of draws (default: 30 for masked, 5 for others)')
+    parser.add_argument('--n_arc', type=int, default=2,
+                        help='Number of ARC games in masked mode (default: 2)')
+    parser.add_argument('--game', type=str, default=None,
+                        help='Game ID for single mode')
+    parser.add_argument('--games', type=str, default=None,
+                        help='Comma-separated game list for custom mode')
+    parser.add_argument('--benchmarks', type=str, default=None,
+                        help='Comma-separated benchmarks (default: arc,mbpp)')
+    parser.add_argument('--max_steps', type=int, default=2000,
+                        help='Max steps per episode (default: 2000)')
+    parser.add_argument('--max_seconds', type=int, default=300,
+                        help='Max seconds per episode (default: 300)')
+    parser.add_argument('--conditions', type=str, default='EXP',
+                        help='Comma-separated condition names (default: EXP)')
+    parser.add_argument('--no_try2', action='store_true',
+                        help='Skip try2')
+    parser.add_argument('--no_mask', action='store_true',
+                        help="Don't mask game IDs in output")
+    args = parser.parse_args()
+
+    # Defaults
+    if args.n_draws is None:
+        args.n_draws = 30 if args.mode == 'masked' else 5
+
+    # Load substrate from file
+    substrate_path = os.path.abspath(args.substrate)
+    spec = importlib.util.spec_from_file_location('_substrate_mod', substrate_path)
+    mod = importlib.util.module_from_spec(spec)
+    # Add substrate directory to path (for its own imports)
+    sys.path.insert(0, str(Path(substrate_path).parent))
+    spec.loader.exec_module(mod)
+
+    substrate_cls = getattr(mod, 'Substrate', None)
+    if substrate_cls is None:
+        for name, obj in inspect.getmembers(mod, inspect.isclass):
+            if (obj.__module__ == '_substrate_mod'
+                    and hasattr(obj, 'process')
+                    and hasattr(obj, 'get_weights')):
+                substrate_cls = obj
+                break
+    if substrate_cls is None:
+        raise RuntimeError(
+            f'No Substrate class found in {args.substrate}. '
+            'Define a class named Substrate with process(), get_weights(), '
+            'load_weights(), and reset() methods.')
+
+    conditions = [c.strip() for c in args.conditions.split(',')]
+    benchmarks = [b.strip() for b in args.benchmarks.split(',')] if args.benchmarks else None
+    games_list = [g.strip() for g in args.games.split(',')] if args.games else None
+
+    p = PRISM(
+        seed=args.step,
+        mode=args.mode,
+        benchmarks=benchmarks,
+        n_arc=args.n_arc,
+        game=args.game,
+        games=games_list,
+        max_steps=args.max_steps,
+        max_seconds=args.max_seconds,
+        mask_game_ids=not args.no_mask,
+    )
+
+    print(p.describe())
+    results = p.run(substrate_cls, conditions, n_draws=args.n_draws, try2=not args.no_try2)
+    print(f'RHAE: {results}')
+    print(f'Results: {p.results_dir}')
+
+    # ---------------------------------------------------------------------------
+    # Environment factory
+    # ---------------------------------------------------------------------------
+
+    def _make_env(self, game):
+        """Create environment for a game."""
+        gn = game.lower().strip()
+        if gn == 'mbpp' or gn.startswith('mbpp_'):
+            env_dir = os.path.join(os.path.dirname(__file__), 'environments')
+            if env_dir not in sys.path:
+                sys.path.insert(0, env_dir)
+            import mbpp_game
+            return mbpp_game.make(gn)
+        try:
+            import arcagi3
+            return arcagi3.make(gn.upper())
+        except ImportError:
+            import util_arcagi3
+            return util_arcagi3.make(gn.upper())
+
+    # ---------------------------------------------------------------------------
+    # Episode runner
+    # ---------------------------------------------------------------------------
+
+    def _run_episode(self, env, substrate, seed, max_steps):
+        """Run one try on env with substrate. Returns (steps_to_first_progress, elapsed)."""
+        obs = env.reset(seed=seed)
+        steps = 0
+        level = 0
+        steps_to_first_progress = None
+        t_start = time.time()
+        fresh_episode = True
+
+        while steps < max_steps:
+            if time.time() - t_start > self.max_seconds:
+                break
+            if obs is None:
+                obs = env.reset(seed=seed)
+                if hasattr(substrate, 'on_level_transition'):
+                    substrate.on_level_transition(0)
+                level = 0
+                fresh_episode = True
+                continue
+            obs_arr = np.asarray(obs, dtype=np.float32)
+            n_actions = getattr(env, 'n_actions', 7)
+            action = substrate.process(obs_arr) % int(n_actions)
+            obs_next, reward, done, info = env.step(action)
+            steps += 1
+            if obs_next is not None and hasattr(substrate, 'update_after_step'):
+                substrate.update_after_step(obs_next, action, reward)
+            if fresh_episode:
+                fresh_episode = False
+                obs = obs_next
+                continue
+            cl = info.get('level', 0) if isinstance(info, dict) else 0
+            if cl > level:
+                if steps_to_first_progress is None:
+                    steps_to_first_progress = steps
+                level = cl
+                if hasattr(substrate, 'on_level_transition'):
+                    substrate.on_level_transition(cl)
+            if done:
+                obs = env.reset(seed=seed)
+                if hasattr(substrate, 'on_level_transition'):
+                    substrate.on_level_transition(0)
+                level = 0
+                fresh_episode = True
+            else:
+                obs = obs_next
+
+        return steps_to_first_progress, round(time.time() - t_start, 2)
+
+    # ---------------------------------------------------------------------------
+    # Main runner
+    # ---------------------------------------------------------------------------
+
+    def _draw_games(self, draw_seed):
+        """Select games for a single draw (used when mode == 'masked')."""
+        if self.mode == 'masked':
+            rng = random.Random(draw_seed)
+            arc_games = sorted(rng.sample(ARC_SOLVED_10, self.n_arc))
+        elif self.mode == 'full_10':
+            arc_games = list(ARC_SOLVED_10)
+        elif self.mode == 'full_25':
+            arc_games = list(ARC_KNOWN_25)
+        else:
+            # single / custom / full_pool — use pre-selected games (no per-draw variation)
+            return self.games, self.labels
+
+        game_list = arc_games
+        if 'mbpp' in self.benchmarks:
+            game_list = ['mbpp'] + game_list
+
+        labels = {}
+        arc_idx = 0
+        for g in game_list:
+            if g == 'mbpp':
+                labels[g] = 'MBPP'
+            elif self.mask_game_ids:
+                labels[g] = f'Game {chr(65 + arc_idx)}'
+                arc_idx += 1
+            else:
+                labels[g] = g
+
+        return game_list, labels
+
+    def run(self, substrates, conditions=None, n_draws=1, try2=True):
+        """Execute full PRISM evaluation.
+
+        Args:
+            substrates: Single class, or dict {condition_name: class}.
+                        Class interface: __init__(n_actions), process(obs)->int,
+                        get_weights()->dict, load_weights(dict), reset().
+            conditions: List of condition names. Required if substrates is a class.
+            n_draws:    Number of independent draws.
+            try2:       Whether to run try2 after try1.
+
+        Returns:
+            dict: {condition: chain_mean_rhae} summary.
+        """
+        if isinstance(substrates, dict):
+            substrate_map = substrates
+            conditions = conditions or list(substrates.keys())
+        else:
+            assert conditions is not None, "conditions required when substrates is a class"
+            substrate_map = {c: substrates for c in conditions}
+
+        os.makedirs(self.results_dir, exist_ok=True)
+        all_results = []
+        rhae_by_condition = {c: [] for c in conditions}
+
+        for draw_idx in range(n_draws):
+            draw_seed = self.seed * 100 + draw_idx
+            games, game_labels = self._draw_games(draw_seed)
+
+            draw_dir = os.path.join(self.results_dir, f'draw{draw_idx}')
+            os.makedirs(draw_dir, exist_ok=True)
+            # Write sealed mapping for this draw
+            mapping_path = os.path.join(draw_dir, '.sealed_game_mapping.json')
+            with open(mapping_path, 'w') as f:
+                json.dump({
+                    'seed': self.seed, 'draw_seed': draw_seed, 'draw_idx': draw_idx,
+                    'mode': self.mode, 'benchmarks': sorted(self.benchmarks),
+                    'games': games, 'labels': game_labels,
+                    'max_steps': self.max_steps, 'max_seconds': self.max_seconds,
+                }, f, indent=2)
+
+            for cond in conditions:
+                substrate_cls = substrate_map[cond]
+                cond_dir = os.path.join(self.results_dir, cond, f'draw{draw_idx}')
+                os.makedirs(cond_dir, exist_ok=True)
+
+                for game in games:
+                    env = self._make_env(game)
+                    n_actions = int(getattr(env, 'n_actions', 7))
+
+                    substrate = substrate_cls(n_actions=n_actions)
+
+                    # Try1
+                    p1, t1 = self._run_episode(env, substrate, seed=0, max_steps=self.max_steps)
+
+                    if try2:
+                        if hasattr(substrate, 'get_weights'):
+                            weights = substrate.get_weights()
+                            substrate.reset()
+                            substrate.load_weights(weights)
+                        else:
+                            substrate.reset()
+                        np.random.seed(draw_seed * 1000 + 1)  # PRNG fix: isolated try2 RNG
+                        p2, t2 = self._run_episode(env, substrate, seed=4,
+                                                    max_steps=self.max_steps)
+                    else:
+                        p2, t2 = None, 0.0
+
+                    opt = self.get_optimal_steps(game)
+                    eff_sq = 0.0
+                    if p2 is not None and opt > 0:
+                        eff_sq = round(min(1.0, opt / p2) ** 2, 6)
+                    speedup = compute_speedup(p1, p2)
+
+                    rhae_by_condition[cond].append(eff_sq)
+                    label = game_labels.get(game, game)
+                    result = {
+                        'draw': draw_idx, 'condition': cond, 'game': label,
+                        'steps_to_progress_t1': p1, 'steps_to_progress_t2': p2,
+                        'rhae_t2': eff_sq, 'speedup': speedup,
+                        'runtime_t1': t1, 'runtime_t2': t2,
+                    }
+                    all_results.append(result)
+
+                    # Per-game JSONL
+                    safe = label.lower().replace(' ', '_')
+                    out_fn = os.path.join(cond_dir, f'{safe}_{self.seed}.jsonl')
+                    with open(out_fn, 'a') as f:
+                        f.write(json.dumps(result) + '\n')
+
+        # Aggregate and write summary
+        rhae_summary = {
+            c: round(float(np.mean(v)), 6) if v else 0.0
+            for c, v in rhae_by_condition.items()
+        }
+        nz_by_condition = {c: sum(1 for x in v if x > 0) for c, v in rhae_by_condition.items()}
+        self.write_results(self.seed, rhae_summary, all_results, conditions,
+                           speedup_by_condition=nz_by_condition)
+        return rhae_summary
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    import argparse
+    import importlib.util
+
+    parser = argparse.ArgumentParser(description='PRISM evaluation runner')
+    parser.add_argument('--step',       type=int,   required=True,  help='Step/experiment number')
+    parser.add_argument('--substrate',              required=True,  help='Path to substrate .py file')
+    parser.add_argument('--mode',       default='masked',           help='Evaluation mode')
+    parser.add_argument('--n_draws',    type=int,   default=None,   help='Number of draws')
+    parser.add_argument('--n_arc',      type=int,   default=2,      help='ARC games per draw (masked)')
+    parser.add_argument('--game',       default=None,               help='Game ID for single mode')
+    parser.add_argument('--games',      default=None,               help='Comma-separated games (custom)')
+    parser.add_argument('--benchmarks', default='arc,mbpp',         help='Benchmarks to include')
+    parser.add_argument('--max_steps',  type=int,   default=2000,   help='Max steps per episode')
+    parser.add_argument('--max_seconds',type=int,   default=300,    help='Max seconds per episode')
+    parser.add_argument('--conditions', default=None,               help='Comma-separated conditions')
+    parser.add_argument('--no_try2',    action='store_true',        help='Skip try2')
+    parser.add_argument('--no_mask',    action='store_true',        help='Show real game IDs')
+    args = parser.parse_args()
+
+    # Load substrate file via importlib
+    sub_path = os.path.abspath(args.substrate)
+    spec = importlib.util.spec_from_file_location('_substrate_module', sub_path)
+    module = importlib.util.module_from_spec(spec)
+    # Add substrate's directory to path so its imports resolve
+    sub_dir = os.path.dirname(sub_path)
+    if sub_dir not in sys.path:
+        sys.path.insert(0, sub_dir)
+    spec.loader.exec_module(module)
+
+    # Resolve substrate classes
+    if hasattr(module, 'SUBSTRATES') and isinstance(module.SUBSTRATES, dict):
+        substrate_map = module.SUBSTRATES
+        conditions = args.conditions.split(',') if args.conditions else list(substrate_map.keys())
+        substrate_map = {c: substrate_map[c] for c in conditions if c in substrate_map}
+    elif hasattr(module, 'SUBSTRATE'):
+        conditions = args.conditions.split(',') if args.conditions else ['default']
+        substrate_map = {c: module.SUBSTRATE for c in conditions}
+    else:
+        raise SystemExit(
+            f"ERROR: {args.substrate} must export SUBSTRATES (dict) or SUBSTRATE (class)"
+        )
+
+    n_draws = args.n_draws or (30 if args.mode == 'masked' else 5)
+    benchmarks = set(args.benchmarks.split(',')) if args.benchmarks else None
+    games_list = args.games.split(',') if args.games else None
+
+    p = PRISM(
+        seed=args.step,
+        mode=args.mode,
+        benchmarks=benchmarks,
+        n_arc=args.n_arc,
+        game=args.game,
+        games=games_list,
+        max_steps=args.max_steps,
+        max_seconds=args.max_seconds,
+        mask_game_ids=not args.no_mask,
+    )
+
+    print(p.describe())
+    result = p.run(substrate_map, conditions=conditions, n_draws=n_draws, try2=not args.no_try2)
+    print(f"\nResults (chain_mean RHAE):")
+    for cond, rhae in result.items():
+        print(f"  {cond}: {rhae:.6e}")

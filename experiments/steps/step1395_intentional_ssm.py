@@ -9,15 +9,18 @@ by conditioning on previous output y_{t-1} = f(h_{t-1}).
 
 ONE architectural change from Steps 1379-1391:
   REACTIVE (1379+): gate_input = u_t
-  INTENTIONAL (1395): gate_input = concat(y_prev, u_t)  [2*D dims]
+  INTENTIONAL (1395): gate_input = concat(h_prev(N=16), u_t(D=32))  [N+D=48 dims]
 
-W_delta, W_B, W_C all double their input dimension. Everything else identical.
+h_prev instead of y_prev (Leo mail 4005): h accumulates fastest and has the most
+direct RTRL path. gate_input dimension shrinks from 64 to 48.
 
-Why this breaks action-blindness: y_prev = W_out @ (C @ h_{t-1}) encodes accumulated
-state. If h has learned action-relevant structure, delta_t = f(y_prev, x_t) can be
-different depending on prior actions — routing is now history-dependent.
+W_delta, W_B, W_C input dimension = 48. Everything else identical.
 
-Diagnostic: INTENTIONAL vs INTENTIONAL-MASKED (y_prev zeroed = reactive fallback).
+Why this breaks action-blindness: h_prev = internal SSM state encodes accumulated
+history. If h has learned action-relevant structure, delta_t = f(h_prev, x_t) routes
+differently based on prior actions.
+
+Diagnostic: INTENTIONAL vs INTENTIONAL-MASKED (h_prev zeroed = reactive fallback).
   Pass: action-blind ratio (pred_loss_MASKED / pred_loss_INT) > 1.05
   Fail: intentional gates don't help prediction → same attractor as 1379-1391.
 
@@ -75,7 +78,7 @@ D               = 32
 N_STATE         = 16
 N_LAYERS        = 2
 SSM_LR          = 1e-3
-GATE_DIM        = 2 * D   # 64 — gate_input = [y_prev; u_t]
+GATE_DIM        = N_STATE + D   # 48 — gate_input = [h_prev(N); u_t(D)]
 H_DIM           = N_LAYERS * N_STATE   # 32
 
 TEMPERATURE           = 3.0
@@ -185,18 +188,19 @@ def binomial_p_one_sided(wins, n):
 class IntentionalSSMLayer:
     """
     Diagonal SSM with intentional (state-conditioned) gates.
-    W_delta, W_B, W_C take gate_input = [y_prev; u_t] of dimension GATE_DIM=2*D.
-    y_prev: previous step's output. Initially zero.
+    W_delta, W_B, W_C take gate_input = [h_prev(N); u_t(D)] of dimension GATE_DIM=N+D=48.
+    h_prev: previous step's internal state. Initially zero.
+    h accumulates faster than y_prev and has the most direct RTRL path (Leo mail 4005).
     """
 
-    def __init__(self, d, n_state, lr, mask_y_prev=False):
+    def __init__(self, d, n_state, lr, mask_h_prev=False):
         self.d       = d
         self.n       = n_state
         self.lr      = lr
-        self.gate_dim = 2 * d
+        self.gate_dim = n_state + d   # 48: h_prev(N=16) + u_t(D=32)
 
-        # mask_y_prev=True → INTENTIONAL-MASKED (y_prev zeroed = reactive fallback)
-        self._mask_y_prev = mask_y_prev
+        # mask_h_prev=True → INTENTIONAL-MASKED (h_prev zeroed = reactive fallback)
+        self._mask_h_prev = mask_h_prev
 
         # Gate matrices: input is gate_input (2*D) instead of u_t (D)
         self.W_delta = np.zeros((n_state, self.gate_dim), dtype=np.float32)
@@ -221,26 +225,15 @@ class IntentionalSSMLayer:
         self._B_vec     = None
         self._C_vec     = None
         self._gate_input = None   # gate_input = [y_prev; u_t]
-        self._ch_prev   = None    # C_vec * h from previous step (for y_prev gradient)
-
-        # y_prev: previous output (zero-initialized each episode)
-        self._y_prev    = np.zeros(d, dtype=np.float32)
 
     def forward(self, x):
         """Forward pass. x = u_t (input to this layer, dimension D)."""
         self._x      = x
         self._h_prev = self.h.copy()
 
-        # Store C_vec * h from PREVIOUS step for y_prev gradient
-        # (before overwriting _C_vec and h)
-        if self._C_vec is not None:
-            self._ch_prev = self._C_vec * self.h
-        else:
-            self._ch_prev = np.zeros(self.n, dtype=np.float32)
-
-        # Build gate_input: [y_prev; u_t] — intentional conditioning on previous output
-        y_prev_gate = np.zeros(self.d, dtype=np.float32) if self._mask_y_prev else self._y_prev
-        gate_input = np.concatenate([y_prev_gate, x])
+        # Build gate_input: [h_prev(N); u_t(D)] — intentional conditioning on internal state
+        h_prev_gate = np.zeros(self.n, dtype=np.float32) if self._mask_h_prev else self._h_prev
+        gate_input = np.concatenate([h_prev_gate, x])
         self._gate_input = gate_input
 
         pre_delta = np.clip(self.W_delta @ gate_input + self.b_delta, -20.0, 20.0)
@@ -260,8 +253,6 @@ class IntentionalSSMLayer:
         self.h = np.nan_to_num(self.h, nan=0.0, posinf=0.0, neginf=0.0)
 
         y = self.W_out @ (C_vec * self.h)
-        # Update y_prev for next step
-        self._y_prev = y.copy()
         return y
 
     def rtrl_update(self, e_y):
@@ -309,25 +300,19 @@ class IntentionalSSMLayer:
         e_gate = e_gate_from_C + e_gate_from_delta + e_gate_from_B
         e_gate = np.nan_to_num(np.clip(e_gate, -1e4, 1e4), nan=0.0)
 
-        # Extra term from y_prev path (intentional gate: one-step RTRL)
-        # y_prev = W_out @ (C_prev_vec * h_prev), so e_y_prev feeds into W_out
-        e_y_prev = e_gate[:self.d]   # first D elements of gate_input gradient
-        if self._ch_prev is not None and np.any(e_y_prev != 0):
-            self.W_out -= self.lr * np.outer(e_y_prev, self._ch_prev)
-
+        # h_prev gradient is truncated (one-step RTRL): e_gate[:self.n] is discarded.
         # Return gradient w.r.t. x = u_t (last D elements of gate_input gradient)
-        return e_gate[self.d:]
+        return e_gate[self.n:]
 
     def r3_weight_diff(self):
         return float(np.linalg.norm(self.W_B - self._init_W_B, 'fro'))
 
     def reset_state(self):
-        """Reset h and y_prev for try2 or level transition. Keep learned weights."""
+        """Reset h for try2 or level transition. Keep learned weights."""
         self.h[:] = 0.0
         self.S_A[:] = 0.0
-        self._y_prev[:] = 0.0
         self._x = self._h_prev = self._A_bar = self._delta = self._pre_delta = None
-        self._B_vec = self._C_vec = self._gate_input = self._ch_prev = None
+        self._B_vec = self._C_vec = self._gate_input = None
 
 
 # ---------------------------------------------------------------------------
@@ -346,7 +331,7 @@ class SSMSubstrate:
         self.mode       = mode
         self._W_fixed   = W_fixed
 
-        self._mask_y_prev  = (mode == 'intentional-masked')
+        self._mask_h_prev  = (mode == 'intentional-masked')
         self._mask_action  = (mode in ('intentional-masked', 'disconnected'))
         self._random_try1  = (mode == 'disconnected')
 
@@ -354,7 +339,7 @@ class SSMSubstrate:
         self._b_in      = np.zeros(D, dtype=np.float32)
         self._last_u    = None
 
-        self._layers    = [IntentionalSSMLayer(D, N_STATE, SSM_LR, mask_y_prev=self._mask_y_prev)
+        self._layers    = [IntentionalSSMLayer(D, N_STATE, SSM_LR, mask_h_prev=self._mask_h_prev)
                            for _ in range(N_LAYERS)]
 
         self._W_pred    = _det_init(PROJ_DIM, D, scale=0.1)

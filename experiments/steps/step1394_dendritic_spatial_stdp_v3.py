@@ -60,7 +60,7 @@ TRY2_SEED   = 4
 MAX_SECONDS = 280
 TIER1_STEPS = 200
 
-RESULTS_DIR     = os.path.join('B:/M/the-search/experiments/compositions', f'results_{STEP}')
+RESULTS_DIR     = os.path.join('B:/M/the-search/experiments/results', f'results_{STEP}')
 MLP_TP_BASELINE = 4.59e-5
 
 # Spatial layout
@@ -234,24 +234,27 @@ class DendriticSubunit:
 
         self.v = max(-100.0, min(35.0, self.v))  # safety clamp
 
-        # Dual-calcium STDP (Leo mail 3999 — correct PRE/POST semantics):
+        # Dual-calcium STDP (Leo mail 3999/4005 — option 3 bootstrap fix):
         # ca_act: click = PRE-synaptic event (accumulates on click, NOT spike-gated)
-        # ca_obs: obs-driven spike = POST-synaptic event (accumulates on fired+obs_driven)
+        # ca_obs: obs change = POST signal (direct from obs_delta, NOT spike-gated)
         # LTP requires conjunction: ca_act > 0 AND ca_obs > THETA_LOW
+        # Option 3 fix: ca_obs no longer requires a spike — accumulates from obs_delta
+        # magnitude directly. Bootstraps because obs changes happen from animations AND
+        # clicks, so ca_obs accumulates regardless of whether the neuron fires yet.
         self.ca_act *= CA_DECAY
         self.ca_obs *= CA_DECAY
 
         # PRE: click on this patch is the pre-synaptic event.
-        # One click gives one current pulse — Izhikevich may not fire from it alone.
-        # So ca_act must accumulate from the click itself, not from an act-driven spike.
         if act_driven:
             self.ca_act += CA_PRE   # click = pre-synaptic event (not spike-gated)
+
+        # POST (option 3): obs change magnitude, no spike gate
+        if obs_delta > OBS_DRIVEN_THRESH:
+            self.ca_obs += CA_POST * obs_delta  # magnitude-weighted obs accumulation
 
         if fired:
             self.spike_count += 1
             self._recent_spikes += 1
-            if obs_driven:
-                self.ca_obs += CA_POST  # obs-driven spike = post-synaptic event
 
         # LTP: conjunction of act-driven and obs-driven spikes required
         if self.ca_act > 0 and self.ca_obs > THETA_LOW:
