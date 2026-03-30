@@ -2240,3 +2240,53 @@ SSM + hard action injection + frozen projection → CONFOUNDED/KILL. Even with p
 2. **INJECT + Hebbian readout**: Use Hebbian rule to train W in try2 (W += alpha * h_concat * delta_reward or similar). No Adam, signal from experience.
 3. **INJECT + direct action bias**: Use h_act dims to directly bias action selection (e.g., add action-type-indexed offset to logits). Bypasses W_fixed geometry entirely.
 4. **Hierarchical INJECT**: Type selection head uses h_act (correct type bias), position head uses h_obs (spatial features). Reconnects with 1351 hierarchy result.
+
+## Step 1383 (**DIAGNOSTIC_FAIL — Selective SSM (Mamba-style) also action-blind. ratio=1.002. Closes entire gradient + obs prediction family.**):
+
+Selective SSM: B_t = W_B @ u_t, C_t = W_C @ u_t, delta_t = softplus(W_delta @ u_t) all depend on input u_t = W_in @ concat(proj_obs, act_emb). Local RTRL for selection params + S-trace for A_param. W_in also updated. Mandatory 3-draw diagnostic first.
+
+**Results:**
+- SELECTIVE pred_try2: [0.1182, 0.1382, 0.1349] → mean = 0.1304
+- MASKED pred_try2:    [0.1187, 0.1384, 0.1350] → mean = 0.1307
+- Action-blind ratio: **1.0021** (threshold: 1.05) → **DIAGNOSTIC_FAIL**
+- Full experiment aborted per spec.
+
+**Why selective SSM is still action-blind:**
+The selective mechanism CAN carry action info through C_t (C_t changes when action changes), but the gradient from obs prediction does NOT push toward action conditioning. Mechanism:
+1. u_t includes act_emb, so B_t, C_t, delta_t are mathematically action-dependent at initialization.
+2. But the prediction task (predict proj_obs_{t+1}) is achievable without action conditioning.
+3. The gradient consistently updates W_B, W_C, W_delta to use obs features (large signal) rather than act features (small relative signal), converging to obs-only solution.
+4. The action contribution to u_t is small relative to obs contribution (16 vs 64 dims), and the gradient amplifies this disparity.
+5. After 2000 steps, W_in, W_B, W_C, W_delta all converge to obs-optimal mappings. Action contribution is effectively zeroed out.
+
+**The gradient trap is objective-level, not architecture-level:**
+- Linear SSM action-blind ratio: 1.00002 (step 1379)
+- Selective SSM action-blind ratio: 1.002 (step 1383)
+Both are action-blind. The attractor is the obs-prediction objective's optimal solution, independent of whether parameters are constant or input-dependent.
+
+**What this closes:**
+ENTIRE family of gradient-based training with obs prediction objective → CLOSED. Includes:
+- Linear diagonal SSM (steps 1379-1381)
+- Multiplicative action gating (1380)
+- Inverse dynamics (1381) — h must already have action info for inv head to work; it doesn't
+- Hard injection + broken W_pred (1382)
+- Selective SSM with input-dependent B, C, delta (1383)
+
+**Root cause synthesis:**
+The obs prediction objective (L = ||pred(h_t) - obs_{t+1}||²) has a stable fixed point at h = f(obs_history_only). This fixed point has zero gradient with respect to action conditioning, regardless of substrate architecture. Any gradient optimizer on this objective converges to this fixed point.
+
+**Exit conditions:**
+1. Change the training objective: use something that requires action discrimination.
+   - Reward prediction: predict reward (action-dependent by definition). But: reward is sparse.
+   - Action prediction: predict next action from h (self-referential loop, may not work).
+   - Contrastive: compare h states from different actions (not feasible online, needs counterfactuals).
+2. Bypass gradient entirely for action conditioning:
+   - Hard injection (step 1382) + non-gradient readout update (Hebbian, reward-weighted).
+   - Direct structural action routing: separate h_action pathway outside RTRL.
+
+**Recommended next spec:**
+Hard injection (step 1382 mechanism, with W_pred NaN fix) + reward-weighted Hebbian readout:
+- Try1: COUNT (same as before, RTRL trains h_obs)
+- Try2: frozen W_fixed replaced by reward-Hebbian W: W[action, :] += alpha * h_concat when level transition (level transition = reward event)
+- This is R2-compliant (W encodes which h patterns led to reward, selects actions via same W)
+- Minimal: only one new mechanism (Hebbian readout)
