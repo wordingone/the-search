@@ -1,0 +1,37 @@
+{
+  "step": 1368,
+  "n_draws": 10,
+  "draw_seeds": [
+    13680,
+    13681,
+    13682,
+    13683,
+    13684,
+    13685,
+    13686,
+    13687,
+    13688,
+    13689
+  ],
+  "max_steps_used": 2000,
+  "ms_per_step": 0.61,
+  "mlp_tp_baseline": 4.59e-05,
+  "conditions": {
+    "ROLLOUT-ARGMAX": {
+      "chain_mean_rhae": 4.08e-05,
+      "nonzero_draws": 4,
+      "rhae_per_draw": [
+        0.000342,
+        0.0,
+        2.9e-05,
+        0.0,
+        0.0,
+        0.0,
+        2.4e-05,
+        1.3e-05,
+        0.0,
+        0.0
+      ]
+    }
+  }
+}
