@@ -2052,3 +2052,18 @@ Tests whether structured (COUNT) exploration in try1 builds h worth carrying. Th
 **Critical implication:** Weight quality from try1 matters more than h quality. The right design: (1) use COUNT (or better) for try1 to build good weights, (2) reset h at try2 start. h carries action-strategy-specific state, not general environment knowledge. Weights carry general prediction patterns.
 
 **COUNT-RESET chain_mean=3.391e-04 = 7.4× baseline.** This is a new high-water mark for RESET-style conditions. Validates that COUNT exploration builds meaningfully better RTRL weights. Next question: can we do better than random try2 actions? If weights are now good, is there a better try2 selector?
+
+## Step 1376 (KILL — COUNT try2 adds nothing. Both conditions ≈ tied. Draw variance severe.):
+
+Given COUNT try1 weights, does COUNT try2 help vs RAND try2?
+
+**Results (seeds 13800-13829):**
+- COUNT-COUNT: chain_mean=2.68e-05, 5/30 nz → KILL
+- COUNT-RAND:  chain_mean=2.45e-05, 5/30 nz → KILL
+- Paired: COUNT-COUNT wins 3/30, COUNT-RAND wins 3/30, ties 24/30, p=0.6562 → NOT_SIGNIFICANT
+
+**Key finding:** COUNT try2 provides zero benefit over RAND try2. On these seeds, both conditions killed, and they're nearly identical. The action selection in try2 is irrelevant once weights from try1 are in place.
+
+**Critical draw variance finding:** COUNT-RAND in step 1376 (seeds 13800-13829) gives chain_mean=2.45e-05 (KILL). COUNT-RAND in step 1375 (seeds 13770-13799) gave chain_mean=3.391e-04 (SIGNAL, 7.4× baseline). Same mechanism, different seeds, 14× different result. The step 1375 "signal" was likely dominated by a few favorable draws in that seed range.
+
+**What this means:** The 7.4× result in step 1375 is not stable. Draw variance at 30 draws is too high to distinguish mechanism signal from seed set luck. Neither COUNT exploration nor h persistence produces reliable above-baseline results. The fundamental measurement problem remains unsolved.
