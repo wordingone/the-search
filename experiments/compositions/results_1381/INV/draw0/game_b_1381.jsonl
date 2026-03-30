@@ -1,0 +1,1 @@
+{"draw": 0, "label": "Game B", "game": "Game B", "condition": "INV", "p1": null, "p2": 1193, "speedup": Infinity, "eff_sq": 7e-05, "optimal_steps": 10, "t1": 5.16, "t2": 5.55, "pred_loss_mean": 0.069953, "inv_accuracy": 0.0, "inv_random_baseline": 0.0002, "i3_cv": 4.4519, "i4_h_early": 4.6151, "i4_reduction": 0.0052, "i1_pass": null, "i5_max_level": 1, "r3_weight_diff": 0.000136}

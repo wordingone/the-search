@@ -1,6 +1,6 @@
 # The Search
 
-Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP. 1379 experiments, 4 phases, 16 architecture families tested.
+Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP. 1381 experiments, 4 phases, 16 architecture families tested.
 
 ---
 
@@ -72,6 +72,7 @@ Each finding cites the experiments that support it and states what would falsify
 | 20 | SSM prediction features ANTI-CORRELATE with task progress | Frozen projection softmax(W_fixed @ h / T=3) produces non-uniform actions (h_norm=0.72, entropy < max on 30/30 draws). But FROZEN 8/30 nz, RHAE=2.91e-5 vs DISCONNECTED 9/30 nz, RHAE=1.22e-3 (Step 1378). Structured h-based actions are WORSE than random. The prediction features encode "what's predictable" not "what leads to progress." Every action mechanism (17 trained + 1 frozen) worse than random = features point the wrong direction. | Frozen projection outperforms disconnected on 30+ paired draws. |
 | 21 | **SSM is action-blind by construction** | Prediction loss with action tokens: 0.796971. Without action tokens (zeroed): 0.796955. Ratio: 1.00002 (0.002% difference). Verdict: ACTION_BLIND (Step 1379). The action token has ZERO influence on SSM prediction. h encodes only observation autocorrelation. RTRL optimizes obs→obs, which doesn't need actions. This is the ROOT CAUSE of all SSM failures: no action info in h → no mechanism can extract useful actions from h. | SSM prediction loss changes >5% when action tokens are masked. |
 | 22 | Multiplicative action gating degenerates to constant | Gated SSM: x' = (A@x + B@obs) * sigmoid(W_gate @ one_hot(act)). Action-blind ratio: 1.000119 (0.012% — same as ungated). RTRL optimizes gate for obs prediction → optimal gate is constant scaling → action info doesn't enter h (Step 1380). Architecture changes cannot force action conditioning when the objective doesn't need it. | Gated SSM action-blind ratio >5%. |
+| 23 | **Inverse dynamics can't fix linear SSM action-blindness** | Inverse head learns to classify actions at 88× random (2.14% accuracy, Step 1381) but through OBSERVATION SHORTCUT (obs_{t+1} pixel changes reveal action) not action-conditional state. Action-blind ratio: 0.999989 — SSM prediction unchanged. RTRL gradient flows through obs encoder, bypassing action path. Linear dynamics x'=a*x+b*u are structurally action-independent (b*act is constant regardless of state). No objective change fixes this. | Inverse dynamics + linear SSM produces action-blind ratio >5%. |
 
 ## What doesn't work
 

@@ -1,0 +1,1 @@
+{"draw": 29, "label": "Game A", "game": "Game A", "condition": "FWD", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 10, "t1": 2.48, "t2": 2.36, "pred_loss_mean": 0.088244, "inv_accuracy": null, "inv_random_baseline": 0.1429, "i3_cv": 0.2821, "i4_h_early": 1.9052, "i4_reduction": -0.0069, "i1_pass": null, "i5_max_level": 0, "r3_weight_diff": 0.000217}

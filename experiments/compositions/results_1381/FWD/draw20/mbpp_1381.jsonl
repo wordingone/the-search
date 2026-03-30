@@ -1,0 +1,1 @@
+{"draw": 20, "label": "MBPP", "game": "MBPP", "condition": "FWD", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 61, "t1": 0.22, "t2": 0.25, "pred_loss_mean": 1.990076, "inv_accuracy": null, "inv_random_baseline": 0.0078, "i3_cv": 0.7827, "i4_h_early": 4.1774, "i4_reduction": 0.0138, "i1_pass": null, "i5_max_level": 0, "r3_weight_diff": 0.004991}

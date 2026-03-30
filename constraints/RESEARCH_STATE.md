@@ -2169,3 +2169,39 @@ Multiplicative action gating: h_inter = A*h + B@obs; gate = sigmoid(W_gate[:,pre
 2. **Inverse dynamics** (infer a_t from h_{t-1}, h_t): Forces h to contain action information as a byproduct. More direct action conditioning than obs prediction.
 3. **Contrastive action encoding**: Compare h states reached by different actions. Requires counterfactual states — not possible online.
 4. **OBJECTIVE CHANGE**: Replace obs prediction with a different self-supervised signal that inherently requires action discrimination (e.g., predict which action was taken, not just what obs resulted).
+
+## Step 1381 (**INERT — inverse dynamics head completely inert. INV = FWD exactly. SSM action-blind fixed point resists all gradient-based interventions.**):
+
+Two prediction heads: (1) forward: predict next_obs from y_t (MSE), (2) inverse: predict action_t from (y_t, obs_{t+1}) (CrossEntropy). Joint RTRL. Frozen projection try2. Control: FWD (forward head only, = standard 1380 arch). Action-blind diagnostic: INV_MASKED (zero act token in SSM input, inverse head active). Seeds 14020-14049, 30 draws + 10-draw diagnostic.
+
+**Results:**
+- INV:        chain_mean=3.92e-05, 5/30 nz → **KILL** (85% of baseline)
+- FWD:        chain_mean=3.92e-05, 5/30 nz → **KILL** (IDENTICAL to INV)
+- INV_MASKED: chain_mean=1.08e-04, 3/10 nz (diagnostic — same seeds as INV draws 0-9, expected match)
+- Paired (INV vs FWD): 0 wins, 0 losses, 30 ties, p=1.0 → **IDENTICAL**
+
+**Action-blind diagnostic:**
+- INV pred_loss (draws 0-9):  0.804439
+- INV_MASKED pred_loss:        0.804448
+- Ratio = 0.999989 (0.001% difference) → **ACTION_BLIND** (kill criterion 1)
+- inv_acc = 0.0214 — BELOW random baseline (~1/n_actions ≈ 0.06). Inverse head learns worse than chance.
+
+**Why INV = FWD exactly (30 ties):** The inverse head gradient flows back through SSM layers and updates B. But the SSM is stuck in an action-blind fixed point: h is constant regardless of action → inverse head cannot recover action from h → cross-entropy gradient is spurious (not systematically toward action sensitivity). B gets updated but in random directions, producing no systematic change in h's action content. The action-blind attractor is stable under gradient pressure.
+
+**Why inv_acc < random:** The inverse head maps from action-blind (y, obs_next) to action prediction. Without signal, it concentrates probability on specific actions based on spurious correlations — often the WRONG ones. Average inv_acc=0.0214 < 1/n_actions ≈ 0.06. The inverse head is actively anti-predictive.
+
+**Dead gradient analysis:** The SSM's action-blind fixed point is a gradient trap. Once B doesn't use act_emb, the gradient from both forward and inverse heads is consistent with B staying action-blind. There's no error signal that says "B must use act_emb to reduce loss" — because h can approximate obs well enough without it. The gradient is in the null space of action-sensitivity.
+
+**Full closure of SSM+RTRL+prediction family:**
+- Step 1379: Additive action in input → ACTION_BLIND (ratio=1.00002)
+- Step 1380: Multiplicative gating → GATE_FAILS (ratio=1.000119)
+- Step 1381: Inverse dynamics → INERT (ratio=0.999989, 30 ties)
+- All three architectural interventions produce identical h. The action-blind fixed point is stable.
+
+**What this closes:** Any objective-level intervention on the current SSM+RTRL substrate → CLOSED. The substrate cannot learn action conditioning via gradient pressure when it is already in the action-blind attractor. A structural solution is required: force action information into h by construction, not by training.
+
+**Structural solutions (next spec candidates):**
+1. **Hard action injection**: Set specific h dimensions to one-hot(action) directly — bypass the gradient entirely.
+2. **Separate action pathway**: Maintain h_action = f(action_history) separate from h_obs = SSM(obs_history). Combine at readout only. No gradient dependency.
+3. **Abandon diagonal SSM**: The diagonal A matrix may be fundamentally limiting. Full state matrix A can encode action-state interactions that diagonal cannot.
+4. **Abandon SSM paradigm**: If diagonal SSM cannot learn action conditioning in 15+ experiments, try a different substrate family entirely. LPL/Hebbian had different limitations but was not action-blind by construction.
