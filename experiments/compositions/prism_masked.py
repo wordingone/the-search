@@ -27,7 +27,7 @@ RHAE optimal_steps (Leo directive, 2026-03-29):
 
 Usage in experiment scripts:
     from prism_masked import select_games, seal_mapping, label_filename, det_weights
-    from prism_masked import compute_progress_speedup, compute_rhae_try2, write_experiment_results
+    from prism_masked import compute_progress_speedup, compute_rhae_try2, write_experiment_results, mask_result_row
     from prism_masked import ARC_OPTIMAL_STEPS_PROXY, get_arc_optimal_steps
 
     GAMES, GAME_LABELS = select_games(seed=STEP)
@@ -262,6 +262,33 @@ def compute_rhae_try2(try2_progress_by_label, optimal_steps_by_label):
     return round(sum(sq) / len(sq), 6) if sq else 0.0
 
 
+# Fields that reveal action-space type — must never appear in output.
+# Substrate may use them internally, but diagnostics and mails must not.
+_ACTION_SPACE_FIELDS = frozenset({
+    'n_actions', 'is_hier', 'is_kb_only', 'game_mode',
+    'n_kb_actions', 'n_click_pos',
+})
+
+
+def mask_result_row(row, game_labels=None):
+    """Strip action-space-type fields and mask game IDs from a result row.
+
+    Call this on every dict before writing to JSONL or diagnostics.
+
+    Args:
+        row: dict with raw result fields.
+        game_labels: Optional dict mapping game_id -> label string.
+            If provided, row['game'] is replaced with the label.
+
+    Returns:
+        New dict with sensitive fields removed and game ID masked.
+    """
+    out = {k: v for k, v in row.items() if k not in _ACTION_SPACE_FIELDS}
+    if game_labels and 'game' in out and out['game'] in game_labels:
+        out['game'] = game_labels[out['game']]
+    return out
+
+
 def write_experiment_results(results_dir, step, rhae_by_condition,
                               all_results, conditions, game_labels=None,
                               speedup_by_condition=None):
@@ -295,16 +322,8 @@ def write_experiment_results(results_dir, step, rhae_by_condition,
     with open(os.path.join(results_dir, 'summary.json'), 'w') as f:
         json.dump(summary, f, indent=2)
 
-    # diagnostics.json — full results, game IDs masked to labels
-    if game_labels:
-        masked_results = []
-        for r in all_results:
-            mr = dict(r)
-            if 'game' in mr and mr['game'] in game_labels:
-                mr['game'] = game_labels[mr['game']]
-            masked_results.append(mr)
-    else:
-        masked_results = all_results
+    # diagnostics.json — full results, game IDs masked, action-space fields stripped
+    masked_results = [mask_result_row(r, game_labels) for r in all_results]
 
     with open(os.path.join(results_dir, 'diagnostics.json'), 'w') as f:
         json.dump({'step': step, 'results': masked_results}, f, indent=2, default=str)
