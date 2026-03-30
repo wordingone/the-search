@@ -76,16 +76,16 @@ Automated R1-R6 evaluation. Takes a BaseSubstrate, runs checks:
 
 ```python
 class ConstitutionalJudge:
-    def audit(self, substrate_cls: type, chain: list) -> dict:
-        """Full R1-R6 audit on the chain benchmark."""
+    def audit(self, substrate_cls: type, prism: list) -> dict:
+        """Full R1-R6 audit on the PRISM benchmark."""
         results = {}
         results['R1'] = self._check_r1(substrate_cls)
         results['R2'] = self._check_r2(substrate_cls)
         results['R3'] = self._check_r3(substrate_cls)
-        results['R4'] = self._check_r4(substrate_cls, chain)
+        results['R4'] = self._check_r4(substrate_cls, prism)
         results['R5'] = self._check_r5(substrate_cls)
-        results['R6'] = self._check_r6(substrate_cls, chain)
-        results['chain'] = self._run_chain(substrate_cls, chain)
+        results['R6'] = self._check_r6(substrate_cls, prism)
+        results['prism'] = self._run_prism(substrate_cls, prism)
         return results
 ```
 
@@ -115,12 +115,12 @@ class ConstitutionalJudge:
 - PASS if substrate uses only game-provided signals
 
 #### R6 Check (no deletable parts)
-- For each component: ablate it, rerun chain
+- For each component: ablate it, rerun PRISM
 - PASS if every component's removal causes measurable degradation
 
-#### Chain Benchmark
+#### PRISM Benchmark
 ```python
-chain = [
+prism = [
     ("CIFAR-100", cifar_env, 10_000),
     ("LS20", ls20_env, 10_000),
     ("FT09", ft09_env, 10_000),
@@ -138,7 +138,7 @@ chain = [
 substrates/
   base.py          # BaseSubstrate ABC
   judge.py         # ConstitutionalJudge
-  chain.py         # Chain benchmark runner
+  prism.py         # PRISM benchmark runner
   step0674.py      # 674 rewritten as BaseSubstrate (reference impl)
 ```
 

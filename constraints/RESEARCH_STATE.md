@@ -2598,3 +2598,31 @@ Leo's prediction confirmed: "Responsive but irrelevant (cosmetic buttons) won't 
 **Conclusion:** Homeostatic regularization is not the solution. The fundamental issue is the prediction objective — obs prediction (in any form) is achievable without encoding action info. To break the attractor, the learning signal itself must be action-contingent, not just the substrate architecture.
 
 **Full pixel/SSM domain status:** 18 experiments total. Both SSM (prediction-based) and tabular (pixel statistics) families exhausted. Next direction requires Jun.
+
+## Step 1392 (**KILL — Dendritic spatial subunits + Izhikevich + calcium STDP. STDP conjunction detection works but clicking learned patches WORSE than random.**):
+
+**Architecture:** 64 dendritic subunits (8×8 patch grid on 64×64 ARC obs). Each subunit: Izhikevich dynamics (regular spiking, a=0.02, b=0.2, c=-65, d=8), per-subunit calcium STDP. obs_delta = mean abs patch change from previous obs (drives membrane current). act_input = 1.0 if click action targeted this patch (= pre-synaptic event). Calcium STDP: CA_PRE=0.2 on click, CA_POST=0.6 on spike, decay 0.95/step. LTP if ca > theta_high=0.8, LTD if theta_low=0.3 < ca < 0.8. BCM sliding threshold. Try2: softmax(W[64]) → click target patch.
+
+**Leo's hypothesis (mail 3987):** spatial locality + STDP conjunction detection bridges the semantic gap. Subunit at clicked patch sees "click AND change" → LTP. Subunit at animated (not clicked) patch sees "change but no click" → LTD. After try1, W[i] encodes "clicking patch i reliably caused local change" = interactive objects.
+
+**Spec from Leo (mail 3985/3987). Gate check: all 11 gates passed. Seeds 14410-14439, 30 draws. Conditions: SPIKE vs RANDOM. Diagnostic: SPIKE vs SPIKE-MASKED (3 draws).**
+
+**Mandatory diagnostic result:**
+- SPIKE w_norm_try1 ≈ 9.7 (STDP learned)
+- MASKED w_norm_try1 = 0.0 (no LTP without CA_PRE from clicks)
+- Pattern_diff = 46,875,000 (massive, >> 0.05 threshold)
+- **DIAGNOSTIC PASS.** STDP conjunction detection IS action-conditional: CA_PRE (click) is required for LTP. Without click, obs_change alone → ca=0.6 → LTD → W stays 0.
+
+**Full experiment results (30 draws):**
+- SPIKE  chain_mean = 4.19e-5, nz = 6/30
+- RANDOM chain_mean = 3.31e-4, nz = 10/30
+- Paired: 3W-7L-20T, p=0.945
+- **Verdict: KILL. SPIKE WORSE than RANDOM.**
+
+**Interpretation:** STDP correctly learned to focus on patches where (click + obs_change) co-occurred. But this STILL conflates interactive patches with animated patches that happened to be randomly clicked during try1. The W[i] is high for patches where: (a) the game responded to a click (causal), OR (b) a click happened to coincide with an animation (spurious). Both produce identical STDP signals. Try2 then clicks those high-W patches — but many are cosmetic coincidences, not progress-relevant interactions. Result: SPIKE concentrates clicks on "active" patches, which doesn't improve over random exploration.
+
+**Full spiking/STDP family status:** 1 experiment (1392). First substrate where action-conditioning is structural and NOT gradient-based. DIAGNOSTIC PASSES definitively (no action-blind attractor). But conjunction detection on random try1 actions ≠ causal discovery.
+
+**Root cause (updated):** Not just "can't distinguish action-caused from animation-caused." Can now distinguish those! But can't distinguish "cosmetic interactive" from "progress-relevant interactive." The gap: random try1 actions generate too much noise. STDP would need CAUSAL try1 actions (or game reward) to filter cosmetic from functional interactions.
+
+**Next direction requires Jun.**

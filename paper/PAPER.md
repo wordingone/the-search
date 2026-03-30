@@ -505,9 +505,9 @@ L2 failure is a feasibility violation, not a performance gap. The substrate's st
 | 800b-variants | 160+ | Partial (LS20 only) | Position-blind. Classification-blind. | **KILLED** (Step 937) |
 
 
-### 5.4 The Chain Benchmark
+### 5.4 The PRISM Benchmark
 
-The chain benchmark (Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100) tests the substrate on the FULL trajectory: classification + 3 navigation games + classification again. One configuration, no resets between tasks.
+The PRISM benchmark (Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-100) tests the substrate on the FULL trajectory: classification + 3 navigation games + classification again. One configuration, no resets between tasks.
 
 **Key findings (Steps 506-546):**
 - Negative transfer: CIFAR pre-training degrades LS20 (Step 506-508, 14% L1 regression)
@@ -515,7 +515,7 @@ The chain benchmark (Split-CIFAR-100 → LS20 → FT09 → VC33 → Split-CIFAR-
 - Algorithm invariance: 4 representations (edge dict, W matrix, tensor, n-gram) produce identical L1 rates (Steps 521-525)
 - Recode self-refinement: LSH k=16 + self-refinement = 5/5 L1 (Step 542). K confound invalidates some results (Step 589).
 
-**Chain kill criterion (Jun, 2026-03-23):** Any mechanism that improves one game at the cost of another = per-game tuning = KILL. Only mechanisms neutral/positive on ALL games survive.
+**PRISM kill criterion (Jun, 2026-03-23):** Any mechanism that improves one game at the cost of another = per-game tuning = KILL. Only mechanisms neutral/positive on ALL games survive.
 
 
 ### 5.5 Post-Ban Results (Steps 778-1007, 230+ experiments)
@@ -546,9 +546,9 @@ All methods L1=0 on FT09 (68 actions). Even graph+argmin at 6 correct actions + 
 
 **Finding:** Our mechanism outperforms ALL baselines by $2\text{-}2.5\times$ on LS20 with 0/10 zero-seeds. Graph ban cost is NEGATIVE: 895h (268.0, no graph) $>$ 920 (129.9, with graph). ICM worst (signal dies as $W$ learns).
 
-### 5.8 Chain and PRISM Results
+### 5.8 PRISM Results
 
-**PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, chain_score=3/5. CIFAR inflates alpha_conc (PB16, −11% chain LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games  - structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
+**PRISM baseline (Step 1006):** CIFAR=100%, LS20=100%, FT09=0%, VC33=0%, prism_score=3/5. CIFAR inflates alpha_conc (PB16, −11% PRISM LS20). Delta inversion (Remark 5.2): 800b anti-selects on reset-heavy games  - structural, not fixable. **Research skew:** 230 post-ban experiments exclusively LS20. FT09/VC33 = 0 post-ban experiments. Extraction sprint (Steps 1008+) corrects this.
 
 
 **ARC-AGI-3 scoring (RHAE).** $\text{level\_score} = \min(1, (b_\ell / a_\ell)^2)$. Human baselines available for all 3 preview games. BFS beats all = 100% RHAE ceiling (19/20 levels).
@@ -650,7 +650,7 @@ Key propositions from the feasible region analysis: R3-R5 tension (Prop 4)  - fr
 
 **(n) The Temporal Credit Assignment Wall (Proposition 31, Steps 948-990, 43 experiments).** Three interlocking results: (1) 800b's delta\_per\_action is FROZEN  - 25 modifications all kill LS20. (2) FT09/VC33 mechanism-limited at any budget (0/10 at 10K, 25K, 50K). (3) The wall is temporal credit, not the graph ban  - parametric state-conditioned models don't solve it. See Section 4.17 for the formal impossibility result and → propositions/31\_temporal\_credit\_wall.md.
 
-**Feasible region = Step 965:** LS20 = 67.0 (chain), FT09 = 0, VC33 = 0, CIFAR = chance. 43 experiments prove this fixed point. Props 29-31 fully characterize the dynamics vertex of the architecture triangle (Prop 22). The next breakthrough requires a mechanism class outside prediction-error exploration.
+**Feasible region = Step 965:** LS20 = 67.0 (PRISM), FT09 = 0, VC33 = 0, CIFAR = chance. 43 experiments prove this fixed point. Props 29-31 fully characterize the dynamics vertex of the architecture triangle (Prop 22). The next breakthrough requires a mechanism class outside prediction-error exploration.
 
 
 

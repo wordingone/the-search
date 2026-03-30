@@ -1,0 +1,1 @@
+{"draw": 28, "label": "Game A", "game": "Game A", "condition": "SPIKE", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 10, "t1": 2.65, "t2": 2.75, "w_norm": 0.5199519208542268, "w_max": 0.4900000000000002, "spike_total": 16, "i3_cv": 1.0201615576218466, "r3_w_norm": 0.3995935434913832, "i5_max_level": 0}

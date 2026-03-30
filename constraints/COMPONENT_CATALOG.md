@@ -91,8 +91,8 @@
 |---|-----------|---------------------|-------------|-----------------|
 | C24 | **Delta-per-action EMA** | Core of 800b | Track EMA of observation change magnitude per action. Softmax for selection. | Already the primary post-ban mechanism. Works on LS20 (state-independent), fails on FT09/VC33 (state-dependent). |
 | C25 | **Alpha attention** (prediction-error weighting) | YES (Steps 895-895h) | Weight encoding dimensions by prediction error. Self-modifying encoding (R3). | Confirmed R3. alpha_conc discovers game-relevant dims (FT09 tiles at [60,51,209]). CARRY FORWARD to all future substrates. |
-| C26 | **Recurrent h state** (echo-state) | YES (Step 916 vs 955) | Fixed random W_h, tanh nonlinearity. Trajectory discrimination. | +8.5% LS20 standalone, -14% in chain (CIFAR interference). Architecture irrelevant (Prop 29: ESN = Hebbian RNN). |
-| C27 | **h-novelty transition detection** | YES (Step 994) | Detect game transitions via h-state novelty. Fast adaptation (500 steps). | Best chain mechanism: LS20=83.8 at 10K (+25%). Specific to level transitions. |
+| C26 | **Recurrent h state** (echo-state) | YES (Step 916 vs 955) | Fixed random W_h, tanh nonlinearity. Trajectory discrimination. | +8.5% LS20 standalone, -14% in PRISM (CIFAR interference). Architecture irrelevant (Prop 29: ESN = Hebbian RNN). |
+| C27 | **h-novelty transition detection** | YES (Step 994) | Detect game transitions via h-state novelty. Fast adaptation (500 steps). | Best PRISM mechanism: LS20=83.8 at 10K (+25%). Specific to level transitions. |
 | C28 | **Forward model W** (linear, delta rule) | YES (Steps 780v5+) | Linear prediction of next observation. D(s) transfer confirmed (cold→warm +73% pred acc). | Prediction transfers. But prediction-based ACTION selection fails (Steps 934-936). W is useful as SIGNAL GENERATOR for alpha, not for action. |
 
 ### Hebbian Family (~21 experiments)
@@ -146,6 +146,19 @@
 
 ---
 
+## Anti-Collapse Mechanisms (reference, not components)
+
+| Mechanism | Source | How it prevents collapse | Relevance |
+|-----------|--------|------------------------|-----------|
+| SIGReg | LeWorldModel (LeCun 2026) | Gaussian-distributed embeddings via covariance + mean loss | Prevents representation collapse in JEPA |
+| Turrigiano homeostatic scaling | Biology (Turrigiano 2008) | Neuron adjusts all synaptic weights to maintain target firing rate | Prevents runaway excitation/silence |
+| BCM sliding threshold | Biology (BCM 1982) | Plasticity threshold slides with postsynaptic activity history | Prevents winner-take-all, enables selectivity |
+| FSQ (Finite Scalar Quantization) | Genesis project (Feb 2026) | Bounded discrete latents, no codebook, collapse impossible by construction | Architectural anti-collapse (vs regularizer-based). Straight-through estimator for gradients. |
+
+All address the same problem: unconstrained dynamics drift to degenerate fixed points. Our Hebbian positive lock (Prop 30) and SSM action-blind attractor are instances. Biology uses all three biological mechanisms simultaneously.
+
+---
+
 ## Budget Audit Per Banned Family
 
 | Family | Experiments | Budget (total steps run) | Key result | Under-explored? |
@@ -179,8 +192,8 @@
 | 690-712 | LS20/9607627b, FT09/0d8bbf25 | No | Current versions verified. 674 characterization. |
 | 713-777 | Current | No | Action discovery, graph ban, Table 1+2. |
 | 778-963 | Current | No (should have been) | Post-ban. PRISM existed but wasn't used. |
-| 964-1005 | Current | Partial (some through ChainRunner) | Chain tests but not all through run_experiment.py. |
+| 964-1005 | Current | Partial (some through PRISM runner) | PRISM tests but not all through run_experiment.py. |
 | 1006-1007 | Current | **YES** (run_experiment.py enforced) | First proper PRISM experiments. |
 
-**Key gap:** Steps 778-963 (~186 experiments) were supposed to go through PRISM but didn't. Results are valid per-game but chain interactions weren't tested. The infrastructure overhaul (2026-03-24) fixed this going forward.
+**Key gap:** Steps 778-963 (~186 experiments) were supposed to go through PRISM but didn't. Results are valid per-game but PRISM interactions weren't tested. The infrastructure overhaul (2026-03-24) fixed this going forward.
 

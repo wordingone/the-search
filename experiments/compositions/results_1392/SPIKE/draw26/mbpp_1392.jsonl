@@ -1,0 +1,1 @@
+{"draw": 26, "label": "MBPP", "game": "MBPP", "condition": "SPIKE", "p1": null, "p2": null, "speedup": null, "eff_sq": 0.0, "optimal_steps": 61, "t1": 0.26, "t2": 0.36, "w_norm": 29.68838619729804, "w_max": 13.384999999999183, "spike_total": 88, "i3_cv": 9.270144763972201, "r3_w_norm": 34.964511651099976, "i5_max_level": 0}

@@ -50,3 +50,24 @@ SEARCH_ANALYSIS.md
 experiments/solvers/
 experiments/results/prescriptions/
 experiments/solve_*.py
+to_delete/
+
+# Abandoned project directories (signal extracted to constraints/, 2026-03-30)
+substrates/worldmodel/
+substrates/anima/papers/ANIMA_SEPARATION_THEOREM_V2.md
+substrates/anima/papers/The Computational Cost of Treating Context as Static.md
+substrates/anima/papers/paper1_gated_attention.md
+substrates/anima/papers/paper2_artificial_hivemind.md
+substrates/anima/papers/paper3_rl_reasoning.md
+substrates/anima/papers/paper4_superposition_scaling.md
+substrates/anima/papers/paper5_titans.md
+substrates/anima/papers/paper6_vizing.md
+substrates/anima/papers/paper7_train_worst.md
+substrates/anima/papers/paper8_nsa.md
+substrates/anima/papers/paper9_infini_gram.md
+substrates/anima/papers/paper10_vggt.md
+
+# Culled files (signal extracted to constraints/, 2026-03-30)
+experiments/results/COMPETITOR_INTEL.md
+experiments/results/game_diagnostics/NON_L1_ANALYSIS.md
+SECURITY.md

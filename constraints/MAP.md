@@ -165,6 +165,70 @@ Interactive (unknown environment, no training phase). Must learn online.
 
 **Game-specific** (may break): VC33 magic pixels, FT09 69-action decomposition, LS20 POMDP hidden states, death penalty effects, argmin purity gap, K_NAV=12, CIFAR=chance, zero cross-domain transfer.
 
+---
+
+## Non-L1 Game Failure Clusters (18 games, from diagnostic data)
+
+| Cluster | Games | Key Property | Substrate Requirement |
+|---------|-------|-------------|----------------------|
+| INERT/CRASH | bp35, su15 | Zero response (infra bug) | Fix frame normalization |
+| CLICK-ONLY | vc33, s5i5, tn36, ft09 | Only ACTION6/clicks work | Action-modality discovery |
+| LOW SIGNAL | dc22, lf52, tr87 | Delta < 55 | Intrinsic motivation |
+| MODERATE-STRONG NO L1 | ka59, re86, tu93, wa30, sk48 | Delta 90-450 | Sequence learning |
+| STRONG NARROW | sb26, sc25, g50t | Delta 380-2800+ sparse | Action-space pruning |
+
+Note: m0r0 reached L1 (step 115). Reclassified as L1-reachable (8th game).
+
+---
+
+## Underexplored Directions (46 items, audit 2026-03-29)
+
+### Components cataloged but never tested in current context
+1. C23 - Mode map + CC zone discovery (Step 576, VC33 5/5). **Tested Step 1338: KILLED.** Zones spatial/episode-specific.
+2. C30 - Sparse gating/relu threshold (Step 959). Dissolves positive lock (Prop 30). **Never tested in complete substrate.**
+3. C33 - Attention retrieval over trajectory buffer (Step 1007). Bootstrap failure. **Never retried.**
+4. C7 - Change-rate detection (Step 400). Found LS20 active regions. **Never combined with post-ban substrates.**
+5. C22 - Self-observation (Steps 620-629). Only tested as frozen random projection. **Never with learned self-observation.**
+
+### Families killed below 20-experiment minimum
+Hebbian RNN (6 exps), attention-trajectory (1), oscillatory (3), GFS (3), obs preprocessing (2), multi-horizon (2).
+
+### Kill file return conditions never tested
+- Competitive inhibition / anti-Hebbian normalization (Step 960 fix for positive lock)
+- Non-linear action scoring (distance-based, attention-style)
+- Decorrelated representations from recurrent dynamics
+- Normalized meta-plasticity credit (fix for 1339 theta freeze: relative credit + RMS tracking)
+
+### Directions that produced signal and were dropped
+- MI-detected reactive (Step 1161, ARC=0.200) — 1 experiment, never replicated
+- Change-rate maximizing (Steps 1186-1188, 3.3/5 ceiling) — ceiling never explained
+- Allosteric softmax / adaptive temperature (Step 1253, R3+I3 coexisted) — never implemented on MLP+TP
+- Empowerment (Step 1152, ARC=0.004, 3/5 L1) — 4 experiments, killed, only tested within 800b
+
+### 11 Signal moments — 2/11 became directions, 9 dropped after 1-4 tests
+Step 576 (mode map) → D2 pipeline → dropped at composition. Step 1252 (first I4) → current. All others: 954, 1092, 1146, 1152, 1157, 1161, 1177, 1180, 1186 — tested 1-4 times and dropped.
+
+### Theoretical directions never tested
+Eigenoptions/SR on W_action, infant causal learning (Gopnik 2024), causal discovery from intervention (Eberhardt 2008), renormalization group, immune system R3/SHM, termite stigmergy, retinal contrast adaptation, quorum sensing, hippocampal place cells, eigenform reactivation, active inference outside 800b.
+
+### World model insight (Genesis project, Feb 2026)
+"Maintaining explicit state via temporal stereo is more data-efficient than pixel-stream inference for learning object permanence." Three principles: (1) State is explicit, not compressed into pixels. (2) Occlusion is geometric, not statistical. (3) Persistence is architectural, not emergent. Our 18 experiments (Steps 1379-1392) proved pixel statistics can't bridge the semantic gap — this direction is untested.
+
+Data-level explanation for action-blindness: Genesis measured 97.6% of pixels unchanged between frames. Predicting mostly-zero diffs doesn't need actions → obs_diff is action-blind (Finding #21, Step 1384, ratio=1.0 exactly). Genesis solves this by operating on persistent object-level memory (slots/voxels) where deltas are non-zero exactly where objects are. Our obs_diff operates on raw pixels → dominated by zeros. The fix requires object-level representation, not pixel-level.
+
+---
+
+## Theoretical Findings
+
+### Reactive vs intentional separation (ANIMA separation theorem)
+Formal proof: reactive systems (params = f(x_t)) require Ω(k) state for k-way context-dependent routing. Intentional systems (params = f(h_{t-1}, x_t)) require O(log k). Our SSM is reactive — Mamba's Δ,B,C depend only on x_t. This is the theoretical root cause of the action-blind attractor: the SSM cannot select different computational rules based on what it has accumulated. Neuromodulation (Marder & Bucher 2007) is biological intentional computation. Full proof in `substrates/anima/papers/ANIMA_SEPARATION_THEOREM_V1.md`.
+
+### Superposition explains action feature suppression
+In strong superposition (more features than dims), dominant features suppress minority features through geometric interference (Liu et al. 2025, NeurIPS). Our 64-dim h must represent obs structure + action effects in the same space. Obs features dominate because obs prediction is the objective → action features are suppressed in superposition. Explains why h "has structure" (h_norm=0.72, Step 1378) but that structure anti-correlates with useful actions (Finding #20). Increasing h dim won't help if the objective still doesn't need actions — superposition is objective-driven, not capacity-driven.
+
+### RL narrows capability boundary (Yue et al. 2025)
+RLVR improves pass@1 but DECREASES pass@256 as training progresses. All reasoning paths in the RL-trained model exist in the base model. RL selects, it doesn't create. The substrate's architecture IS its capability ceiling. Distillation from a richer teacher CAN introduce new patterns. Implication: self-generated criteria must emerge from dynamics (architecture ceiling), not from selection over existing behavior.
+
 **Untested** (highest risk): Whether chain generalizes beyond navigation puzzles. Whether avgpool16 works for non-pixel-grid games. Whether R3 measurement generalizes beyond hash substrates.
 
 ---

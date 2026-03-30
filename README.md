@@ -113,11 +113,30 @@ Other untested:
 - **#32/#33: Self-directed pruning / activity-dependent growth** — architecture emerges from dynamics.
 - **#36: "Does the substrate understand what a game is?"** — no experiment has measured internal task-structure representation.
 
-Full catalog: `docs/UNDEREXPLORED_CATALOG.md` (46 items, updated 2026-03-29)
+Full catalog: `constraints/MAP.md` underexplored directions section (46 items, merged 2026-03-30)
+
+## Competition reference
+
+**ARC-AGI-3 Preview Top 3 (2026-03-26):**
+- 1st StochasticGoose (Tufa Labs, 12.58%): CNN + spatial 64×64 click head + "did frame change" binary supervision. 200K experience buffer. R1-adjacent signal.
+- 2nd Blind Squirrel (6.71%): Frame-to-graph + ResNet18 value model. Online learning.
+- 3rd Graph Exploration (training-free): Pure heuristic graph exploration, 17 levels post-fix. Nearly matches 1st place without learning.
+
+**Key implications:** Spatial click encoding critical (conv preserves 2D; our avgpool4 destroys it). Graph exploration is surprisingly strong (validates defense thesis). "Did frame change" is R1-adjacent but trained via BCE (R1-violating method, R1-compliant signal).
+
+**Prescription status (10 games fully solved, 12 partial, 3 unsolved):**
+
+| Status | Games | Action range |
+|--------|-------|-------------|
+| Complete (all levels) | ft09(75), ls20(311), vc33(176), lp85(79), tr87(123), sb26(124), sp80(107), cd82(140), cn04(107), tu93(185) | 75-311 |
+| Partial (L1+) | re86(210), r11l(65), s5i5(39), m0r0(15), su15(25), ar25(26), dc22(20), sc25(17), g50t(17), wa30(77), bp35(29), lf52(8) | 8-210 |
+| Unsolved | ka59, sk48, tn36 | — |
 
 ## Repository structure
 
-- `constraints/` — Constitution (R0-R6), research state, component catalog
+- `constraints/` — Constitution (R0-R6), research state, constraint map, component catalog
 - `experiments/compositions/` — All experiment scripts and results (Steps 1334+)
 - `experiments/compositions/prism_masked.py` — PRISM infrastructure (masked game selection, RHAE computation)
-- `docs/` — Phase records, underexplored catalog
+- `kills/` — Killed family documentation
+- `propositions/` — Formal propositions and theorems
+- `paper/` — Draft paper
