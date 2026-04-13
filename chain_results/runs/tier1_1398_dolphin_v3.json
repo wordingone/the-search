@@ -1,0 +1,233 @@
+{
+  "R11L": {
+    "l1_solved": 10,
+    "l1_pct": 1.0,
+    "n_actions": 4103,
+    "seeds": [
+      {
+        "seed": 0,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 3999,
+        "episodes": 82
+      },
+      {
+        "seed": 1,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 4249,
+        "episodes": 78
+      },
+      {
+        "seed": 2,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 3834,
+        "episodes": 78
+      },
+      {
+        "seed": 3,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 3852,
+        "episodes": 79
+      },
+      {
+        "seed": 4,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 4244,
+        "episodes": 77
+      },
+      {
+        "seed": 5,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 4009,
+        "episodes": 79
+      },
+      {
+        "seed": 6,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 3880,
+        "episodes": 78
+      },
+      {
+        "seed": 7,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 3987,
+        "episodes": 78
+      },
+      {
+        "seed": 8,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 4185,
+        "episodes": 79
+      },
+      {
+        "seed": 9,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 4231,
+        "episodes": 75
+      }
+    ]
+  },
+  "VC33": {
+    "l1_solved": 10,
+    "l1_pct": 1.0,
+    "n_actions": 4103,
+    "seeds": [
+      {
+        "seed": 0,
+        "max_level": 2,
+        "solved": true,
+        "n_nodes": 7,
+        "episodes": 87
+      },
+      {
+        "seed": 1,
+        "max_level": 2,
+        "solved": true,
+        "n_nodes": 74,
+        "episodes": 86
+      },
+      {
+        "seed": 2,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 130,
+        "episodes": 89
+      },
+      {
+        "seed": 3,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 110,
+        "episodes": 89
+      },
+      {
+        "seed": 4,
+        "max_level": 2,
+        "solved": true,
+        "n_nodes": 24,
+        "episodes": 85
+      },
+      {
+        "seed": 5,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 118,
+        "episodes": 90
+      },
+      {
+        "seed": 6,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 135,
+        "episodes": 90
+      },
+      {
+        "seed": 7,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 115,
+        "episodes": 91
+      },
+      {
+        "seed": 8,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 123,
+        "episodes": 89
+      },
+      {
+        "seed": 9,
+        "max_level": 1,
+        "solved": true,
+        "n_nodes": 145,
+        "episodes": 90
+      }
+    ]
+  },
+  "TN36": {
+    "l1_solved": 0,
+    "l1_pct": 0.0,
+    "n_actions": 4103,
+    "seeds": [
+      {
+        "seed": 0,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 107,
+        "episodes": 81
+      },
+      {
+        "seed": 1,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 105,
+        "episodes": 81
+      },
+      {
+        "seed": 2,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 93,
+        "episodes": 81
+      },
+      {
+        "seed": 3,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 96,
+        "episodes": 81
+      },
+      {
+        "seed": 4,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 78,
+        "episodes": 81
+      },
+      {
+        "seed": 5,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 85,
+        "episodes": 81
+      },
+      {
+        "seed": 6,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 111,
+        "episodes": 81
+      },
+      {
+        "seed": 7,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 95,
+        "episodes": 81
+      },
+      {
+        "seed": 8,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 94,
+        "episodes": 81
+      },
+      {
+        "seed": 9,
+        "max_level": 0,
+        "solved": false,
+        "n_nodes": 111,
+        "episodes": 81
+      }
+    ]
+  }
+}
