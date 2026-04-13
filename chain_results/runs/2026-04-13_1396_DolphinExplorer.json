@@ -1,0 +1,1031 @@
+{
+  "substrate": "DolphinExplorer",
+  "timestamp": "2026-04-13T01:32:21",
+  "step": 1396,
+  "prism_mode": null,
+  "chain": [
+    "LP85",
+    "SP80",
+    "R11L",
+    "S5I5",
+    "SB26",
+    "TN36",
+    "LS20",
+    "WA30",
+    "VC33",
+    "TU93",
+    "CN04",
+    "CD82",
+    "M0R0",
+    "BP35",
+    "TR87",
+    "FT09",
+    "SK48",
+    "AR25",
+    "DC22",
+    "G50T",
+    "KA59",
+    "SC25",
+    "LF52",
+    "SU15",
+    "RE86",
+    "MBPP"
+  ],
+  "budget_per_phase": 5000,
+  "n_seeds": 10,
+  "config": {
+    "step": 1396,
+    "mechanism": "dolphin_graph_explorer",
+    "description": "CC segmentation + status bar masking + 5-tier priority + backward BFS"
+  },
+  "results": {
+    "LP85": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.402,
+      "per_seed_l1": [
+        359,
+        421,
+        115,
+        130,
+        774,
+        288,
+        379,
+        1199,
+        471,
+        669
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 359
+        },
+        {
+          "1": 421
+        },
+        {
+          "1": 115
+        },
+        {
+          "1": 130
+        },
+        {
+          "1": 774
+        },
+        {
+          "1": 288
+        },
+        {
+          "1": 379
+        },
+        {
+          "1": 1199
+        },
+        {
+          "1": 471
+        },
+        {
+          "1": 669
+        }
+      ]
+    },
+    "SP80": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 19.493,
+      "per_seed_l1": [
+        418,
+        157,
+        248,
+        250,
+        24,
+        171,
+        465,
+        249,
+        22,
+        102
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 418
+        },
+        {
+          "1": 157
+        },
+        {
+          "1": 248
+        },
+        {
+          "1": 250
+        },
+        {
+          "1": 24
+        },
+        {
+          "1": 171
+        },
+        {
+          "1": 465
+        },
+        {
+          "1": 249
+        },
+        {
+          "1": 22
+        },
+        {
+          "1": 102
+        }
+      ]
+    },
+    "R11L": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.052,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "S5I5": {
+      "l1_rate": 0.7,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.7,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 16.963,
+      "per_seed_l1": [
+        605,
+        3690,
+        4138,
+        806,
+        0,
+        1302,
+        1448,
+        0,
+        4152,
+        0
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 605
+        },
+        {
+          "1": 3690
+        },
+        {
+          "1": 4138
+        },
+        {
+          "1": 806
+        },
+        {},
+        {
+          "1": 1302
+        },
+        {
+          "1": 1448
+        },
+        {},
+        {
+          "1": 4152
+        },
+        {}
+      ]
+    },
+    "SB26": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 19.566000000000003,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "TN36": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.169999999999998,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "LS20": {
+      "l1_rate": 0.1,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.1,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.808,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        399,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "1": 399
+        },
+        {}
+      ]
+    },
+    "WA30": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 16.493000000000002,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "VC33": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 21.622,
+      "per_seed_l1": [
+        22,
+        233,
+        35,
+        20,
+        30,
+        17,
+        43,
+        284,
+        145,
+        31
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 22
+        },
+        {
+          "1": 233
+        },
+        {
+          "1": 35
+        },
+        {
+          "1": 20
+        },
+        {
+          "1": 30
+        },
+        {
+          "1": 17
+        },
+        {
+          "1": 43
+        },
+        {
+          "1": 284
+        },
+        {
+          "1": 145
+        },
+        {
+          "1": 31
+        }
+      ]
+    },
+    "TU93": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.252000000000002,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "CN04": {
+      "l1_rate": 0.1,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.1,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 16.744999999999997,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        2973,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {
+          "1": 2973
+        },
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "CD82": {
+      "l1_rate": 0.8,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.8,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.605,
+      "per_seed_l1": [
+        0,
+        1112,
+        2011,
+        108,
+        217,
+        3023,
+        215,
+        0,
+        1120,
+        1312
+      ],
+      "per_seed_level_steps": [
+        {},
+        {
+          "1": 1112
+        },
+        {
+          "1": 2011
+        },
+        {
+          "1": 108
+        },
+        {
+          "1": 217
+        },
+        {
+          "1": 3023
+        },
+        {
+          "1": 215
+        },
+        {},
+        {
+          "1": 1120
+        },
+        {
+          "1": 1312
+        }
+      ]
+    },
+    "M0R0": {
+      "l1_rate": 0.4,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.4,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.188,
+      "per_seed_l1": [
+        447,
+        1327,
+        0,
+        0,
+        0,
+        4678,
+        0,
+        3773,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 447
+        },
+        {
+          "1": 1327
+        },
+        {},
+        {},
+        {},
+        {
+          "1": 4678
+        },
+        {},
+        {
+          "1": 3773
+        },
+        {},
+        {}
+      ]
+    },
+    "BP35": {
+      "l1_rate": 0.3,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.3,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 25.673000000000002,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        869,
+        4505,
+        3213,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "1": 869
+        },
+        {
+          "1": 4505
+        },
+        {
+          "1": 3213
+        },
+        {}
+      ]
+    },
+    "TR87": {
+      "l1_rate": 0.2,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.2,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.666999999999998,
+      "per_seed_l1": [
+        0,
+        0,
+        788,
+        0,
+        0,
+        3002,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {
+          "1": 788
+        },
+        {},
+        {},
+        {
+          "1": 3002
+        },
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "FT09": {
+      "l1_rate": 1.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 1.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 19.403999999999996,
+      "per_seed_l1": [
+        1877,
+        317,
+        4569,
+        59,
+        1134,
+        554,
+        750,
+        2285,
+        650,
+        1169
+      ],
+      "per_seed_level_steps": [
+        {
+          "1": 1877
+        },
+        {
+          "1": 317
+        },
+        {
+          "1": 4569
+        },
+        {
+          "1": 59
+        },
+        {
+          "1": 1134
+        },
+        {
+          "1": 554
+        },
+        {
+          "1": 750
+        },
+        {
+          "1": 2285
+        },
+        {
+          "1": 650
+        },
+        {
+          "1": 1169
+        }
+      ]
+    },
+    "SK48": {
+      "l1_rate": 0.3,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.2,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.032,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        4985,
+        2794,
+        0,
+        3520,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {
+          "1": 4985
+        },
+        {
+          "1": 2794
+        },
+        {},
+        {
+          "1": 3520
+        },
+        {},
+        {},
+        {}
+      ]
+    },
+    "AR25": {
+      "l1_rate": 0.1,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.1,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.502000000000002,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        1969,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "1": 1969
+        },
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "DC22": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 18.235,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "G50T": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.701,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "KA59": {
+      "l1_rate": 0.1,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.093,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4934,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "1": 4934
+        },
+        {},
+        {}
+      ]
+    },
+    "SC25": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 20.425,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "LF52": {
+      "l1_rate": 0.2,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 1,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 21.293,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        4752,
+        1866,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "1": 4752
+        },
+        {
+          "1": 1866
+        },
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "SU15": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 17.351999999999997,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "RE86": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 16.987000000000002,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    "MBPP": {
+      "l1_rate": 0.0,
+      "l2_rate": 0.0,
+      "fully_solved_rate": 0.0,
+      "max_level": 0,
+      "avg_steps": 5000.0,
+      "mean_elapsed": 0.029000000000000005,
+      "per_seed_l1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "per_seed_level_steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  },
+  "chain_score": {
+    "phases_passed": 15,
+    "phases_total": 29,
+    "chain_complete": false
+  },
+  "chain_kill": {
+    "verdict": "NO_BASELINE",
+    "per_game_delta": {},
+    "details": "baseline not found"
+  }
+}
