@@ -1,5 +1,28 @@
 # The Search
 
+> **At a glance (read this first)**
+>
+> **What it is.** A logged research record (March to June 2026, 1,000+ experiment steps) asking one question: can a learning system improve itself by criteria it generates, with no external objective? Candidate systems were tested against seven written rules (R0-R6, [`docs/CONSTITUTION.md`](docs/CONSTITUTION.md)), first on ARC-AGI-3 interactive games and MBPP (Era I), then on ARC-AGI-1 program synthesis (Era II).
+>
+> **Status.** Concluded (Era II was marked concluded 2026-06 in [`docs/STAGE_MAP.md`](docs/STAGE_MAP.md)); last commit to the research itself 2026-06-01. Results are mostly negative. Nothing here is peer reviewed. The research question itself is recorded as **open**: the constitution lists R3 (self-modification) as holding for weights and open for structure ([`docs/CONSTITUTION.md`](docs/CONSTITUTION.md), R3 row). Older text that says "R3 solved" (e.g. [`docs/PAPER.md`](docs/PAPER.md) title) is superseded; see the note at the top of that file.
+>
+> **Who wrote it.** I designed and directed this work; most of the code was written by AI coding agents under my review. The paper's own disclosure (Author Attribution and Disclosure, [`docs/paper.tex`](docs/paper.tex) line 1830) says LLM agents (Claude Opus and Claude Sonnet) implemented and ran the experiments, and that the per-experiment review was done by the agents, not by independent humans.
+>
+> **Key measured results** (each is a file you can open):
+> - *Era I, Step 1379:* the state-space model's prediction loss was 0.796971 with action inputs and 0.796955 with them masked, ratio 1.00002, verdict `ACTION_BLIND`: the action input had no measurable effect on what the model predicted. Source: [`experiments/results/results_all/results_1379/summary.json`](experiments/results/results_all/results_1379/summary.json) (`action_blind_diagnostic`). Across Era I, the best learned score under the rules was about 1e-4 RHAE(try2), and no trained action head beat random action selection (README findings 15-21 below).
+> - *Era I, Step 1251:* the "composed" system passed its self-modification test (R3_pass true in 130 of 145 run files) by a provisional Jacobian threshold, but its state-distinguishing check (`I1_pass`) passed in 0 of 145, so this was not shown to help the task. Source: [`experiments/results/results_all/results_1251/`](experiments/results/results_all/results_1251/), threshold at [`experiments/steps/step1251_composition.py`](experiments/steps/step1251_composition.py) line 844.
+> - *Era II, reach baseline:* a program search over a small grid DSL solved 10 of 200 held-out ARC-AGI-1 tasks at its best setting (depth 3, budget 300K, 600 s per task); raising depth, budget and time each added at most one task, then saturated. Source: [`docs/STAGE_MAP.md`](docs/STAGE_MAP.md), "Era II - Reach ladder", and release [`stage-1k-reach-baseline`](https://github.com/wordingone/the-search/releases/tag/stage-1k-reach-baseline).
+> - *Era II, last gate:* the grammar self-modification pilot (Stage F3, Part A) failed its pre-registered gate: median reduction 0.0, 2 of 10 tasks improved, 9/10 solved with chunks vs 8/10 without. Source: [`docs/STAGE_MAP.md`](docs/STAGE_MAP.md) four-faces table and commit `8ddca36`. Part B is not reported.
+> - *Transfer:* a learned recognition prior gave a warm-minus-cold gain of +0.000; the oracle ceiling with the available seed vocabulary was about 0.7%. Source: [`docs/RESEARCH_STATE.md`](docs/RESEARCH_STATE.md), "R4 Decomposition" section.
+>
+> **What is not shown.** No system under the rules improved itself on tasks it was not designed for. The recorded kills ([`docs/kills/`](docs/kills/), the "Mechanism Kill Log" in [`docs/RESEARCH_STATE.md`](docs/RESEARCH_STATE.md)) are the main output.
+>
+> **How to run.** Python 3.10+, `pip install -r requirements.txt`, or `bash experiments/setup.sh`. Then, for a current-era step (1305+): `PYTHONUTF8=1 python experiments/steps/step1392_dendritic_spatial_stdp.py`; details in [`experiments/README.md`](experiments/README.md). Caveats: the ARC-AGI-3 SDK (`arc_agi`, `arcengine`) is not on PyPI and needs an API key (see `requirements.txt`); steps before 1305 import a `substrates/` package that is not in this repo and will not run as-is; some scripts contain absolute Windows paths from the original machine. Era II code is in `incoming/arc-agi1-visa/`.
+>
+> **Sources for this summary** are the repo files linked above, read at `main` (commit `0c1a964`). Everything below this box is the original README, written at about Step 1381; where it says a direction is current or "building now", the dated record in `docs/RESEARCH_STATE.md` and `docs/STAGE_MAP.md` takes precedence.
+
+---
+
 Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP.
 
 ---
