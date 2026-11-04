@@ -215,6 +215,8 @@ The task is interactive (unknown environment, no separate training phase). Any s
 
 1. **R3 (self-modification) — SOLVED BY COMPOSITION (Step 1251).** 7 cross-family components composed → Jacobian ∂(attended)/∂obs differs fresh vs experienced, 100/100 across 10 games, both wirings. Component-level finding. R3 was always achievable — 0/1250 was a composition failure, not an R3 failure. **Remaining gap: R3→action bridge.** The substrate modifies its world model but action selection (argmin) ignores it. Allosteric architecture (shared W for encoding + action) dissolves the bridge (Steps 1252-1253). **Current bottleneck: I1** (encoding doesn't distinguish game states). Historical: 674 warm HURTS (cold>warm, p<0.0001, Step 776) — this was graph-specific negative transfer, not an R3 limitation.
 
+> Note (2026-11): superseded. The Step 1251 test measured a change in the input-to-representation Jacobian against a provisional threshold; it did not improve task performance. See `docs/CONSTITUTION.md` (R3: open). The text above is kept unchanged as a historical record.
+
 2. **R1-compliant classification:** Best = LSH k=16, 36.2% self-labels (Step 573). No substrate above chance without external labels.
 
 3. **Purposeful exploration (I6, I9):** 6 targeted strategies worse than argmin (477-482). Dense auxiliary signals damage argmin (>60% firing rate). L2 requires fundamentally different mechanism.

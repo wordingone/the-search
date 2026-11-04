@@ -4,6 +4,8 @@ author: "Hyun Jun Han"
 date: 2026-03-19
 ---
 
+> Note (2026-11): superseded. The Step 1251 test measured a change in the input-to-representation Jacobian against a provisional threshold; it did not improve task performance. See `docs/CONSTITUTION.md` (R3: open). The text above is kept unchanged as a historical record.
+
 *The shared artifact. Birth writes theory. Experiment writes results. Compress edits both.*
 
 ## Abstract

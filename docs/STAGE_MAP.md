@@ -14,9 +14,9 @@ The repo spans two distinct programs. Don't conflate their numbering or metrics.
 | Era | Task domain | Metric | Where it lives | Status |
 |---|---|---|---|---|
 | **I — Substrate / RHAE** | ARC-AGI-3 (interactive games) | RHAE(try2) = mean(efficiency²) | README "Confirmed findings" 1–23 (Steps ~1251–1378); `docs/RESEARCH_STATE.md`, `kills/` | Heuristic ceiling reached; substrate directions killed. **Pre-issue-tracker** — findings 1–23 are a standalone record, not cross-linked to issues (they predate the tracker). |
-| **II — Visa reach ladder + four-faces** | ARC-AGI-1 (program synthesis on grids) | **Reach D** = held tasks solved / 200 | This file + GitHub issues #4/#6/#9/#10/#14/#17 | **Active.** Reach ladder closed (D=10/200); four-faces in progress. |
+| **II — Visa reach ladder + four-faces** | ARC-AGI-1 (program synthesis on grids) | **Reach D** = held tasks solved / 200 | This file + GitHub issues #4/#6/#9/#10/#14/#17 | **Concluded 2026-06.** Reach ladder closed (D=10/200); F1 passed, F2 killed, F3 Part A failed (see the four-faces table below). |
 
-The current work is **Era II**. Era I is referenced for what it eliminated (no learning-based approach produced RHAE>0 under any constraint set in 792 experiments — see README findings 1–23 + `kills/`).
+The most recent work was **Era II** (concluded 2026-06). Era I is referenced for what it eliminated (no learned action selection beat random actions (best learned RHAE ~1e-4) under any constraint set in 792 experiments — see README findings 1–23 + `kills/`).
 
 ---
 
@@ -55,8 +55,8 @@ Frozen CORE + self-compilation META-layer. R6 gate for the META-layer: **D_META 
 | Stage | Question (one variable) | Status | Verdict | Result / issue |
 |---|---|---|---|---|
 | **F1** | Is a **learned dense** energy E_theta(candidate, examples) monotone in distance-to-target (where E2.3's sparse proxy was flat)? | ✅ **PASS** | near-miss Spearman **rho 0.9806**, strict-min 0.78; recount 9/9; R1 firewall held_in_train_count=0 | `aecfb643` · [#14](https://github.com/wordingone/the-search/issues/14) · [Release `stage-f1-energy-probe`](https://github.com/wordingone/the-search/releases/tag/stage-f1-energy-probe) |
-| **F2** | Does that energy **GUIDE** the depth-3 program search — energy-ranked best-first vs BFS reach (D=10/200), one variable = candidate ordering, frozen F1 energy? | 🔵 **current** | `gate:pending` | [#17](https://github.com/wordingone/the-search/issues/17) |
-| **F3** | (planned, contingent on F2 PASS) validate the next CORE face — grid-native tokenizer / program-transform output representation under energy-guided inference. | ⚪ planned | — | — |
+| **F2** | Does that energy **GUIDE** the depth-3 program search — energy-ranked best-first vs BFS reach (D=10/200), one variable = candidate ordering, frozen F1 energy? | ➖ **closed — KILL** | Issue #20 (closed) records "F2 (energy as program search guide): KILL." (state as recorded in the audit ticket; not re-checked against GitHub) | [#20](https://github.com/wordingone/the-search/issues/20) (supersedes [#17](https://github.com/wordingone/the-search/issues/17)) |
+| **F3** | (was planned, contingent on F2 PASS; F2 was killed) validate the next CORE face — grid-native tokenizer / program-transform output representation under energy-guided inference. | ➖ **Part A FAIL; Part B not reported** | Part A gate: FAIL (median_reduction=0.0, tasks_positive=2/10; ON 9/10 vs OFF 8/10 solved) | commit `8ddca36`; pre-reg [#22](https://github.com/wordingone/the-search/issues/22) |
 | **F4** | (planned) BitNet ternary substrate for E_theta — does the energy survive ternarization with reach intact? | ⚪ planned | — | — |
 | **META** | self-compilation layer (R2/R3 self-modification). R6 gate: D_META > D_CORE. | ⚪ planned | — | — |
 

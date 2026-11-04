@@ -1,7 +1,7 @@
 # the-search — Python dependencies
 # Python 3.10+
 # Install: pip install -r requirements.txt
-# Full setup (including Atari ROMs): bash setup.sh
+# Full setup (including Atari ROMs): bash experiments/setup.sh
 
 # Core numerical
 numpy>=1.24
@@ -16,7 +16,12 @@ autorom                 # Atari ROM installer (run: autorom --accept-license)
 torchvision>=0.15       # Split-CIFAR-100 dataset loader
 torch>=2.0              # Required by torchvision
 
+# Imported by some experiment scripts (previously unlisted)
+datasets                # experiments/environments/mbpp_game.py and others
+scipy
+scikit-learn            # imported as sklearn
+
 # ARC game engine (install separately — not on PyPI)
 # arc_agi and arcengine come from the ARC-AGI-3 SDK
 # Source: https://three.arcprize.org (API key required)
-# The experiments directory includes arcagi3.py / util_arcagi3.py as wrappers
+# experiments/steps/util_arcagi3.py wraps the SDK
