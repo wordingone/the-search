@@ -26,7 +26,7 @@ ARC Prize scoring. External judgment. The substrate plays each game twice: try1 
 
 ## Constitution
 
-Seven simultaneous constraints (R0-R6). Full definitions, falsification conditions, and evidence in `constraints/CONSTITUTION.md`.
+Seven simultaneous constraints (R0-R6). Full definitions, falsification conditions, and evidence in `docs/CONSTITUTION.md`.
 
 | Rule | Summary | Current status |
 |------|---------|---------------|
@@ -140,7 +140,7 @@ Full catalog: `docs/MAP.md` underexplored directions section (46 items, merged 2
   - `MAP.md` — Constraint map + underexplored directions
   - `COMPONENT_CATALOG.md` — Validated component library
   - `PAPER.md` — Draft paper
-  - `propositions/` — 24 formal propositions + 3 theorems
+  - `propositions/` — 27 propositions + 3 theorems
   - `kills/` — Killed family documentation
   - `bans/` — Ban policy (both lifted)
 - `experiments/` — All experiment code, infrastructure, and results
