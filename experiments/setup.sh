@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # setup.sh — one-command environment setup for the-search
-# Run from repo root: bash setup.sh
+# Run from repo root: bash experiments/setup.sh
 # Then activate: source .venv/Scripts/activate  (Windows)
 #               source .venv/bin/activate       (Linux/Mac)
 
@@ -36,4 +36,4 @@ echo "Installing Atari ROMs..."
 echo ""
 echo "=== Setup complete ==="
 echo "Activate with: source $ACTIVATE"
-echo "Run experiment: PYTHONPATH=. python experiments/step0720_cifar_dynamic_r3.py"
+echo "Run experiment: PYTHONPATH=. python experiments/steps/step1392_dendritic_spatial_stdp.py"
