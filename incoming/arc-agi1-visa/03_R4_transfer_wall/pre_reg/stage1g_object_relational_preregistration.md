@@ -52,7 +52,7 @@ Grammar:
 - New n_leaves: 1370 (410 Stage 1f + 960 MAP_RELATE)
 - space_hash: 0890317fe99bc9f1 (verified in smoke, changed from 13a00a0ff95dd026)
 
-Harness: B:/M/the-search/incoming/arc-agi1-visa/03_R4_transfer_wall/stage1g_object_relational.py
+Harness: incoming/arc-agi1-visa/03_R4_transfer_wall/stage1g_object_relational.py
 
 NOT added this round: edge-align modes, center-align, snap-and-push — next one-variable steps if FLAT.
 

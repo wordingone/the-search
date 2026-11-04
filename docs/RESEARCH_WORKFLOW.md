@@ -61,6 +61,4 @@ Per Leo 2026-03-30 and experiment-integrity.md:
 ## Reference
 
 - Issue tracker: wordingone/the-search (GitHub issues)
-- Leo's gating rule: B:/M/avir/leo/.claude/rules/the-search-issue-pr-gating.md
-- Eli's workflow rule: B:/M/avir/eli/.claude/rules/the-search-research-workflow.md
-- Experiment integrity: B:/M/avir/eli/.claude/rules/experiment-integrity.md
+- Agent rule files (private, not included).
