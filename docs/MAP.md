@@ -2,6 +2,8 @@
 
 *Revised 2026-03-30. R3 solved by composition (Step 1251). Self-generated criteria era active (Steps 1305+).*
 
+> Note (2026-11): superseded. The Step 1251 test measured a change in the input-to-representation Jacobian against a provisional threshold; it did not improve task performance. See `docs/CONSTITUTION.md` (R3: open). The text above is kept unchanged as a historical record.
+
 **Classification:** T = Task Requirement, U = Validated Universal (2+ families), P = Provisional (1 family), S = Substrate-specific (codebook/LVQ), I = Intent (capability gap), E = Engineering (not carried forward), PB = Post-Ban.
 
 ---
@@ -242,6 +244,8 @@ RLVR improves pass@1 but DECREASES pass@256 as training progresses. All reasonin
 - **Recode achieves l_pi:** LSH k=16 + self-refinement = 5/5 (Step 542). K confound (Step 589).
 - **674+running-mean = 20/20** on LS20 and FT09. Centering ~75% of gain. L1 is infrastructure, not a result (banned as metric Step 713).
 - **R3 (self-modification)  - SOLVED BY COMPOSITION (Step 1251).** 7 cross-family components (centered encoding, novelty growth, transition detection, argmin, prediction-error attention, recurrent state, self-observation) composed into one substrate produce genuine self-modification of the obs→representation mapping. Jacobian ∂(attended)/∂obs differs between fresh and experienced substrate (0.05-0.09 vs 0.026 baseline). 100/100 passes across 10 games, both sequential and parallel wirings. Component-level finding, not wiring-dependent. **R3 was always achievable  - the 0/1250 failure was a composition failure, not an R3 failure.**
+
+> Note (2026-11): superseded. The Step 1251 test measured a change in the input-to-representation Jacobian against a provisional threshold; it did not improve task performance. See `docs/CONSTITUTION.md` (R3: open). The text above is kept unchanged as a historical record.
 
 ### Open
 
