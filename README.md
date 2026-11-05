@@ -1,5 +1,7 @@
 # The Search
 
+*Part of the research and design work collected at https://wordingone.github.io/.*
+
 > **At a glance (read this first)**
 >
 > **What it is.** A logged research record (March to June 2026, 1,000+ experiment steps) asking one question: can a learning system improve itself by criteria it generates, with no external objective? Candidate systems were tested against seven written rules (R0-R6, [`docs/CONSTITUTION.md`](docs/CONSTITUTION.md)), first on ARC-AGI-3 interactive games and MBPP (Era I), then on ARC-AGI-1 program synthesis (Era II).
@@ -19,11 +21,11 @@
 >
 > **How to run.** Python 3.10+, `pip install -r requirements.txt`, or `bash experiments/setup.sh`. Then, for a current-era step (1305+): `PYTHONUTF8=1 python experiments/steps/step1392_dendritic_spatial_stdp.py`; details in [`experiments/README.md`](experiments/README.md). Caveats: the ARC-AGI-3 SDK (`arc_agi`, `arcengine`) is not on PyPI and needs an API key (see `requirements.txt`); steps before 1305 import a `substrates/` package that is not in this repo and will not run as-is; some scripts contain absolute Windows paths from the original machine. Era II code is in `incoming/arc-agi1-visa/`.
 >
-> **Sources for this summary** are the repo files linked above, read at `main` (commit `0c1a964`). Everything below this box is the original README, written at about Step 1381; where it says a direction is current or "building now", the dated record in `docs/RESEARCH_STATE.md` and `docs/STAGE_MAP.md` takes precedence.
+> **Sources for this summary** are the repo files linked above, read at `main` (commit `0c1a964`). Everything below this box is the original README, written at about Step 1381, with the places that described work as current now labelled as of that time (2026-11-05); the dated record in `docs/RESEARCH_STATE.md` and `docs/STAGE_MAP.md` takes precedence.
 
 ---
 
-Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP.
+Experimental record of recursive self-improvement research on ARC-AGI-3 and MBPP (Era I). The sections below are a snapshot from about Step 1381 and do not cover Era II.
 
 ---
 
@@ -43,7 +45,7 @@ This is not a theoretical exercise. The constitution is extracted from observing
 
 ARC Prize scoring. External judgment. The substrate plays each game twice: try1 (fresh weights), try2 (carrying try1's weights). MBPP (text) always in the game pool. efficiency = optimal_actions / actual_actions. efficiency = 0 when progress never reached.
 
-**Current best RHAE(try2) from R2-compliant substrate: ~1e-5 to 1e-4** depending on game draw (Steps 1349-1366). ~10% of randomly drawn games are reachable by random exploration in 2K steps. No architecture reliably exceeds this range — draw variance dominates substrate signal across 33 experiments and 2 paradigms (MLP+TP, SSM+RTRL).
+**Best RHAE(try2) from an R2-compliant substrate as of about Step 1381: ~1e-5 to 1e-4** depending on game draw (Steps 1349-1366). ~10% of randomly drawn games are reachable by random exploration in 2K steps. No architecture reliably exceeds this range — draw variance dominates substrate signal across 33 experiments and 2 paradigms (MLP+TP, SSM+RTRL).
 
 **Reference (R2-violating):** CNN+Adam RHAE=2.4e-5, speedup=10.5x on sp80 (Steps 1305-1324).
 
@@ -51,7 +53,7 @@ ARC Prize scoring. External judgment. The substrate plays each game twice: try1 
 
 Seven simultaneous constraints (R0-R6). Full definitions, falsification conditions, and evidence in `docs/CONSTITUTION.md`.
 
-| Rule | Summary | Current status |
+| Rule | Summary | Status at about Step 1381 |
 |------|---------|---------------|
 | R0 | Dynamics dominate initial conditions | Partial — prediction consistent, task performance untested |
 | R1 | No external objectives | Holds for prediction/navigation |
@@ -123,15 +125,17 @@ Each finding cites the experiments that support it and states what would falsify
 | Target propagation | 92% | Compliant | 0 | 1329 |
 | Adam (full gradient) | 99.7% | Violating | 2.4e-5 | 1324 |
 
-## Open directions (from catalog, 46 items)
+## Open directions at about Step 1381 (from catalog, 46 items)
+
+*Historical: this section describes what was planned at the time. The project later moved to Era II and was concluded; see [`docs/STAGE_MAP.md`](docs/STAGE_MAP.md).*
 
 Tested this session: mode map (#16, killed 1338), meta-plasticity (#14, killed 1339), action-conditional model (#42, partial signal on MBPP), deliberation (#41, killed 1346-1347), childhood (#44, killed 1348).
 
 **Key eliminative finding (Steps 1344-1348):** Game seeds 13440-13444 are unreachable by ANY substrate (TP or Adam) with 2K random actions. The bottleneck on these games is not the update rule, not action selection, not credit depth, not prior knowledge — it's that random exploration in a 4103-action space with 2K steps has near-zero probability of hitting required action sequences.
 
-**Current direction: SSM paradigm shift (Step 1360).** MLP+TP exhausted after 25 experiments (1334-1358). Replacing with small Mamba-style SSM + RTRL (online local gradients). Sequence model processes interleaved (obs, act) stream. Recurrent state = history + world model. Actions are tokens in the sequence. RTRL gradient for diagonal SSM is local and Hebbian-like (prediction_error × state). R2-compliant by construction. Building now.
+**Direction at the time: SSM paradigm shift (Step 1360).** MLP+TP exhausted after 25 experiments (1334-1358). Replacing with small Mamba-style SSM + RTRL (online local gradients). Sequence model processes interleaved (obs, act) stream. Recurrent state = history + world model. Actions are tokens in the sequence. RTRL gradient for diagonal SSM is local and Hebbian-like (prediction_error × state). R2-compliant by construction. This was then built and tested in Steps 1360-1381; findings 15-23 above record the result (the SSM was action-blind).
 
-Other untested:
+Untested at that time:
 - **Normalized meta-plasticity credit (#46)** — fix for 1339 theta freeze. Identified, not yet tested.
 - **#32/#33: Self-directed pruning / activity-dependent growth** — architecture emerges from dynamics.
 - **#36: "Does the substrate understand what a game is?"** — no experiment has measured internal task-structure representation.
@@ -147,7 +151,7 @@ Full catalog: `docs/MAP.md` underexplored directions section (46 items, merged 2
 
 **Key implications:** Spatial click encoding critical (conv preserves 2D; our avgpool4 destroys it). Graph exploration is surprisingly strong (validates defense thesis). "Did frame change" is R1-adjacent but trained via BCE (R1-violating method, R1-compliant signal).
 
-**Prescription status (10 games fully solved, 12 partial, 3 unsolved):**
+**Prescription status (10 games fully solved, 12 partial, 3 unsolved):** a "prescription" is a fixed action sequence derived by analysing each game (for example a BFS solver written from the game's source), not something a learning system found. Prescriptions are reference solutions, not scoreable results under the rules ([`docs/journal/archive_steps_1_1022.md`](docs/journal/archive_steps_1_1022.md), Step 1018e).
 
 | Status | Games | Action range |
 |--------|-------|-------------|
@@ -159,7 +163,7 @@ Full catalog: `docs/MAP.md` underexplored directions section (46 items, merged 2
 
 - `docs/` — All research documentation
   - `CONSTITUTION.md` — R0-R6 constitutional constraints
-  - `RESEARCH_STATE.md` — Source of truth for active work
+  - `RESEARCH_STATE.md` — Dated research record
   - `MAP.md` — Constraint map + underexplored directions
   - `COMPONENT_CATALOG.md` — Validated component library
   - `PAPER.md` — Draft paper
@@ -167,6 +171,8 @@ Full catalog: `docs/MAP.md` underexplored directions section (46 items, merged 2
   - `kills/` — Killed family documentation
   - `bans/` — Ban policy (both lifted)
 - `experiments/` — All experiment code, infrastructure, and results
-  - `compositions/` — Live step scripts + results (Steps 1305+)
+  - `steps/` — Step scripts (the box above says which ones run and what they need)
+  - `compositions/` — Results of Steps 1393-1394
+  - `results/` — Result files cited in the findings
   - `run.py` — Universal PRISM harness
   - `environments/` — Game environment wrappers
